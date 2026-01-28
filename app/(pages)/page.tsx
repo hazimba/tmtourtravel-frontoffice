@@ -14,6 +14,13 @@ import { baseUrl } from "../lib/baseUrl";
 
 const HomePage = async () => {
   const res = await fetch(`${baseUrl}/api/packages`);
+
+  if (!res.ok) {
+    const errorText = await res.text(); // Read the actual error body (probably HTML)
+    console.error("Failed to fetch packages:", errorText);
+    throw new Error(`Fetch error: ${res.status} ${res.statusText}`);
+  }
+
   const packages = await res.json();
 
   console.log("Fetched packages:", packages);
