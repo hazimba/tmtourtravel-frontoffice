@@ -33,9 +33,7 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
                   onClick={() => handleProductClick(index.toString(), index)}
                 >
                   <Image
-                    src={
-                      "https://www.pixelstalk.net/wp-content/uploads/images6/4K-Travel-Wallpaper-HD-Free-download.jpg"
-                    }
+                    src="/pic0.avif"
                     alt={index.toString()}
                     height={100}
                     width={500}
