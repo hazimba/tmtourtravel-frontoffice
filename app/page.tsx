@@ -12,6 +12,8 @@ import { baseUrl } from "./lib/baseUrl";
 import FormPopup from "./components/FormPopup";
 import ProductImageRender from "./components/ProductImageRender";
 
+export const dynamic = "force-dynamic";
+
 const HomePage = async () => {
   const res = await fetch(`${baseUrl}/api/packages`);
 
@@ -22,8 +24,6 @@ const HomePage = async () => {
   }
 
   const packages = await res.json();
-
-  console.log("Fetched packages:", packages);
 
   const packagesExtended = [...packages, ...packages, ...packages];
 
