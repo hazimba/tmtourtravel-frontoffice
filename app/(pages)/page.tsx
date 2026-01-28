@@ -10,9 +10,10 @@ import {
 } from "lucide-react";
 
 import ProductImageRender from "../components/ProductImageRender";
+import { baseUrl } from "../lib/baseUrl";
 
 const HomePage = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/packages`);
+  const res = await fetch(`${baseUrl}/api/packages`);
   const packages = await res.json();
 
   console.log("Fetched packages:", packages);
