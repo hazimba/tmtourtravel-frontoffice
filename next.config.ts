@@ -2,23 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "www.pixelstalk.net",
-      },
-      {
-        protocol: "https",
-        hostname: "source.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "toppng.com",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
+    domains: [
+      "www.pixelstalk.net",
+      "source.unsplash.com",
+      "toppng.com",
+      "images.unsplash.com",
     ],
   },
 };
