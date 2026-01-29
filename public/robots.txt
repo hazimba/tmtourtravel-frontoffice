@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://tmtourtravel-frontoffice.vercel.app/
+
+# Sitemaps
+Sitemap: https://tmtourtravel-frontoffice.vercel.app/sitemap.xml
