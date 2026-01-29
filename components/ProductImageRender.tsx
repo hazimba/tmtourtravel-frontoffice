@@ -9,7 +9,7 @@ interface ProductImageRenderProps {
 }
 
 const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
-  console.log("MICE ITEMS:", micePackage);
+  // console.log("MICE ITEMS:", micePackage);
   const isMobile = useMobileDetectClient();
   const [activeProduct, setActiveProduct] = useState<string | null>(null);
 

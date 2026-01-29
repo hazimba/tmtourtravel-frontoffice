@@ -10,6 +10,11 @@ import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
+interface Logo {
+  name: string;
+  url: string;
+}
+
 const HomePage = async () => {
   const apiPackages = await fetch(`${baseUrl}/api/packages`);
 
@@ -37,13 +42,11 @@ const HomePage = async () => {
     throw new Error(`Fetch error: ${apiSlider.status} ${apiSlider.statusText}`);
   }
   const imagesSlider = await apiSlider.json();
-  console.log("SLIDER IMAGES:", imagesSlider);
 
   const packageSections = [
     { label: "JELAJAH MANIA", type: "GROUP" },
     { label: "GROUND", type: "GROUND" },
     { label: "UMRAH", type: "UMRAH" },
-    // { label: "MICE", type: "MICE" },
   ];
 
   return (
@@ -80,7 +83,7 @@ const HomePage = async () => {
               OUR PARTNERS
             </div>
             <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 py-8 scrollbar-hide">
-              {logos.map((i, idx: number) => (
+              {logos.map((i: Logo, idx: number) => (
                 <Image
                   src={i.url}
                   height={200}
