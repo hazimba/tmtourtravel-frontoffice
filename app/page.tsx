@@ -3,121 +3,112 @@
 import FormPopup from "@/components/FormPopup";
 import { PackagesRender } from "@/components/PackagesRender";
 import ProductImageRender from "@/components/ProductImageRender";
-import SliderHero, { Slide } from "@/components/SliderHero";
+import SliderHero from "@/components/SliderHero";
 import { baseUrl } from "@/lib/baseUrl";
 import { Package } from "@/types";
-import {
-  Facebook,
-  Github,
-  Instagram,
-  Linkedin,
-  Twitter,
-  Youtube,
-} from "lucide-react";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
-  const res = await fetch(`${baseUrl}/api/packages`);
+  const apiPackages = await fetch(`${baseUrl}/api/packages`);
 
-  if (!res.ok) {
-    const errorText = await res.text(); // Read the actual error body (probably HTML)
+  if (!apiPackages.ok) {
+    const errorText = await apiPackages.text();
     console.error("Failed to fetch packages:", errorText);
-    throw new Error(`Fetch error: ${res.status} ${res.statusText}`);
+    throw new Error(
+      `Fetch error: ${apiPackages.status} ${apiPackages.statusText}`
+    );
   }
+  const packages = await apiPackages.json();
 
-  const packages = await res.json();
+  const apiLogo = await fetch(`${baseUrl}/api/icons`);
+  if (!apiLogo.ok) {
+    const errorText = await apiLogo.text();
+    console.error("Failed to fetch logos:", errorText);
+    throw new Error(`Fetch error: ${apiLogo.status} ${apiLogo.statusText}`);
+  }
+  const logos = await apiLogo.json();
 
-  const slider: Slide[] = [
-    {
-      imageUrl:
-        "https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/package-main-images/thailand.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwYWNrYWdlLW1haW4taW1hZ2VzL3RoYWlsYW5kLmpwZyIsImlhdCI6MTc2OTY4NDkyNCwiZXhwIjoxODAxMjIwOTI0fQ.TLkhHfdiJHjfiQRA5WqGyxoH0d8xMPTP9Rac5MkX2Ns",
-      title: "Explore the World with Us",
-      subtitle:
-        "Your adventure starts here. Discover amazing destinations and unforgettable experiences.",
-      button: "Get Started",
-    },
-    {
-      imageUrl:
-        "https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/mainpage-image-slider/tmtours-1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtYWlucGFnZS1pbWFnZS1zbGlkZXIvdG10b3Vycy0xLmpwZyIsImlhdCI6MTc2OTY4ODMwNSwiZXhwIjoxODAxMjI0MzA1fQ.vlnypPl5HNavQ6oXUgm-CbkJUD4ixYJCWRVOV6LO1-0",
-      title: "Discover New Horizons",
-      subtitle:
-        "Join us on a journey to breathtaking locations around the globe.",
-      button: "Learn More",
-    },
+  const apiSlider = await fetch(`${baseUrl}/api/images-slider`);
+  if (!apiSlider.ok) {
+    const errorText = await apiSlider.text();
+    console.error("Failed to fetch images:", errorText);
+    throw new Error(`Fetch error: ${apiSlider.status} ${apiSlider.statusText}`);
+  }
+  const imagesSlider = await apiSlider.json();
+  console.log("SLIDER IMAGES:", imagesSlider);
+
+  const packageSections = [
+    { label: "JELAJAH MANIA", type: "GROUP" },
+    { label: "GROUND", type: "GROUND" },
+    { label: "UMRAH", type: "UMRAH" },
+    // { label: "MICE", type: "MICE" },
   ];
 
   return (
-    <div className="w-screen max-w-full bg-bgPrimary">
+    <div className="w-screen max-w-full bg-gray-50">
       <FormPopup />
       <div className="">
         <div className="marquee-container bg-primary py-6 text-black py-2 overflow-hidden whitespace-nowrap">
           <div className="marquee-track text-secondary">
             <span className="marquee-text">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem
-              quasi distinctio ullam temporibus perferendis minima, possimus
-              explicabo ut deserunt maxime repellendus incidunt modi aliquid non
-              suscipit dolorem quod molestias illo.
+              TM Tours & Travel Sdn Bhd is a leading Muslim Tour Operator
+              established since 1991 with main activities which includes
+              Ticketing, Inbound & Outbound Tours, Umrah, Hajj, MICE,
+              Accommodations, Transportation, Car Rentals, VIP Vehicles Rentals,
+              Tailor Made Programs as we cater for Domestic and International
+              markets.
             </span>
             <span className="marquee-text">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem
-              quasi distinctio ullam temporibus perferendis minima, possimus
-              explicabo ut deserunt maxime repellendus incidunt modi aliquid non
-              suscipit dolorem quod molestias illo.
+              As a Tour Designer, Holiday Planner and Trip Advisor with vast
+              experience and consultant that offers full travel tips with
+              various product knowledge. We are here to assist you to search the
+              right vacation with value for your money and to meet your touring
+              budget.
             </span>
           </div>
         </div>
-        <SliderHero slides={slider} />
-        <div className="flex flex-col gap-12">
-          <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 px-4 py-8 scrollbar-hide">
-            {[
-              Facebook,
-              Twitter,
-              Instagram,
-              Linkedin,
-              Youtube,
-              Github,
-              Facebook,
-              Twitter,
-              Instagram,
-              Linkedin,
-              Youtube,
-              Github,
-            ].map((Icon, idx) => (
-              <div
-                key={idx}
-                className="flex-shrink-0 md:w-38 md:h-38 w-20 h-20 rounded-full bg-white flex items-center justify-center shadow hover:bg-gray-100 transition-colors cursor-pointer border border-gray-600"
-              >
-                <Icon size={32} />
-              </div>
-            ))}
-          </div>
-
+        <SliderHero slides={imagesSlider} />
+        <div className="flex flex-col gap-12 py-12">
           <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
-            <div className="font-semibold text-3xl">JELAJAH MANIA</div>
-            <PackagesRender
-              packages={packages.filter((i: Package) => i.type === "GROUP")}
-            />
+            <div
+              className="font-semibold text-3xl"
+              id="our-partners"
+              key={"our-partners"}
+            >
+              OUR PARTNERS
+            </div>
+            <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 py-8 scrollbar-hide">
+              {logos.map((i, idx: number) => (
+                <Image
+                  src={i.url}
+                  height={200}
+                  width={200}
+                  alt={i.name}
+                  key={idx}
+                  className="md:w-42 md:h-42 w-20 h-20 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer object-cover bg-gray-50"
+                />
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
-            <div className="font-semibold text-3xl">GROUND</div>
-            <PackagesRender
-              packages={packages.filter((i: Package) => i.type === "GROUND")}
-            />
-          </div>
-          <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
-            <div className="font-semibold text-3xl">UMRAH</div>
-            <PackagesRender
-              packages={packages.filter((i: Package) => i.type === "UMRAH")}
-            />
-          </div>
-          <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
-            <div className="font-semibold text-3xl">MICE</div>
-            <PackagesRender
-              packages={packages.filter((i: Package) => i.type === "GROUP")}
-            />
-          </div>
-          <ProductImageRender products={packages} />
+          {packageSections.map((section) => (
+            <div
+              id={section.type}
+              key={section.type}
+              className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0"
+            >
+              <div className="font-semibold text-3xl">{section.label}</div>
+              <PackagesRender
+                packages={packages.filter(
+                  (i: Package) => i.type === section.type
+                )}
+              />
+            </div>
+          ))}
+          <ProductImageRender
+            micePackage={packages.filter((i: Package) => i.type === "MICE")}
+          />
           <div className="h-60 bg-gray-100"></div>
         </div>
       </div>

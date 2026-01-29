@@ -2,14 +2,16 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useMobileDetectClient } from "@/lib/hooks/useMobileDetect";
+import { Package } from "@/types";
 
 interface ProductImageRenderProps {
-  products: any[];
+  micePackage: Package[];
 }
 
-const ProductImageRender = ({ products }: ProductImageRenderProps) => {
+const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
+  console.log("MICE ITEMS:", micePackage);
   const isMobile = useMobileDetectClient();
-  const [activeProduct, setActiveProduct] = useState<any | null>(null);
+  const [activeProduct, setActiveProduct] = useState<string | null>(null);
 
   const handleProductClick = (productId: string, index: number) => {
     if (isMobile) {
@@ -20,10 +22,20 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
   };
 
   return (
-    <>
-      <div className="grid lg:grid-cols-3 grid-cols-1">
-        {products
-          ? products.map((product: any, index: number) => {
+    <div className="w-full text-left ">
+      <div className="font-semibold hidden md:block text-3xl max-w-7xl mx-auto px-4 pb-6">
+        MEETING, INCENTIVE, CONFERENCE & EVENT (MICE)
+      </div>
+      <div className="font-semibold md:hidden text-3xl max-w-7xl mx-auto px-4 pb-6">
+        M.I.C.E
+      </div>
+      <div
+        className="grid lg:grid-cols-2 grid-cols-1 md:px-0"
+        id="MICE"
+        key={"MICE"}
+      >
+        {micePackage
+          ? micePackage.map((mice: Package, index: number) => {
               const isActive = activeProduct === index.toString();
 
               return (
@@ -33,11 +45,11 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
                   onClick={() => handleProductClick(index.toString(), index)}
                 >
                   <Image
-                    src={product.main_image_url}
+                    src={mice.main_image_url}
                     alt={index.toString()}
                     height={100}
                     width={500}
-                    className={`object-cover transition duration-300 lg:!h-50 h-20 w-full ${
+                    className={`object-cover transition duration-300 lg:!h-50 h-30 w-full ${
                       isMobile
                         ? isActive
                           ? "opacity-100"
@@ -56,7 +68,7 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
                     }`}
                   >
                     <span className="text-black shadow-2xl p-1 font-bold text-2xl font-semibold px-2 text-center">
-                      {product.title}
+                      {mice.title}
                     </span>
                   </div>
                 </div>
@@ -64,7 +76,7 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
             })
           : null}
       </div>
-    </>
+    </div>
   );
 };
 

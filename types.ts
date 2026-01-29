@@ -67,4 +67,5 @@ export interface Package {
   mainImageUrl: string;
   subImageUrls: string[];
   main_image_url: string;
+  tags: string[];
 }

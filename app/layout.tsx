@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  AlignJustify,
-  ArrowDown,
-  MessageCircleQuestionMark,
-} from "lucide-react";
+import NavigationBar from "@/components/NavigationBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,11 +28,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="py-8 px-6 border-b border-gray-200 flex items-center justify-between max-w-7xl mx-auto">
-          <AlignJustify />
-          <div>Logo Company</div>
-          <MessageCircleQuestionMark />
-        </nav>
+        <div className="sticky top-0 z-50 bg-white shadow-lg">
+          <NavigationBar />
+        </div>
         {children}
       </body>
     </html>

@@ -20,7 +20,7 @@ const FormPopup = () => {
     setIsOpen(false);
   };
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <form onSubmit={onSubmit}>

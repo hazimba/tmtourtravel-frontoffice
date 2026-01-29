@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useState } from "react";
 
 export type Slide = {
-  imageUrl: string;
+  imageurl: string;
   title: string;
   subtitle: string;
-  button: string;
+  buttontext: string;
 };
 
 export default function SliderHero({ slides }: { slides: Slide[] }) {
@@ -19,45 +19,49 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
 
   return (
     <div className="relative w-full md:h-160 h-136 mx-auto flex items-center justify-center overflow-hidden">
-      {slides.map((slide, idx) => (
-        <div
-          key={idx}
-          className={`absolute inset-0 transition-opacity duration-700 ${
-            idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
-          }`}
-        >
-          <Image
-            src={slide.imageUrl}
-            alt={slide.title}
-            width={4000}
-            height={400}
-            className="object-cover h-full w-full opacity-60"
-            priority={idx === current}
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-            <h1 className="text-3xl md:text-5xl font-bold text-black drop-shadow-lg mb-2">
-              {slide.title}
-            </h1>
-            <p className="text-lg md:text-2xl text-black drop-shadow mb-20 px-8">
-              {slide.subtitle}
-            </p>
-            <button className="bg-primary text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-primary/90 transition">
-              {slide.button}
-            </button>
-          </div>
-        </div>
-      ))}
+      {slides
+        ? slides.map((slide, idx) => (
+            <div
+              key={idx}
+              className={`absolute inset-0 transition-opacity duration-700 ${
+                idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
+            >
+              <Image
+                src={slide.imageurl}
+                alt={slide.title}
+                width={4000}
+                height={400}
+                className="object-cover h-full w-full opacity-60"
+                priority={idx === current}
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                <h1 className="text-3xl md:text-5xl font-bold text-black drop-shadow-lg mb-2">
+                  {slide.title}
+                </h1>
+                <p className="text-lg md:text-2xl text-black drop-shadow mb-20 px-8">
+                  {slide.subtitle}
+                </p>
+                <button className="bg-primary text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-primary/90 transition">
+                  {slide.buttontext}
+                </button>
+              </div>
+            </div>
+          ))
+        : null}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {slides.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => goTo(idx)}
-            className={`w-3 h-3 rounded-full border-2 border-primary transition bg-white ${
-              current === idx ? "bg-primary" : ""
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
+        {slides
+          ? slides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goTo(idx)}
+                className={`w-3 h-3 rounded-full border-2 border-primary transition bg-white ${
+                  current === idx ? "bg-primary" : ""
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))
+          : null}
       </div>
       <button
         onClick={prev}

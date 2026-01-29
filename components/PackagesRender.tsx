@@ -12,8 +12,30 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
       {packages.map((pkg: Package, index: number) => (
         <div
           key={index}
-          className="flex-shrink-0 md:w-72 md:h-96 w-60 h-108 bg-white rounded-xl shadow border border-gray-200 flex flex-col overflow-hidden"
+          className="relative flex-shrink-0 md:w-72 md:h-96 w-60 h-108 bg-white rounded-xl shadow border border-gray-200 flex flex-col overflow-hidden"
         >
+          {/* Tag badges at top right */}
+          {pkg.tags && pkg.tags.length > 0 && (
+            <div className="absolute top-3 right-3 flex gap-2 z-10">
+              {pkg.tags.map((tag: string, tagIndex: number) => (
+                <Badge
+                  key={tagIndex}
+                  className={
+                    (tag === "HOT"
+                      ? "bg-red-600 text-white"
+                      : tag === "POPULAR"
+                      ? "bg-yellow-400 text-black"
+                      : tag === "NEW"
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-300 text-gray-700") +
+                    " px-2 py-1 text-xs font-bold rounded-full shadow"
+                  }
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
           <Image
             src={pkg.main_image_url}
             alt="Travel"
@@ -23,9 +45,13 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
           />
           <div className="p-4 flex flex-col flex-1 justify-between">
             <div>
-              <h3 className="md:text-lg font-bold mb-1">{pkg.title}</h3>
+              <div className="h-16">
+                <h3 className="md:text-lg font-bold mb-1">{pkg.title}</h3>
+              </div>
               <p className="text-gray-400 text-sm mb-2">{pkg.subtitle}</p>
-              <p className="text-gray-700 text-sm mb-2">{pkg.highlight}</p>
+              <p className="text-gray-700 text-sm mb-2 truncate">
+                {pkg.highlight}
+              </p>
               <p className="text-gray-700 text-sm mb-2">{pkg.conditions}</p>
             </div>
             <div className="flex gap-2 justify-between">
