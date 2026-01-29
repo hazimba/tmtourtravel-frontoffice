@@ -14,10 +14,16 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 
 const FormPopup = () => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form submitted");
+    setIsOpen(false);
+  };
+
   const [isOpen, setIsOpen] = useState(true);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <form>
+      <form onSubmit={onSubmit}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Hello!</DialogTitle>

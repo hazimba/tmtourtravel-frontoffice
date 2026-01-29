@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useMobileDetectClient } from "../lib/hooks/useMobileDetect";
+import { useMobileDetectClient } from "@/lib/hooks/useMobileDetect";
 
 interface ProductImageRenderProps {
   products: any[];
@@ -33,7 +33,7 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
                   onClick={() => handleProductClick(index.toString(), index)}
                 >
                   <Image
-                    src="/pic0.avif"
+                    src={product.main_image_url}
                     alt={index.toString()}
                     height={100}
                     width={500}
@@ -56,7 +56,7 @@ const ProductImageRender = ({ products }: ProductImageRenderProps) => {
                     }`}
                   >
                     <span className="text-black shadow-2xl p-1 font-bold text-2xl font-semibold px-2 text-center">
-                      {product.name}
+                      {product.title}
                     </span>
                   </div>
                 </div>

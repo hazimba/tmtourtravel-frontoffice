@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="py-8 px-6 border-b border-gray-200 flex items-center justify-between">
+        <nav className="py-8 px-6 border-b border-gray-200 flex items-center justify-between max-w-7xl mx-auto">
           <AlignJustify />
           <div>Logo Company</div>
           <MessageCircleQuestionMark />
