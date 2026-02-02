@@ -24,5 +24,4 @@ const PackageTypePage = async ({ params }: { params: { id: string } }) => {
     </main>
   );
 };
-
-export default PackageTypePage = async ({ params }: { params: { id: string } }) => {;
+export default PackageTypePage;
