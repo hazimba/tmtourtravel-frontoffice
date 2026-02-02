@@ -93,7 +93,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="application-name" content="TM Tours & Travel" />
+        {/* <meta name="application-name" content="TM Tours & Travel"  /> */}
+        <meta name="robots" content="noindex, nofollow" />
         <link rel="icon" href="/favicon.ico" />
         <script
           type="application/ld+json"

@@ -5,43 +5,36 @@ import { PackagesRender } from "@/components/PackagesRender";
 import ProductImageRender from "@/components/ProductImageRender";
 import SliderHero from "@/components/SliderHero";
 import { baseUrl } from "@/lib/baseUrl";
+import { supabase } from "@/lib/supabaseClient";
 import { Package } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 interface Logo {
   name: string;
-  url: string;
+  logo_url: string;
 }
 
 const HomePage = async () => {
-  const apiPackages = await fetch(`${baseUrl}/api/packages`);
+  const { data: packages, error: pkgErr } = await supabase
+    .from("packages")
+    .select("*");
 
-  if (!apiPackages.ok) {
-    const errorText = await apiPackages.text();
-    console.error("Failed to fetch packages:", errorText);
-    throw new Error(
-      `Fetch error: ${apiPackages.status} ${apiPackages.statusText}`
-    );
-  }
-  const packages = await apiPackages.json();
+  if (pkgErr) throw new Error(pkgErr.message);
 
-  const apiLogo = await fetch(`${baseUrl}/api/icons`);
-  if (!apiLogo.ok) {
-    const errorText = await apiLogo.text();
-    console.error("Failed to fetch logos:", errorText);
-    throw new Error(`Fetch error: ${apiLogo.status} ${apiLogo.statusText}`);
-  }
-  const logos = await apiLogo.json();
+  const { data: logos, error: logoErr } = await supabase
+    .from("partners")
+    .select("*");
 
-  const apiSlider = await fetch(`${baseUrl}/api/images-slider`);
-  if (!apiSlider.ok) {
-    const errorText = await apiSlider.text();
-    console.error("Failed to fetch images:", errorText);
-    throw new Error(`Fetch error: ${apiSlider.status} ${apiSlider.statusText}`);
-  }
-  const imagesSlider = await apiSlider.json();
+  if (logoErr) throw new Error(logoErr.message);
+
+  const { data: imagesSlider, error: imgErr } = await supabase
+    .from("images-slider")
+    .select("*");
+
+  if (imgErr) throw new Error(imgErr.message);
 
   const packageSections = [
     { label: "JELAJAH MANIA", type: "GROUP" },
@@ -85,12 +78,12 @@ const HomePage = async () => {
             <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 py-8 scrollbar-hide">
               {logos.map((i: Logo, idx: number) => (
                 <Image
-                  src={i.url}
+                  src={i.logo_url}
                   height={200}
                   width={200}
                   alt={i.name}
                   key={idx}
-                  className="md:w-42 md:h-42 w-20 h-20 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer object-cover bg-gray-50"
+                  className="md:w-42 md:h-42 w-20 h-20 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-110 hover:bg-gray-50 cursor-pointer object-cover bg-gray-50"
                 />
               ))}
             </div>
@@ -101,7 +94,12 @@ const HomePage = async () => {
               key={section.type}
               className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0"
             >
-              <div className="font-semibold text-3xl">{section.label}</div>
+              <div className="mb-6 flex justify-between">
+                <div className="font-semibold text-3xl">{section.label}</div>
+                {/* <Link href={`/package-type/${section.label}`}> */}
+                <div className="text-blue-600">View All</div>
+                {/* </Link> */}
+              </div>
               <PackagesRender
                 packages={packages.filter(
                   (i: Package) => i.type === section.type
@@ -112,7 +110,7 @@ const HomePage = async () => {
           <ProductImageRender
             micePackage={packages.filter((i: Package) => i.type === "MICE")}
           />
-          <div className="h-60 bg-gray-100"></div>
+          <div className="h-60 bg-gray-100">About Us</div>
         </div>
       </div>
     </div>

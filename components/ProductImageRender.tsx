@@ -3,21 +3,30 @@ import Image from "next/image";
 import { useState } from "react";
 import { useMobileDetectClient } from "@/lib/hooks/useMobileDetect";
 import { Package } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface ProductImageRenderProps {
   micePackage: Package[];
 }
 
 const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
-  // console.log("MICE ITEMS:", micePackage);
+  const router = useRouter();
   const isMobile = useMobileDetectClient();
   const [activeProduct, setActiveProduct] = useState<string | null>(null);
 
   const handleProductClick = (productId: string, index: number) => {
     if (isMobile) {
-      setActiveProduct(
-        activeProduct === index.toString() ? null : index.toString()
-      );
+      if (activeProduct === index.toString()) {
+        if (productId) {
+          router.push(`/package/${productId}`);
+        }
+      } else {
+        setActiveProduct(index.toString());
+      }
+    } else {
+      if (productId) {
+        router.push(`/package/${productId}`);
+      }
     }
   };
 
@@ -42,7 +51,7 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
                 <div
                   key={index}
                   className="relative group cursor-pointer"
-                  onClick={() => handleProductClick(index.toString(), index)}
+                  onClick={() => handleProductClick(mice.uuid, index)}
                 >
                   <Image
                     src={mice.main_image_url}

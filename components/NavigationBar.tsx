@@ -6,6 +6,15 @@ import {
 } from "@/components/ui/popover";
 import { AlignJustify, MessageCircleQuestionMark } from "lucide-react";
 import Image from "next/image";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import Link from "next/link";
 
 const navLinks = [
   { label: "Home", href: "#", id: undefined },
@@ -17,17 +26,38 @@ const navLinks = [
 ];
 
 const NavigationBar = () => {
+  const [open, setOpen] = useState(false);
   return (
     <nav className="py-8 px-6 flex items-center justify-between max-w-7xl mx-auto">
-      <Image
-        src="/tm-icon.png"
-        alt="Logo"
-        width={120}
-        height={100}
-        className="object-contain w-auto h-auto"
-      />
+      <Link href="/">
+        <Image src="/tm-icon.png" alt="Logo" width={120} height={100} />
+      </Link>
       <div className="flex gap-12">
-        <MessageCircleQuestionMark />
+        <span className="cursor-pointer" onClick={() => setOpen(true)}>
+          <MessageCircleQuestionMark />
+        </span>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Contact Us on WhatsApp</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col items-center gap-4">
+              <p className="text-center">
+                Need help or have a question? Reach out to us on WhatsApp!
+              </p>
+              <DialogFooter>
+                <a
+                  href="https://wa.me/60176037054"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-6 py-2 bg-green-600 text-white rounded-full font-semibold hover:bg-green-700 transition"
+                >
+                  Chat on WhatsApp
+                </a>
+              </DialogFooter>
+            </div>
+          </DialogContent>
+        </Dialog>
         <Popover>
           <PopoverTrigger asChild>
             <span className="cursor-pointer">
