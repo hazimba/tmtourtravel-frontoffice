@@ -17,8 +17,6 @@ const NavigationBar = async () => {
     .eq("id", user?.id)
     .single();
 
-  console.log("user in nav bar:", userProfile);
-
   return (
     <nav className="md:py-8 md:px-6 py-4 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center">

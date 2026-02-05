@@ -12,10 +12,10 @@ import { useState } from "react";
 const WhatsappButton = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="cursor-pointer bg-white flex gap-4 items-center font-semibold text-green-600 border border-green-600 px-4 py-2 rounded-full hover:bg-green-50">
-      <span className="flex gap-2 items-center" onClick={() => setOpen(true)}>
-        <div>Got any inquiries? Let us help!</div> <MessageCircleQuestionMark />
-      </span>
+    <div className="cursor-pointer bg-white flex gap-4 items-center font-semibold text-green-600 border border-green-600 px-4 py-4 rounded-full hover:bg-green-50">
+      <div className="flex gap-2 items-center" onClick={() => setOpen(true)}>
+        <MessageCircleQuestionMark />
+      </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
