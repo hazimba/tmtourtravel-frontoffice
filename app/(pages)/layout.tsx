@@ -1,4 +1,5 @@
 import NavigationBar from "@/components/NavigationBar";
+import WhatsappButton from "@/components/WhatsappButton";
 
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -7,6 +8,9 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
         <NavigationBar />
       </div>
       <main>{children}</main>
+      <div className="fixed right-4 bottom-32 z-50">
+        <WhatsappButton />
+      </div>
     </div>
   );
 };

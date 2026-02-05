@@ -10,7 +10,6 @@ const NavigationBar = () => {
         <Image src="/tm-icon.png" alt="Logo" width={120} height={100} />
       </Link>
       <div className="flex gap-12">
-        <WhatsappButton />
         <NavigationPopover />
       </div>
     </nav>

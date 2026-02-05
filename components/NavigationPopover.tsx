@@ -17,18 +17,23 @@ import {
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Login",
-    href: "/login",
+    href: "/auth/login",
     description: "The login page for users to access their accounts.",
   },
   {
     title: "Logout",
-    href: "/logout",
+    href: "/auth/logout",
     description: "The logout page for users to securely exit their accounts.",
   },
   {
     title: "Signup",
-    href: "/signup",
+    href: "/auth/signup",
     description: "The signup page for new users to create an account.",
+  },
+  {
+    title: "Admin",
+    href: "/admin",
+    description: "The admin dashboard for managing the application.",
   },
 ];
 
@@ -90,11 +95,11 @@ const NavigationPopover = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             <Link href="/docs">Docs</Link>
           </NavigationMenuLink>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );
