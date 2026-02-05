@@ -1,14 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
-import WhatsappButton from "./WhatsappButton";
 import NavigationPopover from "./NavigationPopover";
+import { createClient } from "@/lib/supabase/server";
+import { Badge } from "./ui/badge";
 
-const NavigationBar = () => {
+const NavigationBar = async () => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: userProfile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user?.id)
+    .single();
+
+  console.log("user in nav bar:", userProfile);
+
   return (
-    <nav className="py-8 px-6 flex items-center justify-between max-w-7xl mx-auto">
-      <Link href="/">
-        <Image src="/tm-icon.png" alt="Logo" width={120} height={100} />
-      </Link>
+    <nav className="md:py-8 md:px-6 py-4 px-4 flex items-center justify-between max-w-7xl mx-auto">
+      <div className="flex items-center">
+        <Link href="/" className="hidden md:block">
+          <Image src="/tm-icon.png" alt="Logo" width={120} height={100} />
+        </Link>
+        <Link href="/" className="md:hidden">
+          <Image src="/tm-icon-sm.jpeg" alt="Logo" width={50} height={50} />
+        </Link>
+        <>
+          {userProfile && (
+            <Badge className="ml-4 font-medium">
+              Welcome, {userProfile.full_name}!
+            </Badge>
+          )}
+        </>
+      </div>
       <div className="flex gap-12">
         <NavigationPopover />
       </div>

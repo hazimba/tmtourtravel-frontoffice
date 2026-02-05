@@ -14,7 +14,7 @@ const WhatsappButton = () => {
   return (
     <div className="cursor-pointer bg-white flex gap-4 items-center font-semibold text-green-600 border border-green-600 px-4 py-2 rounded-full hover:bg-green-50">
       <span className="flex gap-2 items-center" onClick={() => setOpen(true)}>
-        <div>Lets have a chat</div> <MessageCircleQuestionMark />
+        <div>Got any inquiries? Let us help!</div> <MessageCircleQuestionMark />
       </span>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>

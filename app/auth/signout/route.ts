@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
+import { toast } from "sonner";
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient();
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
   }
 
   revalidatePath("/", "layout");
-  return NextResponse.redirect(new URL("/auth/login", req.url), {
+  return NextResponse.redirect(new URL("/home?signout=1", req.url), {
     status: 302,
   });
 }

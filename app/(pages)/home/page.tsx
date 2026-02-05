@@ -3,6 +3,7 @@
 import FormPopup from "@/components/FormPopup";
 import { PackagesRender } from "@/components/PackagesRender";
 import ProductImageRender from "@/components/ProductImageRender";
+import SignoutToast from "@/components/SignedOutToast";
 import SliderHero from "@/components/SliderHero";
 import { supabase } from "@/lib/supabaseClient";
 import { Package } from "@/types";
@@ -15,7 +16,26 @@ interface Logo {
   logo_url: string;
 }
 
-const HomePage = async () => {
+function isPromise<T>(value: unknown): value is Promise<T> {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as { then?: unknown }).then === "function"
+  );
+}
+
+const HomePage = async ({
+  searchParams,
+}: {
+  searchParams:
+    | { [key: string]: string | string[] | undefined }
+    | Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  // Unwrap searchParams if it's a Promise (for Next.js App Router compatibility)
+  const params = isPromise<typeof searchParams>(searchParams)
+    ? await searchParams
+    : searchParams;
+
   const { data: packages, error: pkgErr } = await supabase
     .from("packages")
     .select("*");
@@ -42,6 +62,7 @@ const HomePage = async () => {
 
   return (
     <div className="w-screen max-w-full bg-gray-50">
+      <SignoutToast show={params?.signout === "1"} />
       <FormPopup />
       <div className="">
         <div className="marquee-container bg-primary py-6 text-black py-2 overflow-hidden whitespace-nowrap">

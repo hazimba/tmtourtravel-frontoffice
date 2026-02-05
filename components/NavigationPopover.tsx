@@ -2,8 +2,6 @@
 
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,24 +9,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import Link from "next/link";
+import * as React from "react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Login",
     href: "/auth/login",
     description: "The login page for users to access their accounts.",
-  },
-  {
-    title: "Logout",
-    href: "/auth/logout",
-    description: "The logout page for users to securely exit their accounts.",
-  },
-  {
-    title: "Signup",
-    href: "/auth/signup",
-    description: "The signup page for new users to create an account.",
   },
   {
     title: "Admin",
@@ -79,7 +68,7 @@ const NavigationPopover = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem className="hidden md:flex">
+        <NavigationMenuItem className="">
           <NavigationMenuTrigger>Components</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-72 gap-2 md:grid-cols-1">
