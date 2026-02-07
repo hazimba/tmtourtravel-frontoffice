@@ -9,29 +9,35 @@ import {
   PackageType,
 } from "../types";
 
+export const searchPackageSchema = z.object({
+  title: z.string().optional(),
+  country: z.string().optional(),
+  type: z.string().optional(),
+});
+
 export const packageSchema = z.object({
-  uuid: z.string().uuid(), // done
-  title: z.string().min(1), // Japan Golden Route 7D5N - done
-  subtitle: z.string().optional().default(""), // Tokyo • Mt Fuji • Kyoto • Osaka - done
-  route: z.string().optional().default(""), // Tokyo - Mt Fuji - Kyoto - Osaka - done
-  keywords: z.string().optional().default(""), // japan, golden route, sakura, shopping - done
-  highlight: z.string().optional().default(""), // done
-  itinerary: z.array(z.string()).optional().default([]), // done
-  optional_tours: z.string().optional().default(""), // done
-  flight_schedule: z.string().optional().default(""), // done
-  freebies: z.string().optional().default(""), // done
-  includes: z.string().optional().default(""), // done
-  excludes: z.string().optional().default(""), // done
-  important_notes: z.string().optional().default(""), // done
-  conditions: z.string().optional().default(""), // done
-  embedded: z.string().optional().default(""), // done
-  web_priority: z.number().int().optional().default(0), // done
-  web_tier: z.number().int().optional().default(0), // done
-  sale_period: z.coerce.date().optional(), // done
-  update_period: z.coerce.date().optional(), // done
-  sale_able_market: z.string().optional().default(""), // done
-  is_publish: z.boolean().optional().default(false), // done
-  entry_mode: z.enum([EntryMode.FIT, EntryMode.GIT]), // done
+  uuid: z.string().uuid(),
+  title: z.string().min(1),
+  subtitle: z.string().optional().default(""),
+  route: z.string().optional().default(""),
+  keywords: z.string().optional().default(""),
+  highlight: z.string().optional().default(""),
+  itinerary: z.array(z.string()).optional().default([]),
+  optional_tours: z.string().optional().default(""),
+  flight_schedule: z.string().optional().default(""),
+  freebies: z.string().optional().default(""),
+  includes: z.string().optional().default(""),
+  excludes: z.string().optional().default(""),
+  important_notes: z.string().optional().default(""),
+  conditions: z.string().optional().default(""),
+  embedded: z.string().optional().default(""),
+  web_priority: z.number().int().optional().default(0),
+  web_tier: z.number().int().optional().default(0),
+  sale_period: z.coerce.date().optional(),
+  update_period: z.coerce.date().optional(),
+  sale_able_market: z.string().optional().default(""),
+  is_publish: z.boolean().optional().default(false),
+  entry_mode: z.enum([EntryMode.FIT, EntryMode.GIT]),
   session: z.enum([
     PackageSession.PEAK,
     PackageSession.OFFPEAK,

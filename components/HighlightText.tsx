@@ -14,8 +14,7 @@ const HighlightText = ({ text }: { text: string }) => {
       {showAll || !isLong ? text : text.slice(0, limit) + "..."}
       {isLong && (
         <button
-          type="button"
-          className="ml-2 text-blue-600 text-xs font-semibold"
+          className="text-blue-600 text-xs font-semibold !m-0 !p-0 hover:underline !ml-1 cursor-pointer"
           tabIndex={-1}
           onClick={(e) => {
             e.stopPropagation();

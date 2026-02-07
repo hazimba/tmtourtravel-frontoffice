@@ -38,6 +38,8 @@ import {
   PackageType,
   Tags,
 } from "../../../../../types";
+import SelectType from "@/components/admin-ui/FormItem/SelectType";
+import CurrentlyLoading from "@/components/CurrentlyLoading";
 
 export default function CreatePackagePage({
   params,
@@ -48,7 +50,6 @@ export default function CreatePackagePage({
   const { id } = use(params) as { id: string };
   console.log("id", id);
 
-  const packageTypeOptions = Object.values(PackageType);
   const mealPlanOptions = Object.values(MealPlan);
   const appearanceOptions = Object.values(Appearance);
   const sessionOptions = Object.values(PackageSession);
@@ -151,7 +152,10 @@ export default function CreatePackagePage({
     } catch (error) {
       console.error("Error updating package:", error);
     }
-    toast.success("Package updated successfully!");
+    toast.success("Package updated successfully!", {
+      className: "!bg-primary !text-white",
+      position: "top-center",
+    });
     setIsLoading(false);
     redirect("/admin/packages");
   };
@@ -171,6 +175,10 @@ export default function CreatePackagePage({
     // @ts-expect-error: Cannot use 'use' in a Client Component
     name: "features",
   });
+
+  if (!data) {
+    return <CurrentlyLoading />;
+  }
 
   return (
     <div className="h-[95vh] bg-muted/40 px-6 py-10">
@@ -296,26 +304,7 @@ export default function CreatePackagePage({
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
                   <Label>Type</Label>
-                  <Select
-                    value={watch("type")}
-                    onValueChange={(val) =>
-                      setValue("type", val as PackageType)
-                    }
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select package type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Package Type</SelectLabel>
-                        {packageTypeOptions.map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <SelectType watch={watch} setValue={setValue} />
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
                   <Label>Country</Label>

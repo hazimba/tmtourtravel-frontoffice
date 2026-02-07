@@ -20,8 +20,6 @@ const TopNavigation = async () => {
     .eq("id", user?.id)
     .single();
 
-  console.log("Current user in TopNavigation:", userProfile);
-
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="flex h-14 items-center justify-between px-6">
