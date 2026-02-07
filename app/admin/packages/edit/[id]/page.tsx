@@ -1,10 +1,8 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
-import { RangeDatePicker } from "@/components/RangeDatePicker";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,6 +27,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues, packageSchema } from "@/schemas/packages.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { toast } from "sonner";
 import {
   Appearance,
   EntryMode,
@@ -37,9 +38,6 @@ import {
   PackageType,
   Tags,
 } from "../../../../../types";
-import Link from "next/link";
-import { toast } from "sonner";
-import { redirect } from "next/navigation";
 
 export default function CreatePackagePage({
   params,
