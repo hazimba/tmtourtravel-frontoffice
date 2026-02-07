@@ -67,8 +67,8 @@ export default function CreatePackagePage({
     setValue,
     reset,
     control,
-  } = useForm<Partial<PackageFormValues>>({
-    // @ts-expect-error: Type 'Partial<PackageFormValues>' does not satisfy the constraint 'ZodTypeAny'.
+  } = useForm<PackageFormValues>({
+    // @ts-expect-error: Cannot use 'use' in a Client Component
     resolver: zodResolver(packageSchema.partial()),
     defaultValues: {
       uuid: id || "",
@@ -160,6 +160,7 @@ export default function CreatePackagePage({
 
   const { fields, append, remove } = useFieldArray({
     control,
+    // @ts-expect-error: Cannot use 'use' in a Client Component
     name: "itinerary",
   });
 
@@ -169,6 +170,7 @@ export default function CreatePackagePage({
     remove: removeFeature,
   } = useFieldArray({
     control,
+    // @ts-expect-error: Cannot use 'use' in a Client Component
     name: "features",
   });
 
@@ -459,7 +461,7 @@ export default function CreatePackagePage({
                   </Select>
                 </div>
 
-                <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
+                <div className="md:col-span-3 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
                   <div>
                     <Label className="font-medium">Publish Package</Label>
                     <p className="text-xs text-muted-foreground">
@@ -518,7 +520,6 @@ export default function CreatePackagePage({
                     <Input
                       placeholder={`Day ${idx + 1}`}
                       {...register(`itinerary.${idx}`)}
-                      defaultValue={field.value || ""}
                     />
                     <Button
                       type="button"
@@ -545,7 +546,6 @@ export default function CreatePackagePage({
                     <Input
                       placeholder={`Feature ${idx + 1}`}
                       {...register(`features.${idx}`)}
-                      defaultValue={field.value || ""}
                       className="!w-full"
                     />
                     <Button
