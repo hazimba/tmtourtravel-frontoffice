@@ -1,18 +1,29 @@
-import LeftNavigation from "./LeftNavigation";
-import TopNavigation from "./TopNavigation";
+"use client";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { PageTitle } from "@/components/admin-ui/PageTitle";
 
-const AdminPage = () => {
+const AdminDashboardPage = () => {
+  const router = useRouter();
+
   return (
-    <div className="p-2 flex flex-col gap-4 w-screen h-screen">
-      <div className="h-auto">
-        <TopNavigation />
-      </div>
-      <div className="flex gap-4 h-4/5 w-full">
-        <div className="rounded-lg w-full">
-          <LeftNavigation />
-        </div>
+    <div className="p-8 space-y-6 overflow-scroll h-[95vh]">
+      <PageTitle
+        title="Admin Dashboard"
+        subtitle="Welcome to the admin dashboard. Use the buttons below to navigate to different sections."
+      />
+      <div className="flex gap-4">
+        <Button onClick={() => router.push("/admin/packages")}>
+          Go to Packages
+        </Button>
+        <Button onClick={() => router.push("/admin/images-slider")}>
+          Go to Images Slider
+        </Button>
+        <Button onClick={() => router.push("/admin/features")}>
+          Go to Features
+        </Button>
       </div>
     </div>
   );
 };
-export default AdminPage;
+export default AdminDashboardPage;

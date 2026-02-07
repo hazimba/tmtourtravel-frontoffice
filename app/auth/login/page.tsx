@@ -110,7 +110,7 @@ const LoginIn = () => {
               </Button>
             </div>
             <div className="w-full text-end text-sm text-blue-500 cursor-pointer">
-              <Link href="/auth/signup">Sign Up</Link>
+              <Link href="/signup">Sign Up</Link>
             </div>
           </CardFooter>
         </form>

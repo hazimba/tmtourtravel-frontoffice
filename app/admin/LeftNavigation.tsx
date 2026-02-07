@@ -1,96 +1,74 @@
 "use client";
 
-import * as React from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-// import EmployeesTab from "./(employees)/EmployeesTab";
-import { useState } from "react";
-// import ProductTab from "./(product)/ProductTab";
-// import { ADMIN_NAVIGATION_LINKS, PAGES_LINKS } from "@/lib/const";
-// import { TAB } from "@/lib/const";
-// import FeatureTab from "./(feature)/FeatureTab";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Package, Sparkles, LayoutDashboard, Settings } from "lucide-react";
 
-export const ADMIN_NAVIGATION_LINKS = [
-  { name: "Employees", value: "employees" },
-  { name: "Products", value: "product" },
-  { name: "Permission", value: "permission" },
-  { name: "Others", value: "other" },
-];
+const LeftNavigation = () => {
+  const pathname = usePathname();
 
-export const PAGES_LINKS = [
-  { name: "Feature", value: "feature" },
-  { name: "Service", value: "service" },
-  { name: "Contact Us", value: "contact" },
-  { name: "About", value: "about" },
-];
-
-export default function LeftNavigation() {
-  // in future need to use lazy loading for each tab content
-
-  const [activeTab, setActiveTab] = useState<string>();
-  const onTabChange = (value: string) => {
-    setActiveTab(value);
-  };
-
-  console.log("activeTab", activeTab);
+  const navItems = [
+    {
+      title: "Dashboard",
+      href: "/admin",
+      icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Packages",
+      href: "/admin/packages",
+      icon: <Package className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Features",
+      href: "/admin/features",
+      icon: <Sparkles className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Image Slider",
+      href: "/admin/images-slider",
+      icon: <Sparkles className="mr-2 h-4 w-4" />,
+    },
+  ];
 
   return (
-    <Tabs
-      defaultValue={activeTab}
-      orientation="vertical"
-      className="lg:flex w-full lg:flex-row"
-    >
-      <TabsList className=" dark:rounded-lg bg-custom-default flex-wrap lg:gap-2 rounded-none lg:border-r-1 lg:flex lg:flex-col h-full w-screen lg:w-[15%] w-[100%] sticky top-2 ">
-        <div className="hidden lg:block align-left w-full p-2 text-sm font-bold">
-          Manage ----
-        </div>
-        {ADMIN_NAVIGATION_LINKS.map((link) => (
-          <TabsTrigger
-            key={link.value}
-            onClick={() => onTabChange(link.value)}
-            value={link.value}
-            className="lg:w-full"
-          >
-            {link.name}
-          </TabsTrigger>
-        ))}
-
-        <div className="hidden lg:block align-left w-full p-2 text-sm font-bold mt-4">
-          Pages ----
-        </div>
-        {PAGES_LINKS.map((link) => (
-          <TabsTrigger
-            key={link.value}
-            onClick={() => onTabChange(link.value)}
-            value={link.value}
-            className="lg:w-full"
-          >
-            {link.name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-
-      <div className="lg:w-[85%] rounded-lg overflow-auto">
-        <TabsContent value="employees" forceMount>
-          {activeTab === "employees" && <>employee</>}
-        </TabsContent>
-        <TabsContent value="product" forceMount>
-          {activeTab === "product" && <>product</>}
-        </TabsContent>
-        <TabsContent value="permission" forceMount>
-          {activeTab === "permission" && (
-            <p>Permission tab content goes here.</p>
-          )}
-        </TabsContent>
-        <TabsContent value="other" forceMount>
-          {activeTab === "other" && <p>Other tab content goes here.</p>}
-        </TabsContent>
-        <TabsContent value="feature" forceMount>
-          {activeTab === "feature" && <>feature</>}
-        </TabsContent>
-        <TabsContent value="about" forceMount>
-          {activeTab === "about" && <>About tab content goes here.</>}
-        </TabsContent>
+    <nav className="flex flex-col gap-1 p-4 h-[calc(100vh-3.5rem)] border-r bg-muted/20">
+      <div className="py-2 mb-4">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2">
+          Administration
+        </p>
       </div>
-    </Tabs>
+      {navItems.map((item) => (
+        <Button
+          key={item.href}
+          asChild
+          variant={pathname === item.href ? "secondary" : "ghost"}
+          className={cn(
+            "justify-start transition-all",
+            pathname === item.href
+              ? "bg-secondary shadow-sm"
+              : "text-muted-foreground"
+          )}
+        >
+          <Link href={item.href}>
+            {item.icon}
+            {item.title}
+          </Link>
+        </Button>
+      ))}
+
+      <div className="mt-auto">
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-muted-foreground"
+        >
+          <Settings className="mr-2 h-4 w-4" />
+          Settings
+        </Button>
+      </div>
+    </nav>
   );
-}
+};
+
+export default LeftNavigation;

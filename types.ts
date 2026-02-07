@@ -1,9 +1,16 @@
-enum EntryMode {
+export enum EntryMode {
   FIT = "FIT",
   GIT = "GIT",
 }
 
-enum PackageSession {
+export enum Tags {
+  HOT = "HOT",
+  POPULAR = "POPULAR",
+  NEW = "NEW",
+  RECOMMENDED = "RECOMMENDED",
+}
+
+export enum PackageSession {
   PEAK = "PEAK",
   OFFPEAK = "OFFPEAK",
   ALLSEASON = "ALLSEASON",
@@ -13,20 +20,20 @@ enum PackageSession {
   WINTER = "WINTER",
 }
 
-enum Apprearance {
+export enum Appearance {
   NORMAL = "NORMAL",
   HIGHLIGHT = "HIGHLIGHT",
   PROMOTION = "PROMOTION",
 }
 
-enum PackageType {
+export enum PackageType {
   GROUP = "GROUP",
   GROUND = "GROUND",
   UMRAH = "UMRAH",
   MICE = "MICE",
 }
 
-enum MealPlan {
+export enum MealPlan {
   FULLBOARD = "FULLBOARD",
   HALFBOARD = "HALFBOARD",
   BREAKFASTONLY = "BREAKFASTONLY",
@@ -41,31 +48,30 @@ export interface Package {
   keywords: string;
   highlight: string;
   itinerary: string[];
-  optionalTours: string;
-  flightSchedule: string;
+  optional_tours: string;
+  flight_schedule: string;
   freebies: string;
   includes: string;
   excludes: string;
-  importantNotes: string;
+  important_notes: string;
   conditions: string;
   embedded: string;
-  webPriority: number;
-  webTier: number;
-  salePeriod: Date;
-  updatePeriod: Date;
-  saleAbleMarket: string;
-  isPublish: boolean;
-  entryMode: EntryMode;
+  web_priority: number;
+  web_tier: number;
+  sale_period: Date;
+  update_period: Date;
+  sale_able_market: string;
+  is_publish: boolean;
+  entry_mode: EntryMode;
   session: PackageSession;
   country: string;
-  appearance: Apprearance;
+  appearance: Appearance;
   type: PackageType;
-  mealPlan: MealPlan;
+  meal_plan: MealPlan;
   location: string;
-  tourCode: string;
+  tour_code: string;
   features: string[];
-  mainImageUrl: string;
-  subImageUrls: string[];
   main_image_url: string;
+  sub_image_urls: string[];
   tags: string[];
 }
