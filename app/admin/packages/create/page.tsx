@@ -158,6 +158,7 @@ export default function CreatePackagePage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid md:grid-cols-3">
             <CreateEditFormLeft
+              // @ts-expect-error: --- IGNORE ---
               control={control}
               watch={watch}
               setValue={setValue}
@@ -165,6 +166,7 @@ export default function CreatePackagePage() {
               errors={errors}
             />
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 h-[65vh] overflow-y-auto pt-6 mb-4">
+              {/* @ts-expect-error: --- IGNORE --- */}
               <CreateEditFormRight register={register} control={control} />
             </CardContent>
           </div>

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { uuid, z } from "zod";
 
 import {
   Appearance,
@@ -15,6 +15,7 @@ export const searchPackageSchema = z.object({
 });
 
 export const packageSchema = z.object({
+  uuid: z.string(),
   title: z.string(),
   subtitle: z.string().optional().default(""),
   route: z.string().optional().default(""),
