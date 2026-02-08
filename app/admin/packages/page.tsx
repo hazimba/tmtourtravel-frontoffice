@@ -10,7 +10,8 @@ import { Package } from "@/types";
 import PackageCard from "./PackageCard";
 import PackageDetails from "./PackageDetails";
 import { Button } from "@/components/ui/button";
-import { RefreshCw } from "lucide-react";
+import { Plus, RefreshCw } from "lucide-react";
+import Link from "next/link";
 
 const PackagesTab = () => {
   const [packagesData, setPackagesData] = useState<Package[] | null>(null);
@@ -52,17 +53,27 @@ const PackagesTab = () => {
           title="Packages"
           subtitle="Manage and preview your travel listings."
         />
-        <Button
-          onClick={() => refetchPackages()}
-          variant="outline"
-          size="sm"
-          disabled={loading}
-        >
-          <RefreshCw
-            className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`}
-          />
-          Refresh
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => refetchPackages()}
+            variant="outline"
+            size="sm"
+            disabled={loading}
+          >
+            <RefreshCw
+              className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </Button>
+          <Link href="/admin/packages/create">
+            <Button variant="default" size="sm" disabled={loading}>
+              <Plus
+                className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`}
+              />
+              Add New
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="flex items-center gap-2 justify-between">
@@ -87,7 +98,7 @@ const PackagesTab = () => {
               onClick={() => setSelectedPackage(pkg)}
               className="group cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col"
             >
-              <PackageCard pkg={pkg} />
+              <PackageCard pkg={pkg || ""} />
             </div>
           ))
         )}
@@ -96,6 +107,7 @@ const PackagesTab = () => {
       <PackageDetails
         selectedPackage={selectedPackage}
         setSelectedPackage={setSelectedPackage}
+        refetchPackages={refetchPackages}
       />
     </div>
   );

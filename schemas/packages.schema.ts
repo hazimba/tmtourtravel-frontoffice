@@ -1,4 +1,3 @@
-// /schemas/package.schema.ts
 import { z } from "zod";
 
 import {
@@ -16,8 +15,7 @@ export const searchPackageSchema = z.object({
 });
 
 export const packageSchema = z.object({
-  uuid: z.string().uuid(),
-  title: z.string().min(1),
+  title: z.string(),
   subtitle: z.string().optional().default(""),
   route: z.string().optional().default(""),
   keywords: z.string().optional().default(""),
@@ -46,29 +44,29 @@ export const packageSchema = z.object({
     PackageSession.AUTUMN,
     PackageSession.SUMMER,
     PackageSession.WINTER,
-  ]), // done
-  country: z.string().optional().default(""), // done
+  ]),
+  country: z.string().optional().default(""),
   appearance: z.enum([
     Appearance.NORMAL,
     Appearance.HIGHLIGHT,
     Appearance.PROMOTION,
-  ]), // done
+  ]),
   type: z.enum([
     PackageType.GROUP,
     PackageType.GROUND,
     PackageType.UMRAH,
     PackageType.MICE,
-  ]), // done
+  ]),
   meal_plan: z.enum([
     MealPlan.FULLBOARD,
     MealPlan.HALFBOARD,
     MealPlan.BREAKFASTONLY,
     MealPlan.NOMEAL,
-  ]), // done
-  location: z.string().optional().default(""), // done
-  tour_code: z.string().optional().default(""), // done
-  features: z.array(z.string()).optional().default([]), // done
-  main_image_url: z.string().url().optional().default(""),
+  ]),
+  location: z.string().optional().default(""),
+  tour_code: z.string().optional().default(""),
+  features: z.array(z.string()).optional().default([]),
+  main_image_url: z.string().optional().default(""),
   sub_image_urls: z.array(z.string()).optional().default([]),
   tags: z.array(z.string()).optional().default([]),
 });

@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,21 +11,66 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Eye } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 import HighlightText from "@/components/HighlightText";
 import { Package } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { toast } from "sonner";
 
 interface PackageDetailsProps {
   selectedPackage: Package | null;
   setSelectedPackage: (pkg: Package | null) => void;
+  refetchPackages: () => void;
 }
 
 const PackageDetails = ({
   selectedPackage,
   setSelectedPackage,
+  refetchPackages,
 }: PackageDetailsProps) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!selectedPackage) return;
+    setDeleting(true);
+    try {
+      const { error } = await supabase
+        .from("packages")
+        .delete()
+        .eq("uuid", selectedPackage.uuid);
+      if (error) throw error;
+
+      setSelectedPackage(null);
+      refetchPackages();
+      toast.success("Package deleted successfully.", {
+        className: "!bg-primary !text-white",
+        position: "top-center",
+      });
+    } catch (error) {
+      console.error("Error deleting package:", error);
+      toast.error("Failed to delete package. Please try again.", {
+        className: "!bg-red-500 !text-white",
+        position: "top-center",
+      });
+      setDeleting(false);
+      setShowConfirm(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!showConfirm) setDeleting(false);
+  }, [showConfirm]);
+
+  console.log("deleting", deleting);
   return (
     <div className="p-8 space-y-6">
       <Dialog
@@ -63,13 +109,17 @@ const PackageDetails = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 flex-1 overflow-hidden">
                 <div className="space-y-4 md:col-span-1 flex flex-col">
-                  <Image
-                    src={selectedPackage.main_image_url}
-                    className="rounded-lg border shadow-sm"
-                    alt="Main"
-                    width={500}
-                    height={300}
-                  />
+                  {selectedPackage.main_image_url && (
+                    <div className="relative aspect-[5/3] w-full overflow-hidden rounded-lg">
+                      <Image
+                        src={selectedPackage.main_image_url}
+                        alt={selectedPackage.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 300px"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="space-y-2">
                     <h4 className="text-sm font-semibold">Quick Info</h4>
                     <Separator />
@@ -147,16 +197,57 @@ const PackageDetails = ({
                 </ScrollArea>
               </div>
 
-              <div className="p-4 border-t bg-muted/50 h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-end gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setSelectedPackage(null)}
-                >
-                  Close
-                </Button>
-                <Link href={`/admin/packages/edit/${selectedPackage.uuid}`}>
-                  <Button>Edit Package</Button>
-                </Link>
+              <div className="p-4 border-t bg-muted/50 h-[64px] min-h-[64px] max-h-[64px] gap-3 flex justify-between">
+                <div>
+                  <Popover open={showConfirm} onOpenChange={setShowConfirm}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        onClick={() => setShowConfirm(true)}
+                      >
+                        Delete
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-92" align="start">
+                      <div className="text-sm font-medium mb-2">
+                        Confirm Delete
+                      </div>
+                      <div className="text-xs text-muted-foreground mb-4">
+                        Are you sure you want to delete this package? This
+                        action cannot be undone.
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowConfirm(false)}
+                          disabled={deleting}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={handleDelete}
+                          disabled={deleting}
+                        >
+                          {deleting ? "Deleting..." : "Delete"}
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setSelectedPackage(null)}
+                  >
+                    Close
+                  </Button>
+                  <Link href={`/admin/packages/edit/${selectedPackage.uuid}`}>
+                    <Button>Edit Package</Button>
+                  </Link>
+                </div>
               </div>
             </>
           )}
