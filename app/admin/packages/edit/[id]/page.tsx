@@ -1,20 +1,11 @@
 "use client";
-
-import { use, useEffect, useState } from "react";
-
 import CurrentlyLoading from "@/components/CurrentlyLoading";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePackageForm } from "@/lib/hooks/usePackgeForm";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues } from "@/schemas/packages.schema";
-import Link from "next/link";
+import { use, useEffect, useState } from "react";
+import { FooterCard } from "../../CardFooter";
 import CreateEditFormLeft from "../../CreateEditFormLeft";
 import CreateEditFormRight from "../../CreateEditFormRight";
 import { onSubmit } from "./onSubmit";
@@ -26,19 +17,9 @@ export default function EditPackagePage({
 }) {
   // @ts-expect-error: Cannot use 'use' in a Client Component
   const { id } = use(params) as { id: string };
-  console.log("id", id);
-
   const [data, setData] = useState<PackageFormValues | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-    control,
-    reset,
-  } = usePackageForm();
+  const form = usePackageForm();
 
   useEffect(() => {
     if (!id) return;
@@ -52,7 +33,7 @@ export default function EditPackagePage({
           .single();
         if (data.data) {
           setData(data.data as PackageFormValues);
-          reset(data.data as Partial<PackageFormValues>);
+          form.reset(data.data as Partial<PackageFormValues>);
         }
       } catch (error) {
         console.error("Error fetching package:", error);
@@ -60,7 +41,7 @@ export default function EditPackagePage({
     };
 
     load();
-  }, [id, reset]);
+  }, [id, form]);
 
   if (!data) {
     return <CurrentlyLoading />;
@@ -74,42 +55,27 @@ export default function EditPackagePage({
         </CardHeader>
 
         <form
-          onSubmit={handleSubmit((formData) =>
+          onSubmit={form.handleSubmit((formData) =>
             onSubmit({ formData, id, setIsLoading })
           )}
         >
           <div className="grid md:grid-cols-3">
             <CreateEditFormLeft
               // @ts-expect-error: --- IGNORE ---
-              control={control}
-              watch={watch}
-              setValue={setValue}
-              register={register}
-              errors={errors}
+              control={form.control}
+              watch={form.watch}
+              setValue={form.setValue}
+              register={form.register}
             />
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 max-h-[65vh] overflow-y-auto pt-6 mb-4">
-              {/* @ts-expect-error: --- IGNORE --- */}
-              <CreateEditFormRight register={register} control={control} />
+              <CreateEditFormRight
+                register={form.register}
+                // @ts-expect-error: --- IGNORE ---
+                control={form.control}
+              />
             </CardContent>
           </div>
-
-          <CardFooter className="sticky bottom-0 bg-background border-t flex justify-end gap-3">
-            <div className="flex w-full justify-between">
-              <div>
-                <Link href="/admin/packages" className="button ghost">
-                  Back
-                </Link>
-              </div>
-              <div>
-                <Button type="button" variant="ghost">
-                  Cancel
-                </Button>
-                <Button variant="default" type="submit" disabled={isLoading}>
-                  {isLoading ? "Saving..." : "Save Package"}
-                </Button>
-              </div>
-            </div>
-          </CardFooter>
+          <FooterCard isLoading={isLoading} />
         </form>
       </Card>
     </div>

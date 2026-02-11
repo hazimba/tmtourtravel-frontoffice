@@ -4,7 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Package, Sparkles, LayoutDashboard, Settings } from "lucide-react";
+import {
+  Package,
+  Sparkles,
+  LayoutDashboard,
+  Settings,
+  User,
+} from "lucide-react";
 
 const LeftNavigation = () => {
   const pathname = usePathname();
@@ -14,6 +20,11 @@ const LeftNavigation = () => {
       title: "Dashboard",
       href: "/admin",
       icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Users",
+      href: "/admin/users",
+      icon: <User className="mr-2 h-4 w-4" />,
     },
     {
       title: "Packages",
