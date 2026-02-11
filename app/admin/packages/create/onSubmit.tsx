@@ -14,6 +14,7 @@ interface PackageFormValuesProp {
   setIsLoading: (loading: boolean) => void;
   watch: (field: keyof PackageFormValues) => any;
   setErrorShow: (message: string) => void;
+  mainImageSelect?: File | null;
 }
 
 const REQUIRED_FIELDS: (keyof PackageFormValues)[] = [
@@ -36,15 +37,50 @@ const validateRequiredFields = (data: Partial<PackageFormValues>) => {
 
   return missing;
 };
+let imageUrl: string | null = null;
+const uploadImageToBucket = async (
+  mainImageSelect: File,
+  uuid: string,
+  setIsLoading: (loading: boolean) => void
+) => {
+  if (mainImageSelect) {
+    const fileExt = mainImageSelect.name.split(".").pop();
+    const fileName = `${uuid}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("package-main-image")
+      .upload(fileName, mainImageSelect, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Upload error:", uploadError);
+      setIsLoading(false);
+      return;
+    }
+
+    // Get public URL
+    const { data: publicUrlData } = supabase.storage
+      .from("package-main-image")
+      .getPublicUrl(fileName);
+
+    imageUrl = publicUrlData.publicUrl;
+    return imageUrl;
+  }
+};
 
 export const onSubmit = async ({
   data,
   setIsLoading,
   watch,
   setErrorShow,
+  mainImageSelect,
 }: PackageFormValuesProp) => {
   const id = watch("uuid");
   setIsLoading(true);
+  // const file = data.main_image_url as File | undefined;
+  // console.log("Selected file:", file);
 
   const missingFields = validateRequiredFields(data);
 
@@ -58,8 +94,27 @@ export const onSubmit = async ({
     return;
   }
 
+  console.log("mainImageSelect in onSubmit", mainImageSelect);
+
+  if (!mainImageSelect) {
+    setErrorShow("Please upload a main image for the package.");
+    setIsLoading(false);
+    return;
+  }
   const uuid = uuidv4();
-  const dataToInsert = { ...data, uuid };
+  const imageUrl = await uploadImageToBucket(
+    mainImageSelect,
+    uuid,
+    setIsLoading
+  );
+  console.log("Uploaded image URL:", imageUrl);
+
+  if (!imageUrl) {
+    setErrorShow("Image upload failed. Please try again.");
+    setIsLoading(false);
+    return;
+  }
+  const dataToInsert = { ...data, uuid, main_image_url: imageUrl };
   console.log("Data to insert:", dataToInsert);
 
   try {

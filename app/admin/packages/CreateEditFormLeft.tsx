@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-
 import SelectType from "@/components/admin-ui/FormItem/SelectType";
 import { CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -25,26 +24,23 @@ import {
   Tags,
 } from "../../../types";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
+import { ImageUploadForm } from "./ImageUploadForm";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
   setValue: UseFormSetValue<PackageFormValues>;
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
+  setMainImageSelect: (file: File | null) => void;
 }
 
 const CreateEditFormLeft = ({
   watch,
   setValue,
   register,
+  setMainImageSelect,
 }: CreateEditFormLeftProps) => {
   const mealPlanOptions = Object.values(MealPlan);
   const appearanceOptions = Object.values(Appearance);
@@ -54,13 +50,90 @@ const CreateEditFormLeft = ({
 
   const [openDialogFileUpload, setOpenDialogFileUpload] = useState(false);
   return (
-    <div className="md:col-span-2 border-r">
-      <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-5 max-h-[65vh] overflow-y-auto pt-6">
+    <div className="md:col-span-2 border-r max-h-[70vh] overflow-y-auto pt-2">
+      <div className="px-6 mb-6 grid md:grid-cols-4 gap-5">
         <div className="flex flex-col gap-2 justify-between">
           <Label>Title</Label>
           <Input placeholder="Enter package title" {...register("title")} />
         </div>
-
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Tour Code</Label>
+          <Input placeholder="Enter tour code" {...register("tour_code")} />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Country</Label>
+          <Input placeholder="Enter country" {...register("country")} />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Meal Plan</Label>
+          <Select
+            value={watch("meal_plan")}
+            onValueChange={(val) => setValue("meal_plan", val as MealPlan)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select meal plan" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Meal Plan</SelectLabel>
+                {mealPlanOptions.map((ml) => (
+                  <SelectItem key={ml} value={ml}>
+                    {ml}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Entry Mode</Label>
+          <Select
+            value={watch("entry_mode")}
+            onValueChange={(val) => setValue("entry_mode", val as EntryMode)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select entry mode" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Entry Mode</SelectLabel>
+                {entryModeOptions.map((em) => (
+                  <SelectItem key={em} value={em}>
+                    {em}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Session</Label>
+          <Select
+            value={watch("session")}
+            onValueChange={(val) => setValue("session", val as PackageSession)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select session" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Session</SelectLabel>
+                {sessionOptions.map((sess) => (
+                  <SelectItem key={sess} value={sess}>
+                    {sess}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Type</Label>
+          <SelectType watch={watch} setValue={setValue} />
+        </div>
+      </div>
+      <Separator className="my-4" />
+      <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-5">
         <div className="flex flex-col gap-2 justify-between">
           <Label>Subtitle</Label>
           <Input
@@ -72,11 +145,6 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col gap-2 justify-between">
           <Label>Route</Label>
           <Input placeholder="Enter package route" {...register("route")} />
-        </div>
-
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Tour Code</Label>
-          <Input placeholder="Enter tour code" {...register("tour_code")} />
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
@@ -124,7 +192,7 @@ const CreateEditFormLeft = ({
           <Input placeholder="Enter freebies" {...register("freebies")} />
         </div>
 
-        <div className="md:col-span-2 flex flex-col gap-2 justify-between">
+        <div className="md:col-span-1 flex flex-col gap-2 justify-between">
           <Label>Important Notes</Label>
           <Input
             placeholder="Enter important notes"
@@ -135,14 +203,6 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col gap-2 justify-between">
           <Label>Location</Label>
           <Input placeholder="Enter location" {...register("location")} />
-        </div>
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Type</Label>
-          <SelectType watch={watch} setValue={setValue} />
-        </div>
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Country</Label>
-          <Input placeholder="Enter country" {...register("country")} />
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
@@ -181,38 +241,6 @@ const CreateEditFormLeft = ({
             {...register("sale_able_market")}
           />
         </div>
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Image Upload (Main)</Label>
-          <Button
-            type="button"
-            variant="default"
-            onClick={() => setOpenDialogFileUpload(true)}
-          >
-            Click To Upload Image
-          </Button>
-        </div>
-
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Meal Plan</Label>
-          <Select
-            value={watch("meal_plan")}
-            onValueChange={(val) => setValue("meal_plan", val as MealPlan)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select meal plan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Meal Plan</SelectLabel>
-                {mealPlanOptions.map((ml) => (
-                  <SelectItem key={ml} value={ml}>
-                    {ml}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Appearance</Label>
@@ -235,73 +263,10 @@ const CreateEditFormLeft = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Session</Label>
-          <Select
-            value={watch("session")}
-            onValueChange={(val) => setValue("session", val as PackageSession)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select session" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Session</SelectLabel>
-                {sessionOptions.map((sess) => (
-                  <SelectItem key={sess} value={sess}>
-                    {sess}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Entry Mode</Label>
-          <Select
-            value={watch("entry_mode")}
-            onValueChange={(val) => setValue("entry_mode", val as EntryMode)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select entry mode" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Entry Mode</SelectLabel>
-                {entryModeOptions.map((em) => (
-                  <SelectItem key={em} value={em}>
-                    {em}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
-          <div>
-            <Label className="font-medium">Publish Package</Label>
-            <p className="text-xs text-muted-foreground">
-              Make this package visible on the website
-            </p>
-          </div>
-          <Checkbox
-            {...register("is_publish")}
-            checked={!!watch("is_publish")}
-            onCheckedChange={(checked) =>
-              setValue("is_publish", Boolean(checked), {
-                shouldDirty: true,
-              })
-            }
-          />
-          {/* <Controller
-            name="is_publish"
-            render={({ field: { value, onChange } }) => (
-              <Checkbox checked={!!value} onCheckedChange={onChange} />
-            )}
-          /> */}
-        </div>
-        <div className="md:col-span-1 flex flex-col gap-2 justify-between">
+      </CardContent>
+      <Separator className="my-4" />
+      <div className="grid md:grid-cols-3 gap-4 px-4">
+        <div className="md:col-span-1 flex flex-col gap-2 justify-between px-6">
           <Label>Tags</Label>
           <div className="grid grid-cols-2 gap-2">
             {(() => {
@@ -330,23 +295,32 @@ const CreateEditFormLeft = ({
             })()}
           </div>
         </div>
-      </CardContent>
-      <Dialog
-        open={openDialogFileUpload}
-        onOpenChange={setOpenDialogFileUpload}
-        aria-describedby="upload-image"
-      >
-        <DialogContent className="!w-screen !max-w-auto h-[80vh] max-h-[90vh] flex flex-col ">
-          <DialogTitle className="text-lg font-medium">
-            Upload Image
-          </DialogTitle>
-          <DialogDescription>
-            Please upload a main image for the package. (4MB max)
-          </DialogDescription>
-
-          {/* <ImageUploadForm watch={watch} onFileSelect={onFileSelect} /> */}
-        </DialogContent>
-      </Dialog>
+        <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
+          <div>
+            <Label className="font-medium">Publish Package</Label>
+            <p className="text-xs text-muted-foreground">
+              Make this package visible on the website
+            </p>
+          </div>
+          <Checkbox
+            {...register("is_publish")}
+            checked={!!watch("is_publish")}
+            onCheckedChange={(checked) =>
+              setValue("is_publish", Boolean(checked), {
+                shouldDirty: true,
+              })
+            }
+          />
+        </div>
+      </div>
+      <Separator className="my-8" />
+      <div className="px-4 pb-4">
+        <Label className="mb-2 font-medium">Main Image Upload</Label>
+        <ImageUploadForm
+          watch={watch}
+          setMainImageSelect={setMainImageSelect}
+        />
+      </div>
     </div>
   );
 };

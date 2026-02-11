@@ -59,7 +59,7 @@ const CreateEditFormRight = ({
         <Button
           type="button"
           variant="outline"
-          onClick={() => append("")}
+          onClick={() => append(`Day ${fields.length + 1}: `)}
           className="mt-2"
         >
           Add Day

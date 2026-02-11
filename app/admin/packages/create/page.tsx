@@ -11,6 +11,7 @@ export default function CreatePackagePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorShow, setErrorShow] = useState("");
   const form = usePackageForm();
+  const [mainImageSelect, setMainImageSelect] = useState<File | null>(null);
 
   return (
     <div className="h-[95vh] bg-muted/40 px-6 py-10">
@@ -33,16 +34,16 @@ export default function CreatePackagePage() {
               setIsLoading,
               watch: form.watch,
               setErrorShow,
+              mainImageSelect,
             })
           )}
         >
           <div className="grid md:grid-cols-3">
             <CreateEditFormLeft
-              // @ts-expect-error: --- IGNORE ---
-              control={form.control}
               watch={form.watch}
               setValue={form.setValue}
               register={form.register}
+              setMainImageSelect={setMainImageSelect}
             />
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 h-[65vh] overflow-y-auto pt-6 mb-4">
               <CreateEditFormRight

@@ -75,7 +75,7 @@ export default function EditPackagePage({
               />
             </CardContent>
           </div>
-          <FooterCard isLoading={isLoading} />
+          <FooterCard isLoading={isLoading} id={id} />
         </form>
       </Card>
     </div>

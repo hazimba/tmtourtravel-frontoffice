@@ -24,6 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "sonner";
+import { find } from "lodash";
 
 interface PackageDetailsProps {
   selectedPackage: Package | null;
@@ -43,10 +44,30 @@ const PackageDetails = ({
     if (!selectedPackage) return;
     setDeleting(true);
     try {
+      const uuid = selectedPackage.uuid;
+
+      const { data: files, error: listError } = await supabase.storage
+        .from("package-main-image")
+        .list("");
+
+      if (listError) throw listError;
+
+      const matchedFile = find(files, (file) => file.name.startsWith(uuid));
+
+      if (matchedFile) {
+        const { error: deleteStorageError } = await supabase.storage
+          .from("package-main-image")
+          .remove([matchedFile.name]);
+
+        if (deleteStorageError) {
+          console.error("Storage delete error:", deleteStorageError);
+        }
+      }
+
       const { error } = await supabase
         .from("packages")
         .delete()
-        .eq("uuid", selectedPackage.uuid);
+        .eq("uuid", uuid);
       if (error) throw error;
 
       setSelectedPackage(null);
@@ -61,9 +82,9 @@ const PackageDetails = ({
         className: "!bg-red-500 !text-white",
         position: "top-center",
       });
-      setDeleting(false);
-      setShowConfirm(false);
     }
+    setDeleting(false);
+    setShowConfirm(false);
   };
 
   useEffect(() => {
