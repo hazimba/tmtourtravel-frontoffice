@@ -3,7 +3,6 @@
 import startCase from "lodash/startCase";
 import toLower from "lodash/toLower";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import { Button } from "@/components/ui/button";
@@ -14,9 +13,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { usePackageForm } from "@/lib/hooks/usePackgeForm";
 import { supabase } from "@/lib/supabaseClient";
-import { PackageFormValues, packageSchema } from "@/schemas/packages.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { PackageFormValues } from "@/schemas/packages.schema";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
@@ -32,57 +31,17 @@ export default function CreatePackagePage() {
     formState: { errors },
     watch,
     setValue,
-    reset,
     control,
-  } = useForm<PackageFormValues>({
-    // @ts-expect-error: Cannot use 'use' in a Client Component
-    resolver: zodResolver(packageSchema.partial()),
-    defaultValues: {
-      uuid: "",
-      title: "",
-      tour_code: "",
-      country: "",
-      web_priority: 0,
-      web_tier: 0,
-      is_publish: false,
-      subtitle: "",
-      route: "",
-      meal_plan: undefined,
-      highlight: "",
-      important_notes: "",
-      includes: "",
-      excludes: "",
-      tags: [],
-      sub_image_urls: ["asd"],
-      main_image_url:
-        "https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/package-main-images/japan.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwYWNrYWdlLW1haW4taW1hZ2VzL2phcGFuLmpwZyIsImlhdCI6MTc2OTY4NDkwMywiZXhwIjoxODAxMjIwOTAzfQ.njtWoxnTXiaAF2C6hmJQYJDHRbk2nXqZUUM2qRndqQo",
-      features: [],
-      itinerary: [],
-      optional_tours: "",
-      flight_schedule: "",
-      freebies: "",
-      conditions: "",
-      embedded: "1",
-      sale_period: undefined,
-      update_period: undefined,
-      sale_able_market: "",
-      entry_mode: undefined,
-      session: undefined,
-      appearance: undefined,
-      type: undefined,
-      location: "",
-    },
-  });
+  } = usePackageForm();
 
   const REQUIRED_FIELDS: (keyof PackageFormValues)[] = [
     "title",
-    "tour_code",
-    "country",
-    "meal_plan",
-    "main_image_url",
-    "entry_mode",
-    "session",
-    "type",
+    // "tour_code",
+    // "country",
+    // "meal_plan",
+    // "entry_mode",
+    // "session",
+    // "type",
   ];
 
   const validateRequiredFields = (data: Partial<PackageFormValues>) => {
@@ -97,6 +56,7 @@ export default function CreatePackagePage() {
   };
 
   const onSubmit = async (data: Partial<PackageFormValues>) => {
+    const id = watch("uuid");
     setIsLoading(true);
 
     const missingFields = validateRequiredFields(data);

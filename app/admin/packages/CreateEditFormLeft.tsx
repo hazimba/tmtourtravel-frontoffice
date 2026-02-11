@@ -25,10 +25,18 @@ import {
   Tags,
 } from "../../../types";
 
-import { FieldPath, UseFormSetValue } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 
 interface CreateEditFormLeftProps {
-  watch: (field: FieldPath<PackageFormValues>) => any;
+  watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
   setValue: UseFormSetValue<PackageFormValues>;
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
 }
@@ -44,6 +52,7 @@ const CreateEditFormLeft = ({
   const entryModeOptions = Object.values(EntryMode);
   const tagsOptions = Object.values(Tags);
 
+  const [openDialogFileUpload, setOpenDialogFileUpload] = useState(false);
   return (
     <div className="md:col-span-2 border-r">
       <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-5 max-h-[65vh] overflow-y-auto pt-6">
@@ -150,22 +159,19 @@ const CreateEditFormLeft = ({
         </div>
 
         {/* <div className="flex flex-col gap-2 justify-between">
-                  <RangeDatePicker
-                    title="Sale Period"
-                    {...register("sale_period")}
-                  />
-                </div> */}
+          <RangeDatePicker title="Sale Period" {...register("sale_period")} />
+        </div> */}
 
         <div className="flex flex-col gap-2 justify-between">
-          {/* <Label>Update Period</Label>
-                  <Input
-                    placeholder="Enter update period"
-                    {...register("update_period")}
-                  /> */}
+          <Label>Update Period</Label>
+          {/* <Input
+            placeholder="Enter update period"
+            {...register("update_period")}
+          /> */}
           {/* <RangeDatePicker
-                    title="Update Period"
-                    {...register("update_period")}
-                  /> */}
+            title="Update Period"
+            {...register("update_period")}
+          /> */}
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
@@ -174,6 +180,16 @@ const CreateEditFormLeft = ({
             placeholder="Enter sale able market"
             {...register("sale_able_market")}
           />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Image Upload (Main)</Label>
+          <Button
+            type="button"
+            variant="default"
+            onClick={() => setOpenDialogFileUpload(true)}
+          >
+            Click To Upload Image
+          </Button>
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
@@ -262,7 +278,7 @@ const CreateEditFormLeft = ({
           </Select>
         </div>
 
-        <div className="md:col-span-3 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
+        <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
           <div>
             <Label className="font-medium">Publish Package</Label>
             <p className="text-xs text-muted-foreground">
@@ -300,7 +316,7 @@ const CreateEditFormLeft = ({
                       onCheckedChange={(v) => {
                         const next = v
                           ? [...currentTags, tag]
-                          : currentTags.filter((t: Tags) => t !== tag);
+                          : currentTags.filter((t) => t !== tag);
 
                         setValue("tags", next, {
                           shouldDirty: true,
@@ -315,6 +331,22 @@ const CreateEditFormLeft = ({
           </div>
         </div>
       </CardContent>
+      <Dialog
+        open={openDialogFileUpload}
+        onOpenChange={setOpenDialogFileUpload}
+        aria-describedby="upload-image"
+      >
+        <DialogContent className="!w-screen !max-w-auto h-[80vh] max-h-[90vh] flex flex-col ">
+          <DialogTitle className="text-lg font-medium">
+            Upload Image
+          </DialogTitle>
+          <DialogDescription>
+            Please upload a main image for the package. (4MB max)
+          </DialogDescription>
+
+          {/* <ImageUploadForm watch={watch} onFileSelect={onFileSelect} /> */}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

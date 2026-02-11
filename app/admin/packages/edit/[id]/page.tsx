@@ -1,7 +1,6 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
 import CurrentlyLoading from "@/components/CurrentlyLoading";
 import { Button } from "@/components/ui/button";
@@ -12,14 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { usePackageForm } from "@/lib/hooks/usePackgeForm";
 import { supabase } from "@/lib/supabaseClient";
-import { PackageFormValues, packageSchema } from "@/schemas/packages.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { PackageFormValues } from "@/schemas/packages.schema";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { toast } from "sonner";
 import CreateEditFormLeft from "../../CreateEditFormLeft";
 import CreateEditFormRight from "../../CreateEditFormRight";
+import { onSubmit } from "./onSubmit";
 
 export default function EditPackagePage({
   params,
@@ -38,46 +36,9 @@ export default function EditPackagePage({
     formState: { errors },
     watch,
     setValue,
-    reset,
     control,
-  } = useForm<PackageFormValues>({
-    // @ts-expect-error: Cannot use 'use' in a Client Component
-    resolver: zodResolver(packageSchema.partial()),
-    defaultValues: {
-      uuid: id,
-      title: "",
-      tour_code: "",
-      country: "",
-      web_priority: 0,
-      web_tier: 0,
-      is_publish: false,
-      subtitle: "",
-      route: "",
-      meal_plan: undefined,
-      highlight: "",
-      important_notes: "",
-      includes: "",
-      excludes: "",
-      tags: [],
-      sub_image_urls: [],
-      main_image_url: "",
-      features: [],
-      itinerary: [],
-      optional_tours: "",
-      flight_schedule: "",
-      freebies: "",
-      conditions: "",
-      embedded: "1",
-      sale_period: undefined,
-      update_period: undefined,
-      sale_able_market: "",
-      entry_mode: undefined,
-      session: undefined,
-      appearance: undefined,
-      type: undefined,
-      location: "",
-    },
-  });
+    reset,
+  } = usePackageForm();
 
   useEffect(() => {
     if (!id) return;
@@ -101,39 +62,6 @@ export default function EditPackagePage({
     load();
   }, [id, reset]);
 
-  const onSubmit = async (data: Partial<PackageFormValues>) => {
-    setIsLoading(true);
-    console.log("Submitting data:", data);
-
-    const uuid = id;
-
-    try {
-      const result = await supabase
-        .from("packages")
-        .update(data)
-        .eq("uuid", uuid)
-        .select();
-
-      console.log("Supabase update result:", result);
-
-      if (result.error) throw result.error;
-
-      if (!result.data || result.data.length === 0) {
-        console.warn("No rows were updated. Check if uuid matches any row.");
-      } else {
-        console.log("Updated rows:", result.data);
-      }
-    } catch (error) {
-      console.error("Error updating package:", error);
-    }
-    toast.success("Package updated successfully!", {
-      className: "!bg-primary !text-white",
-      position: "top-center",
-    });
-    setIsLoading(false);
-    redirect("/admin/packages");
-  };
-
   if (!data) {
     return <CurrentlyLoading />;
   }
@@ -145,7 +73,11 @@ export default function EditPackagePage({
           <CardTitle className="text-2xl font-semibold">Edit Package</CardTitle>
         </CardHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit((formData) =>
+            onSubmit({ formData, id, setIsLoading })
+          )}
+        >
           <div className="grid md:grid-cols-3">
             <CreateEditFormLeft
               // @ts-expect-error: --- IGNORE ---

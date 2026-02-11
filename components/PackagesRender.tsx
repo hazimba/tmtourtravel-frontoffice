@@ -35,13 +35,15 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
                 ))}
               </div>
             )}
-            <Image
-              src={pkg.main_image_url}
-              alt="Travel"
-              className="w-full h-40 object-cover"
-              width={4000}
-              height={2000}
-            />
+            {pkg.main_image_url && (
+              <Image
+                src={pkg.main_image_url}
+                alt="Travel"
+                className="w-full h-40 object-cover"
+                width={4000}
+                height={2000}
+              />
+            )}
             <div className="p-4 flex flex-col flex-1 justify-between">
               <div>
                 <div className="h-16">

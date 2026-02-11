@@ -16,13 +16,15 @@ const PackageCard = ({ pkg }: PackageRenderProps) => {
   return (
     <>
       <div className="relative aspect-[5/3] h-48 w-full overflow-hidden">
-        <Image
-          src={pkg.main_image_url}
-          alt={pkg.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 500px"
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {pkg.main_image_url && (
+          <Image
+            src={pkg.main_image_url}
+            alt={pkg.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 500px"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        )}
 
         <Badge
           className={`absolute top-2 right-2 rounded-full px-2 py-0.5 text-xs font-medium${

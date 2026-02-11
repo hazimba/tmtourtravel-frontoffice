@@ -98,7 +98,7 @@ const PackagesTab = () => {
               onClick={() => setSelectedPackage(pkg)}
               className="group cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col"
             >
-              <PackageCard pkg={pkg || ""} />
+              <PackageCard pkg={pkg} />
             </div>
           ))
         )}
