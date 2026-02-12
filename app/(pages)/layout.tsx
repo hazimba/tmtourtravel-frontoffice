@@ -1,3 +1,4 @@
+import AboutUs from "@/components/AboutUs";
 import NavigationBar from "@/components/NavigationBar";
 import WhatsappButton from "@/components/WhatsappButton";
 
@@ -11,6 +12,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="fixed left-4/5 -translate-x-1/2 bottom-8 z-50">
         <WhatsappButton />
       </div>
+      <AboutUs />
     </div>
   );
 };

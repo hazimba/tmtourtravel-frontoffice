@@ -38,7 +38,13 @@ const PackagesSection = async () => {
           className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0"
         >
           <div className="mb-6 flex justify-between">
-            <div className="font-semibold text-3xl">{section.label}</div>
+            <h2
+              id="our-partners"
+              key={"our-partners"}
+              className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+            >
+              {section.label}
+            </h2>
             <Link href={section.nav}>
               <div className="text-blue-600">View All</div>
             </Link>

@@ -3,7 +3,8 @@ import SignoutToast from "@/components/SignedOutToast";
 import ImageSliderSection from "./ImageSlider";
 import PackagesSection from "./Packages";
 import PartnersSection from "./Partners";
-import AboutUs from "./AboutUs";
+import { Contact } from "lucide-react";
+import ContactEnquiryForm from "./ContactUs";
 
 export const dynamic = "force-dynamic";
 
@@ -33,10 +34,10 @@ const HomePage = async ({
       <FormPopup />
       <div className="">
         <ImageSliderSection />
-        <div className="flex flex-col gap-12 py-12">
+        <div className="flex flex-col gap-12 py-20">
           <PartnersSection />
           <PackagesSection />
-          <AboutUs />
+          <ContactEnquiryForm />
         </div>
       </div>
     </div>

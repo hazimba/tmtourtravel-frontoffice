@@ -15,13 +15,13 @@ const PartnersSection = async () => {
 
   return (
     <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
-      <div
-        className="font-semibold text-3xl"
+      <h2
         id="our-partners"
         key={"our-partners"}
+        className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
       >
         OUR PARTNERS
-      </div>
+      </h2>
       <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 py-8 scrollbar-hide">
         {logos.map((i: Logo, idx: number) => (
           <Image
