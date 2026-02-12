@@ -20,11 +20,15 @@ const NavigationBar = async () => {
   return (
     <nav className="md:py-8 md:px-6 py-4 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center">
-        <Link href="/" className="hidden md:block">
-          <Image src="/tm-icon.png" alt="Logo" width={120} height={100} />
-        </Link>
-        <Link href="/" className="md:hidden">
-          <Image src="/tm-icon-sm.jpeg" alt="Logo" width={50} height={50} />
+        <Link href="/">
+          <Image
+            src="/tm-icon.png"
+            alt="Logo"
+            width={120}
+            height={100}
+            className="w-[50px] md:w-[120px] h-auto"
+            priority
+          />
         </Link>
         <>
           {userProfile && (

@@ -40,8 +40,6 @@ const PackagesTab = () => {
     }
   };
 
-  console.log("Packages data:", packagesData?.length);
-
   useEffect(() => {
     refetchPackages();
   }, []);

@@ -65,7 +65,7 @@ const PackageCard = ({ pkg }: PackageRenderProps) => {
           <Globe className="h-3.5 w-3.5" />
           <span>{pkg.country}</span>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 };

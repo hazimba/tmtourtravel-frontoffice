@@ -26,6 +26,19 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
+const pages: { title: string; href: string; description: string }[] = [
+  {
+    title: "Packages",
+    href: "/package",
+    description: "Browse and manage travel packages.",
+  },
+  {
+    title: "Home",
+    href: "/home",
+    description: "Browse and manage travel packages.",
+  },
+];
+
 const NavigationPopover = () => {
   const navLinks = [
     { label: "Partners", href: "#our-partners", id: "our-partners" },
@@ -36,61 +49,83 @@ const NavigationPopover = () => {
   ];
 
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="w-72">
-              {navLinks.map((link) => {
-                const handleClick = link.id
-                  ? (e: React.MouseEvent) => {
-                      e.preventDefault();
-                      const el = document.getElementById(link.id!);
-                      if (el) {
-                        const y =
-                          el.getBoundingClientRect().top + window.scrollY - 120;
-                        window.scrollTo({ top: y, behavior: "smooth" });
+    <div className="flex gap-4">
+      {/* <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Sections</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="w-72">
+                {navLinks.map((link) => {
+                  const handleClick = link.id
+                    ? (e: React.MouseEvent) => {
+                        e.preventDefault();
+                        const el = document.getElementById(link.id!);
+                        if (el) {
+                          const y =
+                            el.getBoundingClientRect().top +
+                            window.scrollY -
+                            120;
+                          window.scrollTo({ top: y, behavior: "smooth" });
+                        }
                       }
-                    }
-                  : undefined;
-                return (
-                  <a
-                    onClick={handleClick}
-                    key={link.label}
-                    href={link.href}
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    : undefined;
+                  return (
+                    <a
+                      onClick={handleClick}
+                      key={link.label}
+                      href={link.href}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu> */}
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-72 gap-2 md:grid-cols-1">
+                {components.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
                   >
-                    {link.label}
-                  </a>
-                );
-              })}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="">
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-72 gap-2 md:grid-cols-1">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        {/* <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/docs">Docs</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem> */}
-      </NavigationMenuList>
-    </NavigationMenu>
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Pages</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-72 gap-2 md:grid-cols-1">
+                {pages.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+      <NavigationMenu></NavigationMenu>
+    </div>
   );
 };
 

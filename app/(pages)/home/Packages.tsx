@@ -2,6 +2,7 @@ import { PackagesRender } from "@/components/PackagesRender";
 import ProductImageRender from "@/components/ProductImageRender";
 import { Package } from "@/types";
 import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 const PackagesSection = async () => {
   const { data: packages, error: pkgErr } = await supabase
@@ -11,9 +12,21 @@ const PackagesSection = async () => {
   if (pkgErr) throw new Error(pkgErr.message);
 
   const packageSections = [
-    { label: "JELAJAH MANIA", type: "GROUP" },
-    { label: "GROUND", type: "GROUND" },
-    { label: "UMRAH", type: "UMRAH" },
+    {
+      label: "JELAJAH MANIA",
+      type: "GROUP",
+      nav: "/package?title=&country=&type=GROUP",
+    },
+    {
+      label: "GROUND",
+      type: "GROUND",
+      nav: "/package?title=&country=&type=GROUND",
+    },
+    {
+      label: "UMRAH",
+      type: "UMRAH",
+      nav: "/package?title=&country=&type=UMRAH",
+    },
   ];
 
   return (
@@ -26,9 +39,9 @@ const PackagesSection = async () => {
         >
           <div className="mb-6 flex justify-between">
             <div className="font-semibold text-3xl">{section.label}</div>
-            {/* <Link href={`/package-type/${section.label}`}> */}
-            <div className="text-blue-600">View All</div>
-            {/* </Link> */}
+            <Link href={section.nav}>
+              <div className="text-blue-600">View All</div>
+            </Link>
           </div>
           <PackagesRender
             packages={packages.filter((i: Package) => i.type === section.type)}
