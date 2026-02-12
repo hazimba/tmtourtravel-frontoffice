@@ -1,4 +1,3 @@
-import PackageCard from "@/app/admin/packages/PackageCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -79,7 +78,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               <label className="text-xs font-medium uppercase text-muted-foreground">
                 Type
               </label>
-              <Select name="type" defaultValue={type}>
+              <Select name="type" value={type || "all"}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Types" />
                 </SelectTrigger>

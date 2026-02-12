@@ -15,38 +15,43 @@ import * as React from "react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Login",
-    href: "/auth/login",
-    description: "The login page for users to access their accounts.",
-  },
-  {
     title: "Admin",
     href: "/admin",
     description: "The admin dashboard for managing the application.",
+  },
+  {
+    title: "Login",
+    href: "/auth/login",
+    description: "The login page for users to access their accounts.",
   },
 ];
 
 const pages: { title: string; href: string; description: string }[] = [
   {
-    title: "Packages",
-    href: "/package",
-    description: "Browse and manage travel packages.",
-  },
-  {
     title: "Home",
     href: "/home",
     description: "Browse and manage travel packages.",
   },
+  {
+    title: "Packages",
+    href: "/package",
+    description: "Browse our wide selection of travel packages.",
+  },
+  {
+    title: "About Us",
+    href: "/about-us",
+    description: "Learn more about our company and values.",
+  },
 ];
 
 const NavigationPopover = () => {
-  const navLinks = [
-    { label: "Partners", href: "#our-partners", id: "our-partners" },
-    { label: "Jelajah Mania", href: "#GROUP", id: "GROUP" },
-    { label: "Ground", href: "#GROUND", id: "GROUND" },
-    { label: "Umrah", href: "#UMRAH", id: "UMRAH" },
-    { label: "MICE", href: "#MICE", id: "MICE" },
-  ];
+  // const navLinks = [
+  //   { label: "Partners", href: "#our-partners", id: "our-partners" },
+  //   { label: "Jelajah Mania", href: "#GROUP", id: "GROUP" },
+  //   { label: "Ground", href: "#GROUND", id: "GROUND" },
+  //   { label: "Umrah", href: "#UMRAH", id: "UMRAH" },
+  //   { label: "MICE", href: "#MICE", id: "MICE" },
+  // ];
 
   return (
     <div className="flex gap-4">
@@ -91,7 +96,7 @@ const NavigationPopover = () => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Components</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-72 gap-2 md:grid-cols-1">
+              <ul className="grid w-90 gap-2 md:grid-cols-1">
                 {components.map((component) => (
                   <ListItem
                     key={component.title}
@@ -109,7 +114,7 @@ const NavigationPopover = () => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Pages</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-72 gap-2 md:grid-cols-1">
+              <ul className="grid w-90 gap-2 md:grid-cols-1">
                 {pages.map((component) => (
                   <ListItem
                     key={component.title}

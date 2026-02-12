@@ -1,12 +1,13 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail, Phone, Send } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { MapPin, Phone, Mail, Send } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 import {
   Form,
   FormControl,
@@ -55,8 +56,8 @@ export default function ContactEnquiryForm() {
               Ready to start your journey?
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Whether it's for Umrah, MICE, or a custom ground package, fill out
-              the form and our consultants will assist you.
+              Whether it&#39;s for Umrah, MICE, or a custom ground package, fill
+              out the form and our consultants will assist you.
             </p>
           </div>
 
@@ -145,9 +146,15 @@ export default function ContactEnquiryForm() {
                   <FormItem>
                     <FormLabel>Interested Destination*</FormLabel>
                     <FormControl>
-                      <Input
+                      {/* <Input
                         placeholder="e.g. Makkah, Turkey, London"
                         {...field}
+                      /> */}
+                      <CountryDropdown
+                        onChange={(country) => {
+                          field.onChange(country.name);
+                        }}
+                        defaultValue={field.value}
                       />
                     </FormControl>
                     <FormMessage />

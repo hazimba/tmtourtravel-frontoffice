@@ -1,10 +1,9 @@
 import FormPopup from "@/components/FormPopup";
 import SignoutToast from "@/components/SignedOutToast";
+import ContactEnquiryForm from "./ContactUs";
 import ImageSliderSection from "./ImageSlider";
 import PackagesSection from "./Packages";
 import PartnersSection from "./Partners";
-import { Contact } from "lucide-react";
-import ContactEnquiryForm from "./ContactUs";
 
 export const dynamic = "force-dynamic";
 
