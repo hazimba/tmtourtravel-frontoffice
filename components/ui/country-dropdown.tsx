@@ -40,6 +40,7 @@ export interface Country {
 }
 
 interface CountryDropdownProps {
+  name?: string;
   options?: Country[];
   onChange?: (country: Country) => void;
   defaultValue?: string;
@@ -65,25 +66,21 @@ const CountryDropdownComponent = (
 ) => {
   const [open, setOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<Country | undefined>(
-    undefined
+    () => options.find((c) => c.name === defaultValue)
   );
 
   useEffect(() => {
-    if (defaultValue) {
-      const initialCountry = options.find(
-        (country) => country.name === defaultValue
-      );
-      if (initialCountry) {
-        setSelectedCountry(initialCountry);
-      } else {
-        // Reset selected country if defaultValue is not found
-        setSelectedCountry(undefined);
-      }
-    } else {
-      // Reset selected country if defaultValue is undefined or null
-      setSelectedCountry(undefined);
+    if (!defaultValue) return;
+    if (selectedCountry) return; // 👈 prevent overwriting user selection
+
+    const initialCountry = options.find(
+      (country) => country.name === defaultValue
+    );
+
+    if (initialCountry) {
+      setSelectedCountry(initialCountry);
     }
-  }, [defaultValue, options]);
+  }, [defaultValue, options, selectedCountry]);
 
   const handleSelect = useCallback(
     (country: Country) => {
@@ -124,11 +121,7 @@ const CountryDropdownComponent = (
           </div>
         ) : (
           <span className="text-muted-foreground flex items-center gap-2">
-            {slim === false ? (
-              placeholder || setSelectedCountry.name
-            ) : (
-              <Globe size={20} />
-            )}
+            {slim === false ? placeholder : <Globe size={20} />}
           </span>
         )}
         <ChevronDown size={12} className="text-gray-400" />
@@ -179,6 +172,11 @@ const CountryDropdownComponent = (
           </CommandList>
         </Command>
       </PopoverContent>
+      <input
+        type="hidden"
+        name={props.name}
+        value={selectedCountry?.name || ""}
+      />
     </Popover>
   );
 };

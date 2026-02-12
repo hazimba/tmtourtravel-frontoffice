@@ -12,6 +12,7 @@ import { Search, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import PackageList from "./PackageList";
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 
 interface PackagePageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -30,6 +31,8 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);
+
+  console.log("country:", country);
 
   const { error } = await query;
   if (error) console.error(error);
@@ -67,9 +70,9 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               <label className="text-xs font-medium uppercase text-muted-foreground">
                 Country
               </label>
-              <Input
+              <CountryDropdown
                 name="country"
-                placeholder="e.g. Saudi Arabia"
+                placeholder="Select country"
                 defaultValue={country}
               />
             </div>
