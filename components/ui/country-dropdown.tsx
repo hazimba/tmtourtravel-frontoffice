@@ -1,7 +1,6 @@
 "use client";
 import React, { useCallback, useState, forwardRef, useEffect } from "react";
 
-// shadcn
 import {
   Command,
   CommandEmpty,
@@ -15,18 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-// utils
 import { cn } from "@/lib/utils";
-
-// assets
 import { ChevronDown, CheckIcon, Globe } from "lucide-react";
 import { CircleFlag } from "react-circle-flags";
-
-// data
 import { countries } from "country-data-list";
 
-// Country interface
 export interface Country {
   alpha2: string;
   alpha3: string;
@@ -70,21 +62,15 @@ const CountryDropdownComponent = (
   );
 
   useEffect(() => {
-    if (!defaultValue) return;
-    if (selectedCountry) return; // 👈 prevent overwriting user selection
-
-    const initialCountry = options.find(
-      (country) => country.name === defaultValue
-    );
-
-    if (initialCountry) {
-      setSelectedCountry(initialCountry);
+    if (!defaultValue) {
+      setSelectedCountry(undefined);
+      return;
     }
-  }, [defaultValue, options, selectedCountry]);
+    setSelectedCountry(options.find((c) => c.name === defaultValue));
+  }, [defaultValue]);
 
   const handleSelect = useCallback(
     (country: Country) => {
-      console.log("🌍 CountryDropdown value: ", country);
       setSelectedCountry(country);
       onChange?.(country.name ? country : (null as any));
       setOpen(false);

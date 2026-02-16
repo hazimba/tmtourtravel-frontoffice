@@ -79,8 +79,6 @@ export const onSubmit = async ({
 }: PackageFormValuesProp) => {
   const id = watch("uuid");
   setIsLoading(true);
-  // const file = data.main_image_url as File | undefined;
-  // console.log("Selected file:", file);
 
   const missingFields = validateRequiredFields(data);
 
@@ -94,8 +92,6 @@ export const onSubmit = async ({
     return;
   }
 
-  console.log("mainImageSelect in onSubmit", mainImageSelect);
-
   if (!mainImageSelect) {
     setErrorShow("Please upload a main image for the package.");
     setIsLoading(false);
@@ -107,7 +103,6 @@ export const onSubmit = async ({
     uuid,
     setIsLoading
   );
-  console.log("Uploaded image URL:", imageUrl);
 
   if (!imageUrl) {
     setErrorShow("Image upload failed. Please try again.");
@@ -115,15 +110,12 @@ export const onSubmit = async ({
     return;
   }
   const dataToInsert = { ...data, uuid, main_image_url: imageUrl };
-  console.log("Data to insert:", dataToInsert);
 
   try {
     const result = await supabase
       .from("packages")
       .insert(dataToInsert)
       .select();
-
-    console.log("Supabase insert result:", result);
 
     if (result.error) throw result.error;
 

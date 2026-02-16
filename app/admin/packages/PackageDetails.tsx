@@ -90,8 +90,6 @@ const PackageDetails = ({
   useEffect(() => {
     if (!showConfirm) setDeleting(false);
   }, [showConfirm]);
-
-  console.log("deleting", deleting);
   return (
     <div className="p-8 space-y-6">
       <Dialog

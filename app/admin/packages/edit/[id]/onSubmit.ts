@@ -19,11 +19,6 @@ export const onSubmit = async ({
   setIsLoading(true);
 
   const uuid = id;
-  const dataToUpdate = {
-    ...data,
-  };
-
-  console.log("Data to update:", dataToUpdate);
 
   try {
     const result = await supabase

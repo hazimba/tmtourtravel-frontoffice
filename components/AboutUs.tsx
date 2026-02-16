@@ -30,30 +30,32 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <h3 className="font-bold text-white border-b border-gray-700 pb-2">
-              KUALA LUMPUR (HQ)
-            </h3>
-            <div className="text-sm space-y-1">
-              <p className="font-semibold text-gray-200">+603 4031 4171</p>
-              <p>Lot 3A-3, Level 4</p>
-              <p>Wisma Q Titiwangsa, Jalan Pahang</p>
-              <p>53000 Kuala Lumpur, MALAYSIA</p>
-              <p className="pt-2 italic">info@tmtours.com.my</p>
+          <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-2 gap-8">
+            <div className="space-y-3">
+              <h3 className="font-bold text-white border-b border-gray-700 pb-2">
+                KUALA LUMPUR (HQ)
+              </h3>
+              <div className="text-sm space-y-1">
+                <p className="font-semibold text-gray-200">+603 4031 4171</p>
+                <p>Lot 3A-3, Level 4</p>
+                <p>Wisma Q Titiwangsa, Jalan Pahang</p>
+                <p>53000 Kuala Lumpur, MALAYSIA</p>
+                <p className="pt-2 italic">info@tmtours.com.my</p>
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-3">
-            <h3 className="font-bold text-white border-b border-gray-700 pb-2">
-              KOTA BHARU
-            </h3>
-            <div className="text-sm space-y-1">
-              <p className="font-semibold text-gray-200">+609 744 4355</p>
-              <p>Unit 49, Level 1</p>
-              <p>Kota Bharu City Point</p>
-              <p>Seksyen 11, 15350 Kota Bharu</p>
-              <p>Kelantan, MALAYSIA</p>
-              <p className="pt-2 italic">infokelantan@tmtours.com.my</p>
+            <div className="space-y-3">
+              <h3 className="font-bold text-white border-b border-gray-700 pb-2">
+                KOTA BHARU
+              </h3>
+              <div className="text-sm space-y-1">
+                <p className="font-semibold text-gray-200">+609 744 4355</p>
+                <p>Unit 49, Level 1</p>
+                <p>Kota Bharu City Point</p>
+                <p>Seksyen 11, 15350 Kota Bharu</p>
+                <p>Kelantan, MALAYSIA</p>
+                <p className="pt-2 italic">infokelantan@tmtours.com.my</p>
+              </div>
             </div>
           </div>
         </div>

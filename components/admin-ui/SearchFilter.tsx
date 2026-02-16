@@ -17,9 +17,9 @@ import { Package } from "@/types";
 import { CountryDropdown } from "../ui/country-dropdown";
 
 interface SearchFilterProps {
-  setPackagesData: React.Dispatch<React.SetStateAction<Package[] | null>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  loading: boolean;
+  setPackagesData?: React.Dispatch<React.SetStateAction<Package[] | null>>;
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
+  loading?: boolean;
 }
 
 const SearchFilter = ({
@@ -41,12 +41,11 @@ const SearchFilter = ({
     });
 
   const onSubmit = (dt: PackageFormValues) => {
-    console.log("Search dt:", dt);
     refetchPackages(dt);
   };
 
   const refetchPackages = async (params?: PackageFormValues) => {
-    setLoading(true);
+    if (setLoading) setLoading(true);
     try {
       let url = "/api/packages";
       if (params) {
@@ -59,19 +58,19 @@ const SearchFilter = ({
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
-      setPackagesData(data);
+      if (setPackagesData) setPackagesData(data);
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(false);
+      if (setLoading) setLoading(false);
     }
   };
 
   return (
     <div className="w-full border rounded-lg bg-card p-3">
       {/* Header / Toggle Button */}
-      <div className="flex items-center justify-between ">
-        <div className="flex items-center gap-2 flex justify-between w-full">
+      <div className="">
+        <div className="md:flex flex-col md:flex-row items-start md:items-center gap-2 justify-between w-full">
           <Button
             variant="ghost"
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -96,12 +95,12 @@ const SearchFilter = ({
               <form
                 // @ts-expect-error: Unclear why ts is complaining here
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4"
+                className="flex flex-col w-auto md:flex-row md:items-center gap-2 md:gap-4"
               >
-                <div className="grid grid-cols-3 gap-2 md:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
                   <Input
                     placeholder="Search by title..."
-                    className="max-w-[200px]"
+                    className=""
                     {...register("title")}
                   />
                   <CountryDropdown

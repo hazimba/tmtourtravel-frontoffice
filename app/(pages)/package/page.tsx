@@ -1,18 +1,12 @@
+import SelectType from "@/components/admin-ui/FormItem/SelectType";
 import { Button } from "@/components/ui/button";
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { supabase } from "@/lib/supabaseClient";
 import { Search, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import PackageList from "./PackageList";
-import { CountryDropdown } from "@/components/ui/country-dropdown";
 
 interface PackagePageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -27,12 +21,9 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   const type = Array.isArray(params?.type) ? params.type[0] : params?.type;
 
   let query = supabase.from("packages").select("*");
-
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);
-
-  console.log("country:", country);
 
   const { error } = await query;
   if (error) console.error(error);
@@ -81,18 +72,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               <label className="text-xs font-medium uppercase text-muted-foreground">
                 Type
               </label>
-              <Select name="type" value={type || "all"}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All Types" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
-                  <SelectItem value="UMRAH">UMRAH</SelectItem>
-                  <SelectItem value="MICE">MICE</SelectItem>
-                  <SelectItem value="GROUND">GROUND</SelectItem>
-                  <SelectItem value="GROUP">GROUP</SelectItem>
-                </SelectContent>
-              </Select>
+              <SelectType name="type" defaultValue={type} />
             </div>
           </div>
 
@@ -111,7 +91,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
         </form>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Suspense
           key={`${title}-${country}-${type}`}
           fallback={

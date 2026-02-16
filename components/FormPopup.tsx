@@ -16,7 +16,6 @@ import { useState } from "react";
 const FormPopup = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
     setIsOpen(false);
   };
 

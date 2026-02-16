@@ -45,13 +45,13 @@ const PackagesTab = () => {
   }, []);
 
   return (
-    <div className="p-8 space-y-6 overflow-scroll h-[95vh]">
-      <div className="flex items-end justify-between">
+    <div className="p-6 space-y-6 overflow-scroll h-[95vh]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
           title="Packages"
           subtitle="Manage and preview your travel listings."
         />
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-4 md:mt-0">
           <Button
             onClick={() => refetchPackages()}
             variant="outline"
@@ -82,7 +82,7 @@ const PackagesTab = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {loading ? (
           <div className="col-span-full flex justify-center">
             <CurrentlyLoading />

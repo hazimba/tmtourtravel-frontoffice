@@ -9,11 +9,10 @@ interface PackagesRenderProps {
 
 export const PackagesRender = ({ packages }: PackagesRenderProps) => {
   return (
-    <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 py-4 scrollbar-hide">
+    <div className="max-w-7xl w-full mx-auto px-4 flex items-center overflow-x-auto gap-6 py-4 scrollbar-hide">
       {packages.map((pkg: Package, index: number) => (
         <Link key={index} href={`/package/${pkg.uuid}`}>
-          <div className="relative flex-shrink-0 md:w-72 md:h-96 w-60 h-108 bg-white rounded-xl shadow border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-200 hover:border-2 hover:border-primary">
-            {/* Tag badges at top right */}
+          <div className="relative flex-shrink-0 md:w-72 w-60 h-96 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
             {pkg.tags && pkg.tags.length > 0 && (
               <div className="absolute top-3 right-3 flex gap-2 z-10">
                 {pkg.tags.map((tag: string, tagIndex: number) => (
@@ -27,7 +26,7 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
                         : tag === "NEW"
                         ? "bg-green-600 text-white"
                         : "bg-gray-300 text-gray-700") +
-                      " px-2 py-1 text-xs font-bold rounded-full shadow"
+                      " px-2 py-1 text-xs font-bold rounded-full"
                     }
                   >
                     {tag}

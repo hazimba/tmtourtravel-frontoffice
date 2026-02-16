@@ -46,89 +46,36 @@ const AboutUsPage = () => {
         "From luxury Hotels and Resorts to cozy Chalets and Homestays, we secure the best accommodations tailored to your budget.",
       icon: <Building2 className="text-white w-8 h-8" />,
     },
-    // {
-    //   title: "Domestic/ International Tours",
-    //   description:
-    //     "Wide range of tour packages catering to various interests and budgets, ensuring memorable travel experiences.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Umrah, Ziarah Packages",
-    //   description:
-    //     "Comprehensive Umrah packages that include flights, accommodations, and guided tours to holy sites.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Hajj Packages",
-    //   description:
-    //     "Well-organized Hajj packages that ensure a smooth and spiritually fulfilling pilgrimage experience.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Visa Application",
-    //   description:
-    //     "Assistance with visa applications for various countries, ensuring all documentation is correctly prepared.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Tailor-Made Packages",
-    //   description:
-    //     "Customized travel packages designed to meet the specific needs and preferences of our clients.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Car/ Van/ Limousine/ Bus Rental Service",
-    //   description:
-    //     "Reliable transportation services for individuals and groups, including luxury options for special occasions.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Meeting/ Incentive/ Conference/ Exhibition (MICE)",
-    //   description:
-    //     "Professional MICE services that cater to corporate events, ensuring successful and well-coordinated gatherings.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Travel Insurance",
-    //   description:
-    //     "Comprehensive travel insurance options to protect our clients against unforeseen events during their trips.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
-    // {
-    //   title: "Event Management",
-    //   description:
-    //     "Expert event management services for various occasions, ensuring seamless execution from start to finish.",
-    //   icon: <Building2 className="text-white w-8 h-8" />,
-    // },
   ];
 
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto px-4 md:px-8 py-16 gap-20">
-      <section className="grid grid-cols-1 md:grid-cols-2 items-stretch min-h-[500px]">
-        <div className="relative h-full min-h-[400px]">
+    <div className="flex flex-col w-full max-w-7xl mx-auto px-4 md:px-8 py-16">
+      <section className="grid grid-cols-1 md:grid-cols-3 items-stretch min-h-[500px]">
+        <div className="relative h-full min-h-[200px]">
           <Image
             src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/mice-main-images/mice-corporate-meeting.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtaWNlLW1haW4taW1hZ2VzL21pY2UtY29ycG9yYXRlLW1lZXRpbmcuanBnIiwiaWF0IjoxNzY5Njk5NDQ4LCJleHAiOjE4MDEyMzU0NDh9.L2jOyQRYwh3JApCpsswJm7NCj4d6_ZQGKXp77wJrFew"
             alt="Our Journey"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 object-cover md:w-full md:h-full w-[400px] h-[200px]"
             width={800}
             height={800}
           />
         </div>
-        <div className="bg-white p-8 md:p-16 flex flex-col justify-center">
+        <div className="bg-white py-8 md:p-16 col-span-2 flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-6 text-gray-800 border-l-4 border-primary pl-4">
             Our Legacy
           </h2>
           <p className="text-gray-600 leading-relaxed text-justify">
-            Established in 1991, TM Tours & Travel has spent over three decades
-            perfecting the art of pilgrimage and leisure travel. Our journey
-            began with a simple mission: to provide the Muslim community with
-            reliable, soulful, and high-quality travel experiences. Over the
-            years, we have evolved from a small local agency into a premier tour
-            operator, recognized for our commitment to excellence and our deep
-            understanding of religious and cultural travel requirements. We
-            believe that travel is more than just moving from one place to
-            another; it is about the stories we create, the connections we make,
-            and the spiritual growth we achieve along the way.
+            Established in 1991, TM Tours & Travel has spent{" "}
+            <b>over three decades</b> perfecting the art of pilgrimage and
+            leisure travel. Our journey began with a simple mission: to provide
+            the Muslim community with reliable, soulful, and high-quality travel
+            experiences. Over the years, we have evolved from a small local
+            agency into a premier tour operator, recognized for our commitment
+            to excellence and our deep understanding of religious and cultural
+            travel requirements. We believe that travel is more than just moving
+            from one place to another; it is about the stories we create, the
+            connections we make, and the spiritual growth we achieve along the
+            way.
             <br />
             <br />
             Our team consists of seasoned professionals who are passionate about
@@ -147,8 +94,8 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 items-stretch min-h-[500px]">
-        <div className="bg-gray-50 p-8 md:p-16 flex flex-col justify-center order-2 md:order-1">
+      <section className="grid grid-cols-1 md:grid-cols-3 items-stretch min-h-[500px]">
+        <div className="bg-gray-50 py-8 md:p-16 col-span-2 flex flex-col justify-center order-2 md:order-1">
           <h2 className="text-3xl font-bold mb-6 text-gray-800 border-l-4 border-primary pl-4">
             Our Vision & Mission
           </h2>
@@ -174,11 +121,11 @@ const AboutUsPage = () => {
             </p>
           </div>
         </div>
-        <div className="relative h-full min-h-[400px] order-1 md:order-2">
+        <div className="relative h-full min-h-[200px] order-1 md:order-2">
           <Image
             src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/package-main-images/korea.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwYWNrYWdlLW1haW4taW1hZ2VzL2tvcmVhLmpwZyIsImlhdCI6MTc2OTY4NDkzNywiZXhwIjoxODAxMjIwOTM3fQ.kZBgAUoeyZpV78lVpLQm520XhqXhI-Q6auP7r-a9oH8"
             alt="Our Services"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 object-cover md:w-full md:h-full w-[400px] h-[200px]"
             width={800}
             height={800}
           />
@@ -201,11 +148,9 @@ const AboutUsPage = () => {
                   <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                     {item.icon}
                   </div>
-
                   <h3 className="text-xl font-bold text-gray-900 mb-4">
                     {item.title}
                   </h3>
-
                   <p className="text-gray-600 text-sm leading-relaxed">
                     {item.description}
                   </p>

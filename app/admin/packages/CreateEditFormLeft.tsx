@@ -28,6 +28,7 @@ import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { ImageUploadForm } from "./ImageUploadForm";
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
@@ -62,7 +63,13 @@ const CreateEditFormLeft = ({
         </div>
         <div className="flex flex-col gap-2 justify-between">
           <Label>Country</Label>
-          <Input placeholder="Enter country" {...register("country")} />
+          {/* <Input placeholder="Enter country" {...register("country")} /> */}
+          <CountryDropdown
+            name="country"
+            defaultValue={watch("country")}
+            onChange={(val) => setValue("country", val?.name ?? "")}
+            value={watch("country")}
+          />
         </div>
         <div className="flex flex-col gap-2 justify-between">
           <Label>Meal Plan</Label>

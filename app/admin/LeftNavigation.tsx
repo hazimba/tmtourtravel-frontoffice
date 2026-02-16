@@ -11,6 +11,7 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const LeftNavigation = () => {
   const pathname = usePathname();
@@ -44,10 +45,10 @@ const LeftNavigation = () => {
   ];
 
   return (
-    <nav className="flex flex-col gap-1 p-4 h-[calc(100vh-3.5rem)] border-r bg-muted/20">
-      <div className="py-2 mb-4">
+    <nav className="flex md:flex-col flex-row gap-1 p-4 md:h-[calc(100vh-3.5rem)] border-r bg-muted/20">
+      <div className="py-2">
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2">
-          Administration
+          <span className="">Administration</span>
         </p>
       </div>
       {navItems.map((item) => (
@@ -62,20 +63,20 @@ const LeftNavigation = () => {
               : "text-muted-foreground"
           )}
         >
-          <Link href={item.href}>
+          <Link href={item.href} className="text-center">
             {item.icon}
-            {item.title}
+            <span className="hidden md:inline">{item.title}</span>
           </Link>
         </Button>
       ))}
 
-      <div className="mt-auto">
+      <div className="md:mt-auto ml-auto md:ml-0">
         <Button
           variant="ghost"
           className="w-full justify-start text-muted-foreground"
         >
           <Settings className="mr-2 h-4 w-4" />
-          Settings
+          <span className="hidden md:inline">Settings</span>
         </Button>
       </div>
     </nav>

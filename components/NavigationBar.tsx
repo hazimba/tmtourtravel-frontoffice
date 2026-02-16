@@ -18,7 +18,7 @@ const NavigationBar = async () => {
     .single();
 
   return (
-    <nav className="md:py-8 md:px-6 py-4 px-4 flex items-center justify-between max-w-7xl mx-auto">
+    <nav className="py-8 md:px-6 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center">
         <Link href="/">
           <Image
