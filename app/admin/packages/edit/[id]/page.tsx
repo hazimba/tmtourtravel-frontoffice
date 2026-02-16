@@ -26,15 +26,25 @@ export default function EditPackagePage({
 
     const load = async () => {
       try {
-        const data = await supabase
+        const { data: packageData, error } = await supabase
           .from("packages")
           .select("*")
           .eq("uuid", id)
           .single();
-        if (data.data) {
-          setData(data.data as PackageFormValues);
-          form.reset(data.data as Partial<PackageFormValues>);
-        }
+
+        if (error) throw error;
+        if (!packageData) return;
+
+        // Convert itinerary from strings to objects if needed
+        const itinerary = (packageData.itinerary || []).map((item: any) =>
+          typeof item === "string" ? JSON.parse(item) : item
+        );
+
+        form.reset({
+          ...packageData,
+          itinerary,
+        } as Partial<PackageFormValues>);
+        setData({ ...packageData, itinerary });
       } catch (error) {
         console.error("Error fetching package:", error);
       }

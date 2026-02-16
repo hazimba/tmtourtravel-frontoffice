@@ -1,7 +1,7 @@
 import HighlightText from "@/components/HighlightText";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
-import { DownloadIcon } from "lucide-react";
+import { Calendar, DownloadIcon } from "lucide-react";
 import Image from "next/image";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
@@ -77,25 +77,56 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-4 border-b pb-2">Itinerary</h2>
-            <div className="space-y-4">
-              {data.itinerary?.map((item: string, index: number) => (
-                <div key={index} className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                      {index + 1}
+            <h2 className="text-2xl font-bold mb-6 border-b pb-2">Itinerary</h2>
+            <div className="space-y-8 border-l-2 border-muted ml-3 pl-6">
+              {data.itinerary.map(
+                (item: { day: string; description: string }, idx: number) => {
+                  const parsed =
+                    typeof item === "string" ? JSON.parse(item) : item;
+                  return (
+                    <div key={idx} className="relative">
+                      <div className="absolute -left-[23px] top-1 h-3 w-3 rounded-full border-background bg-black" />
+
+                      <div className="flex flex-col gap-1">
+                        <p className="text-sm font-bold uppercase tracking-wider text-primary">
+                          {parsed.day}
+                        </p>
+                        <p className="text-base leading-relaxed text-muted-foreground">
+                          {parsed.description}
+                        </p>
+                      </div>
                     </div>
-                    {index !== data.itinerary.length - 1 && (
-                      <div className="w-0.5 h-full bg-slate-200 mt-2"></div>
-                    )}
-                  </div>
-                  <div className="pb-6">
-                    <p className="text-slate-700 font-medium">{item}</p>
-                  </div>
-                </div>
-              ))}
+                  );
+                }
+              )}
             </div>
           </section>
+
+          {/* <section>
+            <h2 className="text-2xl font-bold mb-4 border-b pb-2">Itinerary</h2>
+            <div className="space-y-4">
+              {data.itinerary?.map(
+                (item: { day: string; description: string }, index: number) => (
+                  <div key={index} className="flex gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                        {index + 1}
+                      </div>
+                      {index !== data.itinerary.length - 1 && (
+                        <div className="w-0.5 h-full bg-slate-200 mt-2"></div>
+                      )}
+                    </div>
+                    <div className="pb-6">
+                      <p className="text-slate-700 font-medium">{item.day}</p>
+                      <p className="text-slate-500 text-sm">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </section> */}
         </div>
 
         <div className="space-y-6">

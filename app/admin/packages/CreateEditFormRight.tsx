@@ -19,7 +19,6 @@ const CreateEditFormRight = ({
 }: CreateEditFormRightProps) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    // @ts-expect-error: Cannot use 'use' in a Client Component
     name: "itinerary",
   });
 
@@ -41,11 +40,18 @@ const CreateEditFormRight = ({
 
       <div className="md:col-span-2 flex flex-col gap-2">
         <Label>Itinerary</Label>
+
         {fields.map((field, idx) => (
           <div key={field.id} className="flex items-center gap-2">
+            {/* Day title */}
             <Input
-              placeholder={`Day ${idx + 1}`}
-              {...register(`itinerary.${idx}`)}
+              placeholder={`Day ${idx + 1}: Flight / Activity`}
+              {...register(`itinerary.${idx}.day`)}
+            />
+            {/* Description */}
+            <Input
+              placeholder="Description"
+              {...register(`itinerary.${idx}.description`)}
             />
             <Button
               type="button"
@@ -56,10 +62,13 @@ const CreateEditFormRight = ({
             </Button>
           </div>
         ))}
+
         <Button
           type="button"
           variant="outline"
-          onClick={() => append(`Day ${fields.length + 1}: `)}
+          onClick={() =>
+            append({ day: `Day ${fields.length + 1}: `, description: "" })
+          }
           className="mt-2"
         >
           Add Day
@@ -86,6 +95,7 @@ const CreateEditFormRight = ({
         <Button
           type="button"
           variant="outline"
+          // @ts-expect-error: Unclear why ts is complaining here
           onClick={() => appendFeature("")}
           className="mt-2"
         >

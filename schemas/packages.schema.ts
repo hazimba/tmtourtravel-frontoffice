@@ -21,7 +21,15 @@ export const packageSchema = z.object({
   route: z.string().optional().default(""),
   keywords: z.string().optional().default(""),
   highlight: z.string().optional().default(""),
-  itinerary: z.array(z.string()).optional().default([]),
+  itinerary: z
+    .array(
+      z.object({
+        day: z.string().min(1, "Day is required"),
+        description: z.string().optional().default(""),
+      })
+    )
+    .optional()
+    .default([]),
   optional_tours: z.string().optional().default(""),
   flight_schedule: z.string().optional().default(""),
   freebies: z.string().optional().default(""),
