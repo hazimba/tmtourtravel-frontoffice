@@ -4,6 +4,10 @@ export async function GET(req: Request, { params }: { params: any }) {
   const { id } = await params;
 
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/package/${id}`;
+  // const url = `http://localhost:3000/package/${id}`;
+  const urlObj = new URL(req.url);
+  const titleParam = urlObj.searchParams.get("title") || `package-${id}`;
+  const safeTitle = titleParam.replace(/[^a-zA-Z0-9-_ ]/g, "_");
   console.log("Generating PDF for:", url);
 
   const browser = await puppeteer.launch({
@@ -22,34 +26,42 @@ export async function GET(req: Request, { params }: { params: any }) {
 
   await page.addStyleTag({
     content: `
-    header, nav, footer, aside { display: none !important; }
+    /* Shrink hero for PDF */
+    section.relative.h-\\[400px\\] {
+      height: 160px !important;       /* smaller hero */
+      page-break-inside: avoid;       /* don’t split hero */
+      margin-bottom: 8px !important;
+    }
 
-    /* Force print visibility swap */
-    .print\\:hidden { display: none !important; }
-    .print\\:inline { display: inline !important; }
+    /* Reduce overall spacing in main */
+    main {
+      margin: 0 !important;
+      padding: 4px 6px !important;
+      font-size: 0.78rem !important;
+      line-height: 1.1 !important;
+    }
 
-    /* Force desktop layout for PDF */
+    /* Reduce vertical spacing between sections */
+    .space-y-8 > * + * { margin-top: 4px !important; }
+    .space-y-6 > * + * { margin-top: 3px !important; }
+
+    /* Force grid layout for sidebar */
     .grid { display: grid !important; }
     .lg\\:grid-cols-3 { grid-template-columns: 2fr 1fr !important; }
 
-    /* Reduce spacing & font sizes */
-    main {
-      margin: 0 !important;
-      padding: 4px 8px !important;
-      font-size: 0.82rem !important;
-      line-height: 1.15 !important;
+    /* Hide non-print elements */
+    header, nav, footer, aside, .print\\:hidden { display: none !important; }
+    .print\\:inline { display: inline !important; }
+
+    /* Keep Route box visible and shrink it */
+    .bg-slate-100 {
+      padding: 2px 4px !important;
+      font-size: 0.75rem !important;
     }
 
-    .gap-8 { gap: 10px !important; }
-    .space-y-8 > * + * { margin-top: 8px !important; }
-    .space-y-6 > * + * { margin-top: 6px !important; }
-
-    .p-6 { padding: 10px !important; }
-    .mb-8 { margin-bottom: 8px !important; }
-
-    /* Shorter hero section */
-    section.relative.h-\\[400px\\] {
-      height: 220px !important;
+    /* Move itinerary below freebies */
+    .space-y-8 > section:nth-last-child(1) {
+      page-break-before: auto !important;
     }
   `,
   });
@@ -67,7 +79,7 @@ export async function GET(req: Request, { params }: { params: any }) {
   return new Response(pdf, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="package-${id}.pdf"`,
+      "Content-Disposition": `attachment; filename="Package-${safeTitle}.pdf"`,
     },
   });
 }

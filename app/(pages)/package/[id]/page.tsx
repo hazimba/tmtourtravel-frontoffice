@@ -91,7 +91,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           {/* Itinerary Section */}
           <section>
             <h2 className="text-2xl font-bold mb-6 border-b pb-2">Itinerary</h2>
-            <div className="space-y-8 border-l-2 border-slate-200 ml-3 pl-6">
+            <div className="space-y-8 border-l-2 border-slate-200 print:border-none ml-3 pl-6">
               {data.itinerary.map(
                 (item: { day: string; description: string }, idx: number) => {
                   const parsed =
@@ -116,7 +116,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
 
           {/* NEW: Optional Tours Section */}
           {data.optional_tours && (
-            <section className="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
+            <section className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 print:hidden">
               <h2 className="text-xl font-bold mb-3 text-indigo-900 flex items-center gap-2">
                 <Star size={20} className="fill-indigo-600 text-indigo-600" />{" "}
                 Optional Tours
@@ -158,7 +158,11 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
               asChild
             >
-              <a href={`/api/packages/${id}/pdf`}>
+              <a
+                href={`/api/packages/${id}/pdf?title=${encodeURIComponent(
+                  data.title
+                )}`}
+              >
                 Download Package PDF <DownloadIcon size={15} className="ml-2" />
               </a>
             </Button>
@@ -218,6 +222,17 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               {data.freebies}
             </p>
           </div>
+          {data.optional_tours && (
+            <section className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 hidden print:block">
+              <h2 className="text-xl font-bold mb-3 text-indigo-900 flex items-center gap-2">
+                <Star size={20} className="fill-indigo-600 text-indigo-600" />{" "}
+                Optional Tours
+              </h2>
+              <p className="text-slate-700 leading-relaxed">
+                {data.optional_tours}
+              </p>
+            </section>
+          )}
         </div>
       </div>
 
