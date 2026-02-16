@@ -68,6 +68,7 @@ const CreateEditFormLeft = ({
             name="country"
             defaultValue={watch("country")}
             onChange={(val) => setValue("country", val?.name ?? "")}
+            // @ts-expect-error: Unclear why ts is complaining here
             value={watch("country")}
           />
         </div>
