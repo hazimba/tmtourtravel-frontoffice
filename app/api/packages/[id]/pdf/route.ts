@@ -63,6 +63,7 @@ export async function GET(req: Request, { params }: { params: any }) {
 
   await browser.close();
 
+  // @ts-expect-error: Next.js doesn't recognize the Response type here, but it works in practice
   return new Response(pdf, {
     headers: {
       "Content-Type": "application/pdf",
