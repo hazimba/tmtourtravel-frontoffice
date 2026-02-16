@@ -1,9 +1,13 @@
 import HighlightText from "@/components/HighlightText";
+import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
+import { DownloadIcon } from "lucide-react";
 import Image from "next/image";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
+
+  console.log("Fetching package with ID:", id);
 
   const { data, error } = await supabase
     .from("packages")
@@ -49,8 +53,15 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           <section>
             <h2 className="text-2xl font-bold mb-4 border-b pb-2">Overview</h2>
             <p className="text-slate-600 leading-relaxed text-justify">
-              <HighlightText text={data.highlight} />
+              {/* Show fancy highlight on screen */}
+              <span className="print:hidden">
+                <HighlightText text={data.highlight} />
+              </span>
+
+              {/* Show plain text in PDF */}
+              <span className="hidden print:inline">{data.highlight}</span>
             </p>
+            <span className="hidden print:inline">{data.highlight}</span>
             <div className="flex flex-wrap gap-4 mt-4">
               <div className="bg-slate-100 p-3 rounded-lg flex-1 min-w-[140px]">
                 <p className="text-xs text-slate-500 uppercase font-bold">
@@ -90,6 +101,11 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
         </div>
 
         <div className="space-y-6">
+          <Button variant="outline" className="w-full justify-center" asChild>
+            <a href={`/api/packages/${id}/pdf`}>
+              Download this Package <DownloadIcon size={15} />
+            </a>
+          </Button>
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
             <h3 className="font-bold text-lg mb-4 text-blue-700">Quick Info</h3>
             <ul className="space-y-3 text-sm">

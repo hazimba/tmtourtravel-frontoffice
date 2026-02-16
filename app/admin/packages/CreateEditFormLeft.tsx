@@ -1,6 +1,5 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import SelectType from "@/components/admin-ui/FormItem/SelectType";
 import { CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PackageFormValues } from "@/schemas/packages.schema";
+import { useForm } from "react-hook-form";
 import {
   Appearance,
   EntryMode,
@@ -24,11 +24,10 @@ import {
   Tags,
 } from "../../../types";
 
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { ImageUploadForm } from "./ImageUploadForm";
-import { CountryDropdown } from "@/components/ui/country-dropdown";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
@@ -49,7 +48,6 @@ const CreateEditFormLeft = ({
   const entryModeOptions = Object.values(EntryMode);
   const tagsOptions = Object.values(Tags);
 
-  const [openDialogFileUpload, setOpenDialogFileUpload] = useState(false);
   return (
     <div className="md:col-span-2 border-r max-h-[70vh] overflow-y-auto pt-2">
       <div className="px-6 mb-6 grid md:grid-cols-4 gap-5">
