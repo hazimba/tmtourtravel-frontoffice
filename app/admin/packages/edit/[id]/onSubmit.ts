@@ -56,7 +56,7 @@ const getDateTime = () => {
   const mi = String(d.getMinutes()).padStart(2, "0");
   const ss = String(d.getSeconds()).padStart(2, "0");
 
-  return `${yyyy}${mm}${dd}-${hh}${mi}${ss}`; // 20260217-143522
+  return `${yyyy}${mm}${dd}-${hh}${mi}${ss}`;
 };
 
 const uploadImageToBucket = async (mainImageSelect: File, uuid: string) => {

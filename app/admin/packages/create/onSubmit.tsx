@@ -29,6 +29,18 @@ const REQUIRED_FIELDS: (keyof PackageFormValues)[] = [
   "type",
 ];
 
+const getDateTime = () => {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mi = String(d.getMinutes()).padStart(2, "0");
+  const ss = String(d.getSeconds()).padStart(2, "0");
+
+  return `${yyyy}${mm}${dd}-${hh}${mi}${ss}`;
+};
+
 const validateRequiredFields = (data: Partial<PackageFormValues>) => {
   const missing = REQUIRED_FIELDS.filter((field) => {
     const value = data[field];
@@ -45,9 +57,10 @@ const uploadImageToBucket = async (
   uuid: string,
   setIsLoading: (loading: boolean) => void
 ) => {
+  const dateTime = getDateTime();
   if (mainImageSelect) {
     const fileExt = mainImageSelect.name.split(".").pop();
-    const fileName = `${uuid}.${fileExt}`;
+    const fileName = `${uuid}-${dateTime}.${fileExt}`;
 
     const { error: uploadError } = await supabase.storage
       .from("package-main-image")
