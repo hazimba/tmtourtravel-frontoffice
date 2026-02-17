@@ -1,13 +1,11 @@
 import HighlightText from "@/components/HighlightText";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
-import { DownloadIcon, MapPin, Star } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
+import DownloadPdfButton from "@/components/DownloadPdfButton";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
-
-  console.log("Fetching package with ID:", id);
 
   const { data, error } = await supabase
     .from("packages")
@@ -150,22 +148,9 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           )} */}
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-6">
           <div className="print:hidden">
-            <Button
-              variant="default"
-              className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
-              asChild
-            >
-              <a
-                href={`/api/packages/${id}/pdf?title=${encodeURIComponent(
-                  data.title
-                )}`}
-              >
-                Download Package PDF <DownloadIcon size={15} className="ml-2" />
-              </a>
-            </Button>
+            <DownloadPdfButton id={id} title={data.title} />
           </div>
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
