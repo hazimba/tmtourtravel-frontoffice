@@ -1,10 +1,10 @@
-import { uuid, z } from "zod";
+import { z } from "zod";
 
 import {
   Appearance,
   EntryMode,
-  PackageSession,
   MealPlan,
+  PackageSession,
   PackageType,
 } from "../types";
 
@@ -78,6 +78,8 @@ export const packageSchema = z.object({
   main_image_url: z.string().optional().default(""),
   sub_image_urls: z.array(z.string()).optional().default([]),
   tags: z.array(z.string()).optional().default([]),
+  // update_at: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 });
 
 export type PackageFormValues = z.infer<typeof packageSchema>;

@@ -247,7 +247,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           <p>
             Sale Period: {data.sale_period} to {data.update_period}
           </p>
-          <p>Last Sync: {new Date(data.updated_at).toLocaleString()}</p>
+          <p>Last Sync: {new Date(data.updatedAt).toLocaleString()}</p>
         </div>
       </footer>
     </main>

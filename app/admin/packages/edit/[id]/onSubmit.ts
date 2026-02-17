@@ -102,6 +102,8 @@ export const onSubmit = async ({
       data.main_image_url = publicUrl;
     }
 
+    data.updatedAt = new Date();
+
     const result = await supabase
       .from("packages")
       .update(data)
