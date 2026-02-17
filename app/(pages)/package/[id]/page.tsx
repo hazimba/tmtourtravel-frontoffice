@@ -1,7 +1,7 @@
 import HighlightText from "@/components/HighlightText";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
-import { Calendar, DownloadIcon, MapPin, Star } from "lucide-react";
+import { DownloadIcon, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {

@@ -1,6 +1,9 @@
 import puppeteer from "puppeteer";
 
-export async function GET(req: Request, { params }: { params: any }) {
+export async function GET(
+  req: Request,
+  { params }: { params: Record<string, string> }
+) {
   const { id } = await params;
 
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/package/${id}`;
