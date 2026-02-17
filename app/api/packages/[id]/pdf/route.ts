@@ -79,7 +79,7 @@ export async function GET(req: Request, { params }: { params: any }) {
   return new Response(pdf, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="Package-${safeTitle}.pdf"`,
+      "Content-Disposition": `attachment; filename="package-${safeTitle}.pdf"`,
     },
   });
 }
