@@ -13,27 +13,20 @@ export default function DownloadPdfButton({
   const [loading, setLoading] = useState(false);
 
   const handleDownload = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const url = `/api/packages/${id}/pdf?title=${encodeURIComponent(title)}`;
-
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Failed to download PDF");
-
-      const blob = await res.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = `Package-${title}.pdf`; // force correct name
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (err) {
-      console.error(err);
-      alert("Download failed");
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to download PDF");
+      const blob = await response.blob();
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `${title}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (e) {
+      // Optionally show error toast
     } finally {
       setLoading(false);
     }
@@ -43,8 +36,8 @@ export default function DownloadPdfButton({
     <Button
       variant="default"
       className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
-      disabled={loading}
       onClick={handleDownload}
+      disabled={loading}
     >
       {loading ? (
         <span className="flex items-center justify-center w-full">
