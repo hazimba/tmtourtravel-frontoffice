@@ -9,17 +9,21 @@ import { FooterCard } from "../../CardFooter";
 import CreateEditFormLeft from "../../CreateEditFormLeft";
 import CreateEditFormRight from "../../CreateEditFormRight";
 import { onSubmit } from "./onSubmit";
+import { useRouter } from "next/navigation";
 
 export default function EditPackagePage({
   params,
 }: {
   params: { id: string };
 }) {
+  const router = useRouter();
+
   // @ts-expect-error: Cannot use 'use' in a Client Component
   const { id } = use(params) as { id: string };
   const [data, setData] = useState<PackageFormValues | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const form = usePackageForm();
+  const [mainImageSelect, setMainImageSelect] = useState<File | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -36,7 +40,7 @@ export default function EditPackagePage({
         if (!packageData) return;
 
         // Convert itinerary from strings to objects if needed
-        const itinerary = (packageData.itinerary || []).map((item: any) =>
+        const itinerary = (packageData.itinerary || []).map((item: unknown) =>
           typeof item === "string" ? JSON.parse(item) : item
         );
 
@@ -66,7 +70,7 @@ export default function EditPackagePage({
 
         <form
           onSubmit={form.handleSubmit((formData) =>
-            onSubmit({ formData, id, setIsLoading })
+            onSubmit({ formData, id, setIsLoading, mainImageSelect, router })
           )}
         >
           <div className="grid md:grid-cols-3">
@@ -76,6 +80,7 @@ export default function EditPackagePage({
               watch={form.watch}
               setValue={form.setValue}
               register={form.register}
+              setMainImageSelect={setMainImageSelect}
             />
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 max-h-[65vh] overflow-y-auto pt-6 mb-4">
               <CreateEditFormRight

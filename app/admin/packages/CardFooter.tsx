@@ -9,7 +9,6 @@ export const FooterCard = ({
   isLoading: boolean;
   id?: string;
 }) => {
-  console.log("FooterCard id:", id);
   return (
     <CardFooter className="sticky bottom-0 bg-background border-t flex justify-end gap-3">
       <div className="flex w-full justify-between">

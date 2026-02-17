@@ -325,6 +325,7 @@ const CreateEditFormLeft = ({
         <ImageUploadForm
           watch={watch}
           setMainImageSelect={setMainImageSelect}
+          setValue={setValue}
         />
       </div>
     </div>

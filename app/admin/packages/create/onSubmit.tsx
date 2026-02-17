@@ -12,7 +12,9 @@ import { PackageFormValues } from "@/schemas/packages.schema";
 interface PackageFormValuesProp {
   data: Partial<PackageFormValues>;
   setIsLoading: (loading: boolean) => void;
-  watch: (field: keyof PackageFormValues) => any;
+  watch: (
+    field: keyof PackageFormValues
+  ) => PackageFormValues[keyof PackageFormValues];
   setErrorShow: (message: string) => void;
   mainImageSelect?: File | null;
 }
@@ -73,11 +75,9 @@ const uploadImageToBucket = async (
 export const onSubmit = async ({
   data,
   setIsLoading,
-  watch,
   setErrorShow,
   mainImageSelect,
 }: PackageFormValuesProp) => {
-  const id = watch("uuid");
   setIsLoading(true);
 
   const missingFields = validateRequiredFields(data);

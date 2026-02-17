@@ -95,10 +95,16 @@ const PackageDetails = ({
     setDeleting(false);
     setShowConfirm(false);
   };
-  console.log("selectedPackage.itinerary", selectedPackage?.itinerary);
+
   useEffect(() => {
     if (!showConfirm) setDeleting(false);
   }, [showConfirm]);
+
+  // Close popover when dialog closes or selectedPackage changes
+  useEffect(() => {
+    setShowConfirm(false);
+  }, [selectedPackage]);
+
   return (
     <div className="p-8 space-y-6">
       <Dialog
@@ -326,18 +332,45 @@ const PackageDetails = ({
                   </div>
 
                   <div className="flex gap-3">
-                    <Button
-                      variant="ghost"
-                      onClick={() => setSelectedPackage(null)}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="text-destructive border-destructive hover:bg-destructive/10"
-                    >
-                      Delete Package
-                    </Button>
+                    <div>
+                      <Popover open={showConfirm} onOpenChange={setShowConfirm}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="destructive"
+                            onClick={() => setShowConfirm(true)}
+                          >
+                            Delete
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-92" align="start">
+                          <div className="text-sm font-medium mb-2">
+                            Confirm Delete
+                          </div>
+                          <div className="text-xs text-muted-foreground mb-4">
+                            Are you sure you want to delete this package? This
+                            action cannot be undone.
+                          </div>
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setShowConfirm(false)}
+                              disabled={deleting}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={handleDelete}
+                              disabled={deleting}
+                            >
+                              {deleting ? "Deleting..." : "Delete"}
+                            </Button>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                     <Link href={`/admin/packages/edit/${selectedPackage.uuid}`}>
                       <Button className="px-8">Edit This Package</Button>
                     </Link>
