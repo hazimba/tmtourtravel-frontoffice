@@ -12,31 +12,12 @@ export default function DownloadPdfButton({
 }) {
   const [loading, setLoading] = useState(false);
 
-  const handleDownload = async () => {
-    try {
-      setLoading(true);
-      const url = `/api/packages/${id}/pdf?title=${encodeURIComponent(title)}`;
+  const handleDownload = () => {
+    setLoading(true);
+    const url = `/api/packages/${id}/pdf?title=${encodeURIComponent(title)}`;
 
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Failed to download PDF");
-
-      const blob = await res.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = `Package-${title}.pdf`; // correct filename
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (err) {
-      console.error(err);
-      alert("Download failed");
-    } finally {
-      setLoading(false);
-    }
+    // Important: direct navigation (works on iPhone)
+    window.location.href = url;
   };
 
   return (
