@@ -25,7 +25,7 @@ export default function DownloadPdfButton({
 
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = `Package-${title}.pdf`; // force correct name
+      a.download = `Package-${title}.pdf`; // correct filename
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -47,32 +47,11 @@ export default function DownloadPdfButton({
       onClick={handleDownload}
     >
       {loading ? (
-        <span className="flex items-center justify-center w-full">
-          <svg
-            className="animate-spin mr-2 h-4 w-4 text-white"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-              fill="none"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v8z"
-            />
-          </svg>
-          Downloading...
-        </span>
+        "Preparing PDF..."
       ) : (
-        <span className="flex items-center justify-center w-full">
+        <>
           Download Package PDF <DownloadIcon size={15} className="ml-2" />
-        </span>
+        </>
       )}
     </Button>
   );
