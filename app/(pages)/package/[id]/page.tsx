@@ -3,7 +3,6 @@ import HighlightText from "@/components/HighlightText";
 import { ShareButton } from "@/components/SharePackageButton";
 import { supabase } from "@/lib/supabaseClient";
 import { MapPin, Star } from "lucide-react";
-import { Share } from "next/font/google";
 import Image from "next/image";
 
 import type { Metadata } from "next";
@@ -13,10 +12,11 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
+  const { id } = await params;
   const { data } = await supabase
     .from("packages")
     .select("title, subtitle, main_image_url")
-    .eq("uuid", params.id)
+    .eq("uuid", id)
     .single();
 
   if (!data) {
@@ -111,19 +111,19 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </p>
 
             <div className="grid grid-cols-3 gap-4 mt-6">
-              <div className="bg-slate-100 p-3 rounded-lg flex-1 min-w-[140px]">
+              <div className="bg-slate-100 p-3 rounded-lg flex-1">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Route
                 </p>
                 <p className="font-medium">{data.route}</p>
               </div>
-              <div className="bg-slate-100 p-3 rounded-lg flex-1 min-w-[140px]">
+              <div className="bg-slate-100 p-3 rounded-lg flex-1">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Meal Plan
                 </p>
                 <p className="font-medium">{data.meal_plan}</p>
               </div>
-              <div className="bg-slate-100 p-3 rounded-lg flex-1 min-w-[140px]">
+              <div className="bg-slate-100 p-3 rounded-lg flex-1">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Country
                 </p>
