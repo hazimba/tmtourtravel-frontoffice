@@ -3,7 +3,6 @@
 import { Button } from "./ui/button";
 
 export function ShareButton({ uuid }: { uuid: string }) {
-  // @ts-expect-error: window is not defined on server
   const shareUrl = `${window.location.origin}/package/${uuid}/share`;
 
   const handleShare = async () => {
