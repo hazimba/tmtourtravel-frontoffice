@@ -6,6 +6,50 @@ import { MapPin, Star } from "lucide-react";
 import { Share } from "next/font/google";
 import Image from "next/image";
 
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { data } = await supabase
+    .from("packages")
+    .select("title, subtitle, main_image_url")
+    .eq("uuid", params.id)
+    .single();
+
+  if (!data) {
+    return {
+      title: "Travel Package",
+      description: "Explore amazing destinations",
+    };
+  }
+
+  return {
+    title: data.title,
+    description: data.subtitle,
+    openGraph: {
+      title: data.title,
+      description: data.subtitle,
+      images: [
+        {
+          url: data.main_image_url, // MUST be full HTTPS URL
+          width: 1200,
+          height: 630,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.title,
+      description: data.subtitle,
+      images: [data.main_image_url],
+    },
+  };
+}
+
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
 

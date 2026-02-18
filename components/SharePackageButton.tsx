@@ -3,7 +3,7 @@
 import { Button } from "./ui/button";
 
 export function ShareButton({ uuid }: { uuid: string }) {
-  const shareUrl = `${window.location.origin}/package/${uuid}/share`;
+  const shareUrl = `${window.location.origin}/package/${uuid}`;
 
   const handleShare = async () => {
     if (navigator.share) {
