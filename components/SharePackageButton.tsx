@@ -7,7 +7,7 @@ export function ShareButton({ uuid }: { uuid: string }) {
   console.log("ShareButton rendered with uuid:", uuid);
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://tm-tour.vercel.app"
+      ? "https://tmtourtravel-frontoffice.vercel.app"
       : "http://localhost:3000";
   const shareUrl = `${baseUrl}/package/${uuid}/share`;
 
