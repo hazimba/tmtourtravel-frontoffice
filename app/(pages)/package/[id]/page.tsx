@@ -1,11 +1,13 @@
 import HighlightText from "@/components/HighlightText";
+import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
-import { MapPin, Star } from "lucide-react";
+import { Calendar, DownloadIcon, MapPin, Star } from "lucide-react";
 import Image from "next/image";
-import DownloadPdfButton from "@/components/DownloadPdfButton";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
+
+  console.log("Fetching package with ID:", id);
 
   const { data, error } = await supabase
     .from("packages")
@@ -89,7 +91,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           {/* Itinerary Section */}
           <section>
             <h2 className="text-2xl font-bold mb-6 border-b pb-2">Itinerary</h2>
-            <div className="space-y-8 border-l-2 border-slate-200 print:border-none ml-3 pl-6">
+            <div className="space-y-8 border-l-2 border-slate-200 ml-3 pl-6 print:hidden">
               {data.itinerary.map(
                 (item: { day: string; description: string }, idx: number) => {
                   const parsed =
@@ -148,9 +150,22 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           )} */}
         </div>
 
+        {/* Sidebar */}
         <div className="space-y-6">
           <div className="print:hidden">
-            <DownloadPdfButton id={id} title={data.title} />
+            <Button
+              variant="default"
+              className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
+              asChild
+            >
+              <a
+                href={`/api/packages/${id}/pdf?title=${encodeURIComponent(
+                  data.title
+                )}`}
+              >
+                Download Package PDF <DownloadIcon size={15} className="ml-2" />
+              </a>
+            </Button>
           </div>
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
@@ -232,7 +247,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           <p>
             Sale Period: {data.sale_period} to {data.update_period}
           </p>
-          <p>Last Sync: {new Date(data.updatedAt).toLocaleString()}</p>
+          <p>Last Sync: {new Date(data.updated_at).toLocaleString()}</p>
         </div>
       </footer>
     </main>
