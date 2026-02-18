@@ -70,7 +70,6 @@ export async function GET(req: Request, { params }: { params: any }) {
     `,
   });
 
-  // @ts-expect-error: TypeScript doesn't recognize the 'pdf' method on the page object
   const pdf = await page.pdf({
     format: "A4",
     printBackground: true,
@@ -80,6 +79,7 @@ export async function GET(req: Request, { params }: { params: any }) {
 
   await browser.close();
 
+  // @ts-expect-error: TypeScript doesn't recognize the 'pdf' method on the page object
   return new Response(pdf, {
     headers: {
       "Content-Type": "application/pdf",
