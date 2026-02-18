@@ -7,48 +7,52 @@ import Image from "next/image";
 
 import type { Metadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const { id } = await params;
-  const { data } = await supabase
-    .from("packages")
-    .select("title, subtitle, main_image_url")
-    .eq("uuid", id)
-    .single();
-
-  if (!data) {
-    return {
-      title: "Travel Package",
-      description: "Explore amazing destinations",
-    };
-  }
-
-  return {
-    title: data.title,
-    description: data.subtitle,
-    openGraph: {
-      title: data.title,
-      description: data.subtitle,
-      images: [
-        {
-          url: data.main_image_url, // MUST be full HTTPS URL
-          width: 1200,
-          height: 630,
-        },
-      ],
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: data.title,
-      description: data.subtitle,
-      images: [data.main_image_url],
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: "TEST",
+  description: "TEST",
+  keywords: [
+    "TM Tours & Travel",
+    "Muslim travel agency",
+    "family travel",
+    "Malaysia travel",
+    "Umrah packages",
+    "MICE services",
+    "conference",
+    "meeting",
+  ],
+  authors: [{ name: "TM Tours & Travel" }],
+  openGraph: {
+    title: "TEST",
+    description: "TEST",
+    url: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app",
+    siteName: "TM Tours & Travel",
+    images: [
+      {
+        url: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "TM Tours & Travel - Trusted Muslim Tour Operator in Malaysia",
+      },
+    ],
+    locale: "en_MY",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TEST",
+    description: "TEST",
+    images: [
+      "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
+    ],
+  },
+  metadataBase: new URL(
+    "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app"
+  ),
+  alternates: {
+    canonical:
+      "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app",
+  },
+};
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;

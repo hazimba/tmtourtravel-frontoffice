@@ -54,7 +54,7 @@ const Footer = () => {
                 <p>Kota Bharu City Point</p>
                 <p>Seksyen 11, 15350 Kota Bharu</p>
                 <p>Kelantan, MALAYSIA</p>
-                <p className="pt-2 italic">infokelantan@tmtours.com.my</p>
+                <p className="pt-2 italic">-</p>
               </div>
             </div>
           </div>
