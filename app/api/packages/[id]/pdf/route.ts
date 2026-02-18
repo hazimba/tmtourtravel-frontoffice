@@ -10,7 +10,7 @@ export async function GET(req: Request, { params }: { params: any }) {
   const safeTitle = titleParam.replace(/[^a-zA-Z0-9]/g, "_");
 
   // Use the public URL or fallback to localhost
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   //  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const targetUrl = `${baseUrl}/package/${id}`;
 
