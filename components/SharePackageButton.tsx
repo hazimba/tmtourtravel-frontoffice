@@ -18,8 +18,21 @@ export function ShareButton({ uuid }: { uuid: string }) {
     if (navigator.share) {
       await navigator.share({
         title,
-        text: subtitle,
+        text: `Check this out this amazing package: ${title} - ${subtitle}`,
         url: shareUrl,
+        files: [
+          new File(
+            [
+              JSON.stringify({
+                title,
+                subtitle,
+                url: shareUrl,
+              }),
+            ],
+            `${title.replace(/\s+/g, "_")}.json`,
+            { type: "application/json" }
+          ),
+        ],
       });
     } else {
       await navigator.clipboard.writeText(shareUrl);
