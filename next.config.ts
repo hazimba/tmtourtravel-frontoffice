@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
+  allowedDevOrigins: [
+    "https://williams-unenamelled-nongenerically.ngrok-free.dev",
+  ],
   images: {
     remotePatterns: [
       {

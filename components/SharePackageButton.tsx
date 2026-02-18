@@ -4,7 +4,9 @@ import { supabase } from "@/lib/supabaseClient";
 import { Button } from "./ui/button";
 
 export function ShareButton({ uuid }: { uuid: string }) {
-  const shareUrl = `${window.location.origin}/package/${uuid}`;
+  console.log("ShareButton rendered with uuid:", uuid);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const shareUrl = `${baseUrl}/package/${uuid}/share`;
 
   const handleShare = async () => {
     const res = await supabase
@@ -18,7 +20,7 @@ export function ShareButton({ uuid }: { uuid: string }) {
     if (navigator.share) {
       await navigator.share({
         title,
-        text: `Check this out this amazing package: ${title} - ${subtitle}`,
+        text: `Pakej Menarik di TM Tour! : ${title} - ${subtitle}`,
         url: shareUrl,
       });
     } else {
