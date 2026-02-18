@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
 
+export const runtime = "nodejs"; // 🔥 REQUIRED for Vercel
+
 export async function GET(req: Request, { params }: { params: any }) {
   const { id } = params;
   const { searchParams } = new URL(req.url);
@@ -21,8 +23,6 @@ export async function GET(req: Request, { params }: { params: any }) {
     });
 
     const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 800 });
-
     await page.goto(targetUrl, { waitUntil: "networkidle0", timeout: 30000 });
     await page.waitForSelector("main");
 
@@ -37,7 +37,7 @@ export async function GET(req: Request, { params }: { params: any }) {
 
     await browser.close();
 
-    // @ts-expect-error: TypeScript doesn't recognize the 'pdf' method on the page object
+    // @ts-expect-error: NextResponse doesn't accept Buffer directly, but it works in practice
     return new Response(pdf, {
       headers: {
         "Content-Type": "application/pdf",
