@@ -5,55 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "TEST",
-  description: "TEST",
-  keywords: [
-    "TM Tours & Travel",
-    "Muslim travel agency",
-    "family travel",
-    "Malaysia travel",
-    "Umrah packages",
-    "MICE services",
-    "conference",
-    "meeting",
-  ],
-  authors: [{ name: "TM Tours & Travel" }],
-  openGraph: {
-    title: "TEST",
-    description: "TEST",
-    url: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app",
-    siteName: "TM Tours & Travel",
-    images: [
-      {
-        url: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
-        width: 1200,
-        height: 630,
-        alt: "TM Tours & Travel - Trusted Muslim Tour Operator in Malaysia",
-      },
-    ],
-    locale: "en_MY",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "TEST",
-    description: "TEST",
-    images: [
-      "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
-    ],
-  },
-  metadataBase: new URL(
-    "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app"
-  ),
-  alternates: {
-    canonical:
-      "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app",
-  },
-};
-
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
 
@@ -119,13 +70,13 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Route
                 </p>
-                <p className="font-medium">{data.route}</p>
+                <p className="font-medium overflow-hidden">{data.route}</p>
               </div>
               <div className="bg-slate-100 p-3 rounded-lg flex-1">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Meal Plan
                 </p>
-                <p className="font-medium">{data.meal_plan}</p>
+                <p className="font-medium overflow-hidden">{data.meal_plan}</p>
               </div>
               <div className="bg-slate-100 p-3 rounded-lg flex-1">
                 <p className="text-xs text-slate-500 uppercase font-bold">
