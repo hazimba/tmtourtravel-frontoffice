@@ -1,13 +1,12 @@
 import HighlightText from "@/components/HighlightText";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
-import { Calendar, DownloadIcon, MapPin, Star } from "lucide-react";
+import { DownloadIcon, MapPin, Star } from "lucide-react";
 import Image from "next/image";
+import DownloadPdfButton from "@/components/DownloadPdfButton";
+import { Button } from "@/components/ui/button";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
-
-  console.log("Fetching package with ID:", id);
 
   const { data, error } = await supabase
     .from("packages")
@@ -150,10 +149,10 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           )} */}
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-6">
           <div className="print:hidden">
-            <Button
+            <DownloadPdfButton id={id} title={data.title} />
+            {/* <Button
               variant="default"
               className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
               asChild
@@ -165,7 +164,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               >
                 Download Package PDF <DownloadIcon size={15} className="ml-2" />
               </a>
-            </Button>
+            </Button> */}
           </div>
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
@@ -247,7 +246,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           <p>
             Sale Period: {data.sale_period} to {data.update_period}
           </p>
-          <p>Last Sync: {new Date(data.updated_at).toLocaleString()}</p>
+          <p>Last Sync: {new Date(data.updatedAt).toLocaleString()}</p>
         </div>
       </footer>
     </main>

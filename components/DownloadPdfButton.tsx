@@ -18,6 +18,7 @@ export default function DownloadPdfButton({
       const url = `/api/packages/${id}/pdf?title=${encodeURIComponent(title)}`;
 
       const response = await fetch(url);
+      console.log("PDF Response:", response);
       if (!response.ok) throw new Error("Failed to download PDF");
 
       const blob = await response.blob();

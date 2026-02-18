@@ -1,26 +1,41 @@
 import puppeteer from "puppeteer";
+import { NextRequest, NextResponse } from "next/server";
+import chromium from "@sparticuz/chromium";
 
 export async function GET(req: Request, { params }: { params: any }) {
   const { id } = await params;
+  const { searchParams } = new URL(req.url);
+  const titleParam = searchParams.get("title") || `package-${id}`;
 
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/package/${id}`;
-  console.log("Generating PDF for:", url);
+  // Clean filename for headers
+  const safeTitle = titleParam.replace(/[^a-zA-Z0-9]/g, "_");
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  // Use the public URL or fallback to localhost
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  //  process.env.NEXT_PUBLIC_BASE_URL ||
+  const targetUrl = `${baseUrl}/package/${id}`;
 
-  const page = await browser.newPage();
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true, // Use "new" if on latest puppeteer
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+      ],
+    });
 
-  // Desktop viewport to keep sidebar beside itinerary
-  await page.setViewport({ width: 1440, height: 1200 });
+    const page = await browser.newPage();
 
-  await page.goto(url, { waitUntil: "networkidle0" });
-  await page.waitForSelector("main", { timeout: 10000 });
+    // Crucial for iPhone: Set a realistic viewport
+    await page.setViewport({ width: 1280, height: 800 });
 
-  await page.addStyleTag({
-    content: `
+    await page.goto(targetUrl, { waitUntil: "networkidle0" });
+    await page.waitForSelector("main", { timeout: 10000 });
+
+    await page.addStyleTag({
+      content: `
       /* Remove layout chrome */
       header, nav, footer, aside { display: none !important; }
 
@@ -68,22 +83,33 @@ export async function GET(req: Request, { params }: { params: any }) {
       /* Make hero section shorter */
       section.relative.h-\\[400px\\] { height: 220px !important; }
     `,
-  });
+    });
 
-  const pdf = await page.pdf({
-    format: "A4",
-    printBackground: true,
-    margin: { top: "5mm", bottom: "5mm", left: "5mm", right: "5mm" },
-    scale: 0.82, // stronger compression
-  });
+    const pdf = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: { top: "5mm", bottom: "5mm", left: "5mm", right: "5mm" },
+      scale: 0.82, // stronger compression
+    });
 
-  await browser.close();
+    await browser.close();
 
-  // @ts-expect-error: TypeScript doesn't recognize the 'pdf' method on the page object
-  return new Response(pdf, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="package-${id}.pdf"`,
-    },
-  });
+    // @ts-expect-error: TypeScript doesn't recognize the 'pdf' method on the page object
+    return new Response(pdf, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        // Use inline so iPhone opens it in a new tab smoothly, or attachment to force download
+        "Content-Disposition": `attachment; filename="${safeTitle}.pdf"`,
+        "Content-Length": pdf.length.toString(),
+      },
+    });
+  } catch (error: any) {
+    console.error("Puppeteer Error:", error);
+    if (browser) await browser.close();
+    return NextResponse.json(
+      { error: "PDF Generation Failed" },
+      { status: 500 }
+    );
+  }
 }
