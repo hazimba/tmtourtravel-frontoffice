@@ -201,20 +201,6 @@ export const PackagePDF = ({ data }: { data: any }) => (
               </View>
             ))}
           </View>
-
-          <Text style={styles.sectionTitle}>Itinerary</Text>
-          {data.itinerary.map((item: any, idx: number) => {
-            const parsed = typeof item === "string" ? JSON.parse(item) : item;
-            return (
-              <View key={idx} style={styles.itineraryRow}>
-                <View style={styles.itineraryDot} />
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.dayLabel}>{parsed.day}</Text>
-                  <Text style={styles.dayDesc}>{parsed.description}</Text>
-                </View>
-              </View>
-            );
-          })}
         </View>
 
         {/* Right Column / Sidebar */}
@@ -385,6 +371,23 @@ export const PackagePDF = ({ data }: { data: any }) => (
           </View>
         </View>
       </View>
+    </Page>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.sectionTitle}>Itinerary</Text>
+
+      {data.itinerary.map((item: any, idx: number) => {
+        const parsed = typeof item === "string" ? JSON.parse(item) : item;
+
+        return (
+          <View key={idx} style={styles.itineraryRow}>
+            <View style={styles.itineraryDot} />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.dayLabel}>{parsed.day}</Text>
+              <Text style={styles.dayDesc}>{parsed.description}</Text>
+            </View>
+          </View>
+        );
+      })}
     </Page>
   </Document>
 );

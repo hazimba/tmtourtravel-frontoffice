@@ -61,7 +61,7 @@ export default function ContactEnquiryForm() {
             </p>
           </div>
 
-          <div className="space-y-4 md:space-y-8 grid grid-cols-2 sm:grid-cols-1">
+          <div className="space-y-4 md:space-y-8 grid md:grid-cols-2 grid-cols-1">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-blue-100 text-blue-600 rounded-full">
                 <Phone className="w-5 h-5" />

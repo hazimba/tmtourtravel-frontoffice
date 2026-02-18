@@ -59,7 +59,7 @@ export default function DownloadPdfButton({ data }: { data: any }) {
         </>
       ) : (
         <>
-          Download Package PDF
+          Download
           <DownloadIcon size={15} className="ml-2" />
         </>
       )}

@@ -1,7 +1,9 @@
 import DownloadPdfButton from "@/components/DownloadPdfButtonWrapper";
 import HighlightText from "@/components/HighlightText";
+import { ShareButton } from "@/components/SharePackageButton";
 import { supabase } from "@/lib/supabaseClient";
 import { MapPin, Star } from "lucide-react";
+import { Share } from "next/font/google";
 import Image from "next/image";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
@@ -64,7 +66,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               {data.highlight}
             </p>
 
-            <div className="flex flex-wrap gap-4 mt-6">
+            <div className="grid grid-cols-3 gap-4 mt-6">
               <div className="bg-slate-100 p-3 rounded-lg flex-1 min-w-[140px]">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Route
@@ -84,6 +86,10 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 <p className="font-medium">{data.country}</p>
               </div>
             </div>
+            <p className="flex gap-2 pt-4 text-sm">
+              <span className="not-italic">Notes:</span>
+              {data.important_notes}
+            </p>
           </section>
 
           {/* Itinerary Section */}
@@ -127,8 +133,9 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
         </div>
 
         <div className="space-y-6">
-          <div className="print:hidden">
+          <div className="grid grid-cols-2 gap-4">
             <DownloadPdfButton data={data} />
+            <ShareButton uuid={data.uuid} />
           </div>
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
@@ -199,13 +206,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
         </div>
       </div>
 
-      <footer className="mt-12 pt-8 border-t text-sm text-slate-500 italic space-y-2">
-        <p className="flex gap-2">
-          <span className="font-bold text-slate-700 not-italic">
-            Important Notes:
-          </span>
-          {data.important_notes}
-        </p>
+      <footer className="mt-12 pt-4 border-t text-sm text-slate-500 italic space-y-2">
         <div className="flex justify-between items-center text-xs">
           <p>
             Sale Period: {data.sale_period} to {data.update_period}
