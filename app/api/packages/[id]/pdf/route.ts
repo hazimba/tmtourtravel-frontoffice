@@ -1,110 +1,50 @@
-import puppeteer from "puppeteer";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
 
 export async function GET(req: Request, { params }: { params: any }) {
-  const { id } = await params;
+  const { id } = params;
   const { searchParams } = new URL(req.url);
   const titleParam = searchParams.get("title") || `package-${id}`;
-
-  // Clean filename for headers
   const safeTitle = titleParam.replace(/[^a-zA-Z0-9]/g, "_");
 
-  // Use the public URL or fallback to localhost
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  //  process.env.NEXT_PUBLIC_BASE_URL ||
   const targetUrl = `${baseUrl}/package/${id}`;
 
   let browser;
+
   try {
     browser = await puppeteer.launch({
-      headless: true, // Use "new" if on latest puppeteer
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-      ],
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: true,
     });
 
     const page = await browser.newPage();
-
-    // Crucial for iPhone: Set a realistic viewport
     await page.setViewport({ width: 1280, height: 800 });
 
-    await page.goto(targetUrl, { waitUntil: "networkidle0" });
-    await page.waitForSelector("main", { timeout: 10000 });
+    await page.goto(targetUrl, { waitUntil: "networkidle0", timeout: 30000 });
+    await page.waitForSelector("main");
 
-    await page.addStyleTag({
-      content: `
-      /* Remove layout chrome */
-      header, nav, footer, aside { display: none !important; }
-
-      /* Reduce global spacing */
-      main {
-        margin: 0 !important;
-        padding: 4px 8px !important;
-        font-size: 0.82rem !important;
-        line-height: 1.15 !important;
-      }
-
-      /* Compress headings */
-      main h1 { font-size: 1.4rem !important; margin-bottom: 4px !important; }
-      main h2 { font-size: 1.15rem !important; margin-bottom: 4px !important; }
-      main h3 { font-size: 1rem !important; margin-bottom: 2px !important; }
-
-      /* Tighten all text spacing */
-      p, li, span, strong, em {
-        font-size: 0.82rem !important;
-        line-height: 1.15 !important;
-        margin: 0 !important;
-      }
-
-      /* Reduce Tailwind spacing utilities */
-      .p-6 { padding: 10px !important; }
-      .p-4 { padding: 6px !important; }
-      .mb-8 { margin-bottom: 8px !important; }
-      .mb-4 { margin-bottom: 6px !important; }
-      .mt-12 { margin-top: 8px !important; }
-      .space-y-8 > * + * { margin-top: 8px !important; }
-      .space-y-6 > * + * { margin-top: 6px !important; }
-      .space-y-4 > * + * { margin-top: 4px !important; }
-
-      /* Reduce grid gaps but keep side-by-side layout */
-      .gap-8 { gap: 10px !important; }
-      .gap-6 { gap: 8px !important; }
-      .gap-4 { gap: 6px !important; }
-
-      /* Compress cards */
-      .rounded-xl, .rounded-2xl { border-radius: 8px !important; }
-
-      /* Remove interactive UI from HighlightText */
-      
-
-      /* Make hero section shorter */
-      section.relative.h-\\[400px\\] { height: 220px !important; }
-    `,
-    });
+    await page.emulateMediaType("print");
 
     const pdf = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: { top: "5mm", bottom: "5mm", left: "5mm", right: "5mm" },
-      scale: 0.82, // stronger compression
+      scale: 0.9,
     });
 
     await browser.close();
 
     // @ts-expect-error: TypeScript doesn't recognize the 'pdf' method on the page object
     return new Response(pdf, {
-      status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        // Use inline so iPhone opens it in a new tab smoothly, or attachment to force download
         "Content-Disposition": `attachment; filename="${safeTitle}.pdf"`,
-        "Content-Length": pdf.length.toString(),
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Puppeteer Error:", error);
     if (browser) await browser.close();
     return NextResponse.json(
