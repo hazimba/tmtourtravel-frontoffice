@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon, Loader2 } from "lucide-react";
 
 export default function DownloadPdfButton({
   id,
@@ -16,17 +16,32 @@ export default function DownloadPdfButton({
     setLoading(true);
     try {
       const url = `/api/packages/${id}/pdf?title=${encodeURIComponent(title)}`;
+
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to download PDF");
+
       const blob = await response.blob();
+
+      // Create a Blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Desktop & Android approach
       const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `${title}.pdf`;
+      link.href = blobUrl;
+      link.download = `${title.replace(/\s+/g, "_")}.pdf`;
+
+      // Append to body for Firefox/Windows support
       document.body.appendChild(link);
       link.click();
-      link.remove();
+
+      // Cleanup
+      setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+      }, 100);
     } catch (e) {
-      // Optionally show error toast
+      console.error("PDF Error:", e);
+      alert("Could not generate PDF. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -35,37 +50,19 @@ export default function DownloadPdfButton({
   return (
     <Button
       variant="default"
-      className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
+      className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md active:scale-95 transition-transform"
       onClick={handleDownload}
       disabled={loading}
     >
       {loading ? (
-        <span className="flex items-center justify-center w-full">
-          <svg
-            className="animate-spin mr-2 h-4 w-4 text-white"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-              fill="none"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v8z"
-            />
-          </svg>
-          Downloading...
-        </span>
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Generating PDF...
+        </>
       ) : (
-        <span className="flex items-center justify-center w-full">
+        <>
           Download Package PDF <DownloadIcon size={15} className="ml-2" />
-        </span>
+        </>
       )}
     </Button>
   );

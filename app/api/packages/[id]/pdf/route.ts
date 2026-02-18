@@ -1,31 +1,46 @@
+import { NextResponse } from "next/server";
 import puppeteer from "puppeteer";
 
 export async function GET(req: Request, { params }: { params: any }) {
   const { id } = await params;
+  const { searchParams } = new URL(req.url);
+  const titleParam = searchParams.get("title") || `package-${id}`;
 
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/package/${id}`;
-  // const url = `http://localhost:3000/package/${id}`;
-  const urlObj = new URL(req.url);
-  const titleParam = urlObj.searchParams.get("title") || `package-${id}`;
-  const safeTitle = titleParam.replace(/[^a-zA-Z0-9-_ ]/g, "_");
-  console.log("Generating PDF for:", url);
+  // Clean filename for headers
+  const safeTitle = titleParam.replace(/[^a-zA-Z0-9]/g, "_");
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  // Use the public URL or fallback to localhost
+  const baseUrl = "http://localhost:3000";
+  //  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const targetUrl = `${baseUrl}/package/${id}`;
 
-  const page = await browser.newPage();
+  console.log(`Generating PDF for: ${targetUrl} with title: ${safeTitle}`);
 
-  // ⭐ Force print mode BEFORE render
-  await page.goto(url, { waitUntil: "networkidle0" });
-  await page.waitForSelector("main", { timeout: 10000 });
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true, // Use "new" if on latest puppeteer
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+      ],
+    });
 
-  // activate print CSS AFTER render
-  await page.emulateMediaType("print");
+    const page = await browser.newPage();
 
-  await page.addStyleTag({
-    content: `
+    // Crucial for iPhone: Set a realistic viewport
+    await page.setViewport({ width: 1280, height: 800 });
+
+    await page.goto(targetUrl, { waitUntil: "networkidle0", timeout: 30000 });
+
+    // Ensure the main content is loaded
+    await page.waitForSelector("main");
+
+    await page.emulateMediaType("print");
+
+    await page.addStyleTag({
+      content: `
     /* Shrink hero for PDF */
     section.relative.h-\\[400px\\] {
       height: 160px !important;       /* smaller hero */
@@ -64,22 +79,32 @@ export async function GET(req: Request, { params }: { params: any }) {
       page-break-before: auto !important;
     }
   `,
-  });
+    });
 
-  const pdf = await page.pdf({
-    format: "A4",
-    printBackground: true,
-    margin: { top: "5mm", bottom: "5mm", left: "5mm", right: "5mm" },
-    scale: 0.82,
-  });
+    const pdf = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" },
+      scale: 0.9,
+    });
 
-  await browser.close();
-
-  // @ts-expect-error: Next.js doesn't recognize the Response type here, but it works in practice
-  return new Response(pdf, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="package-${safeTitle}.pdf"`,
-    },
-  });
+    await browser.close();
+    // @ts-ignore: TypeScript may not recognize the Buffer type here
+    return new Response(pdf, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        // Use inline so iPhone opens it in a new tab smoothly, or attachment to force download
+        "Content-Disposition": `attachment; filename="${safeTitle}.pdf"`,
+        "Content-Length": pdf.length.toString(),
+      },
+    });
+  } catch (error: any) {
+    console.error("Puppeteer Error:", error);
+    if (browser) await browser.close();
+    return NextResponse.json(
+      { error: "PDF Generation Failed" },
+      { status: 500 }
+    );
+  }
 }
