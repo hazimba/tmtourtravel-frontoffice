@@ -1,68 +1,66 @@
 "use client";
-import { useState } from "react";
+
+import { usePDF } from "@react-pdf/renderer";
+import { PackagePDF } from "@/app/(pages)/package/[id]/PackagePDF";
 import { Button } from "@/components/ui/button";
 import { DownloadIcon, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
-export default function DownloadPdfButton({
-  id,
-  title,
-}: {
-  id: string;
-  title: string;
-}) {
+export default function DownloadPdfButton({ data }: { data: any }) {
   const [loading, setLoading] = useState(false);
+
+  const [instance, update] = usePDF({
+    document: <PackagePDF data={data} />,
+  });
+  const { url } = instance;
+
+  // Regenerate when data changes
+  useEffect(() => {
+    update(<PackagePDF data={data} />);
+  }, [data, update]);
 
   const handleDownload = async () => {
     setLoading(true);
-    try {
-      const url = `/api/packages/${id}/pdf?title=${encodeURIComponent(title)}`;
 
-      const response = await fetch(url);
-      console.log("PDF Response:", response);
-      if (!response.ok) throw new Error("Failed to download PDF");
+    // Wait until URL exists
+    let pdfUrl = url;
 
-      const blob = await response.blob();
-
-      // Create a Blob URL
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      // Desktop & Android approach
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = `${title.replace(/\s+/g, "_")}.pdf`;
-
-      // Append to body for Firefox/Windows support
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup
-      setTimeout(() => {
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
-      }, 100);
-    } catch (e) {
-      console.error("PDF Error:", e);
-      alert("Could not generate PDF. Please try again.");
-    } finally {
-      setLoading(false);
+    if (!pdfUrl) {
+      await update(<PackagePDF data={data} />);
+      pdfUrl = url;
     }
+
+    // Small delay ensures PDF blob is ready
+    setTimeout(() => {
+      if (pdfUrl) {
+        const link = document.createElement("a");
+        link.href = pdfUrl;
+        link.download = `${data.title.replace(/\s+/g, "_")}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      setLoading(false);
+    }, 300);
   };
 
   return (
     <Button
       variant="default"
-      className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md active:scale-95 transition-transform"
+      className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
       onClick={handleDownload}
       disabled={loading}
     >
       {loading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Generating PDF...
+          Generating...
         </>
       ) : (
         <>
-          Download Package PDF <DownloadIcon size={15} className="ml-2" />
+          Download Package PDF
+          <DownloadIcon size={15} className="ml-2" />
         </>
       )}
     </Button>

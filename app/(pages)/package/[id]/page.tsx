@@ -1,9 +1,8 @@
+import DownloadPdfButton from "@/components/DownloadPdfButtonWrapper";
 import HighlightText from "@/components/HighlightText";
 import { supabase } from "@/lib/supabaseClient";
-import { DownloadIcon, MapPin, Star } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
-import DownloadPdfButton from "@/components/DownloadPdfButton";
-import { Button } from "@/components/ui/button";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
@@ -125,46 +124,11 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               </p>
             </section>
           )}
-
-          {/* NEW: Photo Gallery (Sub Images) */}
-          {/* {data.sub_image_urls && data.sub_image_urls.length > 0 && (
-            <section>
-              <h2 className="text-2xl font-bold mb-4 border-b pb-2">Gallery</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {data.main_image_url?.map((url: string, i: number) => (
-                  <div
-                    key={i}
-                    className="relative aspect-square rounded-lg overflow-hidden shadow-sm"
-                  >
-                    <Image
-                      src={url}
-                      alt={`Gallery ${i}`}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
-          )} */}
         </div>
 
         <div className="space-y-6">
           <div className="print:hidden">
-            <DownloadPdfButton id={id} title={data.title} />
-            {/* <Button
-              variant="default"
-              className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
-              asChild
-            >
-              <a
-                href={`/api/packages/${id}/pdf?title=${encodeURIComponent(
-                  data.title
-                )}`}
-              >
-                Download Package PDF <DownloadIcon size={15} className="ml-2" />
-              </a>
-            </Button> */}
+            <DownloadPdfButton data={data} />
           </div>
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
