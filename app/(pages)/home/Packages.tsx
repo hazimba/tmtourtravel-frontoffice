@@ -37,11 +37,11 @@ const PackagesSection = async () => {
           key={section.type}
           className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0"
         >
-          <div className="mb-6 flex justify-between">
+          <div className="md:mb-6 mb-4 flex justify-between">
             <h2
               id="our-partners"
               key={"our-partners"}
-              className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+              className="text-2xl font-bold md:text-4xl text-underline"
             >
               {section.label}
             </h2>

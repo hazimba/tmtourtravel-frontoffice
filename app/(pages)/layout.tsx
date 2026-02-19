@@ -5,7 +5,7 @@ import WhatsappButton from "@/components/WhatsappButton";
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div suppressHydrationWarning className="antialiased flex flex-col">
-      <div className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="sticky top-0 z-50 bg-white shadow-sm">
         <NavigationBar />
       </div>
       <main className="min-h-[80vh]">{children}</main>

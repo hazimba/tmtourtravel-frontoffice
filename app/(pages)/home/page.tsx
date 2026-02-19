@@ -28,12 +28,12 @@ const HomePage = async ({
     : searchParams;
 
   return (
-    <div className="w-screen max-w-full bg-gray-50">
+    <div className="w-screen max-w-full bg-[#F4F4F8]">
       <SignoutToast show={params?.signout === "1"} />
       <FormPopup />
       <div className="">
         <ImageSliderSection />
-        <div className="flex flex-col gap-12 py-20">
+        <div className="flex flex-col gap-12 md:py-20 py-12">
           <PartnersSection />
           <PackagesSection />
           <ContactEnquiryForm />

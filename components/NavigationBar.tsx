@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import NavigationPopover from "./NavigationPopover";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "./ui/badge";
+import Image from "next/image";
 
 const NavigationBar = async () => {
   const supabase = await createClient();
@@ -18,32 +18,61 @@ const NavigationBar = async () => {
     .single();
 
   return (
-    <nav className="py-8 md:px-6 px-4 flex items-center justify-between max-w-7xl mx-auto">
-      <div className="flex items-center">
-        {userProfile ? (
+    <nav className="py-2 md:py-4 md:px-6 px-4 flex items-center justify-between max-w-7xl mx-auto">
+      <div className="flex items-center w-full md:w-auto justify-between">
+        {!userProfile ? (
           ""
         ) : (
-          <Link href="/">
+          <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/tm-icon.png"
-              alt="Logo"
-              width={120}
-              height={100}
-              className="w-[50px] md:w-[120px] h-auto"
-              priority
+              src="/nav-logo-2.png"
+              alt="TM Tour Travel Logo"
+              width={40}
+              height={40}
+              className="object-contain"
             />
+            <span className="font-extrabold text-4xl md:text-5xl text-primary tracking-tight drop-shadow-sm select-none">
+              TM
+            </span>
           </Link>
         )}
-        <>
+        <div>
           {userProfile && (
-            <Badge className="ml-4 font-medium">
+            <Badge className="ml-4 text-lg hidden md:inline-flex">
               Welcome, {userProfile.full_name}!
             </Badge>
           )}
-        </>
+        </div>
       </div>
-      <div className="flex gap-12">
+      <div className="flex gap-12 md:hidden">
         <NavigationPopover />
+      </div>
+      <div className="flex gap-4 md:flex hidden">
+        <Link href="/admin">
+          <span className="ml-4 text-lg font-medium text-muted-foreground">
+            Admin
+          </span>
+        </Link>
+        <Link href="/package">
+          <span className="ml-4 text-lg font-medium text-muted-foreground">
+            Package
+          </span>
+        </Link>
+        <Link href="/about-us">
+          <span className="ml-4 text-lg font-medium text-muted-foreground">
+            About Us
+          </span>
+        </Link>
+        <Link href="/about-us">
+          <span className="ml-4 text-lg font-medium text-muted-foreground">
+            Contact
+          </span>
+        </Link>
+        <Link href="/auth/login">
+          <span className="ml-4 text-lg font-medium text-muted-foreground border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors">
+            Login
+          </span>
+        </Link>
       </div>
     </nav>
   );

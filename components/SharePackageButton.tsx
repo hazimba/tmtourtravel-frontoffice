@@ -9,7 +9,7 @@ export function ShareButton({ uuid }: { uuid: string }) {
     process.env.NODE_ENV === "production"
       ? "https://tmtourtravel-frontoffice.vercel.app"
       : "http://localhost:3000";
-  const shareUrl = `${baseUrl}/package/${uuid}/share`;
+  const shareUrl = `${baseUrl}/package/${uuid}`;
 
   const handleShare = async () => {
     const res = await supabase

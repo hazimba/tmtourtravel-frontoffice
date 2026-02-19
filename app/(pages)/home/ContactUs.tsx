@@ -89,7 +89,7 @@ export default function ContactEnquiryForm() {
         </div>
 
         {/* Right Side: Form */}
-        <div className="bg-gray-50 md:p-8 px-2 rounded-2xl">
+        <div className="bg-gray-50 md:p-5 px-2 rounded-2xl">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -162,7 +162,7 @@ export default function ContactEnquiryForm() {
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="message"
                 render={({ field }) => (
@@ -178,7 +178,7 @@ export default function ContactEnquiryForm() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               <Button
                 type="submit"

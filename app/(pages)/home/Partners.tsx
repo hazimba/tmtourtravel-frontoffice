@@ -18,7 +18,7 @@ const PartnersSection = async () => {
       <h2
         id="our-partners"
         key={"our-partners"}
-        className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+        className="text-2xl font-bold md:text-4xl text-underline"
       >
         OUR PARTNERS
       </h2>

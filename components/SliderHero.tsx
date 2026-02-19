@@ -18,7 +18,7 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
   const next = () => setCurrent((c) => (c + 1) % total);
 
   return (
-    <div className="relative w-full md:h-160 h-136 mx-auto flex items-center justify-center overflow-hidden">
+    <div className="relative w-full md:h-160 h-104 mx-auto flex items-center justify-center overflow-hidden">
       {slides
         ? slides.map((slide, idx) => (
             <div

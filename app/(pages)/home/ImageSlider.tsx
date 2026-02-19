@@ -13,7 +13,8 @@ const ImageSliderSection = async () => {
 
   return (
     <>
-      <div className="marquee-container bg-primary py-6 text-black py-2 overflow-hidden whitespace-nowrap">
+      <SliderHero slides={imagesSlider} />
+      <div className="marquee-container bg-primary py-4 md:py-4 text-black overflow-hidden whitespace-nowrap">
         <div className="marquee-track text-secondary">
           <span className="marquee-text">
             TM Tours & Travel Sdn Bhd is a leading Muslim Tour Operator
@@ -31,7 +32,6 @@ const ImageSliderSection = async () => {
           </span>
         </div>
       </div>
-      <SliderHero slides={imagesSlider} />
     </>
   );
 };

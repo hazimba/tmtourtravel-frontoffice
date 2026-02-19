@@ -33,7 +33,7 @@ const Footer = () => {
           <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <h3 className="font-bold text-white border-b border-gray-700 pb-2">
-                KUALA LUMPUR (HQ)
+                K. LUMPUR (HQ)
               </h3>
               <div className="text-sm space-y-1">
                 <p className="font-semibold text-gray-200">+603 4031 4171</p>
