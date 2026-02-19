@@ -1,7 +1,7 @@
 "use client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type Slide = {
   imageurl: string;
@@ -13,6 +13,13 @@ export type Slide = {
 export default function SliderHero({ slides }: { slides: Slide[] }) {
   const [current, setCurrent] = useState(0);
   const total = slides.length;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((c) => (c + 1) % total);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [total]);
 
   const goTo = (idx: number) => setCurrent(idx);
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
@@ -67,13 +74,13 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
       <div className="absolute inset-0 flex items-center justify-between px-4 max-w-6xl mx-auto">
         <button
           onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full w-12 h-12 flex items-center justify-center z-20 shadow"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full md:w-12 md:h-12 h-8 w-8 flex items-center justify-center z-20 shadow"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
         <button
           onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full w-12 h-12 flex items-center justify-center z-20 shadow"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full md:w-12 md:h-12 h-8 w-8 flex items-center justify-center z-20 shadow"
         >
           <ArrowRight className="w-5 h-5" />
         </button>

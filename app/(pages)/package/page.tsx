@@ -31,11 +31,11 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
       <div className="space-y-4">
-        <div className="flex flex-col gap-4 py-8">
-          <h1 className="text-3xl font-bold text-primary">
+        <div className="flex flex-col gap-4 md:py-8 py-4">
+          <h1 className="md:text-3xl text-2xl font-bold text-primary">
             Explore Our Tour Packages
           </h1>
-          <h2 className="text-lg text-muted-foreground max-w-3xl">
+          <h2 className="text-lg text-muted-foreground md:max-w-3xl max-w-sm text-sm">
             Discover your next adventure! Browse our wide selection of tour
             packages from around the globe — from tropical beaches to mountain
             escapes, we have something for every traveler.
@@ -43,22 +43,24 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
         </div>
         <form
           method="get"
-          className="grid grid-cols-3 p-4 border rounded-xl bg-card shadow-sm"
+          className="flex flex-col md:flex-row items-end md:gap-4 gap-1 p-4 border rounded-xl bg-card shadow-sm"
         >
-          <div className="grid col-span-2 grid-cols-1 md:grid-cols-3 flex-1 gap-4 flex-wrap flex">
-            <div className="">
-              <label className="text-xs font-medium uppercase text-muted-foreground">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-4 gap-3 w-full flex-grow">
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Title
               </label>
               <Input
                 name="title"
                 placeholder="Search by name..."
                 defaultValue={title}
+                className="w-full"
               />
             </div>
 
-            <div className="">
-              <label className="text-xs font-medium uppercase text-muted-foreground">
+            {/* Country Dropdown */}
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Country
               </label>
               <CountryDropdown
@@ -68,23 +70,29 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               />
             </div>
 
-            <div className="w-[180px]">
-              <label className="text-xs font-medium uppercase text-muted-foreground">
+            {/* Type Select - Removed fixed w-[180px] for better responsiveness */}
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Type
               </label>
               <SelectType name="type" defaultValue={type} />
             </div>
           </div>
 
-          <div className="flex items-end justify-end gap-2">
+          {/* Button Section: Aligns to the right/bottom */}
+          <div className="flex items-center justify-end gap-2 md:w-96 pt-2 md:pt-0">
             {(title || country || type) && (
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" asChild className="flex-1 md:flex-none">
                 <Link href="/package">
                   <X className="mr-2 h-4 w-4" /> Clear
                 </Link>
               </Button>
             )}
-            <Button type="submit" variant="default">
+            <Button
+              type="submit"
+              variant="default"
+              className="flex-1 md:flex-none"
+            >
               <Search className="mr-2 h-4 w-4" /> Search
             </Button>
           </div>

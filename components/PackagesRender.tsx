@@ -3,6 +3,12 @@ import { Package } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
+// Helper to pick a random price from the array
+const prices = ["RM8000", "RM9000", "RM10000"];
+function getRandomPrice() {
+  return prices[Math.floor(Math.random() * prices.length)];
+}
+
 interface PackagesRenderProps {
   packages: Package[];
 }
@@ -12,7 +18,7 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
     <div className="max-w-7xl w-full mx-auto px-4 flex items-center overflow-x-auto gap-6 py-4 scrollbar-hide">
       {packages.map((pkg: Package, index: number) => (
         <Link key={index} href={`/package/${pkg.uuid}`}>
-          <div className="shadow-md relative flex-shrink-0 md:w-72 w-60 md:h-96 h-88 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
+          <div className="shadow-md relative flex-shrink-0 md:w-72 w-60 h-98 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
             {pkg.tags && pkg.tags.length > 0 && (
               <div className="absolute top-3 right-3 flex gap-2 z-10">
                 {pkg.tags.map((tag: string, tagIndex: number) => (
@@ -44,33 +50,56 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
               />
             )}
             <div className="p-4 flex flex-col md:flex-1 justify-between">
-              <div className="">
+              <div>
+                {/* Title container with fixed height for alignment */}
                 <div className="md:h-16 h-14">
-                  <h3 className="md:text-lg font-bold mb-1">{pkg.title}</h3>
+                  <h3 className="md:text-lg font-bold line-clamp-2">
+                    {pkg.title}
+                  </h3>
                 </div>
-                <p className="text-gray-400 text-sm md:mb-2 mb-1 truncate">
+
+                <p className="text-gray-400 text-xs md:text-sm truncate">
                   {pkg.subtitle}
                 </p>
-                <p className="text-gray-700 text-sm md:mb-2 truncate mb-1">
-                  {pkg.highlight} <span className="text-transparent">:</span>
-                </p>
-                <p className="text-gray-700 text-sm mb-2 truncate">
-                  {pkg.conditions}
+                <p className="text-gray-700 text-xs md:text-sm truncate mt-1">
+                  {pkg.highlight || "Explore more"}
                 </p>
               </div>
-              <div className="flex gap-2 justify-between">
-                {pkg.route ? (
-                  <Badge className="mt-auto text-secondary">{pkg.route}</Badge>
-                ) : (
-                  <Badge className="mt-auto text-secondary">
-                    No Route Info
-                  </Badge>
-                )}
+              <div className="mt-3 mb-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xs font-thin text-gray-500">from </span>
+                  {pkg ? (
+                    <>
+                      <span className="text-lg font-bold text-primary">
+                        {getRandomPrice()}
+                      </span>
+                      <span className="text-xs text-gray-400 line-through">
+                        {getRandomPrice()}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-lg font-bold text-gray-900">
+                      {getRandomPrice()}
+                    </span>
+                  )}
+                </div>
+                <span className="text-[8px] text-muted-foreground uppercase">
+                  Per Person
+                </span>
+              </div>
+
+              <div className="flex gap-2 justify-between items-center border-t pt-2">
                 <Badge
-                  variant={"link"}
-                  className="mt-auto text-blue-600 cursor-pointer"
+                  variant="outline"
+                  className="text-[10px] font-medium truncate max-w-[120px]"
                 >
-                  View
+                  {pkg.route || "No Route Info"}
+                </Badge>
+                <Badge
+                  variant="link"
+                  className="text-blue-600 font-bold p-0 h-auto"
+                >
+                  View →
                 </Badge>
               </div>
             </div>

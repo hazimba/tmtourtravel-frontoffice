@@ -41,7 +41,7 @@ const PackagesSection = async () => {
             <h2
               id="our-partners"
               key={"our-partners"}
-              className="text-2xl font-bold md:text-4xl text-underline"
+              className="text-2xl tracking-widest font-medium md:text-4xl text-underline"
             >
               {section.label}
             </h2>
@@ -50,7 +50,9 @@ const PackagesSection = async () => {
             </Link>
           </div>
           <PackagesRender
-            packages={packages.filter((i: Package) => i.type === section.type)}
+            packages={packages.filter(
+              (i: Package) => i.type === section.type && i.is_publish === true
+            )}
           />
         </div>
       ))}
