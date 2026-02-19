@@ -1,4 +1,5 @@
 "use client";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -63,18 +64,20 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
             ))
           : null}
       </div>
-      <button
-        onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-primary rounded-full w-10 h-10 flex items-center justify-center z-20 shadow"
-      >
-        &#8592;
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-primary rounded-full w-10 h-10 flex items-center justify-center z-20 shadow"
-      >
-        &#8594;
-      </button>
+      <div className="absolute inset-0 flex items-center justify-between px-4 max-w-6xl mx-auto">
+        <button
+          onClick={prev}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full w-12 h-12 flex items-center justify-center z-20 shadow"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={next}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full w-12 h-12 flex items-center justify-center z-20 shadow"
+        >
+          <ArrowRight className="w-5 h-5" />
+        </button>
+      </div>
     </div>
   );
 }

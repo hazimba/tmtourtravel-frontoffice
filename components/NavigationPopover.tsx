@@ -34,7 +34,7 @@ const NavigationPopover = () => {
           Package
         </span>
       </Link>
-      <NavigationMenu className="[&_div.absolute]:-left-[5rem] [&_div.absolute]:top-9">
+      <NavigationMenu className="[&_div.absolute]:-left-[6rem] [&_div.absolute]:top-9">
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="px-2 bg-transparent hover:bg-slate-100">

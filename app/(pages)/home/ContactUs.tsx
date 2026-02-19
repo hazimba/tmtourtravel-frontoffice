@@ -89,9 +89,12 @@ export default function ContactEnquiryForm() {
         </div>
 
         {/* Right Side: Form */}
-        <div className="bg-gray-50 md:p-5 px-2 rounded-2xl">
+        <div className="bg-gray-50 md:p-5 px-2 rounded-2xl shadow-lg">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-5 py-4 px-2"
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -100,7 +103,7 @@ export default function ContactEnquiryForm() {
                     <FormItem>
                       <FormLabel>Full Name*</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your name" {...field} />
+                        <Input placeholder="Enter your name..." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -121,46 +124,48 @@ export default function ContactEnquiryForm() {
                 />
               </div>
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email Address (Optional)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="example@mail.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address (Optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Enter your email..."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="destination"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Interested Destination*</FormLabel>
-                    <FormControl>
-                      {/* <Input
+                <FormField
+                  control={form.control}
+                  name="destination"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Interested Destination*</FormLabel>
+                      <FormControl>
+                        {/* <Input
                         placeholder="e.g. Makkah, Turkey, London"
                         {...field}
                       /> */}
-                      <CountryDropdown
-                        onChange={(country) => {
-                          field.onChange(country.name);
-                        }}
-                        defaultValue={field.value}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                        <CountryDropdown
+                          onChange={(country) => {
+                            field.onChange(country.name);
+                          }}
+                          defaultValue={field.value}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               {/* <FormField
                 control={form.control}

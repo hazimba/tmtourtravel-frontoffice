@@ -9,7 +9,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
         <NavigationBar />
       </div>
       <main className="min-h-[80vh]">{children}</main>
-      <div className="fixed left-4/5 -translate-x-1/2 bottom-8 z-50">
+      <div className="fixed left-7/10 -translate-x-1/2 bottom-8 z-50">
         <WhatsappButton />
       </div>
       <AboutUs />

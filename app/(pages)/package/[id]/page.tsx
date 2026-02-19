@@ -65,24 +65,30 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               {data.highlight}
             </p>
 
-            <div className="grid grid-cols-3 gap-4 mt-6">
-              <div className="bg-slate-100 p-3 rounded-lg flex-1">
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Route
                 </p>
                 <p className="font-medium overflow-hidden">{data.route}</p>
               </div>
-              <div className="bg-slate-100 p-3 rounded-lg flex-1">
+              <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Meal Plan
                 </p>
                 <p className="font-medium overflow-hidden">{data.meal_plan}</p>
               </div>
-              <div className="bg-slate-100 p-3 rounded-lg flex-1">
+              <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
                 <p className="text-xs text-slate-500 uppercase font-bold">
                   Country
                 </p>
                 <p className="font-medium">{data.country}</p>
+              </div>
+              <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
+                <p className="text-xs text-slate-500 uppercase font-bold">
+                  Type
+                </p>
+                <p className="font-medium">{data.type}</p>
               </div>
             </div>
             <p className="flex gap-2 pt-4 text-sm">
@@ -94,7 +100,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           {/* Itinerary Section */}
           <section>
             <h2 className="text-2xl font-bold mb-6 border-b pb-2">Itinerary</h2>
-            <div className="space-y-8 border-l-2 border-slate-200 ml-3 pl-6 print:hidden">
+            <div className="space-y-8 border-slate-200 ml-3 pl-6 print:hidden">
               {data.itinerary.map(
                 (item: { day: string; description: string }, idx: number) => {
                   const parsed =
@@ -117,7 +123,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </div>
           </section>
 
-          {/* NEW: Optional Tours Section */}
           {data.optional_tours && (
             <section className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 print:hidden">
               <h2 className="text-xl font-bold mb-3 text-indigo-900 flex items-center gap-2">
@@ -169,22 +174,26 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </ul>
           </div>
 
-          <div className="bg-green-50 p-6 rounded-xl border border-green-200">
-            <h3 className="font-bold text-lg mb-3 text-green-700">Includes</h3>
+          <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
+            <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
+              Includes
+            </h3>
             <p className="text-sm text-green-800 leading-relaxed whitespace-pre-line">
               {data.includes}
             </p>
           </div>
 
-          <div className="bg-red-50 p-6 rounded-xl border border-red-200">
-            <h3 className="font-bold text-lg mb-3 text-red-700">Excludes</h3>
+          <div className="bg-red-50 md:p-6 p-4 rounded-xl border border-red-200">
+            <h3 className="font-bold text-lg md:mb-3 mb-1 text-red-700">
+              Excludes
+            </h3>
             <p className="text-sm text-red-800 leading-relaxed whitespace-pre-line">
               {data.excludes}
             </p>
           </div>
 
-          <div className="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
-            <h3 className="font-bold text-lg mb-3 text-yellow-800">
+          <div className="bg-yellow-50 md:p-6 p-4 rounded-xl border border-yellow-200">
+            <h3 className="font-bold text-lg md:mb-3 mb-1 text-yellow-800">
               Freebies 🎁
             </h3>
             <p className="text-sm text-yellow-900 leading-relaxed font-medium">
@@ -192,8 +201,8 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </p>
           </div>
           {data.optional_tours && (
-            <section className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 hidden print:block">
-              <h2 className="text-xl font-bold mb-3 text-indigo-900 flex items-center gap-2">
+            <section className="bg-indigo-50 md:p-6 p-4 rounded-xl border border-indigo-100 hidden print:block">
+              <h2 className="md:text-xl text-lg font-bold mb-3 md:mb-1 text-indigo-900 flex items-center gap-2">
                 <Star size={20} className="fill-indigo-600 text-indigo-600" />{" "}
                 Optional Tours
               </h2>

@@ -20,22 +20,19 @@ const NavigationBar = async () => {
   return (
     <nav className="py-2 md:py-4 md:px-6 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center w-full md:w-auto justify-between">
-        {!userProfile ? (
-          ""
-        ) : (
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/nav-logo-2.png"
-              alt="TM Tour Travel Logo"
-              width={40}
-              height={40}
-              className="object-contain"
-            />
-            <span className="font-extrabold text-4xl md:text-5xl text-primary tracking-tight drop-shadow-sm select-none">
-              TM
-            </span>
-          </Link>
-        )}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/nav-logo-2.png"
+            alt="TM Tour Travel Logo"
+            width={40}
+            height={40}
+            className="object-contain"
+          />
+          <span className="font-extrabold text-4xl md:text-5xl text-primary tracking-tight drop-shadow-sm select-none">
+            TM
+          </span>
+        </Link>
+
         <div>
           {userProfile && (
             <Badge className="ml-4 text-lg hidden md:inline-flex">

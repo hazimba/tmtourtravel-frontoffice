@@ -11,19 +11,36 @@ import { useState } from "react";
 
 const WhatsappButton = () => {
   const [open, setOpen] = useState(false);
+
   return (
-    <div className="cursor-pointer bg-white flex gap-4 items-center font-semibold text-green-600 border border-green-600 px-4 py-4 rounded-full hover:bg-green-50 print:hidden">
-      <div className="flex gap-2 items-center" onClick={() => setOpen(true)}>
-        <MessageCircleQuestionMark />
+    <>
+      <div
+        onClick={() => setOpen(true)}
+        className="group cursor-pointer bg-[#075E54] text-white flex items-center border border-white px-5 py-3 rounded-full hover:bg-green-50 transition-all duration-300 print:hidden w-fit"
+      >
+        <span
+          className="
+            overflow-hidden whitespace-nowrap transition-all duration-500 ease-in-out
+            opacity-100 max-w-xs mr-2
+            md:max-w-0 md:opacity-0 md:mr-0
+            md:group-hover:max-w-xs md:group-hover:opacity-100 md:group-hover:mr-2
+            mr-4
+          "
+        >
+          Hubungi Kami!
+        </span>
+        <MessageCircleQuestionMark className="shrink-0" />
       </div>
+
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Contact Us on WhatsApp</DialogTitle>
+            <DialogTitle>Kami Sedia Membantu!</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col items-center gap-4">
             <p className="text-center">
-              Need help or have a question? Reach out to us on WhatsApp!
+              Perlukan bantuan atau ada sebarang soalan? Hubungi kami di
+              WhatsApp!
             </p>
             <DialogFooter>
               <a
@@ -38,7 +55,8 @@ const WhatsappButton = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };
+
 export default WhatsappButton;
