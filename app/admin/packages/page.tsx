@@ -12,6 +12,7 @@ import PackageDetails from "./PackageDetails";
 import { Button } from "@/components/ui/button";
 import { Plus, RefreshCw } from "lucide-react";
 import Link from "next/link";
+import AddNewItemManage from "@/components/AddNewItemManage";
 
 const PackagesTab = () => {
   const [packagesData, setPackagesData] = useState<Package[] | null>(null);
@@ -51,27 +52,7 @@ const PackagesTab = () => {
           title="Packages"
           subtitle="Manage and preview your travel listings."
         />
-        <div className="flex gap-2 mt-4 md:mt-0">
-          <Button
-            onClick={() => refetchPackages()}
-            variant="outline"
-            size="sm"
-            disabled={loading}
-          >
-            <RefreshCw
-              className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`}
-            />
-            Refresh
-          </Button>
-          <Link href="/admin/packages/create">
-            <Button variant="default" size="sm" disabled={loading}>
-              <Plus
-                className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`}
-              />
-              Add New
-            </Button>
-          </Link>
-        </div>
+        <AddNewItemManage loading={loading} refetch={refetchPackages} />
       </div>
 
       <div className="flex items-center gap-2 justify-between">

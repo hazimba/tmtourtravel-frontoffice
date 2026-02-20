@@ -5,7 +5,8 @@ import { RefreshCw } from "lucide-react";
 const ImageSliderSection = async () => {
   const { data: imagesSlider } = await supabase
     .from("images-slider")
-    .select("*");
+    .select("*")
+    .eq("isActive", true);
 
   if (!imagesSlider || imagesSlider.length === 0) {
     return <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />;

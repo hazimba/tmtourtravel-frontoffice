@@ -77,7 +77,7 @@ export interface Package {
 }
 
 export interface ImageSlider {
-  uuid: string;
+  id: string;
   title: string;
   subtitle: string;
   buttontext: string;

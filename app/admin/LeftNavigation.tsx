@@ -1,17 +1,17 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
-  Package,
-  Sparkles,
+  ImagePlus,
   LayoutDashboard,
+  Package,
   Settings,
+  Sparkles,
   User,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const LeftNavigation = () => {
   const pathname = usePathname();
@@ -40,7 +40,7 @@ const LeftNavigation = () => {
     {
       title: "Image Slider",
       href: "/admin/images-slider",
-      icon: <Sparkles className="mr-2 h-4 w-4" />,
+      icon: <ImagePlus className="mr-2 h-4 w-4" />,
     },
   ];
 
@@ -48,7 +48,7 @@ const LeftNavigation = () => {
     <nav className="flex md:flex-col flex-row gap-1 p-4 md:h-[calc(100vh-3.5rem)] border-r bg-muted/20">
       <div className="py-2">
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 hidden md:block">
-          <span className="">Administration</span>
+          <span className="">Admin</span>
         </p>
       </div>
       {navItems.map((item) => (

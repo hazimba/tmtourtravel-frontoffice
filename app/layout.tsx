@@ -110,7 +110,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${ubuntu.variable} antialiased`}
       >
-        <Toaster />
+        <Toaster position="top-center" />
         <main>{children}</main>
       </body>
     </html>

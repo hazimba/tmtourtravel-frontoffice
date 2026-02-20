@@ -7,7 +7,7 @@ const AdminDashboardPage = () => {
   const router = useRouter();
 
   return (
-    <div className="p-8 space-y-6 overflow-scroll h-[95vh]">
+    <div className="p-6 space-y-6 overflow-scroll h-[95vh]">
       <PageTitle
         title="Admin Dashboard"
         subtitle="Welcome to the admin dashboard. Use the buttons below to navigate to different sections."
