@@ -75,3 +75,13 @@ export interface Package {
   sub_image_urls: string[];
   tags: string[];
 }
+
+export interface ImageSlider {
+  uuid: string;
+  title: string;
+  subtitle: string;
+  buttontext: string;
+  buttonpath: string;
+  imageurl: string;
+  isActive: boolean;
+}

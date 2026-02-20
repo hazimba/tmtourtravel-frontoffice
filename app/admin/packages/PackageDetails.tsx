@@ -219,14 +219,14 @@ const PackageDetails = ({
                                 alt={selectedPackage.title}
                                 width={1200}
                                 height={800}
-                                className="object-contain max-h-[100vh] w-auto h-auto"
+                                className="object-contain max-h-[70vh] w-auto h-auto"
                               />
 
                               <div
                                 className="relative bottom-0 left-0 right-0 text-center text-white text-sm bg-black/40 backdrop-blur-sm py-1 cursor-pointer mt-0"
                                 onClick={() => setOpenImagePreview(false)}
                               >
-                                Click here to close
+                                Click here to close or push ESC button
                               </div>
                             </div>
                           </div>

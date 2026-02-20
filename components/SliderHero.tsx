@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import ImageSliderTextRender from "./ImageSliderTextRender";
 
 export type Slide = {
   imageurl: string;
@@ -32,7 +33,7 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
         ? slides.map((slide, idx) => (
             <div
               key={idx}
-              className={`absolute inset-0 transition-opacity duration-700 ${
+              className={`absolute inset-0 transition-opacity duration-700 bg-slate-900 ${
                 idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}
             >
@@ -44,17 +45,8 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
                 className="object-cover h-full w-full opacity-45"
                 priority={idx === current}
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                <h1 className="text-2xl md:text-5xl font-bold text-black drop-shadow-lg mb-2">
-                  {slide.title}
-                </h1>
-                <p className="text-lg md:text-2xl text-black drop-shadow mb-20 px-8">
-                  {slide.subtitle}
-                </p>
-                <Button className="bg-primary text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-primary/90 transition">
-                  {slide.buttontext}
-                </Button>
-              </div>
+              {/* @ts-expect-error: not sure */}
+              <ImageSliderTextRender slide={slide} />
             </div>
           ))
         : null}
