@@ -20,7 +20,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="max-w-7xl mx-auto p-4 md:p-8 font-sans text-slate-900">
-      {/* Hero Section */}
       <section className="relative h-[400px] w-full rounded-2xl overflow-hidden mb-8 shadow-lg">
         <Image
           src={data.main_image_url}
@@ -97,7 +96,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </p>
           </section>
 
-          {/* Itinerary Section */}
           <section>
             <h2 className="text-2xl font-bold mb-6 border-b pb-2">Itinerary</h2>
             <div className="space-y-8 border-slate-200 ml-3 pl-6 print:hidden">

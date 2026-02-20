@@ -18,7 +18,7 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
     <div className="max-w-7xl w-full mx-auto px-4 flex items-center overflow-x-auto gap-6 py-4 scrollbar-hide">
       {packages.map((pkg: Package, index: number) => (
         <Link key={index} href={`/package/${pkg.uuid}`}>
-          <div className="shadow-md relative flex-shrink-0 md:w-98 w-72 md:h-102 h-96 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
+          <div className="shadow-md relative flex-shrink-0 md:w-78 w-68 md:h-102 h-96 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
             {pkg.tags && pkg.tags.length > 0 && (
               <div className="absolute top-3 right-3 flex gap-2 z-10">
                 {pkg.tags.map((tag: string, tagIndex: number) => (
