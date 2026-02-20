@@ -112,30 +112,39 @@ const PackageDetails = ({
         onOpenChange={() => setSelectedPackage(null)}
       >
         <DialogContent
-          className="!w-screen !max-w-[60vw] h-[90vh] max-h-[90vh] p-0 flex flex-col"
+          className="!w-screen md:!max-w-[60vw] h-[90vh] max-h-[90vh] p-0 flex flex-col"
           showCloseButton={false}
         >
           <div className="flex-1 min-h-0 flex flex-col">
             {selectedPackage && (
               <>
-                <DialogHeader className="p-6 pb-4 border-b bg-muted/30 h-[120px] min-h-[120px] max-h-[120px]">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="font-mono">
-                          {selectedPackage.tour_code}
-                        </Badge>
-                        <Badge
-                          variant="secondary"
-                          className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 capitalize"
-                        >
-                          {selectedPackage.type} Tour
-                        </Badge>
+                <DialogHeader className="p-6 pb-4 border-b bg-muted/30 md:h-[120px] md:min-h-[120px] md:max-h-[120px]">
+                  <div className="flex justify-between md:items-start">
+                    <div className="space-y-2 w-full">
+                      <div className="flex items-center gap-2 justify-between w-full">
+                        <div className="flex gap-2">
+                          <Badge variant="outline" className="font-mono">
+                            {selectedPackage.tour_code}
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 capitalize"
+                          >
+                            {selectedPackage.type} Tour
+                          </Badge>
+                        </div>
+                        <div className="flex gap-2">
+                          {selectedPackage.tags?.map((tag) => (
+                            <Badge key={tag} className="" variant={"outline"}>
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
-                      <DialogTitle className="text-3xl font-bold mt-2">
+                      <DialogTitle className="md:text-3xl w-full text-start text-2xl font-bold mt-2">
                         {selectedPackage.title}
                       </DialogTitle>
-                      <DialogDescription className="text-lg text-primary/80">
+                      <DialogDescription className="text-lg text-start text-primary/80">
                         {selectedPackage.subtitle}
                       </DialogDescription>
                     </div>
@@ -154,13 +163,13 @@ const PackageDetails = ({
                             : String(selectedPackage.update_period)}
                         </p>
                       </div>
-                      <div className="flex gap-2">
+                      {/* <div className="flex gap-2">
                         {selectedPackage.tags?.map((tag) => (
                           <Badge key={tag} className="" variant={"outline"}>
                             {tag}
                           </Badge>
                         ))}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </DialogHeader>
@@ -308,8 +317,123 @@ const PackageDetails = ({
                     </div>
                   </ScrollArea>
                 </div>
+                <div className="md:hidden flex flex-col h-full overflow-y-auto bg-background">
+                  {selectedPackage.main_image_url && (
+                    <div className="relative aspect-video w-full shrink-0">
+                      <Image
+                        src={selectedPackage.main_image_url}
+                        alt={selectedPackage.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                        <h2 className="text-white font-bold text-lg leading-tight">
+                          {selectedPackage.title}
+                        </h2>
+                      </div>
+                    </div>
+                  )}
 
-                <div className="p-4 border-t bg-background flex justify-between items-center px-8">
+                  <div className="p-4 space-y-8">
+                    {/* Quick Info Cards (Horizontal Scroll on Mobile) */}
+                    <section className="space-y-3">
+                      <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                        Logistics
+                      </h4>
+                      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                        <div className="min-w-[200px] flex items-start gap-3 p-3 rounded-lg bg-background border shadow-sm">
+                          <Plane className="h-4 w-4 mt-1 text-primary shrink-0" />
+                          <div>
+                            <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                              Flight
+                            </p>
+                            <p className="text-sm font-mono">
+                              {selectedPackage.flight_schedule}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="min-w-[200px] flex items-start gap-3 p-3 rounded-lg bg-background border shadow-sm">
+                          <MapPin className="h-4 w-4 mt-1 text-primary shrink-0" />
+                          <div>
+                            <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                              Route
+                            </p>
+                            <p className="text-sm">{selectedPackage.route}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Freebies */}
+                    <div className="flex flex-wrap gap-2">
+                      {selectedPackage.freebies.split(",").map((item, i) => (
+                        <span
+                          key={i}
+                          className="px-3 py-1.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-[10px] font-bold"
+                        >
+                          ✨ {item.trim()}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Overview */}
+                    <section>
+                      <h4 className="text-md font-bold flex items-center gap-2 mb-3">
+                        <Eye className="h-4 w-4 text-primary" /> Overview
+                      </h4>
+                      <div className="prose prose-sm text-muted-foreground italic border-l-4 pl-4 border-primary/20">
+                        <HighlightText text={selectedPackage.highlight} />
+                      </div>
+                    </section>
+
+                    {/* Itinerary - Simplified Line for Mobile */}
+                    <section>
+                      <h4 className="text-md font-bold flex items-center gap-2 mb-6">
+                        <Calendar className="h-4 w-4 text-primary" /> Full
+                        Itinerary
+                      </h4>
+                      <div className="space-y-6 border-l-2 border-muted ml-2 pl-6">
+                        {selectedPackage.itinerary.map((item, idx) => {
+                          const parsed =
+                            typeof item === "string" ? JSON.parse(item) : item;
+                          return (
+                            <div key={idx} className="relative">
+                              <div className="absolute -left-[29px] top-1 h-3 w-3 rounded-full bg-primary" />
+                              <p className="text-xs font-black uppercase text-primary italic">
+                                {parsed.day}
+                              </p>
+                              <p className="text-sm mt-1 text-foreground leading-relaxed">
+                                {parsed.description}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </section>
+
+                    {/* Includes / Excludes - Vertical Stack for Mobile */}
+                    <div className="space-y-4">
+                      <div className="p-4 bg-green-50/50 rounded-xl border border-green-100">
+                        <h5 className="flex items-center gap-2 text-sm font-bold text-green-700 mb-2">
+                          <CheckCircle2 className="h-4 w-4" /> Includes
+                        </h5>
+                        <p className="text-xs text-green-900/80">
+                          {selectedPackage.includes}
+                        </p>
+                      </div>
+                      <div className="p-4 bg-red-50/50 rounded-xl border border-red-100">
+                        <h5 className="flex items-center gap-2 text-sm font-bold text-red-700 mb-2">
+                          <XCircle className="h-4 w-4" /> Excludes
+                        </h5>
+                        <p className="text-xs text-red-900/80">
+                          {selectedPackage.excludes}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 border-t bg-background flex justify-between items-center px-4">
                   <div className="flex gap-4 items-center">
                     <div className="flex flex-col">
                       <span className="text-[10px] uppercase text-muted-foreground font-bold">
@@ -320,7 +444,7 @@ const PackageDetails = ({
                       </span>
                     </div>
                     <Separator orientation="vertical" className="h-8" />
-                    <div className="flex flex-col">
+                    {/* <div className="flex flex-col">
                       <span className="text-[10px] uppercase text-muted-foreground font-bold">
                         Priority
                       </span>
@@ -328,7 +452,7 @@ const PackageDetails = ({
                         Tier {selectedPackage.web_tier} / P
                         {selectedPackage.web_priority}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="flex gap-3">

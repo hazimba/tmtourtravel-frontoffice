@@ -27,7 +27,7 @@ const TopNavigation = async () => {
           <div className="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-primary-foreground">
             <Compass className="h-5 w-5" />
           </div>
-          <span className="text-sm font-bold tracking-tight">
+          <span className="text-sm font-bold tracking-tight hidden md:block">
             TM TOUR & TRAVEL{" "}
           </span>
           <Badge className="ml-2">Welcome! {userProfile?.full_name}</Badge>

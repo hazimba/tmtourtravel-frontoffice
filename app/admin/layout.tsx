@@ -4,7 +4,7 @@ import TopNavigation from "./TopNavigation";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="">
+    <div className="bg-background/10 backdrop-blur-sm min-h-screen">
       <div className="h-auto sticky top-0 z-50">
         <TopNavigation />
       </div>

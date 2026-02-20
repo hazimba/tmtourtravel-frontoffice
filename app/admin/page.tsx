@@ -12,7 +12,7 @@ const AdminDashboardPage = () => {
         title="Admin Dashboard"
         subtitle="Welcome to the admin dashboard. Use the buttons below to navigate to different sections."
       />
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         <Button onClick={() => router.push("/admin/users")}>Go to Users</Button>
         <Button onClick={() => router.push("/admin/packages")}>
           Go to Packages

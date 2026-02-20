@@ -99,8 +99,8 @@ const SearchFilter = ({
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
                   <Input
-                    placeholder="Search by title..."
-                    className=""
+                    placeholder="Search by title"
+                    className="text-sm"
                     {...register("title")}
                   />
                   <CountryDropdown

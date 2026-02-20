@@ -12,7 +12,7 @@ const AdminDashboardPage = () => {
         title="Admin Dashboard"
         subtitle="Welcome to the admin dashboard. Use the buttons below to navigate to different sections."
       />
-      <div className="flex gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Button onClick={() => router.push("/admin/users")}>Go to Users</Button>
         <Button onClick={() => router.push("/admin/packages")}>
           Go to Packages
@@ -20,9 +20,9 @@ const AdminDashboardPage = () => {
         <Button onClick={() => router.push("/admin/images-slider")}>
           Go to Images Slider
         </Button>
-        <Button onClick={() => router.push("/admin/features")}>
+        {/* <Button onClick={() => router.push("/admin/features")}>
           Go to Features
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

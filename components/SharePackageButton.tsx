@@ -23,8 +23,13 @@ export function ShareButton({ uuid }: { uuid: string }) {
     if (navigator.share) {
       await navigator.share({
         title,
-        text: `Pakej Menarik di TM Tour! : ${title} - ${subtitle}`,
-        url: shareUrl,
+        text: `${title}
+${subtitle} 
+
+Pakej Menarik di TM Tour!
+Lihat lebih lanjut di: ${shareUrl}
+`,
+        // url: shareUrl,
       });
     } else {
       await navigator.clipboard.writeText(shareUrl);

@@ -30,7 +30,7 @@ const UsersTab = async () => {
         <PageTitle title="Users" subtitle="Manage users." />
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-white">
         <Table>
           <TableHeader>
             <TableRow>
