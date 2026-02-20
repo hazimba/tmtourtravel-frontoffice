@@ -14,14 +14,17 @@ const PartnersSection = async () => {
   if (logoErr) throw new Error(logoErr.message);
 
   return (
-    <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
+    <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0 gap-2">
       <h2
         id="our-partners"
         key={"our-partners"}
-        className="text-2xl font-bold md:text-4xl text-underline"
+        className="text-2xl tracking-wide font-medium md:text-4xl text-underline"
       >
         OUR PARTNERS
       </h2>
+      <p className="text-sm md:text-lg text-muted-foreground tracking-widest">
+        We are proud to collaborate with a diverse range of partners.
+      </p>
       <div className="max-w-7xl w-full mx-auto flex items-center overflow-x-auto gap-6 py-8 scrollbar-hide">
         {logos.map((i: Logo, idx: number) => (
           <Image

@@ -32,10 +32,10 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
 
   return (
     <div className="w-full text-left ">
-      <h2 className="text-3xl font-bold hidden md:block tracking-tight max-w-7xl mx-auto text-gray-900 sm:text-4xl">
+      <h2 className="hidden md:block text-2xl tracking-wide font-medium md:text-4xl text-underline max-w-7xl mx-auto text-gray-900">
         MEETING, INCENTIVE, CONFERENCE & EVENT (MICE)
       </h2>
-      <div className="font-semibold md:hidden text-3xl max-w-7xl mx-auto px-4 pb-6">
+      <div className="text-2xl tracking-wide font-medium md:text-4xl text-underline md:hidden max-w-7xl px-4 pb-6">
         M.I.C.E
       </div>
       <div

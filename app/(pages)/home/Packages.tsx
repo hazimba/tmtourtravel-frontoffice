@@ -15,16 +15,22 @@ const PackagesSection = async () => {
     {
       label: "JELAJAH MANIA",
       type: "GROUP",
+      description:
+        "Explore our Signature Jelajah Mania Packages with attractive offers.",
       nav: "/package?title=&country=&type=GROUP",
     },
     {
       label: "GROUND",
       type: "GROUND",
+      description:
+        "Explore our Signature Ground Packages with attractive offers.",
       nav: "/package?title=&country=&type=GROUND",
     },
     {
       label: "UMRAH",
       type: "UMRAH",
+      description:
+        "Explore our Signature Umrah Packages with attractive offers.",
       nav: "/package?title=&country=&type=UMRAH",
     },
   ];
@@ -38,13 +44,18 @@ const PackagesSection = async () => {
           className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0"
         >
           <div className="md:mb-6 mb-4 flex justify-between">
-            <h2
-              id="our-partners"
-              key={"our-partners"}
-              className="text-2xl tracking-widest font-medium md:text-4xl text-underline"
-            >
-              {section.label}
-            </h2>
+            <div className="flex flex-col gap-2 md:w-4/5 w-2/3">
+              <h2
+                id="our-partners"
+                key={"our-partners"}
+                className="text-2xl tracking-wide font-medium md:text-4xl text-underline"
+              >
+                {section.label}
+              </h2>
+              <p className="text-sm md:text-lg text-muted-foreground tracking-widest">
+                {section.description}
+              </p>
+            </div>
             <Link href={section.nav}>
               <div className="text-blue-600">View All</div>
             </Link>

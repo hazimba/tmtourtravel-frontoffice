@@ -1,4 +1,5 @@
 import { Facebook, Instagram, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -24,9 +25,21 @@ const Footer = () => {
               experiences for domestic and international markets.
             </p>
             <div className="flex space-x-4 pt-2">
-              <Facebook className="w-5 h-5 cursor-pointer hover:text-blue-500 transition-colors" />
-              <Instagram className="w-5 h-5 cursor-pointer hover:text-pink-500 transition-colors" />
-              <MessageCircle className="w-5 h-5 cursor-pointer hover:text-green-500 transition-colors" />
+              <Link
+                href="https://www.facebook.com/TMToursTravel"
+                target="_blank"
+              >
+                <Facebook className="w-5 h-5 cursor-pointer hover:text-blue-500 transition-colors" />
+              </Link>
+              <Link
+                href="https://www.instagram.com/TMToursTravel"
+                target="_blank"
+              >
+                <Instagram className="w-5 h-5 cursor-pointer hover:text-pink-500 transition-colors" />
+              </Link>
+              <Link href="https://wa.me/60176037054" target="_blank">
+                <MessageCircle className="w-5 h-5 cursor-pointer hover:text-green-500 transition-colors" />
+              </Link>
             </div>
           </div>
 

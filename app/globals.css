@@ -59,7 +59,7 @@
 }
 .marquee-text {
   display: inline-block;
-  padding-right: 1rem;
+  padding-right: 0.5rem;
 }
 @keyframes marquee-seamless {
   0% {
@@ -149,7 +149,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-ubuntu), sans-serif;
-    background-color: #F4F4F8;
+    background-color: #FBFBFB;
   }
 }
 

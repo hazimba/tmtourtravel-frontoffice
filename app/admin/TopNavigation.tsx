@@ -24,9 +24,12 @@ const TopNavigation = async () => {
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="flex h-14 items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-primary-foreground">
+          <Link
+            href="/home"
+            className="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-primary-foreground"
+          >
             <Compass className="h-5 w-5" />
-          </div>
+          </Link>
           <span className="text-sm font-bold tracking-tight hidden md:block">
             TM TOUR & TRAVEL{" "}
           </span>

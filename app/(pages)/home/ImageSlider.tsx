@@ -11,25 +11,19 @@ const ImageSliderSection = async () => {
     return <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />;
   }
 
+  const marqueeText = "TM Tours & Travel";
+  const repeatCount = 30;
+
   return (
     <>
       <SliderHero slides={imagesSlider} />
-      <div className="marquee-container bg-primary py-4 md:py-4 text-black overflow-hidden whitespace-nowrap">
+      <div className="marquee-container bg-primary py-4 text-black overflow-hidden whitespace-nowrap">
         <div className="marquee-track text-secondary">
-          <span className="marquee-text">
-            TM Tours & Travel Sdn Bhd is a leading Muslim Tour Operator
-            established since 1991 with main activities which includes
-            Ticketing, Inbound & Outbound Tours, Umrah, Hajj, MICE,
-            Accommodations, Transportation, Car Rentals, VIP Vehicles Rentals,
-            Tailor Made Programs as we cater for Domestic and International
-            markets.
-          </span>
-          <span className="marquee-text">
-            As a Tour Designer, Holiday Planner and Trip Advisor with vast
-            experience and consultant that offers full travel tips with various
-            product knowledge. We are here to assist you to search the right
-            vacation with value for your money and to meet your touring budget.
-          </span>
+          {Array.from({ length: repeatCount }).map((_, i) => (
+            <span key={i} className="marquee-text">
+              {marqueeText}
+            </span>
+          ))}
         </div>
       </div>
     </>

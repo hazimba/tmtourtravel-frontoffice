@@ -57,8 +57,6 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                 className="w-full"
               />
             </div>
-
-            {/* Country Dropdown */}
             <div className="flex flex-col gap-1">
               <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Country
@@ -69,8 +67,6 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                 defaultValue={country}
               />
             </div>
-
-            {/* Type Select - Removed fixed w-[180px] for better responsiveness */}
             <div className="flex flex-col gap-1">
               <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Type
@@ -78,8 +74,6 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               <SelectType name="type" defaultValue={type} />
             </div>
           </div>
-
-          {/* Button Section: Aligns to the right/bottom */}
           <div className="flex items-center justify-end gap-2 md:w-96 pt-2 md:pt-0">
             {(title || country || type) && (
               <Button variant="ghost" asChild className="flex-1 md:flex-none">
