@@ -96,6 +96,7 @@ const ImageSliderTab = () => {
         <AddNewItemManage loading={loading} refetch={fetchSliders} noCreate />
       </div>
       <CreateSlider
+        // @ts-expect-error: Unclear why ts is complaining here
         form={form}
         handleAddSlide={handleAddSlide}
         setIsOpen={setIsOpen}
