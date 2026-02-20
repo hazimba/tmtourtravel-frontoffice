@@ -49,7 +49,7 @@ const CreateEditFormLeft = ({
   const tagsOptions = Object.values(Tags);
 
   return (
-    <div className="md:col-span-2 border-r max-h-[70vh] overflow-y-auto pt-2">
+    <div className="md:col-span-2 border-r md:max-h-[70vh] overflow-y-auto pt-2">
       <div className="px-6 mb-6 grid md:grid-cols-4 gap-5">
         <div className="flex flex-col gap-2 justify-between">
           <Label>Title</Label>

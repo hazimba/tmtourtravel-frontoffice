@@ -16,7 +16,7 @@ const WhatsappButton = () => {
     <>
       <div
         onClick={() => setOpen(true)}
-        className="group cursor-pointer bg-[#075E54] text-white flex items-center border border-white px-5 py-3 rounded-full hover:bg-green-50 transition-all duration-300 print:hidden w-fit"
+        className="group cursor-pointer bg-[#075E54] text-white flex items-center border border-white px-5 py-3 rounded-full transition-all duration-300 print:hidden w-fit"
       >
         <span
           className="

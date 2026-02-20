@@ -48,6 +48,7 @@ const PackageDetails = ({
 }: PackageDetailsProps) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [openImagePreview, setOpenImagePreview] = useState(false);
 
   const handleDelete = async () => {
     if (!selectedPackage) return;
@@ -109,16 +110,23 @@ const PackageDetails = ({
     <div className="p-8 space-y-6">
       <Dialog
         open={!!selectedPackage}
-        onOpenChange={() => setSelectedPackage(null)}
+        onOpenChange={(open) => {
+          if (openImagePreview) return;
+
+          if (!open) {
+            setSelectedPackage(null);
+            setOpenImagePreview(false);
+          }
+        }}
       >
         <DialogContent
-          className="!w-screen md:!max-w-[60vw] h-[90vh] max-h-[90vh] p-0 flex flex-col"
+          className="!w-screen md:!max-w-[60vw] md:h-[90vh] md:max-h-[90vh] h-[70vh] max-h-[70vh] p-0 flex flex-col"
           showCloseButton={false}
         >
           <div className="flex-1 min-h-0 flex flex-col">
             {selectedPackage && (
               <>
-                <DialogHeader className="p-6 pb-4 border-b bg-muted/30 md:h-[120px] md:min-h-[120px] md:max-h-[120px]">
+                <DialogHeader className="p-6 pb-4 border-b bg-muted/30 md:h-[120px] md:min-h-[120px] md:max-h-[120px] rounded-tl-lg rounded-tr-lg">
                   <div className="flex justify-between md:items-start">
                     <div className="space-y-2 w-full">
                       <div className="flex items-center gap-2 justify-between w-full">
@@ -141,19 +149,19 @@ const PackageDetails = ({
                           ))}
                         </div>
                       </div>
-                      <DialogTitle className="md:text-3xl w-full text-start text-2xl font-bold mt-2">
+                      <DialogTitle className="md:text-3xl w-full text-start text-xl font-bold mt-2">
                         {selectedPackage.title}
                       </DialogTitle>
-                      <DialogDescription className="text-lg text-start text-primary/80">
+                      <DialogDescription className="text-md text-start text-primary/80">
                         {selectedPackage.subtitle}
                       </DialogDescription>
                     </div>
-                    <div className="flex flex-col items-end gap-4 justify-between h-full">
+                    <div className="flex flex-col items-end gap-4 justify-between h-full md:w-32">
                       <div className="text-right hidden md:block">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">
                           Sale Period
                         </p>
-                        <p className="text-md font-medium">
+                        {/* <p className="text-md font-medium">
                           {selectedPackage.sale_period instanceof Date
                             ? selectedPackage.sale_period.toLocaleDateString()
                             : String(selectedPackage.sale_period)}{" "}
@@ -161,7 +169,7 @@ const PackageDetails = ({
                           {selectedPackage.update_period instanceof Date
                             ? selectedPackage.update_period.toLocaleDateString()
                             : String(selectedPackage.update_period)}
-                        </p>
+                        </p> */}
                       </div>
                       {/* <div className="flex gap-2">
                         {selectedPackage.tags?.map((tag) => (
@@ -176,16 +184,55 @@ const PackageDetails = ({
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 flex-1 overflow-hidden">
                   <aside className="lg:col-span-4 border-r overflow-y-auto p-6 space-y-6 bg-slate-50/50 dark:bg-transparent">
-                    {selectedPackage.main_image_url && (
-                      <div className="relative aspect-video w-full overflow-hidden rounded-xl shadow-md">
-                        <Image
-                          src={selectedPackage.main_image_url}
-                          alt={selectedPackage.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
+                    <div className="flex flex-col items-center gap-2">
+                      {selectedPackage.main_image_url && (
+                        <div
+                          className="relative aspect-video w-full overflow-hidden rounded-xl shadow-md cursor-zoom-in"
+                          onClick={() => setOpenImagePreview(true)}
+                        >
+                          <Image
+                            src={selectedPackage.main_image_url}
+                            alt={selectedPackage.title}
+                            fill
+                            className="object-cover transition-transform duration-300 hover:scale-105"
+                          />
+                        </div>
+                      )}
+                      <span className="text-xs text-muted-foreground text-left w-full italic">
+                        click image to zoom
+                      </span>
+                    </div>
+                    <Dialog
+                      open={openImagePreview}
+                      onOpenChange={setOpenImagePreview}
+                    >
+                      <DialogTitle></DialogTitle>
+                      <DialogContent
+                        className="!max-w-screen p-6 md:0 bg-transparent border-none shadow-none backdrop-blur-xs h-screen flex items-center justify-center"
+                        showCloseButton={false}
+                      >
+                        {selectedPackage?.main_image_url && (
+                          <div className="flex items-center justify-center max-h-[90vh]">
+                            <div className="relative w-auto h-auto max-h-[90vh] max-w-full">
+                              <Image
+                                src={selectedPackage.main_image_url}
+                                alt={selectedPackage.title}
+                                width={1200}
+                                height={800}
+                                className="object-contain max-h-[100vh] w-auto h-auto"
+                              />
+
+                              <div
+                                className="relative bottom-0 left-0 right-0 text-center text-white text-sm bg-black/40 backdrop-blur-sm py-1 cursor-pointer mt-0"
+                                onClick={() => setOpenImagePreview(false)}
+                              >
+                                Click here to close
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </DialogContent>
+                    </Dialog>
 
                     <div className="space-y-4">
                       <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
@@ -240,7 +287,7 @@ const PackageDetails = ({
                   </aside>
 
                   <ScrollArea className="p-6 col-span-8 min-h-0 max-h-[calc(90vh-200px)]">
-                    <div className="p-8 space-y-10">
+                    <div className="p-0 space-y-10">
                       <section>
                         <h4 className="text-lg font-bold flex items-center gap-2 mb-4">
                           <Eye className="h-5 w-5 text-primary" /> Overview &
@@ -319,7 +366,10 @@ const PackageDetails = ({
                 </div>
                 <div className="md:hidden flex flex-col h-full overflow-y-auto bg-background">
                   {selectedPackage.main_image_url && (
-                    <div className="relative aspect-video w-full shrink-0">
+                    <div
+                      className="relative aspect-video w-full shrink-0"
+                      onClick={() => setOpenImagePreview(true)}
+                    >
                       <Image
                         src={selectedPackage.main_image_url}
                         alt={selectedPackage.title}
@@ -433,7 +483,7 @@ const PackageDetails = ({
                   </div>
                 </div>
 
-                <div className="p-4 border-t bg-background flex justify-between items-center px-4">
+                <div className="p-4 border-t bg-background flex justify-between items-center px-4 rounded-b-lg">
                   <div className="flex gap-4 items-center">
                     <div className="flex flex-col">
                       <span className="text-[10px] uppercase text-muted-foreground font-bold">

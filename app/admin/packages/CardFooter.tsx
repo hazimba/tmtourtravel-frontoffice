@@ -10,7 +10,7 @@ export const FooterCard = ({
   id?: string;
 }) => {
   return (
-    <CardFooter className="sticky bottom-0 bg-background border-t flex justify-end gap-3">
+    <CardFooter className="bg-background border-t flex justify-end gap-3">
       <div className="flex w-full justify-between">
         <div>
           <Link href="/admin/packages" className="button ghost">

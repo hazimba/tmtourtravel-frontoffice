@@ -62,7 +62,7 @@ export default function EditPackagePage({
   }
 
   return (
-    <div className="h-[95vh] bg-muted/40 px-6 py-10">
+    <div className="md:h-[95vh] bg-muted/40 px-2 md:py-10 py-4">
       <Card className="w-full shadow-lg">
         <CardHeader className="border-b">
           <CardTitle className="text-2xl font-semibold">Edit Package</CardTitle>
@@ -82,7 +82,7 @@ export default function EditPackagePage({
               register={form.register}
               setMainImageSelect={setMainImageSelect}
             />
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 max-h-[65vh] overflow-y-auto pt-6 mb-4">
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 md:max-h-[65vh] overflow-y-auto pt-6 mb-4">
               <CreateEditFormRight
                 register={form.register}
                 // @ts-expect-error: --- IGNORE ---

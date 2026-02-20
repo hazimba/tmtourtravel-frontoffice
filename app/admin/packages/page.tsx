@@ -82,7 +82,7 @@ const PackagesTab = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
         {loading ? (
           <div className="col-span-full flex justify-center">
             <CurrentlyLoading />
@@ -96,7 +96,7 @@ const PackagesTab = () => {
               onClick={() => setSelectedPackage(pkg)}
               className="group cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col"
             >
-              <PackageCard pkg={pkg} />
+              <PackageCard pkg={pkg} admin />
             </div>
           ))
         )}

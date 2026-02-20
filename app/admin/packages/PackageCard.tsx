@@ -6,16 +6,21 @@ import Image from "next/image";
 
 interface PackageRenderProps {
   pkg: Package;
+  admin?: boolean;
 }
 
-const PackageCard = ({ pkg }: PackageRenderProps) => {
+const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
   if (!pkg) {
     return <div className="p-4">Package not found.</div>;
   }
 
   return (
     <div className="group flex flex-col h-full overflow-hidden border rounded-xl bg-card shadow-sm transition-all hover:shadow-md">
-      <div className="relative aspect-[5/3] w-full overflow-hidden shrink-0">
+      <div
+        className={`relative ${
+          admin ? "md:aspect-[8/3] aspect-[12/3]" : "aspect-[5/3]"
+        } w-full overflow-hidden shrink-0`}
+      >
         {pkg.main_image_url && (
           <Image
             src={pkg.main_image_url}
@@ -33,7 +38,11 @@ const PackageCard = ({ pkg }: PackageRenderProps) => {
         </Badge>
       </div>
       <div className="flex flex-col p-4 flex-1">
-        <div className="flex items-center justify-between mb-2 h-12">
+        <div
+          className={`flex items-center justify-between mb-2 ${
+            admin ? "" : "h-12"
+          }`}
+        >
           <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
             {pkg.tour_code}
           </span>
@@ -41,7 +50,11 @@ const PackageCard = ({ pkg }: PackageRenderProps) => {
             {pkg.type}
           </span>
         </div>
-        <h3 className="text-base font-bold leading-tight line-clamp-2 min-h-[2.5rem] mb-1">
+        <h3
+          className={`text-base font-bold leading-tight line-clamp-2 ${
+            !admin ? "min-h-[2.5rem]" : ""
+          } mb-1`}
+        >
           {pkg.title}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-1 mb-4">
