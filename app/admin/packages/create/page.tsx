@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { usePackageForm } from "@/lib/hooks/usePackgeForm";
+import { usePackageForm } from "@/lib/hooks/usePackageForm";
 import { useState } from "react";
 import { FooterCard } from "../CardFooter";
 import CreateEditFormLeft from "../CreateEditFormLeft";

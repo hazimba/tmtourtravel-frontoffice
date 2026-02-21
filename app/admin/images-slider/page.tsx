@@ -3,43 +3,19 @@
 import AddNewItemManage from "@/components/AddNewItemManage";
 import { PageTitle } from "@/components/admin-ui/PageTitle";
 import CurrentlyLoading from "@/components/CurrentlyLoading";
+import { useImageSliderForm } from "@/lib/hooks/useImageSliderForm";
 import { supabase } from "@/lib/supabaseClient";
-import { sliderSchema } from "@/schemas/image-slider.schema";
 import { ImageSlider } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { CreateSlider } from "./CreateSlider";
 import TableSliders from "./TableSliders";
-import { toast } from "sonner";
-
-const useImageSliderForm = (defaultValues?: Partial<ImageSlider>) => {
-  return useForm<ImageSlider>({
-    // @ts-expect-error: Cannot use 'use' in a Client Component
-    resolver: zodResolver(sliderSchema.partial()),
-    defaultValues: {
-      id: defaultValues?.id || "",
-      title: defaultValues?.title || "",
-      subtitle: defaultValues?.subtitle || "",
-      imageurl: defaultValues?.imageurl || "",
-      buttontext: defaultValues?.buttontext || "",
-      buttonpath: defaultValues?.buttonpath || "",
-    },
-  });
-};
 
 const ImageSliderTab = () => {
   const form = useImageSliderForm();
   const [sliders, setSliders] = useState<ImageSlider[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState<string | undefined>();
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    subtitle: "",
-    buttontext: "",
-    buttonpath: "",
-  });
 
   const fetchSliders = async () => {
     setLoading(true);
@@ -104,13 +80,8 @@ const ImageSliderTab = () => {
 
       <div
         className={`rounded-xl border bg-white shadow-sm overflow-hidden ${
-          isOpen ? "h-[50vh]" : "h-full"
+          isOpen ? "h-[50vh]" : "h-[70vh]"
         } transition-all duration-300 ease-in-out grid grid-cols-1`}
-
-        // className={`rounded-xl border bg-white shadow-sm overflow-hidden
-        //   transition-all duration-300 ease-in-out
-        //   ${isOpen ? "h-[50vh]" : "h-[70vh]"}
-        //   `}
       >
         {loading ? (
           <div className="col-span-full flex justify-center">
@@ -122,10 +93,6 @@ const ImageSliderTab = () => {
           <TableSliders
             sliders={sliders}
             fetchSliders={fetchSliders}
-            editMode={editMode}
-            setEditMode={setEditMode}
-            formData={formData}
-            setFormData={setFormData}
             setSliders={setSliders}
           />
         )}

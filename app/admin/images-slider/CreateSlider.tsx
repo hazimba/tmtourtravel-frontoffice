@@ -1,5 +1,6 @@
 "use client";
 
+import SelectPackage from "@/components/admin-ui/FormItem/SelectPackage";
 import {
   Accordion,
   AccordionContent,
@@ -27,14 +28,13 @@ export const CreateSlider = ({
     <Card className="px-3 py-0 rounded-md shadow-none border">
       <Accordion type="single" collapsible onValueChange={setIsOpen}>
         <AccordionItem value="add-slide" className="w-auto">
-          <AccordionTrigger className="cursor-pointer flex items-center !no-underline !hover:no-underline m-0 py-3 px-0">
-            <Button
-              variant="ghost"
-              className="flex items-center text-sm flex items-center h-full justify-center font-medium"
-            >
-              <PlusCircle className="h-4 w-4" />
-              <span className="!hover:no-underline">New Image Slider</span>
-            </Button>
+          <AccordionTrigger className="cursor-pointer flex items-center !no-underline !hover:no-underline m-0 py-3 px-1">
+            <div className="flex p-2 items-center text-sm flex items-center h-full justify-center font-medium">
+              <PlusCircle className="h-4 w-4 mr-2" />
+              <span className="!hover:no-underline tracking-widest">
+                New Image Slider
+              </span>
+            </div>
           </AccordionTrigger>
           <AccordionContent className="px-4">
             <form
@@ -67,10 +67,12 @@ export const CreateSlider = ({
               </div>
               <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium">Button Path</label>
-                <input
-                  {...form.register("buttonpath")}
-                  placeholder="/learn-more"
-                  className="w-full border rounded-md px-3 py-2 focus:ring focus:ring-primary/50"
+                <SelectPackage
+                  formData={form.watch()}
+                  handleUpdate={(newValue) =>
+                    form.setValue("buttonpath", newValue)
+                  }
+                  name="buttonpath"
                 />
               </div>
               <div></div>

@@ -271,8 +271,8 @@ const CreateEditFormLeft = ({
         </div>
       </CardContent>
       <Separator className="my-4" />
-      <div className="grid md:grid-cols-3 gap-4 px-4">
-        <div className="md:col-span-1 flex flex-col gap-2 justify-between px-6">
+      <div className="grid md:grid-cols-4 gap-8 px-2">
+        <div className="md:col-span-2 flex flex-col gap-2 justify-between px-4">
           <Label>Tags</Label>
           <div className="grid grid-cols-2 gap-2">
             {(() => {
@@ -294,7 +294,7 @@ const CreateEditFormLeft = ({
                         });
                       }}
                     />
-                    <span className="text-sm">{tag}</span>
+                    <span className="text-xs">{tag}</span>
                   </div>
                 );
               });
@@ -302,10 +302,10 @@ const CreateEditFormLeft = ({
           </div>
         </div>
         <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
-          <div>
+          <div className="flex flex-col gap-1 h-full justify-between">
             <Label className="font-medium">Publish Package</Label>
             <p className="text-xs text-muted-foreground">
-              Make this package visible on the website
+              Make this package visible on the homepage
             </p>
           </div>
           <Checkbox

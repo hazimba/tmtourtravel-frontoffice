@@ -17,22 +17,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { supabase } from "@/lib/supabaseClient";
+import { ImageSlider } from "@/types";
 import {
-  CheckCircle2,
   Eye,
+  EyeOff,
   Image as ImageIcon,
   Link as LinkIcon,
   Trash2,
 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { InfoCard } from "./InfoCard";
-import { ImageSlider } from "@/types";
-
 interface SliderDetailsProps {
   slider: ImageSlider;
   fetchSliders: () => void;
-  editMode: boolean;
-  setEditMode: (value: boolean) => void;
   formData: {
     title: string;
     subtitle: string;
@@ -51,18 +49,22 @@ interface SliderDetailsProps {
 export const SliderDetails = ({
   slider,
   fetchSliders,
-  editMode,
-  setEditMode,
   formData,
   setFormData,
   setSliders,
 }: SliderDetailsProps) => {
+  const [editMode, setEditMode] = useState(false);
+
   return (
     <div className="flex justify-end gap-2">
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
-            <Eye className="h-4 w-4 text-slate-500" />
+            {slider.isActive ? (
+              <Eye className="h-4 w-4 text-green-500" />
+            ) : (
+              <EyeOff className="h-4 w-4" />
+            )}
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-9/10 md:max-w-5xl p-0 overflow-hidden">
@@ -70,10 +72,63 @@ export const SliderDetails = ({
 
           <div className="px-6 py-2 space-y-4">
             <DialogHeader>
-              <DialogTitle>Slide Configuration</DialogTitle>
+              <DialogTitle className="flex items-center justify-between gap-2">
+                <div>Slide Configuration</div>
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        id={`activate-slide-${slider.id}`}
+                        disabled={!slider.imageurl}
+                        checked={slider.isActive}
+                        onCheckedChange={async (checked) => {
+                          try {
+                            const { error } = await supabase
+                              .from("images-slider")
+                              .update({ isActive: checked })
+                              .eq("id", slider.id);
+
+                            if (error) throw error;
+
+                            toast.success(
+                              `Slide ${
+                                checked ? "activated" : "deactivated"
+                              } successfully`
+                            );
+
+                            setSliders((prev) =>
+                              prev.map((item) =>
+                                item.id === slider.id
+                                  ? {
+                                      ...item,
+                                      isActive: checked as boolean,
+                                    }
+                                  : item
+                              )
+                            );
+                          } catch (error) {
+                            console.error("Error updating slide:", error);
+                            toast.error("Failed to update slide");
+                          }
+                        }}
+                      />
+
+                      <Label
+                        htmlFor={`activate-slide-${slider.id}`}
+                        className="text-sm font-medium text-slate-700"
+                      >
+                        Active{" "}
+                        {slider.imageurl
+                          ? ""
+                          : "(Upload image to toggle status)"}
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+              </DialogTitle>
             </DialogHeader>
 
-            <div className="grid grid-cols-1 gap-3 mt-2 max-h-[130px] md:max-h-[320px] overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2 max-h-[130px] md:max-h-[320px] overflow-y-auto">
               <InfoCard
                 icon={<ImageIcon className="h-4 w-4" />}
                 label="Title"
@@ -113,64 +168,8 @@ export const SliderDetails = ({
                 editMode={editMode}
                 formData={formData}
                 setFormData={setFormData}
+                selectField
               />
-              <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
-                <div className="p-2 bg-white rounded-md shadow-sm text-slate-400">
-                  <CheckCircle2 className="h-4 w-4" />
-                </div>
-
-                <div className="flex-1">
-                  <p className="text-[10px] uppercase font-bold text-slate-400 leading-none mb-1">
-                    Status
-                  </p>
-
-                  <div className="flex items-center gap-2">
-                    <Checkbox
-                      id={`activate-slide-${slider.id}`}
-                      disabled={!slider.imageurl}
-                      checked={slider.isActive}
-                      onCheckedChange={async (checked) => {
-                        try {
-                          const { error } = await supabase
-                            .from("images-slider")
-                            .update({ isActive: checked })
-                            .eq("id", slider.id);
-
-                          if (error) throw error;
-
-                          toast.success(
-                            `Slide ${
-                              checked ? "activated" : "deactivated"
-                            } successfully`
-                          );
-
-                          setSliders((prev) =>
-                            prev.map((item) =>
-                              item.id === slider.id
-                                ? {
-                                    ...item,
-                                    isActive: checked as boolean,
-                                  }
-                                : item
-                            )
-                          );
-                        } catch (error) {
-                          console.error("Error updating slide:", error);
-                          toast.error("Failed to update slide");
-                        }
-                      }}
-                    />
-
-                    <Label
-                      htmlFor={`activate-slide-${slider.id}`}
-                      className="text-sm font-medium text-slate-700"
-                    >
-                      Active{" "}
-                      {slider.imageurl ? "" : "(Upload image to toggle status)"}
-                    </Label>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="flex justify-end pt-4">

@@ -1,7 +1,7 @@
 "use client";
 import CurrentlyLoading from "@/components/CurrentlyLoading";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { usePackageForm } from "@/lib/hooks/usePackgeForm";
+import { usePackageForm } from "@/lib/hooks/usePackageForm";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues } from "@/schemas/packages.schema";
 import { use, useEffect, useState } from "react";

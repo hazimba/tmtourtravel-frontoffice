@@ -15,22 +15,20 @@ const PackagesSection = async () => {
     {
       label: "JELAJAH MANIA",
       type: "GROUP",
-      description:
-        "Explore our Signature Jelajah Mania Packages with attractive offers.",
+      description: "Explore our Signature Tour",
       nav: "/package?title=&country=&type=GROUP",
     },
     {
       label: "GROUND",
       type: "GROUND",
-      description:
-        "Explore our Signature Ground Packages with attractive offers.",
+      description: "Best Ground Packages with attractive offers.",
       nav: "/package?title=&country=&type=GROUND",
     },
     {
       label: "UMRAH",
       type: "UMRAH",
       description:
-        "Explore our Signature Umrah Packages with attractive offers.",
+        "We offering comprehensive services for a seamless pilgrimage.",
       nav: "/package?title=&country=&type=UMRAH",
     },
   ];

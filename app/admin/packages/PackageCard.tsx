@@ -34,7 +34,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
           variant={pkg.is_publish ? "default" : "secondary"}
           className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold"
         >
-          {pkg.is_publish ? "Published" : "Draft"}
+          {pkg.is_publish ? "Published" : "Not Published"}
         </Badge>
       </div>
       <div className="flex flex-col p-4 flex-1">

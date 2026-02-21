@@ -77,7 +77,9 @@ const SearchFilter = ({
             className="flex items-center gap-2"
           >
             <Filter className="h-4 w-4" />
-            <span className="font-medium text-sm">Search Filters</span>
+            <span className="font-medium text-sm tracking-widest">
+              Search Filters
+            </span>
             {isCollapsed ? (
               <ChevronDown className="h-4 w-4" />
             ) : (
