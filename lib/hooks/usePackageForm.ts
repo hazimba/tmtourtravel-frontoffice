@@ -30,7 +30,7 @@ export const usePackageForm = () => {
       features: [],
       itinerary: [],
       optional_tours: "",
-      flight_schedule: "",
+      flight_schedule: [],
       freebies: "",
       conditions: "",
       embedded: undefined,

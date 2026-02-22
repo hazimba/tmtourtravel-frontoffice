@@ -286,7 +286,8 @@ export const PackagePDF = ({ data }: { data: any }) => (
                     lineHeight: 1.2,
                   }}
                 >
-                  {data.flight_schedule}
+                  {/* to fix in future */}
+                  {/* {data.flight_schedule} */}
                 </Text>
               </View>
             </View>

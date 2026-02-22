@@ -87,6 +87,8 @@ export default function EditPackagePage({
                 register={form.register}
                 // @ts-expect-error: --- IGNORE ---
                 control={form.control}
+                watch={form.watch}
+                setValue={form.setValue}
               />
             </CardContent>
           </div>

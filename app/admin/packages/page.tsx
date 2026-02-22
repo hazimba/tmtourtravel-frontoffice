@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import AddNewItemManage from "@/components/AddNewItemManage";
 import { PageTitle } from "@/components/admin-ui/PageTitle";
 import SearchFilter from "@/components/admin-ui/SearchFilter";
 import CurrentlyLoading from "@/components/CurrentlyLoading";
@@ -9,10 +10,6 @@ import { PackageFormValues } from "@/schemas/packages.schema";
 import { Package } from "@/types";
 import PackageCard from "./PackageCard";
 import PackageDetails from "./PackageDetails";
-import { Button } from "@/components/ui/button";
-import { Plus, RefreshCw } from "lucide-react";
-import Link from "next/link";
-import AddNewItemManage from "@/components/AddNewItemManage";
 
 const PackagesTab = () => {
   const [packagesData, setPackagesData] = useState<Package[] | null>(null);

@@ -30,12 +30,22 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         )}
-        <Badge
-          variant={pkg.is_publish ? "default" : "secondary"}
-          className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold"
-        >
-          {pkg.is_publish ? "Published" : "Not Published"}
-        </Badge>
+        {admin && (
+          <Badge
+            variant="secondary"
+            className="absolute top-2 left-2 rounded-full px-2 py-0.5 text-[10px] font-semibold border-primary"
+          >
+            {pkg.web_priority}
+          </Badge>
+        )}
+        {admin && (
+          <Badge
+            variant={pkg.is_publish ? "secondary" : "destructive"}
+            className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+          >
+            {pkg.is_publish ? "Published Homepage" : ""}
+          </Badge>
+        )}
       </div>
       <div className="flex flex-col p-4 flex-1">
         <div

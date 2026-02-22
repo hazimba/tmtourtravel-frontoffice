@@ -3,8 +3,10 @@ import HighlightText from "@/components/HighlightText";
 import { ShareButton } from "@/components/SharePackageButton";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabaseClient";
-import { MapPin, Star } from "lucide-react";
+import { ArrowRight, CalendarDays, MapPin, Plane, Star } from "lucide-react";
 import Image from "next/image";
+import { format } from "date-fns";
+import { Separator } from "@/components/ui/separator";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
@@ -58,8 +60,8 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="lg:col-span-3 space-y-8">
           {/* Overview & Highlights */}
           <section>
             <h2 className="text-2xl font-bold mb-4 border-b pb-2">Overview</h2>
@@ -145,7 +147,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           )}
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 col-span-2">
           <div className="grid grid-cols-2 gap-4">
             <DownloadPdfButton data={data} />
             <ShareButton uuid={data.uuid} />
@@ -183,13 +185,63 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 <span className="text-slate-500">Conditions:</span>
                 <span className="font-semibold">{data.conditions}</span>
               </li>
-              <li className="flex flex-col gap-1 border-t pt-2">
-                <span className="text-slate-500">Flight Schedule:</span>
-                <span className="text-xs font-mono bg-white p-2 rounded border mt-1 leading-tight">
-                  {data.flight_schedule}
-                </span>
-              </li>
-              <li className="flex justify-between border-t pt-2">
+              <Separator className="my-4" />
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <Plane className="h-5 w-5 text-primary" />
+                  <h3 className="text-sm font-semibold uppercase tracking-wider">
+                    Flight Schedule
+                  </h3>
+                </div>
+
+                <div className="space-y-3">
+                  {Array.isArray(data.flight_schedule) &&
+                  data.flight_schedule.length > 0 ? (
+                    data.flight_schedule.map((item: any, idx: number) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-4 p-2.5 rounded-md bg-background border shadow-sm"
+                      >
+                        <CalendarDays className="h-4 w-4 text-muted-foreground" />
+
+                        <div className="flex items-center gap-3">
+                          <div className="flex flex-col">
+                            <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
+                              Departure
+                            </span>
+                            <span className="text-sm font-medium">
+                              {item.range?.from
+                                ? format(
+                                    new Date(item.range.from),
+                                    "dd MMM yyyy"
+                                  )
+                                : "N/A"}
+                            </span>
+                          </div>
+
+                          <ArrowRight className="h-4 w-4 text-muted-foreground/50 mx-1" />
+
+                          <div className="flex flex-col">
+                            <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
+                              Return
+                            </span>
+                            <span className="text-sm font-medium">
+                              {item.range?.to
+                                ? format(new Date(item.range.to), "dd MMM yyyy")
+                                : "TBA"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground italic">
+                      No flights scheduled yet.
+                    </p>
+                  )}
+                </div>
+              </div>
+              <li className="flex justify-between pt-2">
                 <span className="text-slate-500">Market:</span>
                 <span className="text-xs font-bold px-2 py-0.5 bg-slate-200 rounded">
                   {data.sale_able_market}

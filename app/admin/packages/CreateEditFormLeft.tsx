@@ -186,14 +186,6 @@ const CreateEditFormLeft = ({
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
-          <Label>Flight Schedule</Label>
-          <Input
-            placeholder="Enter flight_schedule"
-            {...register("flight_schedule")}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2 justify-between">
           <Label>Freebies</Label>
           <Input placeholder="Enter freebies" {...register("freebies")} />
         </div>

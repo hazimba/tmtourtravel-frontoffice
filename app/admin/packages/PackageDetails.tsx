@@ -11,7 +11,9 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
+  ArrowRight,
   Calendar,
+  CalendarDays,
   CheckCircle2,
   Eye,
   MapPin,
@@ -34,6 +36,7 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "sonner";
 import { find } from "lodash";
+import { format } from "date-fns/format";
 
 interface PackageDetailsProps {
   selectedPackage: Package | null;
@@ -226,7 +229,7 @@ const PackageDetails = ({
                                 className="relative bottom-0 left-0 right-0 text-center text-white text-sm bg-black/40 backdrop-blur-sm py-1 cursor-pointer mt-0"
                                 onClick={() => setOpenImagePreview(false)}
                               >
-                                Click here to close or push ESC button
+                                Click here to close or push ESC
                               </div>
                             </div>
                           </div>
@@ -239,13 +242,64 @@ const PackageDetails = ({
                         Logistics
                       </h4>
                       <div className="grid grid-cols-1 gap-3">
-                        <div className="flex items-start gap-3 p-3 rounded-lg bg-background border">
-                          <Plane className="h-4 w-4 mt-1 text-primary" />
-                          <div>
-                            <p className="text-xs font-bold">Flight Schedule</p>
-                            <p className="text-md text-muted-foreground font-mono">
-                              {selectedPackage.flight_schedule}
-                            </p>
+                        <div className="flex flex-col gap-3 p-4 rounded-xl bg-muted/30 border border-border">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Plane className="h-5 w-5 text-primary" />
+                            <h3 className="text-sm font-semibold uppercase tracking-wider">
+                              Flight Schedule
+                            </h3>
+                          </div>
+
+                          <div className="space-y-3">
+                            {Array.isArray(selectedPackage.flight_schedule) &&
+                            selectedPackage.flight_schedule.length > 0 ? (
+                              selectedPackage.flight_schedule.map(
+                                (item: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex items-center gap-4 p-2.5 rounded-md bg-background border shadow-sm"
+                                  >
+                                    <CalendarDays className="h-4 w-4 text-muted-foreground" />
+
+                                    <div className="flex items-center gap-3">
+                                      <div className="flex flex-col">
+                                        <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
+                                          Departure
+                                        </span>
+                                        <span className="text-sm font-medium">
+                                          {item.range?.from
+                                            ? format(
+                                                new Date(item.range.from),
+                                                "dd MMM yyyy"
+                                              )
+                                            : "N/A"}
+                                        </span>
+                                      </div>
+
+                                      <ArrowRight className="h-4 w-4 text-muted-foreground/50 mx-1" />
+
+                                      <div className="flex flex-col">
+                                        <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
+                                          Return
+                                        </span>
+                                        <span className="text-sm font-medium">
+                                          {item.range?.to
+                                            ? format(
+                                                new Date(item.range.to),
+                                                "dd MMM yyyy"
+                                              )
+                                            : "TBA"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <p className="text-sm text-muted-foreground italic">
+                                No flights scheduled yet.
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-start gap-3 p-3 rounded-lg bg-background border">
@@ -397,9 +451,9 @@ const PackageDetails = ({
                             <p className="text-[10px] font-bold uppercase text-muted-foreground">
                               Flight
                             </p>
-                            <p className="text-sm font-mono">
+                            {/* <p className="text-sm font-mono">
                               {selectedPackage.flight_schedule}
-                            </p>
+                            </p> */}
                           </div>
                         </div>
                         <div className="min-w-[200px] flex items-start gap-3 p-3 rounded-lg bg-background border shadow-sm">

@@ -1,21 +1,33 @@
 "use client";
 
-import { useFieldArray, useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { PackageFormValues } from "@/schemas/packages.schema";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useFieldArray, useForm } from "react-hook-form";
 
 interface CreateEditFormRightProps {
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
   control: ReturnType<typeof useForm<PackageFormValues>>["control"];
+  watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
+  setValue: ReturnType<typeof useForm<PackageFormValues>>["setValue"];
 }
 
 const CreateEditFormRight = ({
   register,
   control,
+  watch,
+  setValue,
 }: CreateEditFormRightProps) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -31,6 +43,13 @@ const CreateEditFormRight = ({
     // @ts-expect-error: Cannot use 'use' in a Client Component
     name: "features",
   });
+
+  const {
+    fields: flightFields,
+    append: appendFlight,
+    remove: removeFlight,
+  } = useFieldArray({ control, name: "flight_schedule" });
+
   return (
     <>
       <div className="md:col-span-2 flex flex-col gap-2">
@@ -100,6 +119,84 @@ const CreateEditFormRight = ({
           className="mt-2"
         >
           Add Feature
+        </Button>
+      </div>
+      <div className="md:col-span-2 flex flex-col gap-2">
+        <Label>Flight Date Ranges</Label>
+
+        {flightFields.map((field, idx) => {
+          const from = watch(`flight_schedule.${idx}.range.from`);
+          const to = watch(`flight_schedule.${idx}.range.to`);
+
+          return (
+            <div
+              key={field.id}
+              className="flex items-center justify-between gap-2"
+            >
+              <Popover>
+                <PopoverTrigger asChild>
+                  <div className="w-full border rounded-md">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className={cn(
+                        "text-left font-normal border-0 w-full justify-start",
+                        !from && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {from ? (
+                        to ? (
+                          <>
+                            {format(from, "LLL dd, y")} -{" "}
+                            {format(to, "LLL dd, y")}
+                          </>
+                        ) : (
+                          format(from, "LLL dd, y")
+                        )
+                      ) : (
+                        "Select travel dates"
+                      )}
+                    </Button>
+                  </div>
+                </PopoverTrigger>
+
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="range"
+                    selected={watch(`flight_schedule.${idx}.range`)}
+                    onSelect={(range) =>
+                      setValue(`flight_schedule.${idx}.range`, range, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      })
+                    }
+                    className="grid-cols-1"
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => removeFlight(idx)}
+              >
+                Remove
+              </Button>
+            </div>
+          );
+        })}
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() =>
+            appendFlight({ range: { from: new Date(), to: undefined } })
+          }
+          className=""
+        >
+          Add Date Range
         </Button>
       </div>
     </>

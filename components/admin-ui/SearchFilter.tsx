@@ -27,7 +27,7 @@ const SearchFilter = ({
   setLoading,
   loading,
 }: SearchFilterProps) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { register, handleSubmit, watch, setValue, reset } =
     useForm<PackageFormValues>({

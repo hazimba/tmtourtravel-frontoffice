@@ -48,7 +48,12 @@ export interface Package {
   highlight: string;
   itinerary: string[];
   optional_tours: string;
-  flight_schedule: string;
+  flight_schedule: {
+    range: {
+      from: Date;
+      to?: Date;
+    };
+  }[];
   freebies: string;
   includes: string;
   excludes: string;
