@@ -92,3 +92,13 @@ export interface ImageSlider {
   imageurl: string;
   isActive: boolean;
 }
+
+export interface Enquiry {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  destination: string;
+  message: string;
+  created_at: Date;
+}
