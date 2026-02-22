@@ -159,7 +159,9 @@ export function ImageUploadForm({
                     <Image
                       src={getMainImg}
                       alt="Current"
-                      fill
+                      width={4000}
+                      height={2000}
+                      loading="eager"
                       className="object-cover opacity-60"
                     />
                   </div>

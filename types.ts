@@ -62,7 +62,10 @@ export interface Package {
   embedded: string;
   web_priority: number;
   web_tier: number;
-  sale_period: Date;
+  sale_period: {
+    from: Date;
+    to?: Date;
+  };
   update_period: Date;
   sale_able_market: string;
   is_publish: boolean;

@@ -24,8 +24,17 @@ import {
   Tags,
 } from "../../../types";
 
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { CountryDropdown } from "@/components/ui/country-dropdown";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { UseFormSetValue } from "react-hook-form";
 import { ImageUploadForm } from "./ImageUploadForm";
 
@@ -180,7 +189,7 @@ const CreateEditFormLeft = ({
           <Input placeholder="Enter conditions" {...register("conditions")} />
         </div>
 
-        <div className="flex flex-col gap-2 justify-between">
+        <div className="flex flex-col gap-2">
           <Label>Embedded</Label>
           <Input placeholder="Enter embedded" {...register("embedded")} />
         </div>
@@ -221,20 +230,56 @@ const CreateEditFormLeft = ({
           />
         </div>
 
-        {/* <div className="flex flex-col gap-2 justify-between">
-          <RangeDatePicker title="Sale Period" {...register("sale_period")} />
-        </div> */}
+        <div className="flex flex-col gap-2">
+          <Label>Sale Period</Label>
 
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Update Period</Label>
-          {/* <Input
-            placeholder="Enter update period"
-            {...register("update_period")}
-          /> */}
-          {/* <RangeDatePicker
-            title="Update Period"
-            {...register("update_period")}
-          /> */}
+          <Popover>
+            <PopoverTrigger asChild>
+              {watch("sale_period")?.from ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="justify-start text-left font-normal"
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {watch("sale_period")?.to ? (
+                    <>
+                      {/* @ts-expect-error: Unclear why ts is complaining here */}
+                      {format(watch("sale_period").from, "LLL dd, y")} -{" "}
+                      {/* @ts-expect-error: Unclear why ts is complaining here */}
+                      {format(watch("sale_period").to, "LLL dd, y")}
+                    </>
+                  ) : (
+                    // @ts-expect-error: Unclear why ts is complaining here
+                    format(watch("sale_period").from, "LLL dd, y")
+                  )}
+                </Button>
+              ) : (
+                <button
+                  type="button"
+                  className="w-10 h-10 flex items-center justify-center rounded border bg-white hover:bg-muted transition"
+                >
+                  <CalendarIcon className="w-5 h-5 text-primary" />
+                </button>
+              )}
+            </PopoverTrigger>
+
+            <PopoverContent className="p-0" align="start">
+              <Calendar
+                mode="range"
+                selected={{
+                  from: watch("sale_period")?.from,
+                  to: watch("sale_period")?.to,
+                }}
+                onSelect={(range) =>
+                  setValue("sale_period", range ?? {}, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }
+              />
+            </PopoverContent>
+          </Popover>
         </div>
 
         <div className="flex flex-col gap-2 justify-between">

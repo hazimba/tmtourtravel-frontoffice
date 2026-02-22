@@ -67,7 +67,9 @@ const PackagesSection = async () => {
         </div>
       ))}
       <ProductImageRender
-        micePackage={packages.filter((i: Package) => i.type === "MICE")}
+        micePackage={packages
+          .filter((i: Package) => i.type === "MICE")
+          .slice(0, 6)}
       />
     </>
   );

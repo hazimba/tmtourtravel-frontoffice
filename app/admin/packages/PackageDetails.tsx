@@ -11,32 +11,30 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
-  ArrowRight,
   Calendar,
-  CalendarDays,
   CheckCircle2,
   Eye,
   MapPin,
-  Plane,
   Star,
   Users,
   XCircle,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+import FlightScheduleRender from "@/components/FlightScheduleRender";
 import HighlightText from "@/components/HighlightText";
-import { Package } from "@/types";
-import Image from "next/image";
-import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { toast } from "sonner";
+import { supabase } from "@/lib/supabaseClient";
+import { Package } from "@/types";
 import { find } from "lodash";
-import { format } from "date-fns/format";
+import Image from "next/image";
+import Link from "next/link";
+import { toast } from "sonner";
+import PackageDetailsMobile from "./PackageDetailsMobile";
 
 interface PackageDetailsProps {
   selectedPackage: Package | null;
@@ -123,13 +121,13 @@ const PackageDetails = ({
         }}
       >
         <DialogContent
-          className="!w-screen md:!max-w-[60vw] md:h-[90vh] md:max-h-[90vh] h-[70vh] max-h-[70vh] p-0 flex flex-col"
+          className="!w-screen md:!max-w-[75vw] md:h-[90vh] md:max-h-[90vh] h-[70vh] max-h-[70vh] p-0 flex flex-col"
           showCloseButton={false}
         >
           <div className="flex-1 min-h-0 flex flex-col">
             {selectedPackage && (
               <>
-                <DialogHeader className="p-6 pb-4 border-b bg-muted/30 md:h-[120px] md:min-h-[120px] md:max-h-[120px] rounded-tl-lg rounded-tr-lg">
+                <DialogHeader className="p-6 border-b bg-muted/30 md:h-[110px] rounded-tl-lg rounded-tr-lg">
                   <div className="flex justify-between md:items-start">
                     <div className="space-y-2 w-full">
                       <div className="flex items-center gap-2 justify-between w-full">
@@ -144,13 +142,6 @@ const PackageDetails = ({
                             {selectedPackage.type} Tour
                           </Badge>
                         </div>
-                        <div className="flex gap-2">
-                          {selectedPackage.tags?.map((tag) => (
-                            <Badge key={tag} className="" variant={"outline"}>
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
                       </div>
                       <DialogTitle className="md:text-3xl w-full text-start text-xl font-bold mt-2">
                         {selectedPackage.title}
@@ -158,29 +149,6 @@ const PackageDetails = ({
                       <DialogDescription className="text-md text-start text-primary/80">
                         {selectedPackage.subtitle}
                       </DialogDescription>
-                    </div>
-                    <div className="flex flex-col items-end gap-4 justify-between h-full md:w-32">
-                      <div className="text-right hidden md:block">
-                        <p className="text-xs text-muted-foreground uppercase font-semibold">
-                          Sale Period
-                        </p>
-                        {/* <p className="text-md font-medium">
-                          {selectedPackage.sale_period instanceof Date
-                            ? selectedPackage.sale_period.toLocaleDateString()
-                            : String(selectedPackage.sale_period)}{" "}
-                          —{" "}
-                          {selectedPackage.update_period instanceof Date
-                            ? selectedPackage.update_period.toLocaleDateString()
-                            : String(selectedPackage.update_period)}
-                        </p> */}
-                      </div>
-                      {/* <div className="flex gap-2">
-                        {selectedPackage.tags?.map((tag) => (
-                          <Badge key={tag} className="" variant={"outline"}>
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div> */}
                     </div>
                   </div>
                 </DialogHeader>
@@ -241,101 +209,31 @@ const PackageDetails = ({
                       <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
                         Logistics
                       </h4>
-                      <div className="grid grid-cols-1 gap-3">
-                        <div className="flex flex-col gap-3 p-4 rounded-xl bg-muted/30 border border-border">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Plane className="h-5 w-5 text-primary" />
-                            <h3 className="text-sm font-semibold uppercase tracking-wider">
-                              Flight Schedule
-                            </h3>
-                          </div>
-
-                          <div className="space-y-3">
-                            {Array.isArray(selectedPackage.flight_schedule) &&
-                            selectedPackage.flight_schedule.length > 0 ? (
-                              selectedPackage.flight_schedule.map(
-                                (item: any, idx: number) => (
-                                  <div
-                                    key={idx}
-                                    className="flex items-center gap-4 p-2.5 rounded-md bg-background border shadow-sm"
-                                  >
-                                    <CalendarDays className="h-4 w-4 text-muted-foreground" />
-
-                                    <div className="flex items-center gap-3">
-                                      <div className="flex flex-col">
-                                        <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
-                                          Departure
-                                        </span>
-                                        <span className="text-sm font-medium">
-                                          {item.range?.from
-                                            ? format(
-                                                new Date(item.range.from),
-                                                "dd MMM yyyy"
-                                              )
-                                            : "N/A"}
-                                        </span>
-                                      </div>
-
-                                      <ArrowRight className="h-4 w-4 text-muted-foreground/50 mx-1" />
-
-                                      <div className="flex flex-col">
-                                        <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
-                                          Return
-                                        </span>
-                                        <span className="text-sm font-medium">
-                                          {item.range?.to
-                                            ? format(
-                                                new Date(item.range.to),
-                                                "dd MMM yyyy"
-                                              )
-                                            : "TBA"}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )
-                              )
-                            ) : (
-                              <p className="text-sm text-muted-foreground italic">
-                                No flights scheduled yet.
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3 p-3 rounded-lg bg-background border">
-                          <MapPin className="h-4 w-4 mt-1 text-primary" />
-                          <div>
-                            <p className="text-xs font-bold">Route</p>
-                            <p className="text-md text-muted-foreground">
-                              {selectedPackage.route}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3 p-3 rounded-lg bg-background border">
-                          <Users className="h-4 w-4 mt-1 text-primary" />
-                          <div>
-                            <p className="text-xs font-bold">Conditions</p>
-                            <p className="text-md text-muted-foreground">
-                              {selectedPackage.conditions}
-                            </p>
-                          </div>
-                        </div>
+                      <div className="flex flex-col gap-3 p-4 rounded-xl bg-muted/30 border border-border">
+                        <FlightScheduleRender data={selectedPackage} />
                       </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
-                        Freebies
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedPackage.freebies.split(",").map((item, i) => (
-                          <span
-                            key={i}
-                            className="px-2 py-1 rounded bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs font-medium"
-                          >
-                            ✨ {item.trim()}
-                          </span>
-                        ))}
+                      <div className="space-y-3">
+                        <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
+                          Freebies
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedPackage.freebies.length > 0 ? (
+                            selectedPackage.freebies
+                              .split(",")
+                              .map((item, i) => (
+                                <span
+                                  key={i}
+                                  className="px-3 py-1.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-[10px] font-bold"
+                                >
+                                  ✨ {item.trim()}
+                                </span>
+                              ))
+                          ) : (
+                            <span className="text-sm text-muted-foreground">
+                              N/A
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </aside>
@@ -343,38 +241,82 @@ const PackageDetails = ({
                   <ScrollArea className="p-6 col-span-8 min-h-0 max-h-[calc(90vh-200px)]">
                     <div className="p-0 space-y-10">
                       <section>
-                        <h4 className="text-lg font-bold flex items-center gap-2 mb-4">
-                          <Eye className="h-5 w-5 text-primary" /> Overview &
-                          Highlights
+                        <h4 className="text-lg font-bold flex justify-between items-center gap-2 mb-4">
+                          <div className="flex items-center gap-2">
+                            <Eye className="h-5 w-5 text-primary" />
+                            <div>Overview & Highlights</div>
+                          </div>
+                          <div className="flex gap-2 flex-row flex-col">
+                            <div className="text-sm text-muted-foreground uppercase font-semibold">
+                              Sale Period
+                            </div>
+                            <div className="text-xs flex items-center gap-1 text-muted-foreground">
+                              {selectedPackage?.sale_period?.from ? (
+                                selectedPackage?.sale_period?.to ? (
+                                  <>
+                                    {new Date(
+                                      selectedPackage.sale_period.from
+                                    ).toLocaleDateString()}{" "}
+                                    -{" "}
+                                    {new Date(
+                                      selectedPackage.sale_period.to
+                                    ).toLocaleDateString()}
+                                  </>
+                                ) : (
+                                  new Date(
+                                    selectedPackage.sale_period.from
+                                  ).toLocaleDateString()
+                                )
+                              ) : (
+                                "No sale period"
+                              )}
+                            </div>
+                          </div>
                         </h4>
                         <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed italic border-l-4 pl-4 border-primary/20">
-                          <HighlightText text={selectedPackage.highlight} />
+                          {selectedPackage.highlight ? (
+                            <HighlightText text={selectedPackage.highlight} />
+                          ) : (
+                            "No highlights provided."
+                          )}
                         </div>
                       </section>
 
                       <section>
-                        <h4 className="text-lg font-bold flex items-center gap-2 mb-8">
-                          <Calendar className="h-5 w-5 text-primary" /> Full
-                          Itinerary
+                        <h4 className="text-lg font-bold flex justify-between  items-center gap-2 mb-8">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-5 w-5 text-primary" />
+                            <div>Full Itinerary</div>
+                          </div>
+                          <div className="flex gap-2">
+                            {selectedPackage.tags?.map((tag) => (
+                              <Badge key={tag} className="" variant={"outline"}>
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
                         </h4>
                         <div className="space-y-8 border-l-2 border-muted ml-3 pl-8">
-                          {selectedPackage.itinerary.map((item, idx) => {
-                            const parsed =
-                              typeof item === "string"
-                                ? JSON.parse(item)
-                                : item;
-                            return (
-                              <div key={idx} className="relative">
-                                <div className="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-4 border-background bg-primary shadow-sm" />
-                                <p className="text-md font-black uppercase text-primary tracking-tighter">
-                                  {parsed.day}
-                                </p>
-                                <p className="text-md mt-1 text-foreground leading-snug">
-                                  {parsed.description}
-                                </p>
-                              </div>
-                            );
-                          })}
+                          {selectedPackage.itinerary &&
+                          selectedPackage.itinerary.length > 0
+                            ? selectedPackage.itinerary.map((item, idx) => {
+                                const parsed =
+                                  typeof item === "string"
+                                    ? JSON.parse(item)
+                                    : item;
+                                return (
+                                  <div key={idx} className="relative">
+                                    <div className="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-4 border-background bg-primary shadow-sm" />
+                                    <p className="text-md font-black uppercase text-primary tracking-tighter">
+                                      {parsed.day}
+                                    </p>
+                                    <p className="text-md mt-1 text-foreground leading-snug">
+                                      {parsed.description}
+                                    </p>
+                                  </div>
+                                );
+                              })
+                            : "No itinerary provided."}
                         </div>
                       </section>
 
@@ -384,14 +326,16 @@ const PackageDetails = ({
                           Tours
                         </h4>
                         <p className="text-md text-muted-foreground">
-                          {selectedPackage.optional_tours}
+                          {selectedPackage.optional_tours ||
+                            "No optional tours provided."}
                         </p>
                         <div className="mt-4 pt-4 border-t border-muted-foreground/20">
                           <p className="text-xs font-bold text-foreground">
                             Important Notes:
                           </p>
                           <p className="text-xs text-muted-foreground italic">
-                            {selectedPackage.important_notes}
+                            {selectedPackage.important_notes ||
+                              "No important notes provided."}
                           </p>
                         </div>
                       </section>
@@ -403,7 +347,8 @@ const PackageDetails = ({
                             Includes
                           </h5>
                           <p className="text-xs leading-relaxed text-green-900/80 dark:text-green-300">
-                            {selectedPackage.includes}
+                            {selectedPackage.includes ||
+                              "No details on what the package includes."}
                           </p>
                         </div>
                         <div className="p-4 bg-red-50/50 rounded-xl border border-red-100 dark:bg-red-950/10 dark:border-red-900/30">
@@ -411,131 +356,47 @@ const PackageDetails = ({
                             <XCircle className="h-4 w-4" /> Package Excludes
                           </h5>
                           <p className="text-xs leading-relaxed text-red-900/80 dark:text-red-300">
-                            {selectedPackage.excludes}
+                            {selectedPackage.excludes ||
+                              "No details on what the package excludes."}
                           </p>
                         </div>
+                      </div>
+
+                      <div className="space-y-3 grid grid-cols-1 md:grid-cols-1">
+                        <div className="flex items-start gap-3 p-3 rounded-lg bg-background border">
+                          <MapPin className="h-4 w-4 mt-1 text-primary" />
+                          <div>
+                            <p className="text-xs font-bold">Route</p>
+                            <p className="text-md text-muted-foreground">
+                              {selectedPackage.route === ""
+                                ? "-"
+                                : selectedPackage.route}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3 p-3 rounded-lg bg-background border">
+                          <Users className="h-4 w-4 mt-1 text-primary" />
+                          <div>
+                            <p className="text-xs font-bold">Conditions</p>
+                            <p className="text-md text-muted-foreground">
+                              {selectedPackage.conditions === ""
+                                ? "-"
+                                : selectedPackage.conditions}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
+                          Freebies
+                        </h4> */}
                       </div>
                     </div>
                   </ScrollArea>
                 </div>
-                <div className="md:hidden flex flex-col h-full overflow-y-auto bg-background">
-                  {selectedPackage.main_image_url && (
-                    <div
-                      className="relative aspect-video w-full shrink-0"
-                      onClick={() => setOpenImagePreview(true)}
-                    >
-                      <Image
-                        src={selectedPackage.main_image_url}
-                        alt={selectedPackage.title}
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                        <h2 className="text-white font-bold text-lg leading-tight">
-                          {selectedPackage.title}
-                        </h2>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="p-4 space-y-8">
-                    {/* Quick Info Cards (Horizontal Scroll on Mobile) */}
-                    <section className="space-y-3">
-                      <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                        Logistics
-                      </h4>
-                      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                        <div className="min-w-[200px] flex items-start gap-3 p-3 rounded-lg bg-background border shadow-sm">
-                          <Plane className="h-4 w-4 mt-1 text-primary shrink-0" />
-                          <div>
-                            <p className="text-[10px] font-bold uppercase text-muted-foreground">
-                              Flight
-                            </p>
-                            {/* <p className="text-sm font-mono">
-                              {selectedPackage.flight_schedule}
-                            </p> */}
-                          </div>
-                        </div>
-                        <div className="min-w-[200px] flex items-start gap-3 p-3 rounded-lg bg-background border shadow-sm">
-                          <MapPin className="h-4 w-4 mt-1 text-primary shrink-0" />
-                          <div>
-                            <p className="text-[10px] font-bold uppercase text-muted-foreground">
-                              Route
-                            </p>
-                            <p className="text-sm">{selectedPackage.route}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-
-                    {/* Freebies */}
-                    <div className="flex flex-wrap gap-2">
-                      {selectedPackage.freebies.split(",").map((item, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-[10px] font-bold"
-                        >
-                          ✨ {item.trim()}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Overview */}
-                    <section>
-                      <h4 className="text-md font-bold flex items-center gap-2 mb-3">
-                        <Eye className="h-4 w-4 text-primary" /> Overview
-                      </h4>
-                      <div className="prose prose-sm text-muted-foreground italic border-l-4 pl-4 border-primary/20">
-                        <HighlightText text={selectedPackage.highlight} />
-                      </div>
-                    </section>
-
-                    {/* Itinerary - Simplified Line for Mobile */}
-                    <section>
-                      <h4 className="text-md font-bold flex items-center gap-2 mb-6">
-                        <Calendar className="h-4 w-4 text-primary" /> Full
-                        Itinerary
-                      </h4>
-                      <div className="space-y-6 border-l-2 border-muted ml-2 pl-6">
-                        {selectedPackage.itinerary.map((item, idx) => {
-                          const parsed =
-                            typeof item === "string" ? JSON.parse(item) : item;
-                          return (
-                            <div key={idx} className="relative">
-                              <div className="absolute -left-[29px] top-1 h-3 w-3 rounded-full bg-primary" />
-                              <p className="text-xs font-black uppercase text-primary italic">
-                                {parsed.day}
-                              </p>
-                              <p className="text-sm mt-1 text-foreground leading-relaxed">
-                                {parsed.description}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </section>
-
-                    {/* Includes / Excludes - Vertical Stack for Mobile */}
-                    <div className="space-y-4">
-                      <div className="p-4 bg-green-50/50 rounded-xl border border-green-100">
-                        <h5 className="flex items-center gap-2 text-sm font-bold text-green-700 mb-2">
-                          <CheckCircle2 className="h-4 w-4" /> Includes
-                        </h5>
-                        <p className="text-xs text-green-900/80">
-                          {selectedPackage.includes}
-                        </p>
-                      </div>
-                      <div className="p-4 bg-red-50/50 rounded-xl border border-red-100">
-                        <h5 className="flex items-center gap-2 text-sm font-bold text-red-700 mb-2">
-                          <XCircle className="h-4 w-4" /> Excludes
-                        </h5>
-                        <p className="text-xs text-red-900/80">
-                          {selectedPackage.excludes}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <PackageDetailsMobile
+                  selectedPackage={selectedPackage}
+                  setOpenImagePreview={setOpenImagePreview}
+                />
 
                 <div className="p-4 border-t bg-background flex justify-between items-center px-4 rounded-b-lg">
                   <div className="flex gap-4 items-center">

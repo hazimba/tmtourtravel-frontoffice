@@ -59,7 +59,13 @@ export const packageSchema = z.object({
     const num = Number(val);
     return isNaN(num) ? 0 : num;
   }),
-  sale_period: z.coerce.date().optional(),
+  sale_period: z
+    .object({
+      from: z.date().optional(),
+      to: z.date().optional(),
+    })
+    .optional()
+    .default({ from: undefined, to: undefined }),
   update_period: z.coerce.date().optional(),
   sale_able_market: z.string().optional().default(""),
   is_publish: z.boolean().optional().default(false),

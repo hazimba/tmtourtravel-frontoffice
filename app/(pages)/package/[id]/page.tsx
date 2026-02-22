@@ -7,6 +7,7 @@ import { ArrowRight, CalendarDays, MapPin, Plane, Star } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
+import FlightScheduleRender from "@/components/FlightScheduleRender";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
@@ -186,81 +187,29 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 <span className="font-semibold">{data.conditions}</span>
               </li>
               <Separator className="my-4" />
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <Plane className="h-5 w-5 text-primary" />
-                  <h3 className="text-sm font-semibold uppercase tracking-wider">
-                    Flight Schedule
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  {Array.isArray(data.flight_schedule) &&
-                  data.flight_schedule.length > 0 ? (
-                    data.flight_schedule.map((item: any, idx: number) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-4 p-2.5 rounded-md bg-background border shadow-sm"
-                      >
-                        <CalendarDays className="h-4 w-4 text-muted-foreground" />
-
-                        <div className="flex items-center gap-3">
-                          <div className="flex flex-col">
-                            <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
-                              Departure
-                            </span>
-                            <span className="text-sm font-medium">
-                              {item.range?.from
-                                ? format(
-                                    new Date(item.range.from),
-                                    "dd MMM yyyy"
-                                  )
-                                : "N/A"}
-                            </span>
-                          </div>
-
-                          <ArrowRight className="h-4 w-4 text-muted-foreground/50 mx-1" />
-
-                          <div className="flex flex-col">
-                            <span className="text-[10px] uppercase text-muted-foreground font-bold leading-none mb-1">
-                              Return
-                            </span>
-                            <span className="text-sm font-medium">
-                              {item.range?.to
-                                ? format(new Date(item.range.to), "dd MMM yyyy")
-                                : "TBA"}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-muted-foreground italic">
-                      No flights scheduled yet.
-                    </p>
-                  )}
-                </div>
-              </div>
+              <FlightScheduleRender data={data} />
               <li className="flex justify-between pt-2">
                 <span className="text-slate-500">Market:</span>
                 <span className="text-xs font-bold px-2 py-0.5 bg-slate-200 rounded">
-                  {data.sale_able_market}
+                  {data.sale_able_market || "N/A"}
                 </span>
               </li>
             </ul>
           </div>
 
-          <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
-            <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
-              Features
-            </h3>
+          {data.features.length !== 0 && (
+            <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
+              <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
+                Features
+              </h3>
 
-            <div className="text-sm text-green-800 leading-relaxed space-y-1">
-              {data.features.map((feature: string, idx: number) => (
-                <p key={idx}>• {feature}</p>
-              ))}
+              <div className="text-sm text-green-800 leading-relaxed space-y-1">
+                {data.features.map((feature: string, idx: number) => (
+                  <p key={idx}>• {feature}</p>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
             <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
@@ -304,10 +253,33 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
 
       <footer className="mt-12 pt-4 border-t text-sm text-slate-500 italic space-y-2">
         <div className="flex justify-between items-center text-xs">
-          <p>
-            Sale Period: {data.sale_period} to {data.update_period}
-          </p>
-          <p>Last Sync: {new Date(data.updatedAt).toLocaleString()}</p>
+          <div className="flex gap-2 md:flex-row flex-col">
+            <div className="text-sm text-muted-foreground uppercase font-semibold">
+              Sale Period
+            </div>
+            <div className="text-xs flex items-center gap-1 text-muted-foreground">
+              {data?.sale_period?.from ? (
+                data?.sale_period?.to ? (
+                  <>
+                    {new Date(data.sale_period.from).toLocaleDateString()} -{" "}
+                    {new Date(data.sale_period.to).toLocaleDateString()}
+                  </>
+                ) : (
+                  new Date(data.sale_period.from).toLocaleDateString()
+                )
+              ) : (
+                "No sale period"
+              )}
+            </div>
+          </div>
+          <div className="flex gap-2 md:flex-row flex-col">
+            <div className="text-sm text-muted-foreground uppercase font-semibold">
+              Last Update:
+            </div>
+            <div className="text-xs flex items-center gap-1 text-muted-foreground">
+              {new Date(data.updatedAt).toLocaleString()}
+            </div>
+          </div>
         </div>
       </footer>
     </main>

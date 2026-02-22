@@ -108,6 +108,10 @@ export const onSubmit = async ({
     data.updatedAt = new Date();
     data.embedded = getYouTubeEmbedUrl(data.embedded);
 
+    if (!data.sale_period) {
+      data.sale_period = {};
+    }
+
     const result = await supabase
       .from("packages")
       .update(data)
