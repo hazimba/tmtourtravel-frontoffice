@@ -16,6 +16,7 @@ import {
   Eye,
   MapPin,
   Star,
+  Trash2,
   Users,
   XCircle,
 } from "lucide-react";
@@ -296,7 +297,7 @@ const PackageDetails = ({
                             ))}
                           </div>
                         </h4>
-                        <div className="space-y-8 border-l-2 border-muted ml-3 pl-8">
+                        <div className="space-y-8 border-l-4 pl-4 border-primary/20 prose prose-sm max-w-none text-muted-foreground leading-relaxed italic">
                           {selectedPackage.itinerary &&
                           selectedPackage.itinerary.length > 0
                             ? selectedPackage.itinerary.map((item, idx) => {
@@ -409,27 +410,22 @@ const PackageDetails = ({
                       </span>
                     </div>
                     <Separator orientation="vertical" className="h-8" />
-                    {/* <div className="flex flex-col">
-                      <span className="text-[10px] uppercase text-muted-foreground font-bold">
-                        Priority
-                      </span>
-                      <span className="text-xs font-semibold">
-                        Tier {selectedPackage.web_tier} / P
-                        {selectedPackage.web_priority}
-                      </span>
-                    </div> */}
                   </div>
 
                   <div className="flex gap-3">
                     <div>
                       <Popover open={showConfirm} onOpenChange={setShowConfirm}>
-                        <PopoverTrigger asChild>
-                          <Button
+                        <PopoverTrigger
+                          asChild
+                          className="flex items-center h-full mr-4 gap-1 text-red-600 hover:text-red-800 transition-colors"
+                        >
+                          {/* <Button
                             variant="destructive"
                             onClick={() => setShowConfirm(true)}
                           >
                             Delete
-                          </Button>
+                          </Button> */}
+                          <Trash2 className="h-4 w-4 cursor-pointer" />
                         </PopoverTrigger>
                         <PopoverContent className="w-92" align="start">
                           <div className="text-sm font-medium mb-2">
@@ -460,8 +456,17 @@ const PackageDetails = ({
                         </PopoverContent>
                       </Popover>
                     </div>
-                    <Link href={`/admin/packages/edit/${selectedPackage.uuid}`}>
+                    <Link
+                      className="hidden md:block"
+                      href={`/admin/packages/edit/${selectedPackage.uuid}`}
+                    >
                       <Button className="px-8">Edit This Package</Button>
+                    </Link>
+                    <Link
+                      className="md:hidden"
+                      href={`/admin/packages/edit/${selectedPackage.uuid}`}
+                    >
+                      <Button className="px-8">Edit</Button>
                     </Link>
                   </div>
                 </div>

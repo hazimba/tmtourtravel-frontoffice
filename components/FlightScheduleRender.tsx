@@ -23,7 +23,7 @@ const FlightScheduleRender = ({ data }: FlightScheduleRenderProps) => {
             data.flight_schedule.map((item: any, idx: number) => (
               <div
                 key={idx}
-                className="flex items-center md:gap-8 gap-4 p-2.5 rounded-md bg-background border shadow-sm"
+                className="flex items-center md:gap-8 gap-4 p-2.5 rounded-md bg-background border"
               >
                 <CalendarDays className="h-4 w-4 text-muted-foreground" />
 
