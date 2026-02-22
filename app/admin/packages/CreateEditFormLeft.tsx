@@ -214,6 +214,7 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col gap-2 justify-between">
           <Label>Web Priority</Label>
           <Input
+            type="number"
             placeholder="Enter web priority"
             {...register("web_priority")}
           />
@@ -221,7 +222,11 @@ const CreateEditFormLeft = ({
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Web Tier</Label>
-          <Input placeholder="Enter web tier" {...register("web_tier")} />
+          <Input
+            type="number"
+            placeholder="Enter web tier"
+            {...register("web_tier")}
+          />
         </div>
 
         {/* <div className="flex flex-col gap-2 justify-between">

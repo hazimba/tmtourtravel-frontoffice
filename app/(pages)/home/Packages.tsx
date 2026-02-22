@@ -7,7 +7,8 @@ import Link from "next/link";
 const PackagesSection = async () => {
   const { data: packages, error: pkgErr } = await supabase
     .from("packages")
-    .select("*");
+    .select("*")
+    .order("web_priority", { ascending: false });
 
   if (pkgErr) throw new Error(pkgErr.message);
 

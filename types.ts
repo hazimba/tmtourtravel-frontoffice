@@ -7,7 +7,6 @@ export enum Tags {
   HOT = "HOT",
   POPULAR = "POPULAR",
   NEW = "NEW",
-  RECOMMENDED = "RECOMMENDED",
 }
 
 export enum PackageSession {

@@ -318,6 +318,17 @@ export const PackagePDF = ({ data }: { data: any }) => (
             </View>
           </View>
 
+          <View style={[styles.box, styles.redBox]}>
+            <Text style={[styles.boxTitle, { color: "#b91c1c" }]}>
+              Features
+            </Text>
+            {data.features.map((feature: string, idx: number) => (
+              <Text style={{ fontSize: 9 }} key={idx}>
+                • {feature}
+              </Text>
+            ))}
+          </View>
+
           <View style={[styles.box, styles.greenBox]}>
             <Text style={[styles.boxTitle, { color: "#15803d" }]}>
               Includes
@@ -334,13 +345,13 @@ export const PackagePDF = ({ data }: { data: any }) => (
 
           <View style={[styles.box, styles.yellowBox]}>
             <Text style={[styles.boxTitle, { color: "#a16207" }]}>
-              Freebies 🎁
+              Freebies
             </Text>
             <Text style={{ fontSize: 9 }}>{data.freebies}</Text>
           </View>
           <View
             style={{
-              backgroundColor: "#eef2ff", // indigo-50
+              backgroundColor: "#eef2ff",
               padding: 12,
               borderRadius: 8,
               borderWidth: 1,

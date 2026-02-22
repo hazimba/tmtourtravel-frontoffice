@@ -2,11 +2,6 @@ import SelectPackage from "@/components/admin-ui/FormItem/SelectPackage";
 import { Input } from "@/components/ui/input";
 import React from "react";
 
-interface SelectOption {
-  label: string;
-  value: string;
-}
-
 interface InfoCardProps<T> {
   icon: React.ReactNode;
   label: string;

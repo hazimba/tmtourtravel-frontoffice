@@ -1,6 +1,7 @@
 import DownloadPdfButton from "@/components/DownloadPdfButtonWrapper";
 import HighlightText from "@/components/HighlightText";
 import { ShareButton } from "@/components/SharePackageButton";
+import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabaseClient";
 import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
@@ -43,7 +44,17 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </span>
           </div>
           <h1 className="text-4xl font-extrabold mb-2">{data.title}</h1>
-          <p className="text-lg opacity-90">{data.subtitle}</p>
+          <div className="w-full flex justify-between items-center">
+            <p className="text-lg opacity-90 hidden md:block">
+              {data.subtitle}
+            </p>
+            <Badge
+              variant="secondary"
+              className="md:text-xl font-semibold tracking-widest py-2 px-4 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg shadow-lg"
+            >
+              FROM RM 8990
+            </Badge>
+          </div>
         </div>
       </section>
 
@@ -140,6 +151,21 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             <ShareButton uuid={data.uuid} />
           </div>
 
+          {data.embedded && (
+            <div className="bg-red-50 md:p-6 p-4 rounded-xl border border-red-200">
+              <div className="aspect-video">
+                <iframe
+                  className="w-full h-full rounded-lg"
+                  src={data.embedded}
+                  title="Embedded Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          )}
+
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
             <h3 className="font-bold text-lg mb-4 text-blue-700">
               Logistics & Rules
@@ -170,6 +196,18 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 </span>
               </li>
             </ul>
+          </div>
+
+          <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
+            <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
+              Features
+            </h3>
+
+            <div className="text-sm text-green-800 leading-relaxed space-y-1">
+              {data.features.map((feature: string, idx: number) => (
+                <p key={idx}>• {feature}</p>
+              ))}
+            </div>
           </div>
 
           <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">

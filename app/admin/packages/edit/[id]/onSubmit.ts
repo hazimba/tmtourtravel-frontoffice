@@ -1,5 +1,6 @@
 "use client";
 
+import { getYouTubeEmbedUrl } from "@/lib/getYouTubeEmbedUrl";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues } from "@/schemas/packages.schema";
 
@@ -90,6 +91,8 @@ export const onSubmit = async ({
 
   const uuid = id;
 
+  console.log("Submitting form with data:", data);
+
   try {
     if (mainImageSelect) {
       await removeImageFromBucket(uuid);
@@ -103,6 +106,7 @@ export const onSubmit = async ({
     }
 
     data.updatedAt = new Date();
+    data.embedded = getYouTubeEmbedUrl(data.embedded);
 
     const result = await supabase
       .from("packages")

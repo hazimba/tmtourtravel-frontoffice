@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 import { toast } from "sonner";
 import { PackageFormValues } from "@/schemas/packages.schema";
+import { getYouTubeEmbedUrl } from "@/lib/getYouTubeEmbedUrl";
 
 interface PackageFormValuesProp {
   data: Partial<PackageFormValues>;
@@ -122,7 +123,12 @@ export const onSubmit = async ({
     setIsLoading(false);
     return;
   }
-  const dataToInsert = { ...data, uuid, main_image_url: imageUrl };
+  const dataToInsert = {
+    ...data,
+    uuid,
+    main_image_url: imageUrl,
+    embedded: getYouTubeEmbedUrl(data.embedded),
+  };
 
   try {
     const result = await supabase

@@ -38,8 +38,18 @@ export const packageSchema = z.object({
   important_notes: z.string().optional().default(""),
   conditions: z.string().optional().default(""),
   embedded: z.string().optional().default(""),
-  web_priority: z.number().int().optional().default(0),
-  web_tier: z.number().int().optional().default(0),
+  web_priority: z
+    .any()
+    .transform((val) => {
+      const num = Number(val);
+      return isNaN(num) ? 0 : num;
+    })
+    .optional()
+    .default(0),
+  web_tier: z.any().transform((val) => {
+    const num = Number(val);
+    return isNaN(num) ? 0 : num;
+  }),
   sale_period: z.coerce.date().optional(),
   update_period: z.coerce.date().optional(),
   sale_able_market: z.string().optional().default(""),
