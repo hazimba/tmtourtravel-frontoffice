@@ -109,7 +109,7 @@ const PackageDetails = ({
   }, [selectedPackage]);
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="">
       <Dialog
         open={!!selectedPackage}
         onOpenChange={(open) => {

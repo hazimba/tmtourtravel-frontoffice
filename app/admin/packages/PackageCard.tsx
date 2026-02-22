@@ -67,7 +67,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
         >
           {pkg.title}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-1 mb-4">
+        <p className="text-sm text-muted-foreground line-clamp-1 mb-4 min-h-5">
           {pkg.subtitle}
         </p>
         <div className="mt-auto pt-4 border-t flex items-center justify-between gap-2 text-[11px] text-muted-foreground">

@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: "TM Tours & Travel",
     images: [
       {
-        url: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
+        url: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/nav-logo.jpg",
         width: 1200,
         height: 630,
         alt: "TM Tours & Travel - Trusted Muslim Tour Operator in Malaysia",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     description:
       "Helping Malaysian families with unforgettable travel experiences. Contact TM Tours & Travel for the best travel packages and promotions.",
     images: [
-      "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
+      "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/nav-logo.jpg",
     ],
   },
   metadataBase: new URL(
@@ -94,7 +94,7 @@ export default function RootLayout({
       "https://www.facebook.com/tmtourstravel",
       "https://www.instagram.com/tm_tours",
     ],
-    logo: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/profile-muaz.jpeg",
+    logo: "https://tmtourtravel-frontoffice-git-main-hazim-bakars-projects.vercel.app/nav-logo.jpg",
   };
   return (
     <html lang="en">

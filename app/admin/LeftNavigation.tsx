@@ -33,8 +33,8 @@ const LeftNavigation = () => {
       icon: <Package className="mr-2 h-4 w-4" />,
     },
     {
-      title: "Features",
-      href: "/admin/features",
+      title: "Partners & Testimonials",
+      href: "/admin/partners",
       icon: <Sparkles className="mr-2 h-4 w-4" />,
     },
     {

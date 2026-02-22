@@ -28,6 +28,9 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   const { error } = await query;
   if (error) console.error(error);
 
+  const currentPage = Number(params?.page) || 1;
+  const currentLimit = Number(params?.limit) || 4; // Get limit from URL
+
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
       <div className="space-y-4">
@@ -95,19 +98,16 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Suspense
-          key={`${title}-${country}-${type}`}
-          fallback={
-            <>
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-64 bg-muted animate-pulse rounded-xl"
-                />
-              ))}
-            </>
-          }
+          key={`${title}-${country}-${type}-${currentPage}-${4}`} // Include all relevant params in the key
+          fallback={<PackageList />}
         >
-          <PackageList title={title} country={country} type={type} />
+          <PackageList
+            title={title}
+            country={country}
+            type={type}
+            page={currentPage}
+            limit={currentLimit}
+          />
         </Suspense>
       </div>
     </div>

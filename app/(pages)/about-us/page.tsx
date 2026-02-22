@@ -161,8 +161,7 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-      {/* Registered With Section */}
-      <section className="w-full md:py-10">
+      {/* <section className="w-full md:py-10">
         <div className="max-w-5xl mx-auto px-6 md:px-10">
           <h2 className="text-3xl font-bold mb-12 text-gray-900 flex justify-center">
             We Are Registered With
@@ -207,7 +206,7 @@ const AboutUsPage = () => {
             </ul>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
