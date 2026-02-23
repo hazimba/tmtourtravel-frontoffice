@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMobileDetectClient } from "@/lib/hooks/useMobileDetect";
 import { Package } from "@/types";
 import { useRouter } from "next/navigation";
+import { ImageOff } from "lucide-react";
 
 interface ProductImageRenderProps {
   micePackage: Package[];
@@ -53,19 +54,27 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
                   className="relative group cursor-pointer"
                   onClick={() => handleProductClick(mice.uuid, index)}
                 >
-                  <Image
-                    src={mice.main_image_url}
-                    alt={index.toString()}
-                    height={100}
-                    width={500}
-                    className={`object-cover transition duration-300 lg:!h-50 h-30 w-full ${
-                      isMobile
-                        ? isActive
-                          ? "opacity-100"
-                          : "opacity-40"
-                        : "opacity-40 group-hover:opacity-100"
-                    }`}
-                  />
+                  {mice.main_image_url ? (
+                    <Image
+                      src={mice.main_image_url}
+                      alt={index.toString()}
+                      height={100}
+                      width={500}
+                      className={`object-cover transition duration-300 lg:!h-50 h-30 w-full ${
+                        isMobile
+                          ? isActive
+                            ? "opacity-100"
+                            : "opacity-40"
+                          : "opacity-40 group-hover:opacity-100"
+                      }`}
+                    />
+                  ) : (
+                    <div className="h-30 lg:h-50 w-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-500">
+                        <ImageOff className="h-12 w-12" />
+                      </span>
+                    </div>
+                  )}
 
                   <div
                     className={`absolute flex flex-col inset-0 flex items-center justify-center bg-opacity-40 transition duration-300 ${

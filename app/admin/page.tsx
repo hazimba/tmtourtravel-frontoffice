@@ -10,6 +10,7 @@ import {
 import { supabase } from "@/lib/supabaseClient";
 import { CalendarCheck, Mail, MapPin } from "lucide-react";
 import EnquiryChart from "./EnquiryChart";
+import { Package } from "@/types";
 
 const AdminDashboardPage = async () => {
   const { data: enquiries, error } = await supabase
@@ -37,6 +38,14 @@ const AdminDashboardPage = async () => {
       }) === today
   );
 
+  const { data: packages, error: packagesError } = await supabase
+    .from("packages")
+    .select("*");
+
+  if (packagesError) {
+    console.error("Error fetching packages:", packagesError);
+  }
+
   return (
     <div className="p-6 space-y-6 overflow-y-auto h-[95vh] bg-gray-50/50">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -46,45 +55,95 @@ const AdminDashboardPage = async () => {
         />
       </div>
 
-      <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
-        <Table className="">
-          <TableHeader className="bg-slate-50/50">
-            <TableRow>
-              <TableHead>Customer</TableHead>
-              <TableHead>Destination</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead className="text-right">Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {enquiries.slice(0, 5).map((enquiry) => (
-              <TableRow
-                key={enquiry.id}
-                className="hover:bg-gray-50 transition-colors"
-              >
-                <TableCell>
-                  <div className="font-medium text-gray-900">
-                    {enquiry.name}
-                  </div>
-                  <div className="text-gray-500 text-xs">{enquiry.email}</div>
-                </TableCell>
-                <TableCell>
-                  <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
-                    <MapPin size={12} /> {enquiry.destination}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
-                    +6{enquiry.phone}
-                  </span>
-                </TableCell>
-                <TableCell className="text-gray-500 text-right">
-                  {new Date(enquiry.created_at).toLocaleDateString()}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="flex flex-col md:flex-row gap-4 h-[30vh]">
+        <div className="rounded-xl w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-y-auto">
+            <Table className="grid-cols-1 md:grid-cols-1">
+              <TableHeader className="bg-slate-200/50">
+                <TableRow>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Destination</TableHead>
+                  <TableHead>Phone</TableHead>
+                  <TableHead className="text-right">Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {enquiries.slice(0, 7).map((enquiry) => (
+                  <TableRow
+                    key={enquiry.id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <TableCell>
+                      <div className="font-medium text-gray-900">
+                        {enquiry.name}
+                      </div>
+                      <div className="text-gray-500 text-xs">
+                        {enquiry.email}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
+                        <MapPin size={12} /> {enquiry.destination}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
+                        +6{enquiry.phone}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-gray-500 text-right">
+                      {new Date(enquiry.created_at).toLocaleDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+        <div className="rounded-xl w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-y-auto">
+            <Table className="grid-cols-1 md:grid-cols-1">
+              <TableHeader className="bg-slate-200/50">
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Subtitle</TableHead>
+                  <TableHead>Country</TableHead>
+                  <TableHead className="text-right">Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {packages?.slice(0, 5).map((pkg: Package) => (
+                  <TableRow
+                    key={pkg.uuid}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <TableCell>
+                      <div className="font-medium text-gray-900">
+                        {pkg.title}
+                      </div>
+                      <div className="text-gray-500 text-xs">
+                        {pkg.subtitle}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
+                        <MapPin size={12} /> {pkg.location}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
+                        {pkg.country}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-gray-500 text-right">
+                      {pkg.session}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">

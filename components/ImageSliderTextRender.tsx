@@ -12,7 +12,7 @@ const ImageSliderTextRender = ({ slide }: ImageSliderTextRenderProps) => {
       <h1 className="text-2xl md:text-5xl font-bold text-white drop-shadow-lg mb-2 px-8 max-w-4xl">
         {slide.title}
       </h1>
-      <p className="text-lg md:text-2xl text-white drop-shadow mb-20 px-8 max-w-5xl">
+      <p className="text-lg md:text-2xl text-white drop-shadow mb-12 px-8 max-w-5xl">
         {slide.subtitle}
       </p>
       <Link href={`${slide.buttonpath}`} className="">

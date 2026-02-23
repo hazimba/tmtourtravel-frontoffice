@@ -59,13 +59,14 @@ export const packageSchema = z.object({
     const num = Number(val);
     return isNaN(num) ? 0 : num;
   }),
-  sale_period: z
-    .object({
-      from: z.date().optional(),
-      to: z.date().optional(),
-    })
-    .optional()
-    .default({ from: undefined, to: undefined }),
+  //  sale_period: z
+  //   .object({
+  //     from: z.date().optional(),
+  //     to: z.date().optional(),
+  //   })
+  //   .optional()
+  //   .default({ from: undefined, to: undefined }),
+  sale_period: z.any().optional(),
   update_period: z.coerce.date().optional(),
   sale_able_market: z.string().optional().default(""),
   is_publish: z.boolean().optional().default(false),
@@ -100,7 +101,7 @@ export const packageSchema = z.object({
   location: z.string().optional().default(""),
   tour_code: z.string().optional().default(""),
   features: z.array(z.string()).optional().default([]),
-  main_image_url: z.string().optional().default(""),
+  main_image_url: z.any().optional(),
   sub_image_urls: z.array(z.string()).optional().default([]),
   tags: z.array(z.string()).optional().default([]),
   // update_at: z.coerce.date().optional(),

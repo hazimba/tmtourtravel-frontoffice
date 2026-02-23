@@ -40,7 +40,7 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
                 ))}
               </div>
             )}
-            {pkg.main_image_url && (
+            {pkg.main_image_url ? (
               <Image
                 src={pkg.main_image_url}
                 alt="Travel"
@@ -48,6 +48,10 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
                 width={4000}
                 height={2000}
               />
+            ) : (
+              <div className="h-40 w-full bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500">No Image Available</span>
+              </div>
             )}
             <div className="p-4 flex flex-col md:flex-1 justify-between">
               <div>
