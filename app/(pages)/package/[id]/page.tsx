@@ -1,16 +1,30 @@
 import DownloadPdfButton from "@/components/DownloadPdfButtonWrapper";
+import FlightScheduleRender from "@/components/FlightScheduleRender";
 import HighlightText from "@/components/HighlightText";
 import { ShareButton } from "@/components/SharePackageButton";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/lib/supabaseClient";
-import { ArrowRight, CalendarDays, MapPin, Plane, Star } from "lucide-react";
-import Image from "next/image";
-import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
-import FlightScheduleRender from "@/components/FlightScheduleRender";
+import { MapPin, Star } from "lucide-react";
+import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
+  const supabase = await createClient();
+
   const { id } = await params;
+
+  await supabase.from("package_views").insert({
+    package_uuid: id,
+  });
+
+  const { count } = await supabase
+    .from("package_views")
+    .select("*", { count: "exact", head: true })
+    .eq("package_uuid", id);
+
+  console.log("Total views for package", id, ":", count);
 
   const { data, error } = await supabase
     .from("packages")

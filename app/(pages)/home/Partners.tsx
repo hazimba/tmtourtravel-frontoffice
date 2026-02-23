@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
 import { Partner } from "@/types";
 
 const PartnersSection = async () => {
+  const supabase = await createClient();
   const { data: logos, error: logoErr } = await supabase
     .from("accredited-partners")
     .select("*")

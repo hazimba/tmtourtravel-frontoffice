@@ -7,12 +7,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { supabase } from "@/lib/supabaseClient";
-import { CalendarCheck, Mail, MapPin } from "lucide-react";
-import EnquiryChart from "./EnquiryChart";
+// import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
 import { Package } from "@/types";
+import {
+  CalendarCheck,
+  Eye,
+  Mail,
+  MapPin,
+  Package as PackageIcon,
+} from "lucide-react";
+import EnquiryChart from "./EnquiryChart";
 
 const AdminDashboardPage = async () => {
+  const supabase = await createClient();
+
   const { data: enquiries, error } = await supabase
     .from("contact_enquiries")
     .select("*")
@@ -45,6 +54,24 @@ const AdminDashboardPage = async () => {
   if (packagesError) {
     console.error("Error fetching packages:", packagesError);
   }
+
+  const { count: totalViews } = await supabase
+    .from("package_views")
+    .select("*", { count: "exact", head: true });
+
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+
+  const { count: todayViews } = await supabase
+    .from("package_views")
+    .select("*", { count: "exact", head: true })
+    .gte("visited_at", todayStart.toISOString());
+
+  const { data: topPackages } = await supabase.rpc("get_top_packages", {
+    limit_count: 5,
+  });
+
+  console.log("Top Packages:", topPackages);
 
   return (
     <div className="p-6 space-y-6 overflow-y-auto h-[95vh] bg-gray-50/50">
@@ -153,7 +180,84 @@ const AdminDashboardPage = async () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-bold text-slate-800 flex items-center gap-2">
+              <span className="w-2 h-6 bg-primary rounded-full" /> Top Packages
+            </h3>
+            <span className="text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-500 font-bold uppercase">
+              Ranked
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {topPackages?.map(
+              (
+                pkg: {
+                  package_uuid: string;
+                  title: string;
+                  total_views: number;
+                },
+                index: number
+              ) => (
+                <div
+                  key={pkg.package_uuid}
+                  className="group flex items-center justify-between rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100"
+                >
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <span
+                      className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded text-[10px] font-bold ${
+                        index === 0
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-slate-100 text-slate-500"
+                      }`}
+                    >
+                      {index + 1}
+                    </span>
+                    <span className="text-sm font-medium text-slate-700 truncate group-hover:text-primary transition-colors">
+                      {pkg.title}
+                    </span>
+                  </div>
+                  <div className="flex flex-row gap-2 items-end">
+                    <span className="text-sm font-bold text-slate-900">
+                      {pkg.total_views.toLocaleString()}
+                    </span>
+                    <span className="text-[10px] text-slate-400">views</span>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white p-2 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
+              <Eye size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 font-medium">
+                Total Package Views
+              </p>
+              <h3 className="text-2xl font-bold">{totalViews}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-2 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-orange-100 text-orange-600 rounded-lg">
+              <PackageIcon size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 font-medium">Views Today</p>
+              <h3 className="text-2xl font-bold">{todayViews}</h3>
+            </div>
+          </div>
+        </div>
         <div className="bg-white p-2 rounded-xl border shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">

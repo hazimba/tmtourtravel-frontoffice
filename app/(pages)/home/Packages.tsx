@@ -1,10 +1,12 @@
 import { PackagesRender } from "@/components/PackagesRender";
 import ProductImageRender from "@/components/ProductImageRender";
 import { Package } from "@/types";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
 const PackagesSection = async () => {
+  const supabase = await createClient();
   const { data: packages, error: pkgErr } = await supabase
     .from("packages")
     .select("*")

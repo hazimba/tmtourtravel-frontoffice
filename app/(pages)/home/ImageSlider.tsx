@@ -1,8 +1,10 @@
 import SliderHero from "@/components/SliderHero";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
 import { RefreshCw } from "lucide-react";
 
 const ImageSliderSection = async () => {
+  const supabase = await createClient();
   const { data: imagesSlider } = await supabase
     .from("images-slider")
     .select("*")

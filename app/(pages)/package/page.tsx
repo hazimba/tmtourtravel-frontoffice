@@ -2,7 +2,8 @@ import SelectType from "@/components/admin-ui/FormItem/SelectType";
 import { Button } from "@/components/ui/button";
 import { CountryDropdown } from "@/components/ui/country-dropdown";
 import { Input } from "@/components/ui/input";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
+import { createClient as supabase } from "@/lib/supabase/server";
 import { Search, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -20,7 +21,8 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
     : params?.country;
   const type = Array.isArray(params?.type) ? params.type[0] : params?.type;
 
-  let query = supabase.from("packages").select("*");
+  const supabaseClient = await supabase();
+  let query = supabaseClient.from("packages").select("*");
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);

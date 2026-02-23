@@ -1,6 +1,7 @@
 import PackageCard from "@/app/admin/packages/PackageCard";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
 interface Props {
@@ -18,6 +19,7 @@ export default async function PackageList({
   page = 1,
   limit = 4,
 }: Props) {
+  const supabase = await createClient();
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
