@@ -244,13 +244,10 @@ const CreateEditFormLeft = ({
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {watch("sale_period")?.to ? (
                     <>
-                      {/* @ts-expect-error: Unclear why ts is complaining here */}
                       {format(watch("sale_period").from, "LLL dd, y")} -{" "}
-                      {/* @ts-expect-error: Unclear why ts is complaining here */}
                       {format(watch("sale_period").to, "LLL dd, y")}
                     </>
                   ) : (
-                    // @ts-expect-error: Unclear why ts is complaining here
                     format(watch("sale_period").from, "LLL dd, y")
                   )}
                 </Button>

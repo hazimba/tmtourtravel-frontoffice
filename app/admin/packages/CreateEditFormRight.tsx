@@ -40,7 +40,6 @@ const CreateEditFormRight = ({
     remove: removeFeature,
   } = useFieldArray({
     control,
-    // @ts-expect-error: Cannot use 'use' in a Client Component
     name: "features",
   });
 
@@ -114,7 +113,6 @@ const CreateEditFormRight = ({
         <Button
           type="button"
           variant="outline"
-          // @ts-expect-error: Unclear why ts is complaining here
           onClick={() => appendFeature("")}
           className="mt-2"
         >
