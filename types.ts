@@ -7,6 +7,7 @@ export enum Tags {
   HOT = "HOT",
   POPULAR = "POPULAR",
   NEW = "NEW",
+  RECOMMENDED = "RECOMMENDED",
 }
 
 export enum PackageSession {
@@ -100,5 +101,13 @@ export interface Enquiry {
   phone: string;
   destination: string;
   message: string;
+  created_at: Date;
+}
+
+export interface Partner {
+  id: string;
+  name: string;
+  logo_url: string;
+  is_publish: boolean;
   created_at: Date;
 }

@@ -60,7 +60,7 @@ const NavigationBar = async () => {
             About Us
           </span>
         </Link>
-        <Link href="/about-us">
+        <Link href="/contact">
           <span className="ml-4 text-lg font-medium text-muted-foreground">
             Contact
           </span>
