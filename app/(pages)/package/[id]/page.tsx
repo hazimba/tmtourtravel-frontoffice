@@ -75,8 +75,8 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <div className="lg:col-span-3 space-y-8">
+      <div className="md:grid grid-cols-1 md:grid-cols-5 gap-8">
+        <div className="md:col-span-3 space-y-8">
           {/* Overview & Highlights */}
           <section>
             <h2 className="text-2xl font-bold mb-4 border-b pb-2">Overview</h2>
@@ -162,7 +162,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           )}
         </div>
 
-        <div className="space-y-6 col-span-2">
+        <div className="space-y-6 col-span-2 mt-6 md:mt-0">
           <div className="grid grid-cols-2 gap-4">
             <DownloadPdfButton data={data} />
             <ShareButton uuid={data.uuid} />

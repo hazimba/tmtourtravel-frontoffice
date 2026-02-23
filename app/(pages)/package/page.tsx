@@ -31,7 +31,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   if (error) console.error(error);
 
   const currentPage = Number(params?.page) || 1;
-  const currentLimit = Number(params?.limit) || 4; // Get limit from URL
+  const currentLimit = Number(params?.limit) || 4;
 
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
@@ -50,7 +50,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
           method="get"
           className="flex flex-col md:flex-row items-end md:gap-4 gap-1 p-4 border rounded-xl bg-card shadow-sm"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-4 gap-3 w-full flex-grow">
+          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 gap-3 w-full flex-grow">
             <div className="flex flex-col gap-1">
               <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Title
@@ -100,7 +100,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Suspense
-          key={`${title}-${country}-${type}-${currentPage}-${4}`} // Include all relevant params in the key
+          key={`${title}-${country}-${type}-${currentPage}-${4}`}
           fallback={<PackageList />}
         >
           <PackageList

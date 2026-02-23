@@ -77,7 +77,7 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
                   )}
 
                   <div
-                    className={`absolute flex flex-col inset-0 flex items-center justify-center bg-opacity-40 transition duration-300 ${
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
                       isMobile
                         ? isActive
                           ? "opacity-100"
@@ -85,9 +85,12 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
                         : "opacity-0 group-hover:opacity-100"
                     }`}
                   >
-                    <span className="text-black shadow-2xl p-1 font-bold text-2xl font-semibold px-2 text-center">
-                      {mice.title}
-                    </span>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                    <div className="relative z-10 px-6 py-3 mx-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-2xl">
+                      <span className="text-white text-xl md:text-2xl font-bold tracking-tight drop-shadow-lg text-center block uppercase">
+                        {mice.title}
+                      </span>
+                    </div>
                   </div>
                 </div>
               );

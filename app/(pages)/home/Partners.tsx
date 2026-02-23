@@ -8,7 +8,7 @@ const PartnersSection = async () => {
   const { data: logos, error: logoErr } = await supabase
     .from("accredited-partners")
     .select("*")
-    .eq("is_publish", true); // Only show published logos
+    .eq("is_publish", true);
 
   if (logoErr) throw new Error(logoErr.message);
 
@@ -25,8 +25,7 @@ const PartnersSection = async () => {
           We are proud to collaborate with a diverse range of partners.
         </p>
 
-        {/* Changed to a flexible grid/flex layout instead of just overflow-x */}
-        <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 md:gap-12 py-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 py-8">
           {logos.map((partner: Partner) => (
             <div
               key={partner.id}
@@ -35,7 +34,7 @@ const PartnersSection = async () => {
               <Image
                 src={partner.logo_url}
                 alt={partner.name}
-                fill // Use fill for better responsive container handling
+                fill
                 sizes="(max-width: 768px) 128px, 192px"
                 className="object-contain transition-all duration-300 grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100"
               />
