@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
+  ImagePlayIcon,
   ImagePlus,
   LayoutDashboard,
+  MessageCircleHeartIcon,
   Package,
   Settings,
   Sparkles,
@@ -33,14 +35,24 @@ const LeftNavigation = () => {
       icon: <Package className="mr-2 h-4 w-4" />,
     },
     {
-      title: "Partners & Testimonials",
+      title: "Partners",
       href: "/admin/partners",
       icon: <Sparkles className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Testimonials",
+      href: "/admin/testimonials",
+      icon: <MessageCircleHeartIcon className="mr-2 h-4 w-4" />,
     },
     {
       title: "Image Slider",
       href: "/admin/images-slider",
       icon: <ImagePlus className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Image Carousel",
+      href: "/admin/images-carousel",
+      icon: <ImagePlayIcon className="mr-2 h-4 w-4" />,
     },
   ];
 

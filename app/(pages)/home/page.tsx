@@ -33,8 +33,8 @@ const HomePage = async ({
       <FormPopup />
       <div className="">
         <ImageSliderSection />
+        <PartnersSection />
         <div className="flex flex-col gap-12 md:py-20 py-12">
-          <PartnersSection />
           <PackagesSection />
           <ContactEnquiryForm />
         </div>

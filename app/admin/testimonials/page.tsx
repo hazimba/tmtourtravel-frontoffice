@@ -3,7 +3,7 @@ import AddNewItemManage from "@/components/AddNewItemManage";
 import { PageTitle } from "@/components/admin-ui/PageTitle";
 import WorkInProgress from "@/components/WorkInProgress";
 
-const PartnersPage = () => {
+const TestimonialsPage = () => {
   const loading = false;
   const refetchPackages = () => {
     // Placeholder function to refetch packages after adding a new one
@@ -13,13 +13,13 @@ const PartnersPage = () => {
     <div className="px-6 pt-6 space-y-6 h-[95vh] overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
-          title="Partners"
-          subtitle="Manage and preview your partners and testimonials."
+          title="Testimonials"
+          subtitle="Manage and preview your testimonials."
         />
         <AddNewItemManage loading={loading} refetch={refetchPackages} />
       </div>
-      <WorkInProgress title="Partners & Testimonials" />
+      <WorkInProgress title="Testimonials" />
     </div>
   );
 };
-export default PartnersPage;
+export default TestimonialsPage;

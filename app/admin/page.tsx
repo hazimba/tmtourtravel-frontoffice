@@ -55,8 +55,8 @@ const AdminDashboardPage = async () => {
         />
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 h-[30vh]">
-        <div className="rounded-xl w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
+      <div className="flex flex-col md:flex-row gap-4 md:h-[30vh]">
+        <div className="rounded-xl md:w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
           <div className="flex-1 overflow-y-auto">
             <Table className="grid-cols-1 md:grid-cols-1">
               <TableHeader className="bg-slate-200/50">
@@ -64,7 +64,9 @@ const AdminDashboardPage = async () => {
                   <TableHead>Customer</TableHead>
                   <TableHead>Destination</TableHead>
                   <TableHead>Phone</TableHead>
-                  <TableHead className="text-right">Date</TableHead>
+                  <TableHead className="text-right md:table-cell hidden">
+                    Date
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -83,7 +85,8 @@ const AdminDashboardPage = async () => {
                     </TableCell>
                     <TableCell>
                       <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
-                        <MapPin size={12} /> {enquiry.destination}
+                        <MapPin size={12} className=" md:table-cell hidden" />{" "}
+                        {enquiry.destination}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -91,7 +94,7 @@ const AdminDashboardPage = async () => {
                         +6{enquiry.phone}
                       </span>
                     </TableCell>
-                    <TableCell className="text-gray-500 text-right">
+                    <TableCell className="text-gray-500 text-right  md:table-cell hidden">
                       {new Date(enquiry.created_at).toLocaleDateString()}
                     </TableCell>
                   </TableRow>
@@ -100,15 +103,19 @@ const AdminDashboardPage = async () => {
             </Table>
           </div>
         </div>
-        <div className="rounded-xl w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl md:w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
           <div className="flex-1 overflow-y-auto">
             <Table className="grid-cols-1 md:grid-cols-1">
               <TableHeader className="bg-slate-200/50">
                 <TableRow>
                   <TableHead>Title</TableHead>
-                  <TableHead>Subtitle</TableHead>
+                  <TableHead className="hidden md:table-cell">
+                    Subtitle
+                  </TableHead>
                   <TableHead>Country</TableHead>
-                  <TableHead className="text-right">Date</TableHead>
+                  <TableHead className="text-right hidden md:table-cell">
+                    Date
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -117,7 +124,7 @@ const AdminDashboardPage = async () => {
                     key={pkg.uuid}
                     className="hover:bg-gray-50 transition-colors"
                   >
-                    <TableCell>
+                    <TableCell className="truncate">
                       <div className="font-medium text-gray-900">
                         {pkg.title}
                       </div>
@@ -125,17 +132,17 @@ const AdminDashboardPage = async () => {
                         {pkg.subtitle}
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
+                    <TableCell className="hidden md:table-cell">
+                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700 ">
                         <MapPin size={12} /> {pkg.location}
                       </span>
                     </TableCell>
-                    <TableCell>
-                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
+                    <TableCell className="truncate">
+                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary truncate w-10 md:w-full">
                         {pkg.country}
                       </span>
                     </TableCell>
-                    <TableCell className="text-gray-500 text-right">
+                    <TableCell className="text-gray-500 text-right hidden md:table-cell">
                       {pkg.session}
                     </TableCell>
                   </TableRow>
