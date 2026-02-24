@@ -80,6 +80,84 @@ const AdminDashboardPage = async () => {
           subtitle="Overview of your latest leads and enquiries."
         />
       </div>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
+          {/* Thin accent line that makes it feel "designed" */}
+          <div className="h-14 w-1 bg-blue-500 rounded-full group-hover:h-12 transition-all duration-300" />
+
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 pb-4">
+                Current Session
+              </span>
+              {/* Small live pulse dot */}
+              <span className="relative flex h-2 w-2 bottom-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+            </div>
+
+            <div className="flex flex-row gap-6 -mt-1">
+              <span className="text-md font-bold text-gray-800 tracking-tight leading-none">
+                {format(new Date(), "p")}
+              </span>
+              <span className="text-md font-bold text-gray-800 tracking-tight leading-none">
+                {format(new Date(), "PP")}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-2 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
+              <Eye size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 font-medium">
+                Total Package Views
+              </p>
+              <h3 className="text-2xl font-bold">{totalViews}</h3>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-2 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-orange-100 text-orange-600 rounded-lg">
+              <PackageIcon size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 font-medium">Views Today</p>
+              <h3 className="text-2xl font-bold">{todayViews}</h3>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-2 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">
+              <Mail size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 font-medium">
+                Total Enquiries
+              </p>
+              <h3 className="text-2xl font-bold">{enquiries.length}</h3>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-2 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-green-100 text-green-600 rounded-lg">
+              <CalendarCheck size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 font-medium">
+                Received Today
+              </p>
+              <h3 className="text-2xl font-bold">{todayEnquiries.length}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="flex flex-col md:flex-row gap-4 md:h-[30vh]">
         <div className="rounded-xl md:w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
@@ -178,84 +256,7 @@ const AdminDashboardPage = async () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
-          {/* Thin accent line that makes it feel "designed" */}
-          <div className="h-14 w-1 bg-blue-500 rounded-full group-hover:h-12 transition-all duration-300" />
 
-          <div className="flex flex-col justify-center">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 pb-4">
-                Current Session
-              </span>
-              {/* Small live pulse dot */}
-              <span className="relative flex h-2 w-2 bottom-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-              </span>
-            </div>
-
-            <div className="flex flex-row gap-6 -mt-1">
-              <span className="text-md font-bold text-gray-800 tracking-tight leading-none">
-                {format(new Date(), "p")}
-              </span>
-              <span className="text-md font-bold text-gray-800 tracking-tight leading-none">
-                {format(new Date(), "PP")}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-2 rounded-xl border shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
-              <Eye size={24} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">
-                Total Package Views
-              </p>
-              <h3 className="text-2xl font-bold">{totalViews}</h3>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-2 rounded-xl border shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-100 text-orange-600 rounded-lg">
-              <PackageIcon size={24} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">Views Today</p>
-              <h3 className="text-2xl font-bold">{todayViews}</h3>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-2 rounded-xl border shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">
-              <Mail size={24} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">
-                Total Enquiries
-              </p>
-              <h3 className="text-2xl font-bold">{enquiries.length}</h3>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white p-2 rounded-xl border shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-green-100 text-green-600 rounded-lg">
-              <CalendarCheck size={24} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">
-                Received Today
-              </p>
-              <h3 className="text-2xl font-bold">{todayEnquiries.length}</h3>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col">
           <div className="flex items-center justify-between mb-3">
