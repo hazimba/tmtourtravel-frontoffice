@@ -1,5 +1,5 @@
+import FadeIn from "@/components/FadeIn";
 import SliderHero from "@/components/SliderHero";
-// import { supabase } from "@/lib/supabaseClient";
 import { createClient } from "@/lib/supabase/server";
 import { RefreshCw } from "lucide-react";
 
@@ -18,7 +18,7 @@ const ImageSliderSection = async () => {
   const repeatCount = 30;
 
   return (
-    <>
+    <FadeIn>
       <SliderHero slides={imagesSlider} />
       <div className="marquee-container bg-primary py-4 text-black overflow-hidden whitespace-nowrap">
         <div className="marquee-track text-secondary">
@@ -29,7 +29,7 @@ const ImageSliderSection = async () => {
           ))}
         </div>
       </div>
-    </>
+    </FadeIn>
   );
 };
 

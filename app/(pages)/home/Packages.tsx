@@ -4,6 +4,7 @@ import { Package } from "@/types";
 // import { supabase } from "@/lib/supabaseClient";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import FadeIn from "@/components/FadeIn";
 
 const PackagesSection = async () => {
   const supabase = await createClient();
@@ -61,11 +62,13 @@ const PackagesSection = async () => {
               <div className="text-blue-600">View All</div>
             </Link>
           </div>
-          <PackagesRender
-            packages={packages.filter(
-              (i: Package) => i.type === section.type && i.is_publish === true
-            )}
-          />
+          <FadeIn>
+            <PackagesRender
+              packages={packages.filter(
+                (i: Package) => i.type === section.type && i.is_publish === true
+              )}
+            />
+          </FadeIn>
         </div>
       ))}
       <ProductImageRender

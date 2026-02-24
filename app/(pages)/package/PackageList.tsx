@@ -1,4 +1,5 @@
 import PackageCard from "@/app/admin/packages/PackageCard";
+import AnimationPureFade from "@/components/AnimationPureFade";
 import { Button } from "@/components/ui/button";
 // import { supabase } from "@/lib/supabaseClient";
 import { createClient } from "@/lib/supabase/server";
@@ -56,14 +57,16 @@ export default async function PackageList({
   return (
     <>
       {data.map((pkg) => (
-        <div
-          key={pkg.uuid}
-          className="cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col"
-        >
-          <Link href={`/package/${pkg.uuid}`}>
-            <PackageCard pkg={pkg} />
-          </Link>
-        </div>
+        <AnimationPureFade key={`${pkg.uuid}-${page}-${limit}`} page={page}>
+          <div
+            key={pkg.uuid}
+            className="cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col"
+          >
+            <Link href={`/package/${pkg.uuid}`}>
+              <PackageCard pkg={pkg} />
+            </Link>
+          </div>
+        </AnimationPureFade>
       ))}
 
       <div className="col-span-full border-t mt-4 pt-6 pb-10">
@@ -99,8 +102,6 @@ export default async function PackageList({
               </Button>
             </div>
           </div>
-
-          {/* Bottom (Mobile) / Right (Desktop) */}
           <div className="flex justify-center md:justify-end items-center gap-2 order-2 md:order-3">
             <span className="text-xs text-muted-foreground hidden sm:inline">
               Show

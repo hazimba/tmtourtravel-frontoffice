@@ -1,10 +1,10 @@
 "use client";
 
-import { usePDF } from "@react-pdf/renderer";
 import { PackagePDF } from "@/app/(pages)/package/[id]/PackagePDF";
-import { Button } from "@/components/ui/button";
-import { DownloadIcon, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { usePDF } from "@react-pdf/renderer";
+import { DownloadIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import LoadingButton from "./LoadingButton";
 
 export default function DownloadPdfButton({ data }: { data: any }) {
   const [loading, setLoading] = useState(false);
@@ -46,23 +46,13 @@ export default function DownloadPdfButton({ data }: { data: any }) {
   };
 
   return (
-    <Button
-      variant="default"
-      className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
+    <LoadingButton
+      loading={loading}
+      buttonText="Download"
+      loadingText="Generating..."
       onClick={handleDownload}
-      disabled={loading}
-    >
-      {loading ? (
-        <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Generating...
-        </>
-      ) : (
-        <>
-          Download
-          <DownloadIcon size={15} className="ml-2" />
-        </>
-      )}
-    </Button>
+      buttonStyle="bg-blue-700 hover:bg-blue-800 shadow-md"
+      icon={<DownloadIcon size={15} className="ml-2" />}
+    />
   );
 }

@@ -1,18 +1,11 @@
 "use client";
+import { ImageSlider } from "@/types";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import ImageSliderTextRender from "./ImageSliderTextRender";
 
-export type Slide = {
-  imageurl: string;
-  title: string;
-  subtitle: string;
-  buttontext: string;
-};
-
-export default function SliderHero({ slides }: { slides: Slide[] }) {
+export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
   const [current, setCurrent] = useState(0);
   const total = slides.length;
 
@@ -45,7 +38,6 @@ export default function SliderHero({ slides }: { slides: Slide[] }) {
                 className="object-cover h-full w-full opacity-45"
                 priority={idx === current}
               />
-              {/* @ts-expect-error: not sure */}
               <ImageSliderTextRender slide={slide} />
             </div>
           ))

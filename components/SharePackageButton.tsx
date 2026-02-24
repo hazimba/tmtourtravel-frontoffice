@@ -1,7 +1,7 @@
 "use client";
 
 import { supabase } from "@/lib/supabaseClient";
-import { Button } from "./ui/button";
+import LoadingButton from "./LoadingButton";
 
 export function ShareButton({ uuid }: { uuid: string }) {
   console.log("ShareButton rendered with uuid:", uuid);
@@ -39,13 +39,13 @@ Lihat lebih lanjut di: ${shareUrl}
 
   return (
     <>
-      <Button
-        variant="default"
-        className="w-full justify-center bg-blue-700 hover:bg-blue-800 shadow-md"
+      <LoadingButton
+        loading={false}
+        buttonText="Share"
+        loadingText="Preparing..."
         onClick={handleShare}
-      >
-        Share
-      </Button>
+        buttonStyle="bg-blue-700 hover:bg-blue-800 shadow-md"
+      />
     </>
   );
 }
