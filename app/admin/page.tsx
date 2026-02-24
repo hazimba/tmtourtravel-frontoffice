@@ -18,6 +18,7 @@ import {
   Package as PackageIcon,
 } from "lucide-react";
 import EnquiryChart from "./EnquiryChart";
+import { format } from "date-fns";
 
 const AdminDashboardPage = async () => {
   const supabase = await createClient();
@@ -177,7 +178,33 @@ const AdminDashboardPage = async () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
+          {/* Thin accent line that makes it feel "designed" */}
+          <div className="h-14 w-1 bg-blue-500 rounded-full group-hover:h-12 transition-all duration-300" />
+
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 pb-4">
+                Current Session
+              </span>
+              {/* Small live pulse dot */}
+              <span className="relative flex h-2 w-2 bottom-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+            </div>
+
+            <div className="flex flex-row gap-6 -mt-1">
+              <span className="text-md font-bold text-gray-800 tracking-tight leading-none">
+                {format(new Date(), "p")}
+              </span>
+              <span className="text-md font-bold text-gray-800 tracking-tight leading-none">
+                {format(new Date(), "PP")}
+              </span>
+            </div>
+          </div>
+        </div>
         <div className="bg-white p-2 rounded-xl border shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
@@ -191,7 +218,6 @@ const AdminDashboardPage = async () => {
             </div>
           </div>
         </div>
-
         <div className="bg-white p-2 rounded-xl border shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-orange-100 text-orange-600 rounded-lg">

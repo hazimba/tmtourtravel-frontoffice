@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react"; // Assuming you have lucide-react
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -36,31 +36,31 @@ const LoginIn = () => {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
-    // Note: Since 'login' is a Server Action, we wrap it in a client-side handler
     const formData = new FormData();
     formData.append("email", data.email);
     formData.append("password", data.password);
-
     await login(formData);
     setIsLoading(false);
   };
 
   return (
-    <div className="flex items-center justify-center h-screen px-4">
-      <Card className="w-full max-w-md shadow-xl">
+    <div className="relative flex items-center justify-center h-screen w-full overflow-hidden bg-slate-50">
+      <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+      <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+      <div className="absolute -bottom-8 right-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+
+      <Card className="relative w-full max-w-md shadow-2xl bg-white/80 backdrop-blur-xl border-white/20 z-10">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold tracking-tight">
+          <CardTitle className="text-3xl font-extrabold tracking-tight text-slate-900">
             Admin Login
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-500 text-base">
             Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
@@ -69,48 +69,82 @@ const LoginIn = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col justify-between flex-1"
         >
-          <CardContent className="grid gap-4">
-            {/* Email Field */}
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+          <CardContent className="grid gap-6">
+            <Field className="space-y-2">
+              <FieldLabel
+                className="font-semibold text-slate-700"
+                htmlFor="email"
+              >
+                Email
+              </FieldLabel>
               <Input
                 {...register("email")}
+                className="bg-white/50 border-slate-200 focus:bg-white transition-all shadow-sm"
                 id="email"
                 type="email"
-                placeholder="Enter your email..."
+                placeholder="name@company.com"
                 disabled={isLoading}
               />
-              {errors.email && <FieldError>{errors.email.message}</FieldError>}
+              {errors.email && (
+                <FieldError className="text-xs">
+                  {errors.email.message}
+                </FieldError>
+              )}
             </Field>
 
-            {/* Password Field */}
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+            <Field className="space-y-2">
+              <FieldLabel
+                className="font-semibold text-slate-700"
+                htmlFor="password"
+              >
+                Password
+              </FieldLabel>
               <Input
                 {...register("password")}
+                className="bg-white/50 border-slate-200 focus:bg-white transition-all shadow-sm"
                 id="password"
                 type="password"
-                placeholder="Enter your password..."
+                placeholder="••••••••"
                 disabled={isLoading}
               />
               {errors.password && (
-                <FieldError>{errors.password.message}</FieldError>
+                <FieldError className="text-xs">
+                  {errors.password.message}
+                </FieldError>
               )}
             </Field>
           </CardContent>
 
-          <CardFooter className="pt-6 gap-4 flex">
-            <div className="flex gap-2">
-              <Button variant="outline">
+          <CardFooter className="flex flex-col gap-4 pt-4">
+            <div className="flex w-full gap-3">
+              <Button
+                variant="outline"
+                asChild
+                className="flex-1 border-slate-200 hover:bg-slate-50"
+              >
                 <Link href="/home">Home</Link>
               </Button>
-              <Button variant="default" type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button
+                variant="default"
+                type="submit"
+                className="flex-1 bg-slate-900 hover:bg-slate-800"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : null}
                 Sign In
               </Button>
             </div>
-            <div className="w-full text-end text-sm text-blue-500 cursor-pointer">
-              <Link href="/signup">Sign Up</Link>
+
+            <div className="w-full text-center text-sm text-slate-500">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/signup"
+                className="text-blue-600 font-semibold hover:underline"
+              >
+                Sign Up
+              </Link>
             </div>
           </CardFooter>
         </form>
