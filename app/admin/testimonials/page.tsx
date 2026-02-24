@@ -57,7 +57,6 @@ const TestimonialsPage = () => {
   }, []);
 
   const handleAddTestimonial = async (formData: Testimonial) => {
-    console.log("Form data on submit:", formData);
     if (!selectedFile) {
       alert("Please select a logo image.");
       return;
@@ -236,6 +235,8 @@ const TestimonialsPage = () => {
                       src={testimonial.image_url}
                       alt={testimonial.name}
                       fill
+                      loading="eager"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover"
                     />
                   </div>
@@ -316,8 +317,6 @@ const TestimonialsPage = () => {
                         const { error: deleteError } = await supabase.storage
                           .from("testimonial-image")
                           .remove([fileName]);
-
-                        console.log("fileName to delete:", fileName);
 
                         if (deleteError) {
                           console.error(

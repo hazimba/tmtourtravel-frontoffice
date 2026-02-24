@@ -47,6 +47,8 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
                 className="w-full h-40  object-cover"
                 width={4000}
                 height={2000}
+                loading="eager"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             ) : (
               <div className="h-40 w-full bg-gray-200 flex items-center justify-center">

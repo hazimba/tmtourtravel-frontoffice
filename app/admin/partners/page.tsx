@@ -198,9 +198,10 @@ const PartnersPage = () => {
                 <Image
                   src={partner.logo_url}
                   alt={`${partner.name} Logo`}
-                  width={80}
-                  height={80}
-                  className="object-contain"
+                  width={50}
+                  height={50}
+                  loading="eager"
+                  className="object-contain h-auto w-auto"
                 />
               )}
               <h3 className="text-lg font-semibold">{partner.name}</h3>

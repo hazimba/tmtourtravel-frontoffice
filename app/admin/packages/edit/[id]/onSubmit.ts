@@ -91,8 +91,6 @@ export const onSubmit = async ({
 
   const uuid = id;
 
-  console.log("Submitting form with data:", data);
-
   try {
     if (mainImageSelect) {
       await removeImageFromBucket(uuid);

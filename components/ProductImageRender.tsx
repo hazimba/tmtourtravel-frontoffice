@@ -60,6 +60,8 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
                       alt={index.toString()}
                       height={100}
                       width={500}
+                      loading="eager"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className={`object-cover transition duration-300 lg:!h-50 h-30 w-full ${
                         isMobile
                           ? isActive

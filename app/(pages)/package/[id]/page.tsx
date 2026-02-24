@@ -46,7 +46,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             alt={data.title}
             fill
             className="object-cover"
-            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white">
             <div className="flex gap-2 mb-2 flex-wrap">

@@ -166,6 +166,7 @@ const PackageDetails = ({
                             src={selectedPackage.main_image_url}
                             alt={selectedPackage.title}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="object-cover transition-transform duration-300 hover:scale-105"
                           />
                         </div>
@@ -179,6 +180,7 @@ const PackageDetails = ({
                       onOpenChange={setOpenImagePreview}
                     >
                       <DialogTitle></DialogTitle>
+                      <DialogDescription>Package Image</DialogDescription>
                       <DialogContent
                         className="!max-w-screen p-6 md:0 bg-transparent border-none shadow-none backdrop-blur-xs h-screen flex items-center justify-center"
                         showCloseButton={false}
@@ -191,6 +193,7 @@ const PackageDetails = ({
                                 alt={selectedPackage.title}
                                 width={1200}
                                 height={800}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 className="object-contain max-h-[70vh] w-auto h-auto"
                               />
 

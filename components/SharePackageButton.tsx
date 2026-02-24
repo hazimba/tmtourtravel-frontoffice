@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabaseClient";
 import LoadingButton from "./LoadingButton";
 
 export function ShareButton({ uuid }: { uuid: string }) {
-  console.log("ShareButton rendered with uuid:", uuid);
   const baseUrl =
     process.env.NODE_ENV === "production"
       ? "https://tmtourtravel-frontoffice.vercel.app"

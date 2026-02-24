@@ -26,6 +26,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
             src={pkg.main_image_url}
             alt={pkg.title}
             fill
+            loading="eager"
             sizes="(max-width: 768px) 100vw, 500px"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
