@@ -4,9 +4,8 @@ import ContactEnquiryForm from "./ContactUs";
 import ImageSliderSection from "./ImageSlider";
 import PackagesSection from "./Packages";
 import PartnersSection from "./Partners";
-import FadeIn from "@/components/FadeIn";
-import TestimonialCards from "@/components/TestimonialComponent";
 import TestimonialSection from "./Testimonial";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +24,13 @@ const HomePage = async ({
     | { [key: string]: string | string[] | undefined }
     | Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  // Unwrap searchParams if it's a Promise (for Next.js App Router compatibility)
+  const supabase = await createClient();
+
+  const { data: siteSetting } = await supabase
+    .from("site_settings")
+    .select("*")
+    .single();
+
   const params = isPromise<typeof searchParams>(searchParams)
     ? await searchParams
     : searchParams;
@@ -35,12 +40,12 @@ const HomePage = async ({
       <SignoutToast show={params?.signout === "1"} />
       <FormPopup />
       <div className="">
-        <ImageSliderSection />
-        <PartnersSection />
+        {siteSetting.show_slider && <ImageSliderSection />}
+        {siteSetting.show_partners && <PartnersSection />}
         <div className="flex flex-col gap-12 md:py-20 md:pt-12 py-12">
-          <PackagesSection />
-          <ContactEnquiryForm />
-          <TestimonialSection />
+          {siteSetting.show_packages && <PackagesSection />}
+          {siteSetting.show_contact && <ContactEnquiryForm />}
+          {siteSetting.show_testimonials && <TestimonialSection />}
         </div>
       </div>
     </div>

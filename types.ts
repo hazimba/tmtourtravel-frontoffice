@@ -121,3 +121,13 @@ export interface Testimonial {
   image_url: string | null;
   created_at: Date;
 }
+
+export interface SiteSetting {
+  id: string;
+  show_slider: boolean;
+  show_packages: boolean;
+  show_partners: boolean;
+  show_contact: boolean;
+  show_testimonials: boolean;
+  created_at: Date;
+}

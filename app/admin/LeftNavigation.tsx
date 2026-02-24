@@ -83,13 +83,15 @@ const LeftNavigation = () => {
       ))}
 
       <div className="md:mt-auto ml-auto md:ml-0">
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-muted-foreground"
-        >
-          <Settings className="mr-2 h-4 w-4" />
-          <span className="hidden md:inline">Settings</span>
-        </Button>
+        <Link href="/admin/admin-settings">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-muted-foreground"
+          >
+            <Settings className="mr-2 h-4 w-4" />
+            <span className="hidden md:inline">Settings</span>
+          </Button>
+        </Link>
       </div>
     </nav>
   );
