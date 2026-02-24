@@ -4,6 +4,9 @@ import ContactEnquiryForm from "./ContactUs";
 import ImageSliderSection from "./ImageSlider";
 import PackagesSection from "./Packages";
 import PartnersSection from "./Partners";
+import FadeIn from "@/components/FadeIn";
+import TestimonialCards from "@/components/TestimonialComponent";
+import TestimonialSection from "./Testimonial";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +40,7 @@ const HomePage = async ({
         <div className="flex flex-col gap-12 md:py-20 md:pt-12 py-12">
           <PackagesSection />
           <ContactEnquiryForm />
+          <TestimonialSection />
         </div>
       </div>
     </div>

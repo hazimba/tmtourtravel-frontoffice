@@ -111,3 +111,13 @@ export interface Partner {
   is_publish: boolean;
   created_at: Date;
 }
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  title: string;
+  quote: string;
+  is_publish: boolean;
+  image_url: string | null;
+  created_at: Date;
+}

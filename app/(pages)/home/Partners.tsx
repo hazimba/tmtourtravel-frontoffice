@@ -15,7 +15,7 @@ const PartnersSection = async () => {
 
   return (
     <FadeIn>
-      <div className="bg-white py-12">
+      <div className="bg-white md:py-20 py-12">
         <div className="flex flex-col max-w-7xl w-full mx-auto px-4 gap-4">
           <h2
             id="our-partners"

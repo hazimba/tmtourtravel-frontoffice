@@ -49,7 +49,7 @@ export default function ContactEnquiryForm() {
 
   return (
     <FadeIn>
-      <section className="container mx-auto px-4 max-w-7xl">
+      <section className="container md:py-12 py-8 mx-auto px-4 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Side: Info */}
           <div className="space-y-6">
