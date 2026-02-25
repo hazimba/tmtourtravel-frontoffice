@@ -140,7 +140,7 @@ const LoginIn = () => {
             <div className="w-full text-center text-sm text-slate-500">
               Don&apos;t have an account?{" "}
               <Link
-                href="/signup"
+                href="/auth/signup"
                 className="text-blue-600 font-semibold hover:underline"
               >
                 Sign Up
