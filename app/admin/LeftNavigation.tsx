@@ -56,14 +56,45 @@ const LeftNavigation = () => {
     },
   ];
 
+  const viewItems = [
+    {
+      title: "Enquiries",
+      href: "/admin/enquiries",
+      icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
+    },
+  ];
+
   return (
-    <nav className="flex md:flex-col flex-row gap-1 p-4 md:h-[calc(100vh-3.5rem)] border-r bg-muted/20">
+    <nav className="flex md:flex-col flex-row overflow-x-auto scrollbar-hide sc gap-1 p-4 md:h-[calc(100vh-3.5rem)] border-r bg-muted/20">
       <div className="py-2">
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 hidden md:block">
           <span className="">Admin</span>
         </p>
       </div>
       {navItems.map((item) => (
+        <Button
+          key={item.href}
+          asChild
+          variant={pathname === item.href ? "secondary" : "ghost"}
+          className={cn(
+            "md:justify-start flex justify-center items-center transition-all",
+            pathname === item.href
+              ? "bg-secondary shadow-sm"
+              : "text-muted-foreground"
+          )}
+        >
+          <Link href={item.href} className="text-center">
+            {item.icon}
+            <span className="hidden md:inline">{item.title}</span>
+          </Link>
+        </Button>
+      ))}
+      <div className="py-2">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 hidden md:block">
+          <span className="">View</span>
+        </p>
+      </div>
+      {viewItems.map((item) => (
         <Button
           key={item.href}
           asChild

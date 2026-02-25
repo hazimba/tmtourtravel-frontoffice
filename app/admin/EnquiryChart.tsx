@@ -68,7 +68,7 @@ const EnquiryChart = ({ enquiries, todayEnquiries }: EnquiryChartProps) => {
               }}
             >
               {" "}
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={150}>
                 <BarChart
                   data={data}
                   layout="vertical"

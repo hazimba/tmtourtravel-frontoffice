@@ -224,7 +224,7 @@ const TestimonialsPage = () => {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="group relative border p-5 rounded-lg bg-white shadow-sm 
+              className="group relative border md:p-5 p-4 rounded-lg bg-white shadow-sm 
                  hover:shadow-xl hover:scale-[1.02] transition-all duration-300 
                  flex flex-col sm:flex-row items-start gap-5"
             >

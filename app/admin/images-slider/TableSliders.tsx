@@ -57,6 +57,7 @@ const TableSliders = ({
                     className="object-cover w-full h-full"
                     width={400}
                     height={300}
+                    loading="eager"
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full text-sm text-muted-foreground">

@@ -91,7 +91,7 @@ export default function ContactEnquiryForm() {
           </div>
 
           {/* Right Side: Form */}
-          <div className="bg-gray-50 md:p-5 px-2 rounded-2xl shadow-lg">
+          <div className="bg-gray-50 md:p-2 px-2 rounded-2xl shadow-lg">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -169,23 +169,23 @@ export default function ContactEnquiryForm() {
                   />
                 </div>
 
-                {/* <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Additional Requirements</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us more about your travel group or date preferences..."
-                        className="min-h-[120px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Tell us more about your travel group or date preferences..."
+                          className="min-h-[20px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <Button
                   type="submit"

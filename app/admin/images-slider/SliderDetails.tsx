@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -67,6 +68,7 @@ export const SliderDetails = ({
             )}
           </Button>
         </DialogTrigger>
+        <DialogDescription></DialogDescription>
         <DialogContent className="max-w-9/10 md:max-w-5xl p-0 overflow-hidden">
           <SliderPreview slider={slider} onUpdate={fetchSliders} />
 

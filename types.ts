@@ -92,6 +92,9 @@ export interface ImageSlider {
   buttonpath: string;
   imageurl: string;
   isActive: boolean;
+  // future will do join
+  // package_uuid: string | null;
+  // packages: Package[];
 }
 
 export interface Enquiry {
@@ -130,4 +133,14 @@ export interface SiteSetting {
   show_contact: boolean;
   show_testimonials: boolean;
   created_at: Date;
+}
+
+export interface Enquiries {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  destination: string;
+  message: string;
+  created_at: string;
 }
