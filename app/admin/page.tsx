@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 // import { supabase } from "@/lib/supabaseClient";
+import RPCTable from "@/components/admin-ui/RPCTable";
 import { createClient } from "@/lib/supabase/server";
 import { Package } from "@/types";
 import {
@@ -16,9 +17,9 @@ import {
   Mail,
   MapPin,
   Package as PackageIcon,
+  Plus,
 } from "lucide-react";
 import EnquiryChart from "./EnquiryChart";
-import { format } from "date-fns";
 
 const AdminDashboardPage = async () => {
   const supabase = await createClient();
@@ -72,6 +73,13 @@ const AdminDashboardPage = async () => {
     limit_count: 5,
   });
 
+  const { data: topPackagesToday } = await supabase.rpc(
+    "get_top_packages_today",
+    { limit_count: 5 }
+  );
+
+  console.log("topPackagesToday", topPackagesToday);
+
   return (
     <div className="p-6 space-y-6 overflow-y-auto h-[95vh] bg-gray-50/50">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -80,9 +88,8 @@ const AdminDashboardPage = async () => {
           subtitle="Overview of your latest leads and enquiries."
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
-          {/* Thin accent line that makes it feel "designed" */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
           <div className="h-14 w-1 bg-blue-500 rounded-full group-hover:h-12 transition-all duration-300" />
 
           <div className="flex flex-col justify-center">
@@ -90,7 +97,6 @@ const AdminDashboardPage = async () => {
               <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 pb-4">
                 Current Session
               </span>
-              {/* Small live pulse dot */}
               <span className="relative flex h-2 w-2 bottom-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -106,7 +112,7 @@ const AdminDashboardPage = async () => {
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="bg-white p-2 rounded-xl border shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
@@ -174,14 +180,26 @@ const AdminDashboardPage = async () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {enquiries.slice(0, 7).map((enquiry) => (
+                {enquiries.map((enquiry) => (
                   <TableRow
                     key={enquiry.id}
                     className="hover:bg-gray-50 transition-colors"
                   >
                     <TableCell>
                       <div className="font-medium text-gray-900">
-                        {enquiry.name}
+                        {new Date(enquiry.created_at + "Z").toLocaleDateString(
+                          "en-MY",
+                          {
+                            timeZone: "Asia/Kuala_Lumpur",
+                          }
+                        ) === today ? (
+                          <>
+                            <Plus className="inline mr-1" size={8} />
+                            {enquiry.name}
+                          </>
+                        ) : (
+                          enquiry.name
+                        )}
                       </div>
                       <div className="text-gray-500 text-xs">
                         {enquiry.email}
@@ -195,11 +213,16 @@ const AdminDashboardPage = async () => {
                     </TableCell>
                     <TableCell>
                       <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
-                        +6{enquiry.phone}
+                        {enquiry.phone}
                       </span>
                     </TableCell>
                     <TableCell className="text-gray-500 text-right  md:table-cell hidden">
-                      {new Date(enquiry.created_at).toLocaleDateString()}
+                      {new Date(enquiry.created_at + "Z").toLocaleDateString(
+                        "en-MY",
+                        {
+                          timeZone: "Asia/Kuala_Lumpur",
+                        }
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -258,55 +281,8 @@ const AdminDashboardPage = async () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-slate-800 flex items-center gap-2">
-              <span className="w-2 h-6 bg-primary rounded-full" /> Top Packages
-            </h3>
-            <span className="text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-500 font-bold uppercase">
-              Ranked
-            </span>
-          </div>
-
-          <div className="space-y-4">
-            {topPackages?.map(
-              (
-                pkg: {
-                  package_uuid: string;
-                  title: string;
-                  total_views: number;
-                },
-                index: number
-              ) => (
-                <div
-                  key={pkg.package_uuid}
-                  className="group flex items-center justify-between rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100"
-                >
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <span
-                      className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded text-[10px] font-bold ${
-                        index === 0
-                          ? "bg-amber-100 text-amber-700"
-                          : "bg-slate-100 text-slate-500"
-                      }`}
-                    >
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-medium text-slate-700 truncate group-hover:text-primary transition-colors">
-                      {pkg.title}
-                    </span>
-                  </div>
-                  <div className="flex flex-row gap-2 items-end">
-                    <span className="text-sm font-bold text-slate-900">
-                      {pkg.total_views.toLocaleString()}
-                    </span>
-                    <span className="text-[10px] text-slate-400">views</span>
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        </div>
+        <RPCTable topPackages={topPackages} title="All Time Top Packages" />
+        <RPCTable topPackages={topPackagesToday} title="Top Packages Today" />
         <div className="col-span-2">
           <EnquiryChart enquiries={enquiries} todayEnquiries={todayEnquiries} />
         </div>

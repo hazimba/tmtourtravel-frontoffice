@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
 
 const TopNavigation = async () => {
   // const isMobile = useMobileDetectClient();
@@ -22,7 +23,7 @@ const TopNavigation = async () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md">
-      <div className="flex h-14 items-center justify-between px-6">
+      <div className="flex h-14 items-center justify-between px-4 py-8">
         <div className="flex items-center gap-3">
           <Link
             href="/home"
@@ -33,7 +34,12 @@ const TopNavigation = async () => {
           <span className="text-sm font-bold tracking-tight hidden md:block">
             TM TOUR & TRAVEL{" "}
           </span>
-          <Badge className="ml-2">Welcome! {userProfile?.full_name}</Badge>
+          <Badge className="ml-2">
+            Welcome! {userProfile?.full_name}{" "}
+            <div className="hidden md:block">
+              {format(new Date(), "p")} {format(new Date(), "PP")}
+            </div>
+          </Badge>
         </div>
 
         <div className="flex items-center gap-2">

@@ -111,6 +111,7 @@ const SliderPreview = ({
           alt="Background"
           width={1200}
           height={800}
+          loading="eager"
         />
       )}
 
