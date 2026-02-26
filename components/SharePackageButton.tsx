@@ -17,7 +17,6 @@ export function ShareButton({ uuid }: { uuid: string }) {
     const res = await supabase
       .from("packages")
       .select("title, subtitle")
-      // @ts-expect-error: TypeScript is confused about the type of uuid
       .eq("uuid", uuid)
       .single();
     const title = res.data?.title || "Travel Package";
