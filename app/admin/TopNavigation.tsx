@@ -15,6 +15,8 @@ const TopNavigation = async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
+  console.log("Current user:", user); // Debugging line to check the user object
+
   const { data: userProfile } = await supabase
     .from("profiles")
     .select("*")
