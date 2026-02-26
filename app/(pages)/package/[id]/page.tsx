@@ -173,7 +173,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             <FadeIn>
               <div className="grid grid-cols-2 gap-4">
                 <DownloadPdfButton data={data} />
-                <ShareButton uuid={data} />
+                <ShareButton uuid={data.uuid} />
               </div>
             </FadeIn>
 
