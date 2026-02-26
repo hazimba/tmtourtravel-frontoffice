@@ -283,9 +283,9 @@ const AdminDashboardPage = async () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <RPCTable topPackages={topPackages} title="All Time Top Packages" />
         <RPCTable topPackages={topPackagesToday} title="Top Packages Today" />
-        <div className="col-span-2">
-          <EnquiryChart enquiries={enquiries} todayEnquiries={todayEnquiries} />
-        </div>
+      </div>
+      <div className="col-span-2">
+        <EnquiryChart enquiries={enquiries} todayEnquiries={todayEnquiries} />
       </div>
     </div>
   );

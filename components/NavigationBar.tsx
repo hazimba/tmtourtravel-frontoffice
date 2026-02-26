@@ -3,6 +3,7 @@ import NavigationPopover from "./NavigationPopover";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
+import { User } from "lucide-react"; // Import the User icon
 
 const NavigationBar = async () => {
   const supabase = await createClient();
@@ -41,15 +42,12 @@ const NavigationBar = async () => {
           )}
         </div>
       </div>
+
       <div className="flex gap-12 md:hidden">
         <NavigationPopover />
       </div>
-      <div className="flex gap-4 md:flex hidden">
-        <Link href="/admin">
-          <span className="ml-4 text-lg font-medium text-muted-foreground">
-            Admin
-          </span>
-        </Link>
+
+      <div className="flex gap-4 items-center md:flex hidden">
         <Link href="/package">
           <span className="ml-4 text-lg font-medium text-muted-foreground">
             Package
@@ -65,13 +63,25 @@ const NavigationBar = async () => {
             Contact
           </span>
         </Link>
-        <Link href="/auth/login">
-          <span className="ml-4 text-lg font-medium text-muted-foreground border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors">
-            Login
-          </span>
-        </Link>
+
+        {user ? (
+          <Link
+            href="/admin"
+            className="ml-4 p-2 rounded-full hover:bg-secondary transition-colors"
+          >
+            <User className="w-6 h-6 text-primary" />
+            <span className="sr-only">Admin Dashboard</span>
+          </Link>
+        ) : (
+          <Link href="/auth/login">
+            <span className="ml-4 text-lg font-medium text-muted-foreground border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors">
+              Login
+            </span>
+          </Link>
+        )}
       </div>
     </nav>
   );
 };
+
 export default NavigationBar;

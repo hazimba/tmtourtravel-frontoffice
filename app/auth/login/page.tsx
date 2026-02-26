@@ -136,8 +136,8 @@ const LoginIn = () => {
                 Sign In
               </Button>
             </div>
-
-            <div className="w-full text-center text-sm text-slate-500">
+            {/* hide sign up link in homepage */}
+            {/* <div className="w-full text-center text-sm text-slate-500">
               Don&apos;t have an account?{" "}
               <Link
                 href="/auth/signup"
@@ -145,7 +145,7 @@ const LoginIn = () => {
               >
                 Sign Up
               </Link>
-            </div>
+            </div> */}
           </CardFooter>
         </form>
       </Card>
