@@ -19,15 +19,10 @@ interface SearchFilterProps {
   setPackagesData?: React.Dispatch<React.SetStateAction<Package[] | null>>;
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   loading?: boolean;
-  onSearch?: (params?: PackageFormValues) => void;
+  onSearch?: (params?: Partial<PackageFormValues>) => void;
 }
 
-const SearchFilter = ({
-  setPackagesData,
-  setLoading,
-  loading,
-  onSearch,
-}: SearchFilterProps) => {
+const SearchFilter = ({ onSearch }: SearchFilterProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { register, handleSubmit, watch, setValue, reset } =

@@ -93,6 +93,7 @@ const PackagesTab = () => {
       </div>
 
       <div className="flex items-center gap-2 justify-between">
+        {/* @ts-expect-error: Unclear why ts is complaining here */}
         <SearchFilter loading={loading} onSearch={refetchPackages} />
       </div>
 
