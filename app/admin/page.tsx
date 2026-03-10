@@ -50,7 +50,7 @@ const AdminDashboardPage = async () => {
   );
 
   const { data: packages, error: packagesError } = await supabase
-    .from("packages")
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
     .select("*");
 
   if (packagesError) {

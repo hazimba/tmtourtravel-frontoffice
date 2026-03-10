@@ -24,7 +24,9 @@ export default async function PackageList({
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
-  let query = supabase.from("packages").select("*", { count: "exact" });
+  let query = supabase
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
+    .select("*", { count: "exact" });
 
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);

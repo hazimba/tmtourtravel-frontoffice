@@ -77,7 +77,7 @@ const PackageDetails = ({
       }
 
       const { error } = await supabase
-        .from("packages")
+        .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
         .delete()
         .eq("uuid", uuid);
       if (error) throw error;
@@ -191,10 +191,10 @@ const PackageDetails = ({
                               <Image
                                 src={selectedPackage.main_image_url}
                                 alt={selectedPackage.title}
-                                width={1200}
-                                height={800}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                className="object-contain max-h-[70vh] w-auto h-auto"
+                                width={2000}
+                                height={2000}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 33vw"
+                                className="object-contain max-h-[80vh] w-auto h-full"
                               />
 
                               <div

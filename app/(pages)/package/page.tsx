@@ -8,6 +8,13 @@ import { Search, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import PackageList from "./PackageList";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PackagePageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -22,7 +29,9 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   const type = Array.isArray(params?.type) ? params.type[0] : params?.type;
 
   const supabaseClient = await supabase();
-  let query = supabaseClient.from("packages").select("*");
+  let query = supabaseClient
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
+    .select("*");
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);
@@ -32,6 +41,8 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
 
   const currentPage = Number(params?.page) || 1;
   const currentLimit = Number(params?.limit) || 4;
+
+  console.log("type", type);
 
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
@@ -76,7 +87,25 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Type
               </label>
-              <SelectType name="type" defaultValue={type} />
+              {/* KIV FOR HOME/PACKAGES PAGE, since we are using server components there and watch/setValue won't work */}
+              {/* <SelectType name="type" defaultValue={type} /> */}
+
+              <Select
+                key={type ?? "all"}
+                name="type"
+                defaultValue={type ?? "all"}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="All Types" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="UMRAH">UMRAH</SelectItem>
+                  <SelectItem value="MICE">MICE</SelectItem>
+                  <SelectItem value="GROUND">GROUND</SelectItem>
+                  <SelectItem value="GROUP">GROUP</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex items-center justify-end gap-2 md:w-96 pt-2 md:pt-0">

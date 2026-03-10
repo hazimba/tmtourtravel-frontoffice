@@ -1,8 +1,7 @@
 "use client";
-"use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Filter, RefreshCw } from "lucide-react";
+import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 import { useState } from "react";
 
 import SelectType from "@/components/admin-ui/FormItem/SelectType";
@@ -11,22 +10,19 @@ import {
   PackageFormValues,
   searchPackageSchema,
 } from "@/schemas/packages.schema";
+import { Package } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Package } from "@/types";
 import { CountryDropdown } from "../ui/country-dropdown";
 
 interface SearchFilterProps {
   setPackagesData?: React.Dispatch<React.SetStateAction<Package[] | null>>;
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   loading?: boolean;
+  onSearch?: (params?: Partial<PackageFormValues>) => void;
 }
 
-const SearchFilter = ({
-  setPackagesData,
-  setLoading,
-  loading,
-}: SearchFilterProps) => {
+const SearchFilter = ({ onSearch }: SearchFilterProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { register, handleSubmit, watch, setValue, reset } =
@@ -41,29 +37,7 @@ const SearchFilter = ({
     });
 
   const onSubmit = (dt: PackageFormValues) => {
-    refetchPackages(dt);
-  };
-
-  const refetchPackages = async (params?: PackageFormValues) => {
-    if (setLoading) setLoading(true);
-    try {
-      let url = "/api/packages";
-      if (params) {
-        const query = new URLSearchParams();
-        if (params.title) query.append("title", params.title);
-        if (params.country) query.append("country", params.country);
-        if (params.type) query.append("type", params.type);
-        if (Array.from(query).length > 0) url += `?${query.toString()}`;
-      }
-      const res = await fetch(url, { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to fetch");
-      const data = await res.json();
-      if (setPackagesData) setPackagesData(data);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      if (setLoading) setLoading(false);
-    }
+    onSearch?.(dt);
   };
 
   return (
@@ -118,7 +92,7 @@ const SearchFilter = ({
                     onClick={() => {
                       // @ts-expect-error: Unclear why ts is complaining here
                       reset({ type: "", title: "", country: "" });
-                      refetchPackages();
+                      onSearch?.({});
                     }}
                   >
                     Reset

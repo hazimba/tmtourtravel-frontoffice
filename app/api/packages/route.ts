@@ -8,7 +8,9 @@ export async function GET(req: Request) {
   const country = searchParams.get("country");
   const type = searchParams.get("type");
 
-  let query = supabase.from("packages").select("*");
+  let query = supabase
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
+    .select("*");
 
   if (title) {
     query = query.ilike("title", `%${title}%`);

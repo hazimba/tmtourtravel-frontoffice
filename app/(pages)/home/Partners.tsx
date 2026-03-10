@@ -31,14 +31,14 @@ const PartnersSection = async () => {
             {logos.map((partner: Partner) => (
               <div
                 key={partner.id}
-                className="group relative flex items-center justify-center w-32 h-20 md:w-48 md:h-28"
+                className="group relative flex items-center justify-center w-32 h-20 md:w-48 md:h-28 mx-auto"
               >
                 <Image
                   src={partner.logo_url}
                   alt={partner.name}
                   fill
                   sizes="(max-width: 768px) 128px, 192px"
-                  className="object-contain transition-all duration-300 md:grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100"
+                  className="object-contain transition-all duration-300 md:grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 cursor-pointer"
                 />
               </div>
             ))}

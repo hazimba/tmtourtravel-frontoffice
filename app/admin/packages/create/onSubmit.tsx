@@ -132,7 +132,7 @@ export const onSubmit = async ({
 
   try {
     const result = await supabase
-      .from("packages")
+      .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
       .insert(dataToInsert)
       .select();
 

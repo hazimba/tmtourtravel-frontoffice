@@ -12,6 +12,7 @@ import { PackageFormValues } from "@/schemas/packages.schema";
 import { Package } from "@/types";
 import PackageCard from "./PackageCard";
 import PackageDetails from "./PackageDetails";
+import BulkUploadPackages from "./(bulk-function)/BulkUploadPackages";
 
 const PackagesTab = () => {
   const [packagesData, setPackagesData] = useState<Package[] | null>(null);
@@ -20,33 +21,50 @@ const PackagesTab = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [limit, setLimit] = useState(8);
+  const [filters, setFilters] = useState<Partial<PackageFormValues>>({});
+
+  console.log("packagesData:", packagesData);
 
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
   const refetchPackages = async (params?: PackageFormValues) => {
     setLoading(true);
+
+    const activeFilters = params ?? filters;
+
+    if (params) {
+      setFilters(params);
+      setPage(1);
+    }
+
     try {
-      let url = "/api/packages";
-      if (params) {
-        const query = new URLSearchParams();
-        if (params.title) query.append("title", params.title);
-        if (params.country) query.append("country", params.country);
-        if (params.type) query.append("type", params.type);
-        if (Array.from(query).length > 0) url += `?${query.toString()}`;
-      }
-      const res = await fetch(url, { cache: "no-store" });
-      const { data: packages, count } = await supabase
-        .from("packages")
+      let query = supabase
+        .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
         .select("*", { count: "exact" })
-        .order("created_at", { ascending: true })
-        .range((page - 1) * limit, page * limit - 1);
-      if (!res.ok) throw new Error("Failed to fetch");
+        .order("created_at", { ascending: true });
+
+      if (activeFilters.title) {
+        query = query.ilike("title", `%${activeFilters.title}%`);
+      }
+
+      if (activeFilters.country) {
+        query = query.eq("country", activeFilters.country);
+      }
+
+      if (activeFilters.type) {
+        query = query.eq("type", activeFilters.type);
+      }
+
+      const { data: packages, count } = await query.range(
+        (page - 1) * limit,
+        page * limit - 1
+      );
 
       setPackagesData(packages);
       setCount(count ?? 0);
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -54,26 +72,29 @@ const PackagesTab = () => {
 
   useEffect(() => {
     refetchPackages();
-  }, [page, limit]);
+  }, [page, limit, filters]);
 
   const totalPages = Math.ceil((count || 0) / limit);
 
   return (
-    <div className="px-6 pt-6 space-y-6 h-[95vh] overflow-y-auto">
+    <div className="px-6 pt-6 space-y-6 h-[calc(99vh-3.5rem)] overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
           title="Packages"
           subtitle="Manage and preview your travel listings."
         />
-        <AddNewItemManage loading={loading} refetch={refetchPackages} />
+        <div className="flex items-center gap-2">
+          <AddNewItemManage loading={loading} refetch={refetchPackages} />
+          <BulkUploadPackages
+            refetch={refetchPackages}
+            packagesData={packagesData || []}
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-2 justify-between">
-        <SearchFilter
-          setPackagesData={setPackagesData}
-          setLoading={setLoading}
-          loading={loading}
-        />
+        {/* @ts-expect-error: Unclear why ts is complaining here */}
+        <SearchFilter loading={loading} onSearch={refetchPackages} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">

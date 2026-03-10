@@ -6,7 +6,7 @@ export default async function SharePage({
   params: { uuid: string };
 }) {
   const { data } = await supabase
-    .from("packages")
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
     .select("*")
     .eq("uuid", params.uuid)
     .single();

@@ -26,7 +26,7 @@ const UsersTab = async () => {
     );
 
   return (
-    <div className="p-6 space-y-6 bg-slate-50/50 min-h-screen">
+    <div className="p-6 space-y-6 bg-slate-50/50 h-[calc(99vh-3.5rem)]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <PageTitle
           title="User Management"
