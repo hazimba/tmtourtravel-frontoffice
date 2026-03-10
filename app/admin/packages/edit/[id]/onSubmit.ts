@@ -111,7 +111,7 @@ export const onSubmit = async ({
     }
 
     const result = await supabase
-      .from("packages")
+      .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
       .update(data)
       .eq("uuid", uuid)
       .select();

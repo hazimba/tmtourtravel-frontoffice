@@ -63,7 +63,7 @@ const ImageSliderTab = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 bg-slate-50/50">
+    <div className="p-6 space-y-6 bg-slate-50/50 h-[calc(99vh-3.5rem)] overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
           title="Image Slider"
@@ -77,6 +77,10 @@ const ImageSliderTab = () => {
         handleAddSlide={handleAddSlide}
         setIsOpen={setIsOpen}
       />
+
+      <div className="text-sm text-muted-foreground">
+        To add Marquee Text here
+      </div>
 
       <div
         className={`rounded-xl border bg-white shadow-sm overflow-hidden ${

@@ -70,36 +70,63 @@ export const packageSchema = z.object({
   update_period: z.coerce.date().optional(),
   sale_able_market: z.string().optional().default(""),
   is_publish: z.boolean().optional().default(false),
-  entry_mode: z.enum([EntryMode.FIT, EntryMode.GIT]),
-  session: z.enum([
-    PackageSession.PEAK,
-    PackageSession.OFFPEAK,
-    PackageSession.ALLSEASON,
-    PackageSession.SPRING,
-    PackageSession.AUTUMN,
-    PackageSession.SUMMER,
-    PackageSession.WINTER,
-  ]),
-  country: z.string().optional().default(""),
-  appearance: z.enum([
-    Appearance.NORMAL,
-    Appearance.HIGHLIGHT,
-    Appearance.PROMOTION,
-  ]),
-  type: z.enum([
-    PackageType.GROUP,
-    PackageType.GROUND,
-    PackageType.UMRAH,
-    PackageType.MICE,
-  ]),
-  meal_plan: z.enum([
-    MealPlan.FULLBOARD,
-    MealPlan.HALFBOARD,
-    MealPlan.BREAKFASTONLY,
-    MealPlan.NOMEAL,
-  ]),
+  entry_mode: z.enum([EntryMode.FIT, EntryMode.GIT], {
+    message: "Expected one of these options: FIT | GIT",
+  }),
+  session: z.enum(
+    [
+      PackageSession.PEAK,
+      PackageSession.OFFPEAK,
+      PackageSession.ALLSEASON,
+      PackageSession.SPRING,
+      PackageSession.AUTUMN,
+      PackageSession.SUMMER,
+      PackageSession.WINTER,
+    ],
+    {
+      message:
+        "Expected one of these options: PEAK | OFFPEAK | ALLSEASON | SPRING | AUTUMN | SUMMER | WINTER",
+    }
+  ),
+  country: z
+    .string({ error: () => ({ message: "Country is required" }) })
+    .trim()
+    .min(1, "Country is required"),
+  appearance: z.enum(
+    [Appearance.NORMAL, Appearance.HIGHLIGHT, Appearance.PROMOTION],
+    {
+      message: "Expected one of these options: NORMAL | HIGHLIGHT | PROMOTION",
+    }
+  ),
+  type: z.enum(
+    [
+      PackageType.GROUP,
+      PackageType.GROUND,
+      PackageType.UMRAH,
+      PackageType.MICE,
+    ],
+    {
+      message: "Expected one of these options: GROUP | GROUND | UMRAH | MICE",
+    }
+  ),
+  meal_plan: z.enum(
+    [
+      MealPlan.FULLBOARD,
+      MealPlan.HALFBOARD,
+      MealPlan.BREAKFASTONLY,
+      MealPlan.NOMEAL,
+    ],
+    {
+      message:
+        "Expected one of these options: FULLBOARD | HALFBOARD | BREAKFASTONLY | NOMEAL",
+    }
+  ),
   location: z.string().optional().default(""),
-  tour_code: z.string().optional().default(""),
+  tour_code: z
+    .string({
+      error: () => ({ message: "Tour code is required and must be unique***" }),
+    })
+    .trim(),
   features: z.array(z.string()).optional().default([]),
   main_image_url: z.any().optional(),
   sub_image_urls: z.array(z.string()).optional().default([]),

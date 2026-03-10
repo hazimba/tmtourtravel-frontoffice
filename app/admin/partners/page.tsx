@@ -113,7 +113,7 @@ const PartnersPage = () => {
   };
 
   return (
-    <div className="px-6 pt-6 space-y-6 h-[95vh] overflow-y-auto">
+    <div className="px-6 pt-6 space-y-6 h-[calc(99vh-3.5rem)] overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
           title="Accredited Partners"

@@ -9,7 +9,7 @@ import FadeIn from "@/components/FadeIn";
 const PackagesSection = async () => {
   const supabase = await createClient();
   const { data: packages, error: pkgErr } = await supabase
-    .from("packages")
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
     .select("*")
     .order("web_priority", { ascending: false });
 

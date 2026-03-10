@@ -27,7 +27,7 @@ const SelectPackage = ({
   const fetchPackages = async () => {
     try {
       const { data, error } = await supabase
-        .from("packages")
+        .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
         .select("uuid, title");
       if (error) throw error;
       setSelectOptions(

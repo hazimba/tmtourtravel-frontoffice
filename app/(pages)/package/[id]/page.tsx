@@ -28,7 +28,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
   console.log("Total views for package", id, ":", count);
 
   const { data, error } = await supabase
-    .from("packages")
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
     .select("*")
     .eq("uuid", id)
     .single();

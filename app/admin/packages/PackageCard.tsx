@@ -21,7 +21,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
           admin ? "md:aspect-[8/3] aspect-[12/3]" : "aspect-[5/3]"
         } w-full overflow-hidden shrink-0`}
       >
-        {pkg.main_image_url && (
+        {pkg.main_image_url ? (
           <Image
             src={pkg.main_image_url}
             alt={pkg.title}
@@ -30,6 +30,10 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
             sizes="(max-width: 768px) 100vw, 500px"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
+        ) : (
+          <div className="bg-muted flex justify-center items-center h-full w-full">
+            <span>Image Not Available</span>
+          </div>
         )}
         {admin && (
           <Badge

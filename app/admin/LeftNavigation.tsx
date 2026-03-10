@@ -65,7 +65,7 @@ const LeftNavigation = () => {
   ];
 
   return (
-    <nav className="flex md:flex-col flex-row overflow-x-auto scrollbar-hide sc gap-1 p-4 md:h-[calc(100vh-3.5rem)] border-r bg-muted/20">
+    <nav className="flex md:flex-col flex-row overflow-x-auto scrollbar-hide sc gap-1 p-4 md:h-[calc(99vh-3.5rem)] border-r bg-muted/20">
       <div className="py-2">
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 hidden md:block">
           <span className="">Admin</span>
