@@ -42,8 +42,6 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   const currentPage = Number(params?.page) || 1;
   const currentLimit = Number(params?.limit) || 4;
 
-  console.log("type", type);
-
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
       <div className="space-y-4">
