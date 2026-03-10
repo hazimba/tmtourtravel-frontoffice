@@ -23,8 +23,6 @@ const PackagesTab = () => {
   const [limit, setLimit] = useState(8);
   const [filters, setFilters] = useState<Partial<PackageFormValues>>({});
 
-  console.log("packagesData:", packagesData);
-
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 

@@ -121,8 +121,6 @@ const BulkImportPackages = ({
     delete transformed.updated_at;
     delete transformed.__rowNum__;
 
-    console.log("transformed", transformed);
-
     return transformed;
   };
 
@@ -159,7 +157,10 @@ const BulkImportPackages = ({
     if (!file) return;
 
     const data = await file.arrayBuffer();
-    const workbook = XLSX.read(data);
+    const workbook = XLSX.read(data, {
+      type: "array",
+      codepage: 65001, // force UTF-8
+    });
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
@@ -179,7 +180,27 @@ const BulkImportPackages = ({
       }
     });
 
-    console.log("rowErrors", rowErrors);
+    const tourCodes = validated.map((p) => p.tour_code);
+    const duplicates = tourCodes.filter(
+      (code, index) => tourCodes.indexOf(code) !== index
+    );
+
+    if (duplicates.length > 0) {
+      const duplicateSet = new Set(duplicates);
+
+      validated.forEach((pkg, index) => {
+        if (duplicateSet.has(pkg.tour_code)) {
+          rowErrors.push({
+            row: index + 1, // Excel row
+            error: {
+              tour_code: {
+                _errors: [`Duplicate TOUR CODE: ${pkg.tour_code}`],
+              },
+            },
+          });
+        }
+      });
+    }
 
     const formattedErrors = formatZodErrors(rowErrors, jsonData);
     setPreviewData(validated.map(sortObjectKeys));
@@ -209,7 +230,7 @@ const BulkImportPackages = ({
         />
       )}
       {/* Error Section */}
-      {errors.length > 0 && (
+      {errors.length > 0 && selectedBulkFunction === "bulk_import_packages" && (
         <div className="space-y-3 h-300 overflow-y-auto border rounded p-4 bg-red-50/30">
           <div className="flex items-center gap-2 text-red-600 mb-2">
             <AlertCircle className="w-5 h-5" />

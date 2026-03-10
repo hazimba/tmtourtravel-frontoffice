@@ -11,8 +11,6 @@ export function ShareButton({ uuid }: { uuid: string }) {
 
   const shareUrl = `${baseUrl}/package/${uuid}`;
 
-  console.log("Share URL:", shareUrl);
-
   const handleShare = async () => {
     const res = await supabase
       .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")

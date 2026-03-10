@@ -47,7 +47,7 @@ const BulkUploadPackages = ({
   const [errors, setErrors] = useState<BulkUploadError[]>([]);
 
   return (
-    <div className="p-4">
+    <div className="mt-4 md:mt-0">
       <Dialog
         open={open}
         onOpenChange={(isOpen) => {
@@ -59,7 +59,7 @@ const BulkUploadPackages = ({
         }}
       >
         <DialogTrigger asChild>
-          <Button className="" variant="ghost">
+          <Button className="" variant="outline">
             Bulk Upload
           </Button>
         </DialogTrigger>
