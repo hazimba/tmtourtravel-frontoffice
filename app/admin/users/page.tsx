@@ -13,7 +13,8 @@ import {
 import { supabase } from "@/lib/supabaseClient";
 import { Building2, Mail } from "lucide-react";
 import Link from "next/link";
-import UserAction from "./UserAction";
+import UserEdit from "./UserEdit";
+import UserAction from "./UserViewDetails";
 
 const UsersTab = async () => {
   const { data: users, error } = await supabase.from("profiles").select("*");
@@ -33,7 +34,9 @@ const UsersTab = async () => {
           subtitle="Review and manage system access levels."
         />
         <Link href="/auth/signup">
-          <Button className="w-fit">Add New User</Button>
+          <Button className="w-fit cursor-pointer hover:bg-primary/50 transition-colors">
+            Add New User
+          </Button>
         </Link>
       </div>
 
@@ -101,8 +104,9 @@ const UsersTab = async () => {
                     {user.status || "active"}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-right flex items-center justify-end gap-2">
                   <UserAction user={user} />
+                  <UserEdit user={user} />
                 </TableCell>
               </TableRow>
             ))}
@@ -112,7 +116,5 @@ const UsersTab = async () => {
     </div>
   );
 };
-
-// Simple helper component for the Dialog content
 
 export default UsersTab;
