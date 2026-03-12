@@ -58,7 +58,11 @@ const TopNavigation = async () => {
           />
 
           <form action="/auth/signout" method="post">
-            <Button variant="destructive" size="sm">
+            <Button
+              variant="destructive"
+              className="hover:bg-destructive/50 cursor-pointer transition-colors"
+              size="sm"
+            >
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
