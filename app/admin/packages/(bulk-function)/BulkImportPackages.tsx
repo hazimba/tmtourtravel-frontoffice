@@ -231,7 +231,7 @@ const BulkImportPackages = ({
       )}
       {/* Error Section */}
       {errors.length > 0 && selectedBulkFunction === "bulk_import_packages" && (
-        <div className="space-y-3 h-300 overflow-y-auto border rounded p-4 bg-red-50/30">
+        <div className="space-y-3 min-h-35 max-h-80 overflow-y-auto border rounded p-4 bg-red-50/30">
           <div className="flex items-center gap-2 text-red-600 mb-2">
             <AlertCircle className="w-5 h-5" />
             <h3 className="font-bold">Validation Errors ({errors.length})</h3>
