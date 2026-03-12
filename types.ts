@@ -40,6 +40,58 @@ export enum MealPlan {
   NOMEAL = "NOMEAL",
 }
 
+export enum UserRole {
+  SALES = "SALES",
+  ADMIN = "ADMIN",
+  DESIGNER = "DESIGNER",
+  MANAGER = "MANAGER",
+  MARKETING = "MARKETING",
+  SUPPORT = "SUPPORT",
+  IT = "IT",
+  HR = "HR",
+  FINANCE = "FINANCE",
+  LEGAL = "LEGAL",
+  OPERATIONS = "OPERATIONS",
+  RESEARCH = "RESEARCH",
+  SALES_SUPPORT = "SALES_SUPPORT",
+  ECOMMERCE = "ECOMMERCE",
+}
+
+export enum UserStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  DELETED = "DELETED",
+}
+
+// temporary
+export interface Profile {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  status: UserStatus;
+  phone?: string;
+  created_at: Date;
+  updated_at: Date;
+  department?: string;
+  position?: string;
+  avatar_url?: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  status: UserStatus;
+  phone?: string;
+  created_at: Date;
+  updated_at: Date;
+  department?: string;
+  position?: string;
+  avatar_url?: string;
+}
+
 export interface Package {
   uuid: string;
   title: string;

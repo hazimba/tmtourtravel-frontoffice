@@ -6,6 +6,7 @@ import {
   MealPlan,
   PackageSession,
   PackageType,
+  Tags,
 } from "../types";
 
 export const searchPackageSchema = z.object({
@@ -130,7 +131,17 @@ export const packageSchema = z.object({
   features: z.array(z.string()).optional().default([]),
   main_image_url: z.any().optional(),
   sub_image_urls: z.array(z.string()).optional().default([]),
-  tags: z.array(z.string()).optional().default([]),
+  tags: z
+    .array(z.enum([Tags.RECOMMENDED, Tags.POPULAR, Tags.NEW, Tags.HOT]))
+    .refine(
+      (tags) =>
+        tags.every((t) =>
+          [Tags.RECOMMENDED, Tags.POPULAR, Tags.NEW, Tags.HOT].includes(t)
+        ),
+      {
+        message: "Invalid tag detected",
+      }
+    ),
   // update_at: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 });
