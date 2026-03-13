@@ -119,16 +119,13 @@ const WhatsappButton = () => {
         {" "}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <div className="w-50 gap-4 justify-around cursor-pointer bg-primary text-secondary flex items-center px-4 py-4 rounded-full transition-all duration-300 shadow-lg hover:scale-105">
-              <div className="text-md">Hubungi Kami!</div>
+            <div className="w-50 gap-4 justify-around cursor-pointer bg-primary text-secondary flex items-center p-3 rounded-full transition-all duration-300 shadow-lg hover:scale-105">
+              <div className="text-sm">Hubungi Kami!</div>
               <Phone className="size-6" />
             </div>
           </DialogTrigger>
 
-          <DialogContent
-            showCloseButton={false}
-            className="fixed bottom-[80px] top-auto left-1/2 -translate-x-1/2 translate-y-0 w-[90%] rounded-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-bottom-2 data-[state=open]:slide-in-from-bottom-2 duration-200"
-          >
+          <DialogContent showCloseButton={false} className="">
             <DialogHeader>
               <DialogTitle className="text-left text-xl">
                 Pilih Perunding Kami
