@@ -115,17 +115,16 @@ const WhatsappButton = () => {
         </Popover>
       </div>
 
-      <div className="md:hidden fixed bottom-1 right-1 z-50">
-        {" "}
+      <div className="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-50">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <div className="w-50 gap-4 justify-around cursor-pointer bg-primary text-secondary flex items-center p-3 rounded-full transition-all duration-300 shadow-lg hover:scale-105">
-              <div className="text-sm">Hubungi Kami!</div>
-              <Phone className="size-6" />
+            <div className="w-full gap-2 justify-around cursor-pointer bg-primary text-secondary flex items-center py-3 px-5 rounded-full">
+              <div className="text-sm w-25">Hubungi Kami!</div>
+              <Phone className="size-4" />
             </div>
           </DialogTrigger>
 
-          <DialogContent showCloseButton={false} className="">
+          <DialogContent showCloseButton={false}>
             <DialogHeader>
               <DialogTitle className="text-left text-xl">
                 Pilih Perunding Kami
