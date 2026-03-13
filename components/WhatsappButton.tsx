@@ -88,7 +88,7 @@ const WhatsappButton = () => {
   }, []); // only once
 
   return (
-    <div className="bottom-6 z-50">
+    <div className="bottom-10 left-1 z-50">
       {/* DESKTOP: Popover on Hover */}
       <div
         className="hidden md:block"
@@ -97,7 +97,7 @@ const WhatsappButton = () => {
       >
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
-            <div className="group gap-4 text-xl cursor-pointer bg-primary text-secondary flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border border-green-100">
+            <div className="group gap-4 text-md cursor-pointer bg-primary text-secondary flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border border-green-100">
               <span>Kami Sedia Membantu!</span>
               <Phone className="shrink-0 size-5" />
             </div>
@@ -115,22 +115,28 @@ const WhatsappButton = () => {
         </Popover>
       </div>
 
-      {/* MOBILE: Dialog on Click */}
-      <div className="md:hidden">
+      <div className="md:hidden fixed bottom-1 right-1 z-50">
+        {" "}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <div className="group gap-4 w-68 justify-around cursor-pointer bg-primary text-secondary flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg hover:scale-105">
-              <div>Kami Sedia Membantu!</div>
+            <div className="w-50 gap-4 justify-around cursor-pointer bg-primary text-secondary flex items-center px-4 py-4 rounded-full transition-all duration-300 shadow-lg hover:scale-105">
+              <div className="text-md">Hubungi Kami!</div>
               <Phone className="size-6" />
             </div>
           </DialogTrigger>
-          <DialogContent className="w-[90%] rounded-2xl">
+
+          <DialogContent
+            showCloseButton={false}
+            className="fixed bottom-[80px] top-auto left-1/2 -translate-x-1/2 translate-y-0 w-[90%] rounded-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-bottom-2 data-[state=open]:slide-in-from-bottom-2 duration-200"
+          >
             <DialogHeader>
               <DialogTitle className="text-left text-xl">
-                Hubungi Kami
+                Pilih Perunding Kami
               </DialogTitle>
             </DialogHeader>
+
             <SalesList salesTeam={salesTeam} />
+
             <p className="text-center text-[10px] text-gray-400 mt-2">
               Waktu Operasi: 9:00 AM - 6:00 PM
             </p>

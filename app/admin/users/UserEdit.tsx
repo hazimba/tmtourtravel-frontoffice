@@ -31,14 +31,20 @@ import {
 
 import { useForm } from "react-hook-form";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabaseClient";
 import { User, UserDepartment } from "@/types";
 import _ from "lodash";
 import { Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AvatarUpload } from "./AvatarUpload";
-import { useRouter } from "next/navigation";
 
 interface UserEditProps {
   user: User;
@@ -47,6 +53,7 @@ interface UserEditProps {
 const UserEdit = ({ user }: UserEditProps) => {
   const router = useRouter();
 
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const form = useForm<User>({
     defaultValues: {
@@ -61,7 +68,7 @@ const UserEdit = ({ user }: UserEditProps) => {
   });
 
   const onSubmit = async (values: User) => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("profiles")
       .update(values)
       .eq("id", user.id);
@@ -69,22 +76,36 @@ const UserEdit = ({ user }: UserEditProps) => {
     if (error) {
       console.error("Error updating user:", error);
     }
-    if (data) {
-      toast.success("User updated successfully!");
-      setOpen(false);
-      router.refresh();
-    } else {
-      toast.error("Failed to update user. Please try again.");
-    }
+    toast.success("User updated successfully!");
+    setOpen(false);
+    router.refresh();
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        setOpen(value);
+        if (!value) setTooltipOpen(false);
+      }}
+    >
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <Settings className="h-4 w-4 mr-2" />
-          Edit
-        </Button>
+        <div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-slate-100"
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">Edit User</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

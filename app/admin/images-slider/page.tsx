@@ -63,7 +63,7 @@ const ImageSliderTab = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 bg-slate-50/50 h-[calc(99vh-3.5rem)] overflow-y-auto">
+    <div className="p-6 space-y-6 bg-slate-50/50 h-[calc(99vh-4.5rem)] overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
           title="Image Slider"
@@ -84,7 +84,9 @@ const ImageSliderTab = () => {
 
       <div
         className={`rounded-xl border bg-white shadow-sm overflow-hidden ${
-          isOpen ? "h-[50vh]" : "h-[70vh]"
+          isOpen
+            ? "max-h-[45vh] overflow-y-auto"
+            : "max-h-[70vh] overflow-y-auto"
         } transition-all duration-300 ease-in-out grid grid-cols-1`}
       >
         {loading ? (
