@@ -54,10 +54,10 @@ export default function ContactEnquiryForm() {
           {/* Left Side: Info */}
           <div className="space-y-6">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
                 Ready to start your journey?
               </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
+              <p className="mt-4 md:text-lg text-muted-foreground text-muted-foreground tracking-widest">
                 Whether it&#39;s for Umrah, MICE, or a custom ground package,
                 fill out the form and our consultants will assist you.
               </p>
@@ -73,6 +73,18 @@ export default function ContactEnquiryForm() {
                     Call Us
                   </p>
                   <p className="font-semibold">+603 4031 4171</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-green-100 text-green-600 rounded-full">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Call Us
+                  </p>
+                  <p className="font-semibold">info@tmtours.com.my</p>
                 </div>
               </div>
 
@@ -195,9 +207,9 @@ export default function ContactEnquiryForm() {
                   {form.formState.isSubmitting ? (
                     "Sending..."
                   ) : (
-                    <>
+                    <div className="text-sm flex items-center justify-center">
                       Send Message <Send className="ml-2 w-4 h-4" />
-                    </>
+                    </div>
                   )}
                 </Button>
               </form>

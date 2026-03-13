@@ -8,6 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Briefcase, Building2, Eye, Mail, MapPin, Phone } from "lucide-react";
 import { User } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -36,13 +42,26 @@ const DetailRow = ({
   </div>
 );
 
-const UserViewDetails = async ({ user }: UserViewDetailsProps) => {
+const UserViewDetails = ({ user }: UserViewDetailsProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="hover:bg-slate-100">
-          <Eye className="h-4 w-4" />
-        </Button>
+        <div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-slate-100"
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">View User</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </DialogTrigger>
       <DialogContent
         className="sm:max-w-[450px] p-0 overflow-hidden border-none shadow-2xl"
@@ -51,8 +70,11 @@ const UserViewDetails = async ({ user }: UserViewDetailsProps) => {
         <div className="bg-slate-900 h-24 w-full" />{" "}
         <div className="px-6 pb-6">
           <div className="relative -mt-10 mb-4">
-            <Avatar className="h-40 w-40 border-4 border-white shadow-lg">
-              <AvatarImage src={user.avatar_url} />
+            <Avatar className="h-40 w-40 border-4 bg-white border-white shadow-lg">
+              <AvatarImage
+                src={user.avatar_url}
+                className="w-full h-full object-cover"
+              />
               <AvatarFallback className="text-xl">
                 {user.full_name?.charAt(0)}
               </AvatarFallback>

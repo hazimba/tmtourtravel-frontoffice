@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Ubuntu } from "next/font/google";
 import "./globals.css";
@@ -111,7 +112,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${ubuntu.variable} antialiased`}
       >
         <Toaster position="top-center" />
-        <main>{children}</main>
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );
