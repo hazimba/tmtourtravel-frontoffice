@@ -36,6 +36,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import PackageDetailsMobile from "./PackageDetailsMobile";
+import PriceRender from "@/components/PriceRender";
 
 interface PackageDetailsProps {
   selectedPackage: Package | null;
@@ -208,7 +209,7 @@ const PackageDetails = ({
                         )}
                       </DialogContent>
                     </Dialog>
-
+                    <PriceRender selectedPackage={selectedPackage} />
                     <div className="space-y-4">
                       <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
                         Logistics
@@ -220,6 +221,13 @@ const PackageDetails = ({
                         <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
                           Freebies
                         </h4>
+                        <ul className="text-sm text-yellow-900 leading-relaxed font-medium space-y-1 list-disc list-outside ml-5">
+                          {selectedPackage.package_freebies.map(
+                            (freebie: string, idx: number) => (
+                              <li key={idx}>{freebie}</li>
+                            )
+                          )}
+                        </ul>
                         <div className="flex flex-wrap gap-2">
                           {selectedPackage.freebies.length > 0 ? (
                             selectedPackage.freebies
@@ -350,19 +358,37 @@ const PackageDetails = ({
                             <CheckCircle2 className="h-4 w-4" /> Package
                             Includes
                           </h5>
-                          <p className="text-xs leading-relaxed text-green-900/80 dark:text-green-300">
-                            {selectedPackage.includes ||
-                              "No details on what the package includes."}
-                          </p>
+                          {selectedPackage.package_includes.length > 0 ? (
+                            <ul className="text-sm text-green-800 leading-relaxed space-y-1 list-disc list-outside ml-5">
+                              {selectedPackage.package_includes.map(
+                                (inc: string, idx: number) => (
+                                  <li key={idx}>{inc}</li>
+                                )
+                              )}
+                            </ul>
+                          ) : (
+                            <p className="text-xs leading-relaxed text-green-900/80 dark:text-green-300">
+                              No details on what the package includes.
+                            </p>
+                          )}
                         </div>
                         <div className="p-4 bg-red-50/50 rounded-xl border border-red-100 dark:bg-red-950/10 dark:border-red-900/30">
                           <h5 className="flex items-center gap-2 text-md font-bold text-red-700 mb-2">
                             <XCircle className="h-4 w-4" /> Package Excludes
                           </h5>
-                          <p className="text-xs leading-relaxed text-red-900/80 dark:text-red-300">
-                            {selectedPackage.excludes ||
-                              "No details on what the package excludes."}
-                          </p>
+                          {selectedPackage.package_excludes.length > 0 ? (
+                            <ul className="text-sm text-red-800 leading-relaxed space-y-1 list-disc list-outside ml-5">
+                              {selectedPackage.package_excludes.map(
+                                (exc: string, idx: number) => (
+                                  <li key={idx}>{exc}</li>
+                                )
+                              )}
+                            </ul>
+                          ) : (
+                            <p className="text-xs leading-relaxed text-red-900/80 dark:text-red-300">
+                              No details on what the package excludes.
+                            </p>
+                          )}
                         </div>
                       </div>
 

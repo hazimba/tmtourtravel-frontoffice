@@ -1,0 +1,85 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+interface HeroCarouselProps {
+  images: string[];
+  data: any;
+}
+
+export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
+  const [current, setCurrent] = useState(0);
+
+  const prevImage = () =>
+    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  const nextImage = () =>
+    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+
+  return (
+    <section className="relative h-[400px] w-full rounded-2xl overflow-hidden mb-8 shadow-lg">
+      {/* Image */}
+      <div className="relative h-full w-full">
+        <Image
+          src={images[current]}
+          alt={data.title}
+          fill
+          className="object-cover transition duration-500 ease-in-out"
+          loading="eager"
+        />
+      </div>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white pointer-events-none">
+        <div className="flex gap-2 mb-2 flex-wrap pointer-events-auto">
+          {data.tags?.map((tag: string) => (
+            <span
+              key={tag}
+              className="bg-orange-500 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+            >
+              {tag}
+            </span>
+          ))}
+          <span className="bg-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+            {data.type} • {data.session}
+          </span>
+        </div>
+        <h1 className="text-4xl font-extrabold mb-2">{data.title}</h1>
+        <div className="w-full flex justify-between items-center">
+          <p className="text-lg opacity-90 hidden md:block">{data.subtitle}</p>
+        </div>
+      </div>
+
+      {/* Arrows */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={prevImage}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full hover:bg-black/60 text-white"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={nextImage}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full hover:bg-black/60 text-white"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </>
+      )}
+
+      {/* Dots */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {images.map((_, idx) => (
+          <span
+            key={idx}
+            className={`w-2 h-2 rounded-full transition-all ${
+              idx === current ? "bg-white" : "bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};

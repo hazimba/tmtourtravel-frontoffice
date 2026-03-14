@@ -202,6 +202,11 @@ const BulkExportPackages = ({
         location: pkg.location,
         tour_code: pkg.tour_code,
 
+        price_original: pkg.price_original,
+        price_from: pkg.price_from,
+        price_discount: pkg.price_discount,
+        price_to: pkg.price_to,
+
         main_image_url: pkg.main_image_url,
         sub_image_urls: JSON.stringify(pkg.sub_image_urls ?? []),
         features: JSON.stringify(pkg.features ?? []),

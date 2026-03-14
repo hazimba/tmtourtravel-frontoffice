@@ -78,10 +78,8 @@ const AdminDashboardPage = async () => {
     { limit_count: 5 }
   );
 
-  console.log("topPackagesToday", topPackagesToday);
-
   return (
-    <div className="p-6 space-y-6 overflow-y-auto h-[95vh] bg-gray-50/50">
+    <div className="p-6 space-y-6 overflow-y-auto h-[90vh] bg-gray-50/50">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <PageTitle
           title="Admin Dashboard"

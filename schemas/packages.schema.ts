@@ -144,6 +144,13 @@ export const packageSchema = z.object({
     ),
   // update_at: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
+  price_original: z.string().optional().default(""),
+  price_discount: z.string().optional().default(""),
+  price_from: z.string().optional().default(""),
+  price_to: z.string().optional().default(""),
+  package_includes: z.array(z.string()).optional().default([]),
+  package_excludes: z.array(z.string()).optional().default([]),
+  package_freebies: z.array(z.string()).optional().default([]),
 });
 
 export type PackageFormValues = z.infer<typeof packageSchema>;

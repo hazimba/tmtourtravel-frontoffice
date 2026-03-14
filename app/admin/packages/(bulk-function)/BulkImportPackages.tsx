@@ -105,6 +105,11 @@ const BulkImportPackages = ({
       main_image_url: row.main_image_url || "",
       sub_image_urls: safeJsonParse(row.sub_image_urls) ?? [],
 
+      price_original: row.price_original.toString() || "",
+      price_from: row.price_from.toString() || "",
+      price_discount: row.price_discount.toString() || "",
+      price_to: row.price_to.toString() || "",
+
       // Excel date conversion
       update_period: normalizeDate(row.update_period),
 

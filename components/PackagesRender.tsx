@@ -1,10 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Package } from "@/types";
+import { Tags } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import TagsRender from "./TagsRender";
 
 // Helper to pick a random price from the array
-const prices = ["RM8000", "RM9000", "RM10000"];
+const prices = ["8000", "9000", "10000"];
 function getRandomPrice() {
   return prices[Math.floor(Math.random() * prices.length)];
 }
@@ -19,27 +21,7 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
       {packages.map((pkg: Package, index: number) => (
         <Link key={index} href={`/package/${pkg.uuid}`}>
           <div className="shadow-md relative flex-shrink-0 md:w-78 w-68 md:h-102 h-96 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
-            {pkg.tags && pkg.tags.length > 0 && (
-              <div className="absolute top-3 right-3 flex gap-2 z-10">
-                {pkg.tags.map((tag: string, tagIndex: number) => (
-                  <Badge
-                    key={tagIndex}
-                    className={
-                      (tag === "HOT"
-                        ? "bg-red-600 text-white"
-                        : tag === "POPULAR"
-                        ? "bg-yellow-400 text-black"
-                        : tag === "NEW"
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-300 text-gray-700") +
-                      " px-2 py-1 text-xs font-bold rounded-full"
-                    }
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
+            <TagsRender tags={pkg.tags || []} />
             {pkg.main_image_url ? (
               <Image
                 src={pkg.main_image_url}
@@ -74,20 +56,14 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
               <div className="md:mt-3 mt-1 mb-2">
                 <div className="flex items-baseline gap-2">
                   <span className="text-xs font-thin text-gray-500">from </span>
-                  {pkg ? (
-                    <>
-                      <span className="text-lg font-bold text-primary">
-                        {getRandomPrice()}
-                      </span>
-                      <span className="text-xs text-gray-400 line-through">
-                        {getRandomPrice()}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-lg font-bold text-gray-900">
-                      {getRandomPrice()}
+                  <>
+                    <span className="text-lg font-bold text-primary">
+                      RM {pkg.price_from || getRandomPrice()}
                     </span>
-                  )}
+                    <span className="text-xs text-gray-400 line-through">
+                      RM {pkg.price_original || getRandomPrice()}
+                    </span>
+                  </>
                 </div>
                 <span className="text-[8px] text-muted-foreground uppercase">
                   Per Person

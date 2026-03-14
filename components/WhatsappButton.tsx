@@ -105,7 +105,7 @@ const WhatsappButton = () => {
           <PopoverContent
             side="top"
             align="end"
-            className="w-80 p-4 mb-2 shadow-2xl border-green-100"
+            className="w-108 p-4 mb-2 shadow-2xl border-green-100"
           >
             <h3 className="font-bold text-gray-800 mb-2 px-1">
               Pilih Perunding Kami

@@ -9,12 +9,12 @@ interface TestimonialProps {
 const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
   // Added "items-center" and "py-12" to give the scaled card room to grow
   // without being clipped by the container's overflow.
-  <div className="flex gap-8 p-6 md:py-12 overflow-x-auto scrollbar-hide overflow-hidden items-center">
+  <div className="flex gap-8 p-6 md:py-8 overflow-x-auto scrollbar-hide overflow-hidden items-center">
     {testimonials.map((testimonial, i) => (
       <div
         key={i}
         className="
-          relative border border-gray-100 md:max-w-[280px] max-w-[200px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
+          relative border border-gray-100 max-w-[280px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
           flex flex-col gap-4 shadow-sm flex-shrink-0 justify-between
           
           /* Smooth Transition Logic */
@@ -26,7 +26,7 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
         "
       >
         {/* Quote Icon */}
-        <div className="absolute hidden md:block top-10 right-10 text-gray-500 text-[80px] font-serif leading-none select-none">
+        <div className="absolute hidden md:block top-10 right-10 text-gray-500 text-[40px] font-serif leading-none select-none">
           &ldquo;
         </div>
 

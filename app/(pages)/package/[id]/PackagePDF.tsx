@@ -88,9 +88,16 @@ export const PackagePDF = ({ data }: { data: any }) => (
       {/* Hero */}
       <View style={styles.hero}>
         {data.main_image_url && (
+          // cannot generate webp image, only jpg
           <Image
             src={data.main_image_url}
-            style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            style={{
+              position: "absolute",
+              width: "120%",
+              height: "120%",
+              top: "-10%",
+              left: "-10%",
+            }}
           />
         )}
 
