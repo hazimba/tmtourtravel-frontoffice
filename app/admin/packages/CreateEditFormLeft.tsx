@@ -37,6 +37,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { UseFormSetValue } from "react-hook-form";
 import { ImageUploadForm } from "./ImageUploadForm";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
@@ -148,6 +149,31 @@ const CreateEditFormLeft = ({
         </div>
       </div>
       <Separator className="my-4" />
+      <div className="px-6 mb-6 grid md:grid-cols-4 gap-5">
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Price (Original)</Label>
+          <Input
+            placeholder="Enter original price"
+            {...register("price_original")}
+          />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Price (Discount)</Label>
+          <Input
+            placeholder="Enter discount price"
+            {...register("price_discount")}
+          />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Price (From)</Label>
+          <Input placeholder="Enter price from" {...register("price_from")} />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Price (To)</Label>
+          <Input placeholder="Enter price to" {...register("price_to")} />
+        </div>
+      </div>
+      <Separator className="my-4" />
       <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-5">
         <div className="flex flex-col gap-2 justify-between">
           <Label>Subtitle</Label>
@@ -174,15 +200,15 @@ const CreateEditFormLeft = ({
             {...register("optional_tours")}
           />
         </div>
-        <div className="flex flex-col gap-2 justify-between">
+        {/* <div className="flex flex-col gap-2 justify-between">
           <Label>Includes</Label>
-          <Input placeholder="Enter includes" {...register("includes")} />
+          <Textarea placeholder="Enter includes" {...register("includes")} />
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Excludes</Label>
-          <Input placeholder="Enter excludes" {...register("excludes")} />
-        </div>
+          <Textarea placeholder="Enter excludes" {...register("excludes")} />
+        </div> */}
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Conditions</Label>
@@ -194,18 +220,18 @@ const CreateEditFormLeft = ({
           <Input placeholder="Enter embedded" {...register("embedded")} />
         </div>
 
-        <div className="flex flex-col gap-2 justify-between">
+        {/* <div className="flex flex-col gap-2 justify-between">
           <Label>Freebies</Label>
           <Input placeholder="Enter freebies" {...register("freebies")} />
         </div>
 
         <div className="md:col-span-1 flex flex-col gap-2 justify-between">
           <Label>Important Notes</Label>
-          <Input
+          <Textarea
             placeholder="Enter important notes"
             {...register("important_notes")}
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Location</Label>

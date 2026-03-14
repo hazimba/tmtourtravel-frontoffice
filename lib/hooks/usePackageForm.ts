@@ -42,6 +42,9 @@ export const usePackageForm = () => {
       appearance: undefined,
       type: undefined,
       location: "",
+      package_includes: [],
+      package_excludes: [],
+      package_freebies: [],
     },
   });
 };

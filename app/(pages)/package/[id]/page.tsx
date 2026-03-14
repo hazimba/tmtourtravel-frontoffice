@@ -1,18 +1,39 @@
 import DownloadPdfButton from "@/components/DownloadPdfButtonWrapper";
+import FadeIn from "@/components/FadeIn";
 import FlightScheduleRender from "@/components/FlightScheduleRender";
 import HighlightText from "@/components/HighlightText";
+import PriceRender from "@/components/PriceRender";
 import { ShareButton } from "@/components/SharePackageButton";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Star } from "lucide-react";
-import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
-import FadeIn from "@/components/FadeIn";
+import { MapPin, Settings, Star } from "lucide-react";
+import Link from "next/link";
+import { HeroCarousel } from "./ImageCarousel";
+import ImportantNotes from "./ImportantNotes";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const dynamic = "force-dynamic";
 
 const PackagePage = async ({ params }: { params: { id: string } }) => {
   const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: userProfile } = await supabase
+    .from("profiles")
+    .select("full_name, email")
+    .eq("id", user?.id)
+    .single();
+
+  console.log("User profile:", userProfile);
 
   const { id } = await params;
 
@@ -37,52 +58,41 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
     return <div className="p-10 text-center">Package not found</div>;
   }
 
+  console.log("Package data:", data.main_image_url);
+
+  const images = [
+    data.main_image_url,
+    "https://tmtours.com.my/public/js/common/thumbnr.php?src=traveldez/images/uploader/uploads/a2e416e3e5498b2e0fdd92c89b32df5ejpg&w=960&h=540&zc=1&a=",
+    "https://tmtours.com.my/public/js/common/thumbnr.php?src=https://www.tmtours.com.my/traveldez/images/globalbanner/uploads//370f693dc7f6bd52a4e36ff419ff74a4jpg&w=1080&h=720&zc=1&a=",
+  ];
+
   return (
     <FadeIn>
       <main className="max-w-7xl mx-auto p-4 md:p-8 font-sans text-slate-900">
-        <section className="relative h-[400px] w-full rounded-2xl overflow-hidden mb-8 shadow-lg">
-          <Image
-            src={data.main_image_url}
-            alt={data.title}
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white">
-            <div className="flex gap-2 mb-2 flex-wrap">
-              {data.tags?.map((tag: string) => (
-                <span
-                  key={tag}
-                  className="bg-orange-500 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-                >
-                  {tag}
-                </span>
-              ))}
-              <span className="bg-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                {data.type} • {data.session}
-              </span>
-            </div>
-            <h1 className="text-4xl font-extrabold mb-2">{data.title}</h1>
-            <div className="w-full flex justify-between items-center">
-              <p className="text-lg opacity-90 hidden md:block">
-                {data.subtitle}
-              </p>
-              <Badge
-                variant="secondary"
-                className="md:text-xl font-semibold tracking-widest py-2 px-4 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg shadow-lg"
-              >
-                FROM RM 8990
-              </Badge>
-            </div>
-          </div>
-        </section>
+        <HeroCarousel images={images} data={data} />
 
         <div className="md:grid grid-cols-1 md:grid-cols-5 gap-8">
           <div className="md:col-span-3 space-y-8">
             {/* Overview & Highlights */}
             <section>
-              <h2 className="text-2xl font-bold mb-4 border-b pb-2">
-                Overview
-              </h2>
+              <div className=" mb-4 border-b pb-2 flex justify-between items-center">
+                <h2 className="text-2xl font-bold">Overview</h2>
+                {userProfile && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link href={`/admin/packages/edit/${data.uuid}`}>
+                        <Button variant="outline" size="sm">
+                          <Settings size={20} className="mr-2" />
+                          Edit
+                        </Button>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent side="left">
+                      Edit Package Details
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
               <div className="flex items-center gap-2 mb-4 text-primary font-medium">
                 <MapPin size={18} /> <span>{data.location}</span>
               </div>
@@ -123,10 +133,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                   <p className="font-medium">{data.type}</p>
                 </div>
               </div>
-              <p className="flex gap-2 pt-4 text-sm">
-                <span className="not-italic">Notes:</span>
-                {data.important_notes}
-              </p>
             </section>
 
             <section>
@@ -170,6 +176,12 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           </div>
 
           <div className="space-y-6 col-span-2 mt-6 md:mt-0">
+            <PriceRender selectedPackage={data} />
+            <div className="flex flex-col gap-2 pt-4 pb-2">
+              <span className="not-italic font-semibold">Important Notes:</span>
+              <ImportantNotes />
+            </div>
+
             <FadeIn>
               <div className="grid grid-cols-2 gap-4">
                 <DownloadPdfButton data={data} />
@@ -220,46 +232,61 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               </ul>
             </div>
 
-            {data.features.length !== 0 && (
+            {/* Features Section */}
+            {data.features?.length > 0 && (
               <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
                 <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
                   Features
                 </h3>
-
-                <div className="text-sm text-green-800 leading-relaxed space-y-1">
+                <ul className="text-sm text-green-800 leading-relaxed space-y-1 list-disc list-outside ml-5">
                   {data.features.map((feature: string, idx: number) => (
-                    <p key={idx}>• {feature}</p>
+                    <li key={idx}>{feature}</li>
                   ))}
-                </div>
+                </ul>
               </div>
             )}
 
-            <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
-              <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
-                Includes
-              </h3>
-              <p className="text-sm text-green-800 leading-relaxed whitespace-pre-line">
-                {data.includes}
-              </p>
-            </div>
+            {/* Includes Section */}
+            {data.package_includes?.length > 0 && (
+              <div className="bg-green-50 md:p-6 p-4 rounded-xl border border-green-200">
+                <h3 className="font-bold text-lg md:mb-3 mb-1 text-green-700">
+                  Includes
+                </h3>
+                <ul className="text-sm text-green-800 leading-relaxed space-y-1 list-disc list-outside ml-5">
+                  {data.package_includes.map((inc: string, idx: number) => (
+                    <li key={idx}>{inc}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            <div className="bg-red-50 md:p-6 p-4 rounded-xl border border-red-200">
-              <h3 className="font-bold text-lg md:mb-3 mb-1 text-red-700">
-                Excludes
-              </h3>
-              <p className="text-sm text-red-800 leading-relaxed whitespace-pre-line">
-                {data.excludes}
-              </p>
-            </div>
+            {/* Excludes Section */}
+            {data.package_excludes?.length > 0 && (
+              <div className="bg-red-50 md:p-6 p-4 rounded-xl border border-red-200">
+                <h3 className="font-bold text-lg md:mb-3 mb-1 text-red-700">
+                  Excludes
+                </h3>
+                <ul className="text-sm text-red-800 leading-relaxed space-y-1 list-disc list-outside ml-5">
+                  {data.package_excludes.map((exc: string, idx: number) => (
+                    <li key={idx}>{exc}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            <div className="bg-yellow-50 md:p-6 p-4 rounded-xl border border-yellow-200">
-              <h3 className="font-bold text-lg md:mb-3 mb-1 text-yellow-800">
-                Freebies 🎁
-              </h3>
-              <p className="text-sm text-yellow-900 leading-relaxed font-medium">
-                {data.freebies}
-              </p>
-            </div>
+            {/* Freebies Section */}
+            {data.package_freebies?.length > 0 && (
+              <div className="bg-yellow-50 md:p-6 p-4 rounded-xl border border-yellow-200">
+                <h3 className="font-bold text-lg md:mb-3 mb-1 text-yellow-800">
+                  Freebies 🎁
+                </h3>
+                <ul className="text-sm text-yellow-900 leading-relaxed font-medium space-y-1 list-disc list-outside ml-5">
+                  {data.package_freebies.map((freebie: string, idx: number) => (
+                    <li key={idx}>{freebie}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {data.optional_tours && (
               <section className="bg-indigo-50 md:p-6 p-4 rounded-xl border border-indigo-100 hidden print:block">
                 <h2 className="md:text-xl text-lg font-bold mb-3 md:mb-1 text-indigo-900 flex items-center gap-2">

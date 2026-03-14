@@ -44,6 +44,33 @@ const CreateEditFormRight = ({
   });
 
   const {
+    fields: fieldsIncludes,
+    append: appendIncludes,
+    remove: removeIncludes,
+  } = useFieldArray({
+    control,
+    name: "package_includes",
+  });
+
+  const {
+    fields: fieldsExcludes,
+    append: appendExcludes,
+    remove: removeExcludes,
+  } = useFieldArray({
+    control,
+    name: "package_excludes",
+  });
+
+  const {
+    fields: fieldsFreebies,
+    append: appendFreebies,
+    remove: removeFreebies,
+  } = useFieldArray({
+    control,
+    name: "package_freebies",
+  });
+
+  const {
     fields: flightFields,
     append: appendFlight,
     remove: removeFlight,
@@ -117,6 +144,87 @@ const CreateEditFormRight = ({
           className="mt-2"
         >
           Add Feature
+        </Button>
+      </div>
+      <div className="md:col-span-2 flex flex-col gap-2">
+        <Label>Includes</Label>
+        {fieldsIncludes.map((field, idx) => (
+          <div key={field.id} className="flex items-center gap-2">
+            <Input
+              placeholder={`Include ${idx + 1}`}
+              {...register(`package_includes.${idx}`)}
+              className="!w-full"
+            />
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => removeIncludes(idx)}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => appendIncludes("")}
+          className="mt-2"
+        >
+          Add Include
+        </Button>
+      </div>
+      <div className="md:col-span-2 flex flex-col gap-2">
+        <Label>Excludes</Label>
+        {fieldsExcludes.map((field, idx) => (
+          <div key={field.id} className="flex items-center gap-2">
+            <Input
+              placeholder={`Exclude ${idx + 1}`}
+              {...register(`package_excludes.${idx}`)}
+              className="!w-full"
+            />
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => removeExcludes(idx)}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => appendExcludes("")}
+          className="mt-2"
+        >
+          Add Exclude
+        </Button>
+      </div>
+      <div className="md:col-span-2 flex flex-col gap-2">
+        <Label>Freebies</Label>
+        {fieldsFreebies.map((field, idx) => (
+          <div key={field.id} className="flex items-center gap-2">
+            <Input
+              placeholder={`Freebie ${idx + 1}`}
+              {...register(`package_freebies.${idx}`)}
+              className="!w-full"
+            />
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => removeFreebies(idx)}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => appendFreebies("")}
+          className="mt-2"
+        >
+          Add Freebie
         </Button>
       </div>
       <div className="md:col-span-2 flex flex-col gap-2">

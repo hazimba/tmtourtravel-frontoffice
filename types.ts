@@ -142,6 +142,13 @@ export interface Package {
   main_image_url: string;
   sub_image_urls: string[];
   tags: string[];
+  price_original: string;
+  price_discount: string;
+  price_from: string;
+  price_to: string;
+  package_includes: string[];
+  package_excludes: string[];
+  package_freebies: string[];
 }
 
 export interface ImageSlider {
