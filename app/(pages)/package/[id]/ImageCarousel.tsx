@@ -95,7 +95,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
             key={"prev"}
             aria-label="Previous Slide"
             onClick={prevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-md p-3 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
+            className="absolute left-4 md:top-1/2 top-2/5 -translate-y-1/2 md:bg-black/30 bg-black/20 backdrop-blur-md md:p-3 p-2 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
           >
             <ChevronLeft size={12} />
           </button>
@@ -103,7 +103,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
             key={"next"}
             aria-label="Next Slide"
             onClick={nextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-md p-3 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
+            className="absolute right-4 md:top-1/2 top-2/5 -translate-y-1/2 md:bg-black/30 bg-black/20 backdrop-blur-md md:p-3 p-2 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
           >
             <ChevronRight size={12} />
           </button>

@@ -21,7 +21,7 @@ export const FooterCard = ({
             Back
           </Link>
         </div>
-        <div className="flex gap-2">
+        <div className="flex md:flex-row flex-col gap-2">
           <Button
             variant="default"
             type="submit"

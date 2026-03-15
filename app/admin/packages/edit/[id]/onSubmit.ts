@@ -6,6 +6,7 @@ import { PackageFormValues } from "@/schemas/packages.schema";
 
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import imageCompression from "browser-image-compression";
 
 interface OnSubmitParams {
   formData: Partial<PackageFormValues>;
@@ -49,6 +50,13 @@ const uploadSubImagesToBucket = async (files: File[], uuid: string) => {
   const urls: string[] = [];
   for (let index = 0; index < files.length; index++) {
     const file = files[index];
+
+    const compressedFile = await imageCompression(file, {
+      maxSizeMB: 0.3,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    });
+
     const fileExt = file.name.split(".").pop();
     const timestamp = Date.now();
     // Use a random suffix or index to prevent collision if uploaded in same second
@@ -56,7 +64,7 @@ const uploadSubImagesToBucket = async (files: File[], uuid: string) => {
 
     const { error: uploadError } = await supabase.storage
       .from(bucketName)
-      .upload(fileName, file);
+      .upload(fileName, compressedFile);
 
     if (uploadError) throw uploadError;
 

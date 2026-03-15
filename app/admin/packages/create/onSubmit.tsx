@@ -5,6 +5,7 @@ import toLower from "lodash/toLower";
 import { v4 as uuidv4 } from "uuid";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import imageCompression from "browser-image-compression";
 
 import { toast } from "sonner";
 import { PackageFormValues } from "@/schemas/packages.schema";
@@ -64,9 +65,15 @@ const uploadImageToBucket = async (
     const fileExt = mainImageSelect.name.split(".").pop();
     const fileName = `${uuid}-${dateTime}.${fileExt}`;
 
+    const compressedFile = await imageCompression(mainImageSelect, {
+      maxSizeMB: 0.3, // target maximum size in MB
+      maxWidthOrHeight: 1920, // maintain aspect ratio, but limit dimensions
+      useWebWorker: true,
+    });
+
     const { error: uploadError } = await supabase.storage
       .from("package-main-image")
-      .upload(fileName, mainImageSelect, {
+      .upload(fileName, compressedFile, {
         cacheControl: "3600",
         upsert: false,
       });
