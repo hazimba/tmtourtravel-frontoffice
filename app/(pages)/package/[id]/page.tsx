@@ -1,18 +1,16 @@
 import DownloadPdfButton from "@/components/DownloadPdfButtonWrapper";
 import FadeIn from "@/components/FadeIn";
-import FlightScheduleRender from "@/components/FlightScheduleRender";
 import PriceRender from "@/components/PriceRender";
 import { ShareButton } from "@/components/SharePackageButton";
-import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 import { Star } from "lucide-react";
 import { HeroCarousel } from "./ImageCarousel";
 import ImportantNotes from "./ImportantNotes";
 
-import OverviewSection from "./OverviewSection";
 import ItinerarySection from "./ItinerarySection";
 import LogisticsSection from "./LogisticsSection";
 import OthersSection from "./OthersSection";
+import OverviewSection from "./OverviewSection";
 
 export const revalidate = 60;
 
@@ -68,11 +66,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
     return <div className="p-10 text-center">Package not found</div>;
   }
 
-  const images = [
-    data.main_image_url,
-    "https://tmtours.com.my/public/js/common/thumbnr.php?src=traveldez/images/uploader/uploads/a2e416e3e5498b2e0fdd92c89b32df5ejpg&w=960&h=540&zc=1&a=",
-    "https://tmtours.com.my/public/js/common/thumbnr.php?src=https://www.tmtours.com.my/traveldez/images/globalbanner/uploads//370f693dc7f6bd52a4e36ff419ff74a4jpg&w=1080&h=720&zc=1&a=",
-  ];
+  const images = [data.main_image_url, ...data.sub_image_urls];
 
   return (
     <FadeIn>

@@ -12,6 +12,7 @@ export default function CreatePackagePage() {
   const [errorShow, setErrorShow] = useState("");
   const form = usePackageForm();
   const [mainImageSelect, setMainImageSelect] = useState<File | null>(null);
+  const [subImageSelect, setSubImageSelect] = useState<File[] | null>(null);
 
   return (
     <div className="h-[95vh] bg-muted/40 px-6 py-10">
@@ -35,6 +36,7 @@ export default function CreatePackagePage() {
               watch: form.watch,
               setErrorShow,
               mainImageSelect,
+              subImageSelect,
             })
           )}
         >
@@ -44,6 +46,7 @@ export default function CreatePackagePage() {
               setValue={form.setValue}
               register={form.register}
               setMainImageSelect={setMainImageSelect}
+              setSubImageSelect={setSubImageSelect}
             />
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 h-[65vh] overflow-y-auto pt-6 mb-4">
               <CreateEditFormRight

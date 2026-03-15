@@ -37,13 +37,14 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { UseFormSetValue } from "react-hook-form";
 import { ImageUploadForm } from "./ImageUploadForm";
-import { Textarea } from "@/components/ui/textarea";
+import { SubImageUploadForm } from "./SubImageUploadForm";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
   setValue: UseFormSetValue<PackageFormValues>;
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
   setMainImageSelect: (file: File | null) => void;
+  setSubImageSelect: (files: File[] | null) => void;
 }
 
 const CreateEditFormLeft = ({
@@ -51,6 +52,7 @@ const CreateEditFormLeft = ({
   setValue,
   register,
   setMainImageSelect,
+  setSubImageSelect,
 }: CreateEditFormLeftProps) => {
   const mealPlanOptions = Object.values(MealPlan);
   const appearanceOptions = Object.values(Appearance);
@@ -390,6 +392,14 @@ const CreateEditFormLeft = ({
         <ImageUploadForm
           watch={watch}
           setMainImageSelect={setMainImageSelect}
+          setValue={setValue}
+        />
+      </div>
+      <div className="px-4 pb-4">
+        <Label className="mb-2 font-medium">Sub Main Image Upload</Label>
+        <SubImageUploadForm
+          watch={watch}
+          setSubImageSelect={setSubImageSelect}
           setValue={setValue}
         />
       </div>

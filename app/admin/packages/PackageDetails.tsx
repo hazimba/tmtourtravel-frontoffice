@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 
 import FlightScheduleRender from "@/components/FlightScheduleRender";
 import HighlightText from "@/components/HighlightText";
+import PriceRender from "@/components/PriceRender";
 import {
   Popover,
   PopoverContent,
@@ -31,12 +32,10 @@ import {
 } from "@/components/ui/popover";
 import { supabase } from "@/lib/supabaseClient";
 import { Package } from "@/types";
-import { find } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import PackageDetailsMobile from "./PackageDetailsMobile";
-import PriceRender from "@/components/PriceRender";
 
 interface PackageDetailsProps {
   selectedPackage: Package | null;
@@ -59,22 +58,32 @@ const PackageDetails = ({
     try {
       const uuid = selectedPackage.uuid;
 
+      // delete main image
       const { data: files, error: listError } = await supabase.storage
         .from("package-main-image")
         .list("");
 
       if (listError) throw listError;
 
-      const matchedFile = find(files, (file) => file.name.startsWith(uuid));
+      const matchedFile = files?.find((file) => file.name.startsWith(uuid));
 
       if (matchedFile) {
-        const { error: deleteStorageError } = await supabase.storage
+        await supabase.storage
           .from("package-main-image")
           .remove([matchedFile.name]);
+      }
 
-        if (deleteStorageError) {
-          console.error("Storage delete error:", deleteStorageError);
-        }
+      // delete sub images
+      const { data: subFiles, error: listSubError } = await supabase.storage
+        .from("package-sub-images")
+        .list(uuid);
+
+      if (listSubError) throw listSubError;
+
+      if (subFiles?.length) {
+        const paths = subFiles.map((file) => `${uuid}/${file.name}`);
+
+        await supabase.storage.from("package-sub-images").remove(paths);
       }
 
       const { error } = await supabase
