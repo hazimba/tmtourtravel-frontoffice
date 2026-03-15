@@ -48,20 +48,25 @@ const NavigationBar = async () => {
       </div>
 
       <div className="flex gap-4 items-center md:flex hidden">
-        <Link href="/package">
-          <button className="ml-8 text-lg font-medium text-muted-foreground">
-            Package
-          </button>
+        <Link
+          href="/package"
+          className="px-4 py-2 text-lg font-medium text-muted-foreground"
+        >
+          Package
         </Link>
-        <Link href="/about-us">
-          <button className="ml-8 text-lg font-medium text-muted-foreground">
-            About Us
-          </button>
+
+        <Link
+          href="/about-us"
+          className="px-4 py-2 text-lg font-medium text-muted-foreground"
+        >
+          About Us
         </Link>
-        <Link href="/contact">
-          <button className="ml-8 text-lg font-medium text-muted-foreground">
-            Contact
-          </button>
+
+        <Link
+          href="/contact"
+          className="px-4 py-2 text-lg font-medium text-muted-foreground"
+        >
+          Contact
         </Link>
 
         {user ? (

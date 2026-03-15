@@ -84,12 +84,12 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             <OverviewSection data={data} userProfile={userProfile} />
             <ItinerarySection data={data} />
             {data.optional_tours && (
-              <section className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 print:hidden">
-                <h2 className="text-xl font-bold mb-3 text-indigo-900 flex items-center gap-2">
-                  <Star size={20} className="fill-indigo-600 text-indigo-600" />{" "}
+              <section className="bg-indigo-50 p-4 rounded-xl border border-indigo-100 print:hidden">
+                <h2 className="text-lg font-bold mb-3 text-indigo-900 flex items-center gap-2">
+                  <Star size={10} className="fill-indigo-600 text-indigo-600" />{" "}
                   Optional Tours
                 </h2>
-                <p className="text-slate-700 leading-relaxed">
+                <p className="text-slate-700 text-sm leading-relaxed">
                   {data.optional_tours}
                 </p>
               </section>
