@@ -1,4 +1,5 @@
 import { Package } from "@/types";
+import { Star } from "lucide-react";
 
 interface OthersSectionProps {
   data: Package;
