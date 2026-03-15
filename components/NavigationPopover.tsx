@@ -14,7 +14,7 @@ import * as React from "react";
 
 const componentItems = [
   { title: "Admin", href: "/admin", icon: <LayoutDashboard size={18} /> },
-  { title: "Login", href: "/auth/login", icon: <LogIn size={18} /> },
+  // { title: "Login", href: "/auth/login", icon: <LogIn size={18} /> },
 ];
 
 const pageItems = [
@@ -23,18 +23,18 @@ const pageItems = [
 
 const NavigationPopover = () => {
   return (
-    <div className="flex justify-between space-x-4 items-center">
+    <div className="flex justify-between gap-8 items-center">
       <Link href="/home">
-        <button className="ml-8 text-md font-medium text-muted-foreground">
+        <button className="text-sm font-medium text-muted-foreground">
           Home
         </button>
       </Link>
       <Link href="/package">
-        <button className="ml-8 text-md font-medium text-muted-foreground">
+        <button className="text-sm font-medium text-muted-foreground">
           Package
         </button>
       </Link>
-      <NavigationMenu className="[&_div.absolute]:-left-[6rem] [&_div.absolute]:top-9 ml-8">
+      <NavigationMenu className="[&_div.absolute]:-left-[6rem] [&_div.absolute]:top-9">
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger
@@ -46,9 +46,9 @@ const NavigationPopover = () => {
             <NavigationMenuContent className="left-0">
               <ul className="">
                 <div className="px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  Management
+                  Pages
                 </div>
-                {componentItems.map((item) => (
+                {pageItems.map((item) => (
                   <ListItem
                     key={item.title}
                     title={item.title}
@@ -58,9 +58,9 @@ const NavigationPopover = () => {
                 ))}
                 <div className="my-2 border-t border-slate-100" />
                 <div className="px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  Pages
+                  Management
                 </div>
-                {pageItems.map((item) => (
+                {componentItems.map((item) => (
                   <ListItem
                     key={item.title}
                     title={item.title}

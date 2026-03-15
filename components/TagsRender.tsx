@@ -18,7 +18,7 @@ const TagsRender = ({ tags }: TagsRenderProps) => {
               : tag === "NEW"
               ? "bg-green-600 text-white"
               : "bg-gray-300 text-gray-700") +
-            " px-2 py-1 text-xs font-bold rounded-full"
+            " p-1 text-[6px] font-bold rounded-md"
           }
         >
           {tag}
