@@ -53,7 +53,7 @@ const AboutUsPage = () => {
       <section className="grid grid-cols-1 md:grid-cols-3 items-stretch min-h-[500px]">
         <div className="relative h-full min-h-[200px]">
           <Image
-            src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/mice-main-images/mice-corporate-meeting.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtaWNlLW1haW4taW1hZ2VzL21pY2UtY29ycG9yYXRlLW1lZXRpbmcuanBnIiwiaWF0IjoxNzY5Njk5NDQ4LCJleHAiOjE4MDEyMzU0NDh9.L2jOyQRYwh3JApCpsswJm7NCj4d6_ZQGKXp77wJrFew"
+            src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/public/package-main-image/90dd0195-a936-48d0-b06f-2cd91d50eb34-20260223-212246.webp"
             alt="Our Journey"
             className="absolute inset-0 object-cover md:w-full md:h-full w-[400px] h-[200px]"
             width={800}
@@ -123,7 +123,7 @@ const AboutUsPage = () => {
         </div>
         <div className="relative h-full min-h-[200px] order-1 md:order-2">
           <Image
-            src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/sign/package-main-images/korea.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjhhYWU0OS0wZjFiLTQ1NjgtOGI0OS1mMjVkOTBlYTVmZWYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwYWNrYWdlLW1haW4taW1hZ2VzL2tvcmVhLmpwZyIsImlhdCI6MTc2OTY4NDkzNywiZXhwIjoxODAxMjIwOTM3fQ.kZBgAUoeyZpV78lVpLQm520XhqXhI-Q6auP7r-a9oH8"
+            src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/public/package-main-image/4092f524-bcaf-4370-a47c-889aeeb16cb5-20260223-213232.jpg"
             alt="Our Services"
             className="absolute inset-0 object-cover md:w-full md:h-full w-[400px] h-[200px]"
             width={800}

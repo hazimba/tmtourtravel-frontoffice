@@ -20,7 +20,7 @@ const ImageSliderTab = () => {
   const fetchSliders = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/image-slider", { cache: "no-store" });
+      const res = await fetch("/api/image-slider");
       if (!res.ok) throw new Error("Failed to fetch sliders");
       const data = await res.json();
       setSliders(data);

@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
 import { Package } from "@/types";
-import { Tags } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import TagsRender from "./TagsRender";
@@ -26,10 +25,11 @@ export const PackagesRender = ({ packages }: PackagesRenderProps) => {
               <Image
                 src={pkg.main_image_url}
                 alt="Travel"
-                className="w-full h-40  object-cover"
-                width={4000}
-                height={2000}
+                className="w-full h-40 object-cover"
+                width={400}
+                height={200}
                 loading="eager"
+                quality={55}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             ) : (

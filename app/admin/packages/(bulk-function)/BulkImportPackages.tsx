@@ -8,7 +8,7 @@ import {
   parseSalePeriod,
   safeJsonParse,
 } from "@/lib/helpers/packagesBulkImportFunction";
-import _ from "lodash";
+import { startCase } from "lodash";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -298,7 +298,7 @@ const BulkImportPackages = ({
                             : "min-w-[150px]"
                         }`}
                       >
-                        {_.startCase(key)}
+                        {startCase(key)}
                       </th>
                     ))}
                 </tr>

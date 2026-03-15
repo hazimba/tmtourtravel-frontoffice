@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ImageSliderTextRender from "./ImageSliderTextRender";
+import { Button } from "./ui/button";
 
 export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
   const [current, setCurrent] = useState(0);
@@ -42,13 +43,13 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
             </div>
           ))
         : null}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-6 z-20">
         {slides
           ? slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => goTo(idx)}
-                className={`w-3 h-3 rounded-full border-2 border-primary transition bg-white ${
+                className={`w-5 h-5 rounded-full border-2 border-primary transition bg-white ${
                   current === idx ? "bg-primary" : ""
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
@@ -57,18 +58,22 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
           : null}
       </div>
       <div className="absolute inset-0 flex items-center justify-between px-4 max-w-6xl mx-auto">
-        <button
+        <Button
+          key={"prev"}
+          aria-label="Previous Slide"
           onClick={prev}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full md:w-12 md:h-12 h-8 w-8 flex items-center justify-center z-20 shadow"
         >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <button
+          <ArrowLeft aria-hidden="true" className="w-5 h-5" />
+        </Button>
+        <Button
+          key={"next"}
+          aria-label="Next Slide"
           onClick={next}
           className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary rounded-full md:w-12 md:h-12 h-8 w-8 flex items-center justify-center z-20 shadow"
         >
-          <ArrowRight className="w-5 h-5" />
-        </button>
+          <ArrowRight aria-hidden="true" className="w-5 h-5" />
+        </Button>
       </div>
     </div>
   );

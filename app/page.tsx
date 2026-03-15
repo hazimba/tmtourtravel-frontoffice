@@ -1,5 +1,3 @@
-// import { useMobileDetectClient } from "@/lib/hooks/useMobileDetect";
-
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";

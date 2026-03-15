@@ -1,4 +1,3 @@
-import { Facebook, Instagram, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {
@@ -28,17 +27,75 @@ const Footer = () => {
               <Link
                 href="https://www.facebook.com/TMToursTravel"
                 target="_blank"
+                key={"facebook"}
+                rel="noopener noreferrer"
               >
-                <Facebook className="w-5 h-5 cursor-pointer hover:text-blue-500 transition-colors" />
+                <span className="sr-only">Facebook</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ opacity: 1 }}
+                >
+                  <path
+                    fill="none"
+                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                  />
+                </svg>
               </Link>
               <Link
                 href="https://www.instagram.com/TMToursTravel"
                 target="_blank"
+                key={"instagram"}
+                rel="noopener noreferrer"
               >
-                <Instagram className="w-5 h-5 cursor-pointer hover:text-pink-500 transition-colors" />
+                <span className="sr-only">Instagram</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ opacity: 1 }}
+                >
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8A4 4 0 0 1 16 11.37m1.5-4.87h.01" />
+                </svg>
               </Link>
-              <Link href="https://wa.me/60176037054" target="_blank">
-                <MessageCircle className="w-5 h-5 cursor-pointer hover:text-green-500 transition-colors" />
+              <Link
+                key="whatsapp"
+                href="https://wa.me/60176037054"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="sr-only">WhatsApp</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ opacity: 1 }}
+                >
+                  <path
+                    fill="none"
+                    d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092a10 10 0 1 0-4.777-4.719"
+                  />
+                </svg>
               </Link>
             </div>
           </div>

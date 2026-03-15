@@ -97,10 +97,10 @@ const WhatsappButton = () => {
       >
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
-            <div className="group gap-4 text-md cursor-pointer bg-primary text-secondary flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border border-green-100">
+            <button className="group gap-4 text-md cursor-pointer bg-green-900 text-white flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border border-green-100">
               <span>Kami Sedia Membantu!</span>
               <Phone className="shrink-0 size-5" />
-            </div>
+            </button>
           </PopoverTrigger>
           <PopoverContent
             side="top"

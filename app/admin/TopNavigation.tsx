@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-// import { useMobileDetectClient } from "@/lib/hooks/useMobileDetect";
 import { LogOut, Home, Compass } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -8,8 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 
 const TopNavigation = async () => {
-  // const isMobile = useMobileDetectClient();
-
   const supabase = await createClient();
   const {
     data: { user },

@@ -24,9 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import _ from "lodash";
+import { startCase } from "lodash";
+import { useRouter } from "next/navigation";
 
 export default function AccountForm({ user }: { user: User | null }) {
+  const router = useRouter();
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
   const [fullname, setFullname] = useState<string | null>(null);
@@ -54,6 +56,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
+      console.error("Error loading user data:", error);
       toast.error("Error loading user data!");
     } finally {
       setLoading(false);
@@ -83,9 +86,11 @@ export default function AccountForm({ user }: { user: User | null }) {
         position: "top-center",
       });
       setTimeout(() => {
-        window.location.href = "/home";
+        // window.location.href = "/home";
+        router.push("/home");
       }, 1800);
     } catch (error) {
+      console.error("Error updating profile:", error);
       toast.error("Error updating the data!", { position: "top-center" });
     } finally {
       setLoading(false);
@@ -176,7 +181,7 @@ export default function AccountForm({ user }: { user: User | null }) {
                 <SelectContent className="w-full">
                   {Object.values(UserPosition).map((pos) => (
                     <SelectItem key={pos} value={pos}>
-                      {_.startCase(pos.toLowerCase().replace(/_/g, " "))}
+                      {startCase(pos.toLowerCase().replace(/_/g, " "))}
                     </SelectItem>
                   ))}
                 </SelectContent>
