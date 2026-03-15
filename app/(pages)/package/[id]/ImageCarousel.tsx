@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, TouchpadOff } from "lucide-react"; // Import a 'tap' style icon
+import { cn } from "@/lib/utils";
 
 interface HeroCarouselProps {
   images: string[];
@@ -11,81 +12,120 @@ interface HeroCarouselProps {
 
 export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
   const [current, setCurrent] = useState(0);
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false); // Track first interaction
 
-  const prevImage = () =>
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  const nextImage = () =>
+  };
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const toggleOverlay = () => {
+    setIsOverlayVisible((prev) => !prev);
+    setHasInteracted(true); // Hide the hint forever after first click
+  };
 
   return (
-    /* 1. Added 'group' here */
-    <section className="group relative h-[360px] w-full rounded-2xl overflow-hidden mb-8 shadow-lg">
-      {/* Image */}
-      <div className="relative h-full w-full">
+    <section
+      onClick={toggleOverlay}
+      className="group relative h-[400px] w-full rounded-2xl overflow-hidden mb-8 shadow-lg cursor-pointer select-none"
+    >
+      {/* Image Container */}
+      <div className="relative h-full w-full bg-slate-200">
         <Image
           src={images[current]}
           alt={data.title}
           fill
           loading="eager"
-          quality={60}
+          quality={100}
           sizes="100vw"
-          className="object-cover transition duration-500 ease-in-out"
+          className="object-cover transition duration-700 ease-in-out"
         />
       </div>
 
-      {/* Overlay - 2. Added group-hover:opacity-0 and transition */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white pointer-events-none transition-opacity duration-300 group-hover:opacity-0">
-        <div className="flex gap-2 mb-2 flex-wrap pointer-events-auto">
+      {/* Main Content Overlay */}
+      <div
+        className={cn(
+          "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white pointer-events-none transition-all duration-500",
+          !isOverlayVisible
+            ? "opacity-0 translate-y-4"
+            : "opacity-100 translate-y-0",
+          "md:opacity-100 md:translate-y-0 md:group-hover:opacity-0 md:group-hover:translate-y-4"
+        )}
+      >
+        <div className="flex gap-2 mb-3 flex-wrap pointer-events-auto">
           {data.tags?.map((tag: string) => (
             <span
               key={tag}
-              className="bg-black text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              className="bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
             >
               {tag}
             </span>
           ))}
-          <span className="bg-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-            {data.type} • {data.session}
+          <span className="bg-blue-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+            {data.type}
           </span>
         </div>
-        <h1 className="md:text-4xl text-2xl font-extrabold mb-2">
+
+        <h1 className="text-2xl md:text-4xl font-extrabold mb-2 leading-tight">
           {data.title}
         </h1>
-        <div className="w-full flex justify-between items-center">
-          <p className="text-lg opacity-90 hidden md:block">{data.subtitle}</p>
-        </div>
+
+        <p className="text-sm md:text-lg opacity-90 line-clamp-2 md:line-clamp-none max-w-2xl mb-4">
+          {data.subtitle}
+        </p>
+
+        {/* --- MOBILE HINT --- */}
+        {!hasInteracted && (
+          <div className="flex items-center gap-2 text-[10px] text-white/60 animate-pulse md:hidden border-t border-white/10 pt-4">
+            <TouchpadOff size={14} />
+            <span>Tap image to hide text</span>
+          </div>
+        )}
       </div>
 
-      {/* Arrows - 3. Added group-hover:opacity-100 so they only show on hover (Optional) */}
+      {/* Navigation Arrows */}
       {images.length > 1 && (
         <div className="md:opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             key={"prev"}
             aria-label="Previous Slide"
             onClick={prevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full hover:bg-black/60 text-white pointer-events-auto"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-md p-3 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </button>
           <button
             key={"next"}
             aria-label="Next Slide"
             onClick={nextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full hover:bg-black/60 text-white pointer-events-auto"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-md p-3 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
         </div>
       )}
 
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 transition-opacity duration-300 group-hover:opacity-0">
+      {/* Dots Indicator */}
+      <div
+        className={cn(
+          "absolute bottom-6 right-8 flex gap-1.5 transition-opacity duration-500",
+          !isOverlayVisible ? "opacity-0" : "opacity-100",
+          "md:group-hover:opacity-0"
+        )}
+      >
         {images.map((_, idx) => (
           <span
             key={idx}
-            className={`w-2 h-2 rounded-full transition-all ${
-              idx === current ? "bg-white" : "bg-white/50"
-            }`}
+            className={cn(
+              "h-1.5 rounded-full transition-all duration-300",
+              idx === current ? "w-6 bg-blue-500" : "w-1.5 bg-white/50"
+            )}
           />
         ))}
       </div>
