@@ -214,6 +214,7 @@ export function SubImageUploadForm({
                     src={item.preview}
                     alt="preview"
                     fill
+                    sizes="10vw"
                     className="object-cover"
                   />
 
