@@ -6,10 +6,10 @@ interface LogisticsSectionProps {
   data: Package;
 }
 
-const LogisticsSection = ({ data }: LogisticsSectionProps) => {
+const LogisticsSection = async ({ data }: LogisticsSectionProps) => {
   return (
-    <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
-      <h3 className="font-bold text-lg mb-4 text-blue-700">
+    <div className="bg-slate-50 md:p-6 p-4 rounded-xl border border-slate-200 shadow-sm">
+      <h3 className="font-bold text-lg md:mb-4 mb-2 text-blue-700">
         Logistics & Rules
       </h3>
 

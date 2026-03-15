@@ -29,9 +29,9 @@ const NavigationBar = async () => {
             height={40}
             className="object-contain"
           />
-          <span className="font-extrabold text-4xl md:text-5xl text-primary tracking-tight drop-shadow-sm select-none">
+          <button className="font-extrabold text-4xl md:text-5xl text-primary tracking-tight drop-shadow-sm select-none">
             TM
-          </span>
+          </button>
         </Link>
 
         <div>
@@ -49,28 +49,28 @@ const NavigationBar = async () => {
 
       <div className="flex gap-4 items-center md:flex hidden">
         <Link href="/package">
-          <span className="ml-4 text-lg font-medium text-muted-foreground">
+          <button className="ml-8 text-lg font-medium text-muted-foreground">
             Package
-          </span>
+          </button>
         </Link>
         <Link href="/about-us">
-          <span className="ml-4 text-lg font-medium text-muted-foreground">
+          <button className="ml-8 text-lg font-medium text-muted-foreground">
             About Us
-          </span>
+          </button>
         </Link>
         <Link href="/contact">
-          <span className="ml-4 text-lg font-medium text-muted-foreground">
+          <button className="ml-8 text-lg font-medium text-muted-foreground">
             Contact
-          </span>
+          </button>
         </Link>
 
         {user ? (
           <UserIcon />
         ) : (
           <Link href="/auth/login">
-            <span className="ml-4 text-lg font-medium text-muted-foreground border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors">
+            <button className="ml-8 text-lg font-medium text-muted-foreground border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors">
               Login
-            </span>
+            </button>
           </Link>
         )}
       </div>

@@ -25,20 +25,23 @@ const NavigationPopover = () => {
   return (
     <div className="flex justify-between space-x-4 items-center">
       <Link href="/home">
-        <span className="ml-4 text-md font-medium text-muted-foreground">
+        <button className="ml-8 text-md font-medium text-muted-foreground">
           Home
-        </span>
+        </button>
       </Link>
       <Link href="/package">
-        <span className="ml-4 text-md font-medium text-muted-foreground">
+        <button className="ml-8 text-md font-medium text-muted-foreground">
           Package
-        </span>
+        </button>
       </Link>
-      <NavigationMenu className="[&_div.absolute]:-left-[6rem] [&_div.absolute]:top-9">
+      <NavigationMenu className="[&_div.absolute]:-left-[6rem] [&_div.absolute]:top-9 ml-8">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="px-2 bg-transparent hover:bg-slate-100">
-              <Menu className="h-6 w-6" />
+            <NavigationMenuTrigger
+              className="px-2 bg-transparent hover:bg-slate-100"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="h-6 w-6" aria-hidden="true" />
             </NavigationMenuTrigger>
             <NavigationMenuContent className="left-0">
               <ul className="">
