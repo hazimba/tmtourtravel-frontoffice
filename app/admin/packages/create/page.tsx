@@ -56,7 +56,11 @@ export default function CreatePackagePage() {
             </CardContent>
           </div>
 
-          <FooterCard isLoading={isLoading} />
+          <FooterCard
+            isUpdateOnlyLoading={isLoading}
+            isUpdateViewLoading={false}
+            setUpdateRedirect={() => "updateOnly"}
+          />
         </form>
       </Card>
     </div>

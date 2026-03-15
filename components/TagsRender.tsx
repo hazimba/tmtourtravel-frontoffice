@@ -2,9 +2,10 @@ import { Badge } from "./ui/badge";
 
 interface TagsRenderProps {
   tags: string[];
+  cardDesktop?: boolean;
 }
 
-const TagsRender = ({ tags }: TagsRenderProps) => {
+const TagsRender = ({ tags, cardDesktop }: TagsRenderProps) => {
   return (
     <div className="absolute top-3 right-3 flex gap-2 z-10">
       {tags.map((tag: string, tagIndex: number) => (
@@ -12,13 +13,14 @@ const TagsRender = ({ tags }: TagsRenderProps) => {
           key={tagIndex}
           className={
             (tag === "HOT"
-              ? "bg-red-600 text-white"
+              ? "bg-primary text-white"
               : tag === "POPULAR"
-              ? "bg-yellow-400 text-black"
+              ? "bg-secondary text-black"
               : tag === "NEW"
               ? "bg-green-600 text-white"
-              : "bg-gray-300 text-gray-700") +
-            " p-1 text-[6px] font-bold rounded-md"
+              : "bg-gray-600 text-white") +
+            " p-1 px-2 font-bold rounded-full tracking-widest" +
+            ` ${cardDesktop ? "md:text-[10px]" : "text-[6px]"}`
           }
         >
           {tag}

@@ -21,9 +21,13 @@ export default function EditPackagePage({
   // @ts-expect-error: Cannot use 'use' in a Client Component
   const { id } = use(params) as { id: string };
   const [data, setData] = useState<PackageFormValues | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isUpdateOnlyLoading, setIsUpdateOnlyLoading] = useState(false);
+  const [isUpdateViewLoading, setIsUpdateViewLoading] = useState(false);
   const form = usePackageForm();
   const [mainImageSelect, setMainImageSelect] = useState<File | null>(null);
+  const [updateRedirect, setUpdateRedirect] = useState<
+    "updateOnly" | "updateView" | null
+  >(null);
 
   useEffect(() => {
     if (!id) return;
@@ -72,7 +76,15 @@ export default function EditPackagePage({
 
         <form
           onSubmit={form.handleSubmit((formData) =>
-            onSubmit({ formData, id, setIsLoading, mainImageSelect, router })
+            onSubmit({
+              formData,
+              id,
+              setIsUpdateOnlyLoading,
+              setIsUpdateViewLoading,
+              mainImageSelect,
+              router,
+              updateRedirect,
+            })
           )}
         >
           <div className="grid md:grid-cols-3">
@@ -94,7 +106,12 @@ export default function EditPackagePage({
               />
             </CardContent>
           </div>
-          <FooterCard isLoading={isLoading} id={id} />
+          <FooterCard
+            isUpdateOnlyLoading={isUpdateOnlyLoading}
+            isUpdateViewLoading={isUpdateViewLoading}
+            id={id}
+            setUpdateRedirect={setUpdateRedirect}
+          />
         </form>
       </Card>
     </div>

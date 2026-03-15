@@ -3,15 +3,18 @@
 import { getYouTubeEmbedUrl } from "@/lib/getYouTubeEmbedUrl";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues } from "@/schemas/packages.schema";
+import { se } from "date-fns/locale";
 
 import { toast } from "sonner";
 
 interface OnSubmitParams {
   formData: Partial<PackageFormValues>;
   id: string;
-  setIsLoading: (isLoading: boolean) => void;
   mainImageSelect?: File | null;
   router: any;
+  updateRedirect: "updateOnly" | "updateView" | null;
+  setIsUpdateOnlyLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsUpdateViewLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const removeImageFromBucket = async (uuid: string) => {
@@ -83,11 +86,17 @@ const uploadImageToBucket = async (mainImageSelect: File, uuid: string) => {
 export const onSubmit = async ({
   formData: data,
   id,
-  setIsLoading,
   mainImageSelect,
   router,
+  updateRedirect,
+  setIsUpdateOnlyLoading,
+  setIsUpdateViewLoading,
 }: OnSubmitParams) => {
-  setIsLoading(true);
+  if (updateRedirect === "updateOnly") {
+    setIsUpdateOnlyLoading(true);
+  } else if (updateRedirect === "updateView") {
+    setIsUpdateViewLoading(true);
+  }
 
   const uuid = id;
 
@@ -122,16 +131,24 @@ export const onSubmit = async ({
       console.warn("No rows were updated. Check if uuid matches any row.");
     }
 
-    toast.success("Package updated successfully!", {
-      className: "!bg-primary !text-white",
-      position: "top-center",
-    });
-
-    router.push("/admin/packages");
+    if (updateRedirect === "updateView") {
+      toast.success("Successfully update and redirecting to package view...", {
+        className: "!bg-primary !text-white !w-[420px]",
+        position: "top-center",
+      });
+      router.push(`/package/${uuid}`);
+    } else {
+      toast.success("Package updated successfully!", {
+        className: "!bg-primary !text-white",
+        position: "top-center",
+      });
+      router.push("/admin/packages");
+    }
   } catch (error) {
     console.error("Error updating package:", error);
     toast.error("Failed to update package");
   } finally {
-    setIsLoading(false);
+    setIsUpdateOnlyLoading(false);
+    setIsUpdateViewLoading(false);
   }
 };
