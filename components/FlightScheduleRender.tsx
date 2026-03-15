@@ -29,23 +29,23 @@ const FlightScheduleRender = ({ data }: FlightScheduleRenderProps) => {
 
                 <div className="flex items-center md:justify-between gap-3">
                   <div className="flex flex-col">
-                    <span className="md:text-[8px] text-xs uppercase text-muted-foreground font-bold leading-none mb-1">
+                    <span className="md:text-[8px] text-[7px] uppercase text-muted-foreground font-bold leading-none mb-1">
                       Depart
                     </span>
-                    <span className="md:text-sm text-xs font-medium">
+                    <span className="md:text-sm text-[8px] font-medium">
                       {item.range?.from
                         ? format(new Date(item.range.from), "dd MMM yy")
                         : "N/A"}
                     </span>
                   </div>
 
-                  <ArrowRight className="h-4 w-4 text-muted-foreground/50 mx-1" />
+                  <ArrowRight className="md:h-4 md:w-4 w-3 h-3 text-muted-foreground/50 md:mx-1" />
 
                   <div className="flex flex-col">
-                    <span className="md:text-[8px] text-xs uppercase text-muted-foreground font-bold leading-none mb-1">
+                    <span className="md:text-[8px] text-[7px] uppercase text-muted-foreground font-bold leading-none mb-1">
                       Return
                     </span>
-                    <span className="md:text-sm text-xs font-medium">
+                    <span className="md:text-sm text-[8px] font-medium">
                       {item.range?.to
                         ? format(new Date(item.range.to), "dd MMM yy")
                         : "TBA"}
