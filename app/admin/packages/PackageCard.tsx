@@ -80,10 +80,10 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
       <div className="flex flex-col p-4 flex-1">
         <div
           className={`flex items-center justify-between mb-2 ${
-            admin ? "" : "h-12"
+            admin ? "" : "md:h-12 h-6"
           }`}
         >
-          <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
+          <span className="text-[10px] font-mono text-gray-600 uppercase tracking-wider">
             {pkg.tour_code}
           </span>
           <span className="rounded-full bg-secondary/50 border px-2 py-0.5 font-medium uppercase tracking-wide text-[6px]">
@@ -97,7 +97,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
         >
           {pkg.title}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-1 mb-4 min-h-5">
+        <p className="text-sm text-gray-600 line-clamp-1 mb-4 min-h-5 hidden md:block truncate">
           {pkg.subtitle}
         </p>
         {!admin && (
@@ -109,7 +109,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                   RM {pkg.price_from}
                 </span>
                 <div className="flex flex-col items-center gap-2">
-                  <span className="text-xs text-gray-400 line-through hidden md:block">
+                  <span className="text-xs text-green-800 line-through hidden md:block">
                     RM {pkg.price_original}
                   </span>
                   {/* <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-bold text-green-600 ring-1 ring-inset ring-green-500/20">
@@ -118,12 +118,12 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                 </div>
               </>
             </div>
-            <span className="text-[8px] text-muted-foreground uppercase">
+            <span className="text-[8px] text-gray-600 uppercase">
               Per Person
             </span>
           </div>
         )}
-        <div className="mt-auto pt-4 border-t flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
+        <div className="mt-auto pt-4 border-t flex items-center justify-between gap-2 text-[11px] text-gray-600">
           <div className="flex items-center gap-1 min-w-0">
             <MapPin className="h-3 w-3 shrink-0" />
             <span className="truncate">{pkg.location}</span>

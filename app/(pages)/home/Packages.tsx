@@ -59,10 +59,12 @@ const PackagesSection = async () => {
                 {section.description}
               </p>
             </div>
-            <Link key={section.type} href={section.nav}>
-              <div key={section.type} className="text-blue-600">
-                View All
-              </div>
+            <Link
+              key={section.type}
+              href={section.nav}
+              className="text-blue-600 font-medium"
+            >
+              View All <span className="sr-only">{section.label}</span>
             </Link>
           </div>
           <FadeIn>

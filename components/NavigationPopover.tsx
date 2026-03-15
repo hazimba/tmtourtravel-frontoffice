@@ -23,16 +23,19 @@ const pageItems = [
 
 const NavigationPopover = () => {
   return (
-    <div className="flex justify-between gap-8 items-center">
-      <Link href="/home">
-        <button className="text-sm font-medium text-muted-foreground">
-          Home
-        </button>
+    <div className="flex justify-between gap-12 items-center">
+      <Link
+        href="/home"
+        className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary transition"
+      >
+        Home
       </Link>
-      <Link href="/package">
-        <button className="text-sm font-medium text-muted-foreground">
-          Package
-        </button>
+
+      <Link
+        href="/package"
+        className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary transition"
+      >
+        Package
       </Link>
       <NavigationMenu className="[&_div.absolute]:-left-[6rem] [&_div.absolute]:top-9">
         <NavigationMenuList>
