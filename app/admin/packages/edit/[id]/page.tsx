@@ -25,6 +25,7 @@ export default function EditPackagePage({
   const [isUpdateViewLoading, setIsUpdateViewLoading] = useState(false);
   const form = usePackageForm();
   const [mainImageSelect, setMainImageSelect] = useState<File | null>(null);
+  const [subImageSelect, setSubImageSelect] = useState<File[] | null>(null);
   const [updateRedirect, setUpdateRedirect] = useState<
     "updateOnly" | "updateView" | null
   >(null);
@@ -84,6 +85,8 @@ export default function EditPackagePage({
               mainImageSelect,
               router,
               updateRedirect,
+              subImageSelect,
+              watch: form.watch,
             })
           )}
         >
@@ -95,6 +98,7 @@ export default function EditPackagePage({
               setValue={form.setValue}
               register={form.register}
               setMainImageSelect={setMainImageSelect}
+              setSubImageSelect={setSubImageSelect}
             />
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 md:max-h-[65vh] overflow-y-auto pt-6 mb-4">
               <CreateEditFormRight

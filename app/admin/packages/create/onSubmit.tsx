@@ -18,6 +18,7 @@ interface PackageFormValuesProp {
   ) => PackageFormValues[keyof PackageFormValues];
   setErrorShow: (message: string) => void;
   mainImageSelect?: File | null;
+  subImageSelect?: File[] | null;
 }
 
 const REQUIRED_FIELDS: (keyof PackageFormValues)[] = [
@@ -86,11 +87,60 @@ const uploadImageToBucket = async (
   }
 };
 
+/**
+ * Uploads an array of sub-images to Supabase storage.
+ * @returns Promise<string[]> Array of public URLs
+ */
+const uploadSubImagesToBucket = async (
+  subImageFiles: File[],
+  uuid: string,
+  setIsLoading: (loading: boolean) => void
+): Promise<string[]> => {
+  if (!subImageFiles || subImageFiles.length === 0) return [];
+
+  setIsLoading(true);
+
+  try {
+    // Map each file to an upload promise
+    const uploadPromises = subImageFiles.map(async (file, index) => {
+      const timestamp = Date.now();
+      const fileExt = file.name.split(".").pop();
+      // We include the index to ensure uniqueness even if uploaded in the same millisecond
+      const fileName = `${uuid}/sub-${index}-${timestamp}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("package-sub-images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from("package-sub-images")
+        .getPublicUrl(fileName);
+
+      return publicUrlData.publicUrl;
+    });
+
+    // Fire all uploads in parallel
+    const imageUrls = await Promise.all(uploadPromises);
+    return imageUrls;
+  } catch (error) {
+    console.error("Batch sub-image upload failed:", error);
+    return [];
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 export const onSubmit = async ({
   data,
   setIsLoading,
   setErrorShow,
   mainImageSelect,
+  subImageSelect,
 }: PackageFormValuesProp) => {
   setIsLoading(true);
 
@@ -112,6 +162,11 @@ export const onSubmit = async ({
     return;
   }
   const uuid = uuidv4();
+
+  const subImageUrls = subImageSelect
+    ? await uploadSubImagesToBucket(subImageSelect, uuid, setIsLoading)
+    : [];
+
   const imageUrl = await uploadImageToBucket(
     mainImageSelect,
     uuid,
@@ -127,6 +182,7 @@ export const onSubmit = async ({
     ...data,
     uuid,
     main_image_url: imageUrl,
+    sub_image_urls: subImageUrls,
     tags: data.tags || [],
     embedded: getYouTubeEmbedUrl(data.embedded),
   };

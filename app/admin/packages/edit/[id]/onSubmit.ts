@@ -3,19 +3,71 @@
 import { getYouTubeEmbedUrl } from "@/lib/getYouTubeEmbedUrl";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues } from "@/schemas/packages.schema";
-import { se } from "date-fns/locale";
 
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
 interface OnSubmitParams {
   formData: Partial<PackageFormValues>;
   id: string;
   mainImageSelect?: File | null;
+  subImageSelect?: File[] | null;
   router: any;
   updateRedirect: "updateOnly" | "updateView" | null;
   setIsUpdateOnlyLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setIsUpdateViewLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
 }
+
+const cleanupOrphanedSubImages = async (uuid: string, activeUrls: string[]) => {
+  try {
+    // List all files in the uuid folder
+    const { data: files, error } = await supabase.storage
+      .from("package-sub-images")
+      .list(uuid);
+
+    if (error || !files) return;
+
+    // Find files in storage that are NOT present in our new URL list
+    const filesToDelete = files
+      .map((file) => `${uuid}/${file.name}`)
+      .filter((filePath) => {
+        // If the URL in the DB doesn't contain this file path, it's orphaned
+        return !activeUrls.some((url) => url.includes(filePath));
+      });
+
+    if (filesToDelete.length > 0) {
+      await supabase.storage.from("package-sub-images").remove(filesToDelete);
+    }
+  } catch (err) {
+    console.warn("Cleanup error (ignored):", err);
+  }
+};
+
+const uploadSubImagesToBucket = async (files: File[], uuid: string) => {
+  const bucketName = "package-sub-images";
+  const urls: string[] = [];
+  for (let index = 0; index < files.length; index++) {
+    const file = files[index];
+    const fileExt = file.name.split(".").pop();
+    const timestamp = Date.now();
+    // Use a random suffix or index to prevent collision if uploaded in same second
+    const fileName = `${uuid}/sub-${index}-${timestamp}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload(fileName, file);
+
+    if (uploadError) throw uploadError;
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from(bucketName).getPublicUrl(fileName);
+
+    urls.push(publicUrl);
+  }
+  return urls;
+};
 
 const removeImageFromBucket = async (uuid: string) => {
   try {
@@ -87,10 +139,12 @@ export const onSubmit = async ({
   formData: data,
   id,
   mainImageSelect,
+  subImageSelect,
   router,
   updateRedirect,
   setIsUpdateOnlyLoading,
   setIsUpdateViewLoading,
+  watch,
 }: OnSubmitParams) => {
   if (updateRedirect === "updateOnly") {
     setIsUpdateOnlyLoading(true);
@@ -101,6 +155,7 @@ export const onSubmit = async ({
   const uuid = id;
 
   try {
+    // 1. Handle Main Image (Perfect already)
     if (mainImageSelect) {
       await removeImageFromBucket(uuid);
       const fileName = await uploadImageToBucket(mainImageSelect, uuid);
@@ -111,6 +166,23 @@ export const onSubmit = async ({
 
       data.main_image_url = publicUrl;
     }
+
+    // 2. Handle Sub Images
+    // getUpdatedSubImageUrlString contains the current URLs
+    const getUpdatedSubImageUrlString = watch("sub_image_urls");
+
+    // Upload new files using your batch function
+    let newUploadedUrls: string[] = [];
+    if (subImageSelect && subImageSelect.length > 0) {
+      newUploadedUrls = await uploadSubImagesToBucket(subImageSelect, uuid);
+    }
+
+    // Combine: [Existing URLs] + [Newly Uploaded URLs]
+    const finalSubUrls = [...getUpdatedSubImageUrlString, ...newUploadedUrls];
+    data.sub_image_urls = finalSubUrls;
+
+    // 3. Cleanup: Remove files from Storage that are no longer in our database array
+    await cleanupOrphanedSubImages(uuid, finalSubUrls);
 
     data.updatedAt = new Date();
     data.embedded = getYouTubeEmbedUrl(data.embedded);

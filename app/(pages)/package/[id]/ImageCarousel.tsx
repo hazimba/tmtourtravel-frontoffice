@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { ChevronLeft, ChevronRight, Tag, TouchpadOff } from "lucide-react"; // Import a 'tap' style icon
-import { cn } from "@/lib/utils";
 import TagsRender from "@/components/TagsRender";
+import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight, TouchpadOff } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 interface HeroCarouselProps {
   images: string[];
@@ -38,15 +38,20 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
     >
       {/* Image Container */}
       <div className="relative h-full w-full bg-slate-200">
-        <Image
-          src={images[current]}
-          alt={data.title}
-          fill
-          loading="eager"
-          quality={100}
-          sizes="100vw"
-          className="object-cover transition duration-700 ease-in-out"
-        />
+        {images.map((img, index) => (
+          <Image
+            key={img}
+            src={img}
+            alt={data.title}
+            fill
+            quality={100}
+            sizes="100vw"
+            className={cn(
+              "object-cover absolute inset-0 transition-opacity duration-700",
+              index === current ? "opacity-100" : "opacity-0"
+            )}
+          />
+        ))}
       </div>
 
       {/* Main Content Overlay */}
@@ -110,7 +115,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
         className={cn(
           "absolute bottom-6 right-8 flex gap-1.5 transition-opacity duration-500",
           !isOverlayVisible ? "opacity-0" : "opacity-100",
-          "md:group-hover:opacity-0"
+          "md:group-hover:opacity-100"
         )}
       >
         {images.map((_, idx) => (
