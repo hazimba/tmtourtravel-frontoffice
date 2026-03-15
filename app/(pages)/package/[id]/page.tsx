@@ -78,7 +78,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
     <FadeIn>
       <main className="max-w-7xl mx-auto p-4 md:p-8 font-sans text-slate-900">
         <HeroCarousel images={images} data={data} />
-
         <div className="md:grid grid-cols-1 md:grid-cols-5 gap-8">
           <div className="md:col-span-3 space-y-8">
             {/* Overview & Highlights */}
@@ -96,7 +95,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               </section>
             )}
           </div>
-
           <div className="space-y-6 col-span-2 mt-6 md:mt-0">
             <PriceRender selectedPackage={data} />
             <div className="flex flex-col gap-2 pt-4 pb-2">
@@ -125,10 +123,8 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 </div>
               </div>
             )}
-
             <LogisticsSection data={data} />
             <OthersSection data={data} />
-            <></>
           </div>
         </div>
 

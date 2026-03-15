@@ -209,8 +209,12 @@ const BulkExportPackages = ({
 
         main_image_url: pkg.main_image_url,
         sub_image_urls: JSON.stringify(pkg.sub_image_urls ?? []),
-        features: JSON.stringify(pkg.features ?? []),
         tags: JSON.stringify(pkg.tags ?? []),
+
+        features: JSON.stringify(pkg.features ?? []),
+        package_includes: JSON.stringify(pkg.package_includes ?? []),
+        package_excludes: JSON.stringify(pkg.package_excludes ?? []),
+        package_freebies: JSON.stringify(pkg.package_freebies ?? []),
       };
 
       return reorderKeys(row, priorityColumns);

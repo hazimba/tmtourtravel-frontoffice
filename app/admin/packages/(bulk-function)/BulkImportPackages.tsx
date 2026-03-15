@@ -56,7 +56,7 @@ const BulkImportPackages = ({
 
     if (error) {
       console.error("Upload failed:", error);
-      alert("Upload failed");
+      alert(error.message || "Upload failed");
     } else {
       toast.success(`${previewData.length} packages processed successfully`, {
         duration: 4000,
@@ -95,6 +95,10 @@ const BulkImportPackages = ({
       itinerary: parseItinerary(row.itinerary),
 
       features: safeJsonParse(row.features) ?? [],
+      package_includes: safeJsonParse(row.package_includes) ?? [],
+      package_excludes: safeJsonParse(row.package_excludes) ?? [],
+      package_freebies: safeJsonParse(row.package_freebies) ?? [],
+
       tags: safeJsonParse(row.tags) ?? [],
       flight_schedule: parseFlightSchedule(row.flight_schedule),
       sale_period: parseSalePeriod(row.sale_period),

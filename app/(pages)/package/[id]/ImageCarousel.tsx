@@ -48,7 +48,9 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
             {data.type} • {data.session}
           </span>
         </div>
-        <h1 className="text-4xl font-extrabold mb-2">{data.title}</h1>
+        <h1 className="md:text-4xl text-2xl font-extrabold mb-2">
+          {data.title}
+        </h1>
         <div className="w-full flex justify-between items-center">
           <p className="text-lg opacity-90 hidden md:block">{data.subtitle}</p>
         </div>
@@ -56,7 +58,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
 
       {/* Arrows - 3. Added group-hover:opacity-100 so they only show on hover (Optional) */}
       {images.length > 1 && (
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="md:opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             key={"prev"}
             aria-label="Previous Slide"

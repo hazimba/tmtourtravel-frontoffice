@@ -34,7 +34,7 @@ const OverviewSection = async ({ data, userProfile }: OverviewSectionProps) => {
           </Tooltip>
         )}
       </div>
-      <div className="flex items-center gap-2 mb-4 text-primary font-medium">
+      <div className="flex items-center gap-2 mb-4 text-primary md:text-md text-sm">
         <MapPin size={18} /> <span>{data.location}</span>
       </div>
       <p className="text-slate-600 leading-relaxed text-justify">
@@ -49,21 +49,21 @@ const OverviewSection = async ({ data, userProfile }: OverviewSectionProps) => {
       <div className="grid grid-cols-2 gap-4 mt-6">
         <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
           <p className="text-xs text-slate-500 uppercase font-bold">Route</p>
-          <p className="font-medium overflow-hidden">{data.route}</p>
+          <p className="md:text-md text-sm overflow-hidden">{data.route}</p>
         </div>
         <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
           <p className="text-xs text-slate-500 uppercase font-bold">
             Meal Plan
           </p>
-          <p className="font-medium overflow-hidden">{data.meal_plan}</p>
+          <p className="md:text-md text-sm overflow-hidden">{data.meal_plan}</p>
         </div>
         <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
           <p className="text-xs text-slate-500 uppercase font-bold">Country</p>
-          <p className="font-medium">{data.country}</p>
+          <p className="md:text-md text-sm">{data.country}</p>
         </div>
         <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
           <p className="text-xs text-slate-500 uppercase font-bold">Type</p>
-          <p className="font-medium">{data.type}</p>
+          <p className="md:text-md text-sm">{data.type}</p>
         </div>
       </div>
     </section>

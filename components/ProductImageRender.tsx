@@ -47,6 +47,7 @@ const ProductImageRender = ({ micePackage }: ProductImageRenderProps) => {
                 src={mice.main_image_url}
                 alt={mice.title}
                 fill
+                sizes="( max-width: 640px ) 100vw, ( max-width: 1024px ) 50vw, 33vw"
                 className={`object-cover transition-all duration-500 
                 /* Mobile: If active, dim image. If not, full brightness */
                 ${isThisActive ? "opacity-100 scale-105" : "opacity-40"}
