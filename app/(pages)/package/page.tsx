@@ -82,7 +82,10 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
+              <label
+                htmlFor="type"
+                className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground"
+              >
                 Type
               </label>
               {/* KIV FOR HOME/PACKAGES PAGE, since we are using server components there and watch/setValue won't work */}
@@ -93,7 +96,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                 name="type"
                 defaultValue={type ?? "all"}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" id="type">
                   <SelectValue placeholder="All Types" />
                 </SelectTrigger>
                 <SelectContent>

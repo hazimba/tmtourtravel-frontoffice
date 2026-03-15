@@ -34,10 +34,12 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
               <Image
                 src={slide.imageurl}
                 alt={slide.title}
-                width={4000}
-                height={400}
+                width={1920}
+                height={1080}
+                sizes="100vw"
+                quality={65}
                 className="object-cover h-full w-full opacity-45"
-                priority={idx === current}
+                loading={idx === 0 ? "eager" : "lazy"}
               />
               <ImageSliderTextRender slide={slide} />
             </div>
@@ -49,7 +51,7 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
               <button
                 key={idx}
                 onClick={() => goTo(idx)}
-                className={`w-5 h-5 rounded-full border-2 border-primary transition bg-white ${
+                className={`md:w-5 md:h-5 w-3 h-3 rounded-full border-2 border-primary transition bg-white ${
                   current === idx ? "bg-primary" : ""
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}

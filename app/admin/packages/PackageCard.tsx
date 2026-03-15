@@ -38,7 +38,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                 <div className="absolute right-0 z-10 flex flex-col items-end gap-2">
                   {pkg.tags && pkg.tags.length > 0 && (
                     <div className="flex flex-wrap justify-end gap-1.5">
-                      <TagsRender tags={pkg.tags} />
+                      {/* <TagsRender tags={pkg.tags} /> */}
                     </div>
                   )}
                 </div>
@@ -46,7 +46,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                   {savingsPercent(pkg) > 0 && (
                     <Badge
                       variant="secondary"
-                      className="bg-white/90 hover:bg-white/100 text-green-600 border-green-200 backdrop-blur-md shadow-sm font-bold px-3 py-1"
+                      className="bg-white/90 hover:bg-white/100 border-green-200 backdrop-blur-md shadow-sm font-bold px-3 py-1 text-[8px]"
                     >
                       SAVE {savingsPercent(pkg)}%
                     </Badge>
@@ -86,7 +86,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
           <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
             {pkg.tour_code}
           </span>
-          <span className="rounded-full bg-secondary/50 border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide">
+          <span className="rounded-full bg-secondary/50 border px-2 py-0.5 font-medium uppercase tracking-wide text-[6px]">
             {pkg.type}
           </span>
         </div>
@@ -109,7 +109,7 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                   RM {pkg.price_from}
                 </span>
                 <div className="flex flex-col items-center gap-2">
-                  <span className="text-xs text-gray-400 line-through">
+                  <span className="text-xs text-gray-400 line-through hidden md:block">
                     RM {pkg.price_original}
                   </span>
                   {/* <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-bold text-green-600 ring-1 ring-inset ring-green-500/20">
