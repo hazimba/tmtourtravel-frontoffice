@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, TouchpadOff } from "lucide-react"; // Import a 'tap' style icon
+import { ChevronLeft, ChevronRight, Tag, TouchpadOff } from "lucide-react"; // Import a 'tap' style icon
 import { cn } from "@/lib/utils";
+import TagsRender from "@/components/TagsRender";
 
 interface HeroCarouselProps {
   images: string[];
@@ -59,16 +60,9 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
         )}
       >
         <div className="flex gap-2 mb-3 flex-wrap pointer-events-auto">
-          {data.tags?.map((tag: string) => (
-            <span
-              key={tag}
-              className="bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
-            >
-              {tag}
-            </span>
-          ))}
+          <TagsRender tags={data.tags || []} cardDesktop />
           <span className="bg-blue-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
-            {data.type}
+            {data.type} • {data.session}
           </span>
         </div>
 
@@ -98,7 +92,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
             onClick={prevImage}
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-md p-3 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={12} />
           </button>
           <button
             key={"next"}
@@ -106,7 +100,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
             onClick={nextImage}
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-md p-3 rounded-full hover:bg-black/60 text-white pointer-events-auto transition-colors"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={12} />
           </button>
         </div>
       )}

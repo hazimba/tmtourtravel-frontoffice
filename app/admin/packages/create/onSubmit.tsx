@@ -127,6 +127,7 @@ export const onSubmit = async ({
     ...data,
     uuid,
     main_image_url: imageUrl,
+    tags: data.tags || [],
     embedded: getYouTubeEmbedUrl(data.embedded),
   };
 

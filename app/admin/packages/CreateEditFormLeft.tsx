@@ -59,7 +59,7 @@ const CreateEditFormLeft = ({
   const tagsOptions = Object.values(Tags);
 
   return (
-    <div className="md:col-span-2 border-r md:max-h-[70vh] overflow-y-auto pt-2">
+    <div className="md:col-span-2 border-r md:max-h-[70vh] overflow-y-auto pt-2 scrollbar-hide">
       <div className="px-6 mb-6 grid md:grid-cols-4 gap-5">
         <div className="flex flex-col gap-2 justify-between">
           <Label>Title</Label>
@@ -336,7 +336,7 @@ const CreateEditFormLeft = ({
         </div>
       </CardContent>
       <Separator className="my-4" />
-      <div className="grid md:grid-cols-4 gap-8 px-2">
+      <div className="grid md:grid-cols-4 gap-8 px-4">
         <div className="md:col-span-2 flex flex-col gap-2 justify-between px-4">
           <Label>Tags</Label>
           <div className="grid grid-cols-2 gap-2">

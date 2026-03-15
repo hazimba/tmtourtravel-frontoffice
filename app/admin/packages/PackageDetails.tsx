@@ -255,7 +255,9 @@ const PackageDetails = ({
                       <section>
                         <h4 className="text-lg font-bold flex justify-between items-center gap-2 mb-4">
                           <div className="flex items-center gap-2">
-                            <Eye className="h-5 w-5 text-primary" />
+                            <Link href={`/package/${selectedPackage.uuid}`}>
+                              <Eye className="h-5 w-5 text-primary" />
+                            </Link>
                             <div>Overview & Highlights</div>
                           </div>
                           <div className="flex gap-2 flex-row flex-col">
