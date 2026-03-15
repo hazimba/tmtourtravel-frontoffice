@@ -11,6 +11,7 @@ const PackagesSection = async () => {
   const { data: packages, error: pkgErr } = await supabase
     .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
     .select("*")
+    .eq("is_publish", true)
     .order("web_priority", { ascending: false });
 
   if (pkgErr) throw new Error(pkgErr.message);
@@ -54,27 +55,27 @@ const PackagesSection = async () => {
               >
                 {section.label}
               </h2>
-              <p className="text-sm md:text-lg text-muted-foreground tracking-widest">
+              <p className="text-sm md:text-lg text-gray-800 tracking-widest">
                 {section.description}
               </p>
             </div>
-            <Link href={section.nav}>
-              <div className="text-blue-600">View All</div>
+            <Link key={section.type} href={section.nav}>
+              <div key={section.type} className="text-blue-600">
+                View All
+              </div>
             </Link>
           </div>
           <FadeIn>
             <PackagesRender
               packages={packages.filter(
-                (i: Package) => i.type === section.type && i.is_publish === true
+                (i: Package) => i.type === section.type
               )}
             />
           </FadeIn>
         </div>
       ))}
       <ProductImageRender
-        micePackage={packages
-          .filter((i: Package) => i.type === "MICE")
-          .slice(0, 6)}
+        micePackage={packages.filter((i: Package) => i.type === "MICE")}
       />
     </>
   );

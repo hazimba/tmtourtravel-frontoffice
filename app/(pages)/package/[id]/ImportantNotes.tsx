@@ -21,14 +21,14 @@ const ImportantNotes = () => {
 
       {/* TMTT RULES */}
       <TabsContent value="rules" className="mt-4">
-        <div className="rounded-xl border border-border p-4 bg-muted/10">
+        <div className="rounded-xl border border-border p-4">
           <div className="flex items-center gap-2 mb-3 text-primary">
             <AlertCircle className="h-4 w-4" />
             <h3 className="font-bold text-sm uppercase tracking-tight">
               TMTT Rules
             </h3>
           </div>
-          <ul className="space-y-2 text-xs text-muted-foreground list-disc pl-4 leading-relaxed">
+          <ul className="space-y-2 text-xs text-green-800 list-disc pl-4 leading-relaxed">
             <li>TMTT terms and conditions apply.</li>
             <li>
               Price subject to <strong>8% SST</strong> if applicable.
@@ -40,7 +40,7 @@ const ImportantNotes = () => {
             <li>
               FIT to group conversion: No cash refund for price difference.
             </li>
-            <li className="text-destructive/80 font-medium">
+            <li className="text-destructive font-medium">
               All promo packages are non-refundable & non-reroutable.
             </li>
             <li>No refund for Positive Covid-19 cases.</li>

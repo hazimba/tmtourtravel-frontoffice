@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabaseClient";
 import { User, UserDepartment } from "@/types";
-import _ from "lodash";
+import { startCase } from "lodash";
 import { Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -221,9 +221,7 @@ const UserEdit = ({ user }: UserEditProps) => {
                         <SelectContent className="max-h-60 overflow-y-auto">
                           {Object.values(UserDepartment).map((pos) => (
                             <SelectItem key={pos} value={pos}>
-                              {_.startCase(
-                                pos.toLowerCase().replace(/_/g, " ")
-                              )}
+                              {startCase(pos.toLowerCase().replace(/_/g, " "))}
                             </SelectItem>
                           ))}
                         </SelectContent>

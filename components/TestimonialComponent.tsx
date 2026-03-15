@@ -47,9 +47,9 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
             </div>
           )}
           <div>
-            <h4 className="font-bold text-gray-900 text-sm">
+            <h3 className="font-bold text-gray-900 text-sm">
               {testimonial.name}
-            </h4>
+            </h3>
             <p className="text-xs text-blue-600 font-medium">
               {testimonial.title}
             </p>
