@@ -38,7 +38,7 @@ export default function NavigationPopover() {
     // Positioning the trigger at the top right
     <div className="fixed top-4 right-4 z-50">
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
+        <SheetTrigger asChild className="flex items-center justify-center">
           <button className="p-2 bg-white border rounded-full shadow-sm hover:bg-slate-50 transition-all">
             <Menu className="h-6 w-6 text-slate-800" />
           </button>
@@ -70,7 +70,7 @@ export default function NavigationPopover() {
 
           <Separator className="mb-0" />
 
-          <nav className="flex flex-col gap-0">
+          <nav className="flex flex-col gap-0  overflow-y-auto">
             {/* Pages Section */}
             <p className="px-2 py-2 text-[10px] font-bold uppercase tracking-[3px]">
               Pages
