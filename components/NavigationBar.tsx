@@ -42,7 +42,7 @@ const NavigationBar = async () => {
             width={10}
             height={10}
             loading="eager"
-            className="object-contain w-auto h-18"
+            className="object-contain w-auto md:h-18 h-14"
           />
         </Link>
 
