@@ -2,6 +2,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -39,6 +40,7 @@ const SalesList = ({ salesTeam }: SalesListProps) => {
                   src={staff.avatar_url}
                   alt={staff.full_name}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover"
                 />
               ) : (
@@ -97,7 +99,7 @@ const WhatsappButton = () => {
       >
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
-            <button className="group gap-4 text-md cursor-pointer bg-green-900 border text-white flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border border-green-100">
+            <button className="group gap-4 text-md tracking-widest cursor-pointer bg-secondary/90 border text-primary flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border border-primary">
               <span>Kami Sedia Membantu!</span>
               <Phone className="shrink-0 size-5" />
             </button>
@@ -129,6 +131,9 @@ const WhatsappButton = () => {
               <DialogTitle className="text-left text-xl">
                 Pilih Perunding Kami
               </DialogTitle>
+              <DialogDescription className="text-xs text-left text-gray-500">
+                Hubungi perunding melalui WhatsApp.
+              </DialogDescription>
             </DialogHeader>
 
             <SalesList salesTeam={salesTeam} />

@@ -26,19 +26,20 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
         "
       >
         {/* Quote Icon */}
-        <div className="absolute hidden md:block top-10 right-10 text-gray-500 text-[40px] font-serif leading-none select-none">
+        <div className="absolute hidden md:block top-4 right-10 text-gray-500 text-[60px] font-serif leading-none select-none">
           &ldquo;
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="grid grid-cols-3 gap-4 items-center">
           {testimonial.image_url ? (
-            <div className="relative w-20 h-20 overflow-hidden rounded-full border-2 border-blue-50 shadow-inner">
+            <div className="relative col-span-1 w-20 h-20 overflow-hidden rounded-full border-2 border-blue-50 shadow-inner">
               <Image
                 src={testimonial.image_url}
                 alt="Testimonial Avatar"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
+                width={80}
+                height={80}
+                loading="lazy"
+                className="object-cover w-full h-full"
               />
             </div>
           ) : (
@@ -46,7 +47,7 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
               {testimonial.name.charAt(0)}
             </div>
           )}
-          <div>
+          <div className="col-span-2">
             <h3 className="font-bold text-gray-900 text-sm">
               {testimonial.name}
             </h3>

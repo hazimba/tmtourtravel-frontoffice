@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Star } from "lucide-react";
 import { HeroCarousel } from "./ImageCarousel";
 import ImportantNotes from "./ImportantNotes";
+import { format } from "date-fns";
 
 import ItinerarySection from "./ItinerarySection";
 import LogisticsSection from "./LogisticsSection";
@@ -129,27 +130,29 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 Sale Period
               </div>
               <div className="text-xs flex items-center gap-1 text-muted-foreground">
-                {/* {data?.sale_period?.from ? (
+                {data?.sale_period?.from ? (
                   data?.sale_period?.to ? (
                     <>
-                      {new Date(data.sale_period.from).toLocaleDateString()} -{" "}
-                      {new Date(data.sale_period.to).toLocaleDateString()}
+                      {format(new Date(data.sale_period.from), "dd MMMM yyyy")}{" "}
+                      - {format(new Date(data.sale_period.to), "dd MMMM yyyy")}
                     </>
                   ) : (
-                    new Date(data.sale_period.from).toLocaleDateString()
+                    format(new Date(data.sale_period.from), "dd MMMM yyyy")
                   )
                 ) : (
                   "No sale period"
-                )} */}
+                )}
               </div>
             </div>
             <div className="flex gap-2 md:flex-row flex-col">
               <div className="text-sm text-muted-foreground uppercase font-semibold">
                 Last Update:
               </div>
-              {/* <div className="text-xs flex items-center gap-1 text-muted-foreground">
-                {new Date(data.updatedAt).toLocaleString()}
-              </div> */}
+              <div className="text-xs flex items-center gap-1 text-muted-foreground">
+                {data.updatedAt
+                  ? format(new Date(data.updatedAt), "dd MMMM yyyy, HH:mm")
+                  : "No update date"}
+              </div>
             </div>
           </div>
         </footer>

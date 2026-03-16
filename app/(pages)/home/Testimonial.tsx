@@ -34,7 +34,7 @@ const TestimonialSection = async () => {
           </p>
         </div>
         <div className="relative md:max-w-7xl md:mx-auto px-4 md:px-0 overflow-hidden ">
-          <div className="overflow-hidden bg-gray-50 rounded-2xl border-1 border-gray-200 md:p-2">
+          <div className="overflow-hidden bg-primary/5 rounded-2xl border-1 border-gray-200 md:p-2">
             <div className="flex gap-4">
               <TestimonialCards testimonials={testimonials} />
             </div>
