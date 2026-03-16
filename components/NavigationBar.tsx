@@ -39,10 +39,10 @@ const NavigationBar = async () => {
           <Image
             src="/tm-official-logo.png"
             alt="TM Tour Travel Logo"
-            width={180}
-            height={80}
+            width={10}
+            height={10}
             loading="eager"
-            className="object-contain w-auto"
+            className="object-contain w-auto h-18"
           />
         </Link>
 

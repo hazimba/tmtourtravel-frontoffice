@@ -53,7 +53,7 @@ export default function NavigationPopover() {
                 width={60}
                 height={40}
                 loading="eager"
-                className="cursor-pointer w-auto"
+                className="cursor-pointer h-25 w-auto"
               />
             </SheetTitle>
 

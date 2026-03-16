@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     "https://williams-unenamelled-nongenerically.ngrok-free.dev",
   ],
   images: {
+    unoptimized: true,
     qualities: [55, 60, 65, 75, 100],
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
