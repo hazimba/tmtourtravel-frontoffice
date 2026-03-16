@@ -34,7 +34,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
   return (
     <section
       onClick={toggleOverlay}
-      className="group relative h-[400px] w-full rounded-2xl overflow-hidden mb-8 shadow-lg cursor-pointer select-none"
+      className="group relative h-[400px] w-full rounded-lg overflow-hidden mb-8 shadow-lg cursor-pointer select-none"
     >
       {/* Image Container */}
       <div className="relative h-full w-full bg-slate-200">
@@ -114,7 +114,6 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
       <div
         className={cn(
           "absolute bottom-6 right-8 flex gap-1.5 transition-opacity duration-500",
-          !isOverlayVisible ? "opacity-0" : "opacity-100",
           "md:group-hover:opacity-100"
         )}
       >
@@ -123,7 +122,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
             key={idx}
             className={cn(
               "h-1.5 rounded-full transition-all duration-300",
-              idx === current ? "w-6 bg-blue-500" : "w-1.5 bg-white/50"
+              idx === current ? "w-6 bg-secondary" : "w-1.5 bg-white/50"
             )}
           />
         ))}

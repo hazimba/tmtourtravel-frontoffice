@@ -44,10 +44,7 @@ export default function NavigationPopover() {
           </button>
         </SheetTrigger>
 
-        <SheetContent
-          side="right"
-          className="w-[250px] sm:w-[350px] p-4 rounded-l-xl shadow-lg"
-        >
+        <SheetContent side="right" className="w-4/5 p-4 rounded-l-xl shadow-lg">
           <SheetHeader className="text-center w-full">
             <SheetTitle className="w-full flex items-center justify-center">
               <Image
