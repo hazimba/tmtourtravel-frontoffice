@@ -3,6 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import NavigationPopover from "./NavigationPopover";
 import { Badge } from "./ui/badge";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "./ui/navigation-menu";
 import UserIcon from "./UserIcon";
 
 const NavigationBar = async () => {
@@ -18,20 +26,24 @@ const NavigationBar = async () => {
     .eq("id", user?.id)
     .single();
 
+  const itemClass =
+    "block px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100";
+
+  const navItemClasses =
+    "px-4 py-2 text-md font-medium hover:text-primary bg-transparent hover:bg-transparent uppercase tracking-widest";
+
   return (
     <nav className="py-2 md:py-4 md:px-6 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center w-full md:w-auto justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/nav-logo-2.png"
+            src="/tm-official-logo.png"
             alt="TM Tour Travel Logo"
-            width={40}
-            height={40}
-            className="object-contain"
+            width={180}
+            height={80}
+            loading="eager"
+            className="object-contain w-auto"
           />
-          <button className="font-extrabold text-4xl md:text-5xl text-primary tracking-tight drop-shadow-sm select-none">
-            TM
-          </button>
         </Link>
 
         <div>
@@ -48,36 +60,71 @@ const NavigationBar = async () => {
       </div>
 
       <div className="flex gap-4 items-center md:flex hidden">
-        <Link
-          href="/package"
-          className="px-4 py-2 text-lg font-medium text-muted-foreground"
-        >
-          Package
-        </Link>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className={navItemClasses}>
+                Package
+              </NavigationMenuTrigger>
 
-        <Link
-          href="/about-us"
-          className="px-4 py-2 text-lg font-medium text-muted-foreground"
-        >
+              <NavigationMenuContent>
+                <div className="w-48 p-2 flex flex-col gap-1">
+                  <NavigationMenuLink asChild>
+                    <Link href="/package" className={itemClass}>
+                      All Types
+                    </Link>
+                  </NavigationMenuLink>
+
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/package?title=&country=&type=UMRAH"
+                      className={itemClass}
+                    >
+                      Umrah
+                    </Link>
+                  </NavigationMenuLink>
+
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/package?title=&country=&type=GROUND"
+                      className={itemClass}
+                    >
+                      Ground
+                    </Link>
+                  </NavigationMenuLink>
+
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/package?title=&country=&type=GROUP"
+                      className={itemClass}
+                    >
+                      Group
+                    </Link>
+                  </NavigationMenuLink>
+
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/package?title=&country=&type=MICE"
+                      className={itemClass}
+                    >
+                      MICE
+                    </Link>
+                  </NavigationMenuLink>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        <Link href="/about-us" className={navItemClasses}>
           About Us
         </Link>
 
-        <Link
-          href="/contact"
-          className="px-4 py-2 text-lg font-medium text-muted-foreground"
-        >
+        <Link href="/contact" className={navItemClasses}>
           Contact
         </Link>
 
-        {user ? (
-          <UserIcon />
-        ) : (
-          <Link href="/auth/login">
-            <button className="ml-8 text-lg font-medium text-muted-foreground border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-colors">
-              Login
-            </button>
-          </Link>
-        )}
+        <UserIcon />
       </div>
     </nav>
   );

@@ -6,6 +6,7 @@ import PackagesSection from "./Packages";
 import PartnersSection from "./Partners";
 import TestimonialSection from "./Testimonial";
 import { createClient } from "@/lib/supabase/server";
+import NoAuthFound from "@/components/NoAuthFoundToast";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,7 @@ const HomePage = async ({
   return (
     <div className="w-screen max-w-full bg-[#F4F4F8]">
       <SignoutToast show={params?.signout === "1"} />
+      <NoAuthFound show={params?.error === "no-user"} />
       <FormPopup />
       <div className="">
         {siteSetting.show_slider && <ImageSliderSection />}
