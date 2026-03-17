@@ -1,6 +1,11 @@
 "use client";
 
-import * as React from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Sheet,
   SheetContent,
@@ -9,12 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import {
   Contact,
   Home,
@@ -23,13 +23,14 @@ import {
   Menu,
   Package,
 } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import { Separator } from "./ui/separator";
 
 export default function NavigationPopover() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [accordionOpen, setAccordionOpen] = useState(true || null); // default open
 
   const navItemClasses =
     "flex items-center gap-4 px-2 py-3 rounded-md text-sm transition-colors hover:bg-slate-100 tracking-widest";
@@ -89,8 +90,9 @@ export default function NavigationPopover() {
             <Accordion
               type="single"
               collapsible
-              defaultValue="package"
               className="w-full border rounded-lg bg-primary/5"
+              onValueChange={(val) => setAccordionOpen(!!val)}
+              value={accordionOpen ? "package" : undefined}
             >
               <AccordionItem value="package" className="border-none">
                 <AccordionTrigger
