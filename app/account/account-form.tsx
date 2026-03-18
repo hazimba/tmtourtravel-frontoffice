@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { type User } from "@supabase/supabase-js";
 import { Loader2, User as UserIcon, LogOut, CheckCircle2 } from "lucide-react";
-import { UserPosition } from "@/types";
+import { UserDepartment, UserPosition } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -170,31 +170,31 @@ export default function AccountForm({ user }: { user: User | null }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="position">Position</Label>
+              <Input
+                id="position"
+                placeholder="e.g. Sales Manager"
+                value={position || ""}
+                onChange={(e) => setPosition(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="department">Department</Label>
               <Select
-                value={position}
-                onValueChange={setPosition}
-                name="position"
+                value={department}
+                onValueChange={setDepartment}
+                name="department"
               >
                 <SelectTrigger className="w-full max-h-40 overflow-y-auto h-40">
-                  <SelectValue placeholder="Select position" />
+                  <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent className="w-full">
-                  {Object.values(UserPosition).map((pos) => (
-                    <SelectItem key={pos} value={pos}>
-                      {startCase(pos.toLowerCase().replace(/_/g, " "))}
+                  {Object.values(UserDepartment).map((dept) => (
+                    <SelectItem key={dept} value={dept}>
+                      {startCase(dept.toLowerCase().replace(/_/g, " "))}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="department">Department</Label>
-              <Input
-                id="department"
-                placeholder="e.g. Engineering"
-                value={department || ""}
-                onChange={(e) => setDepartment(e.target.value)}
-              />
             </div>
           </div>
 

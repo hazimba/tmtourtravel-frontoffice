@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   Eye,
   MapPin,
+  NotebookPenIcon,
   Star,
   Trash2,
   Users,
@@ -237,7 +238,7 @@ const PackageDetails = ({
                             )
                           )}
                         </ul>
-                        <div className="flex flex-wrap gap-2">
+                        {/* <div className="flex flex-wrap gap-2">
                           {selectedPackage.freebies.length > 0 ? (
                             selectedPackage.freebies
                               .split(",")
@@ -254,7 +255,7 @@ const PackageDetails = ({
                               N/A
                             </span>
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </aside>
@@ -305,6 +306,24 @@ const PackageDetails = ({
                         </div>
                       </section>
 
+                      <section className="text-lg flex flex-col gap-4 font-bold gap-2 mb-8">
+                        <div className="">Keywords</div>
+
+                        <div className="text-sm flex flex-wrap gap-x-4 gap-y-3 text-yellow-900 font-medium">
+                          {selectedPackage.keywords.map(
+                            (keyword: string, idx: number) => (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-2"
+                              >
+                                <span className="w-1.5 h-1.5 bg-yellow-900 rounded-full"></span>
+                                <span>{keyword}</span>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </section>
+
                       <section>
                         <h4 className="text-lg font-bold flex justify-between  items-center gap-2 mb-8">
                           <div className="flex items-center gap-2">
@@ -313,7 +332,7 @@ const PackageDetails = ({
                           </div>
                           <div className="flex gap-2">
                             {selectedPackage.tags?.map((tag) => (
-                              <Badge key={tag} className="" variant={"outline"}>
+                              <Badge key={tag} className="" variant={"default"}>
                                 {tag}
                               </Badge>
                             ))}
@@ -353,13 +372,23 @@ const PackageDetails = ({
                             "No optional tours provided."}
                         </p>
                         <div className="mt-4 pt-4 border-t border-muted-foreground/20">
-                          <p className="text-xs font-bold text-foreground">
-                            Important Notes:
-                          </p>
-                          <p className="text-xs text-muted-foreground italic">
-                            {selectedPackage.important_notes ||
-                              "No important notes provided."}
-                          </p>
+                          <h4 className="text-md font-bold mb-3 flex items-center gap-2">
+                            <NotebookPenIcon className="h-4 w-4 text-orange-500" />{" "}
+                            Additional Remarks
+                          </h4>
+                          <div className="text-md text-muted-foreground">
+                            {selectedPackage.additional_remarks.map(
+                              (additional: string, idx: number) => (
+                                <div
+                                  key={idx}
+                                  className="flex items-center gap-2"
+                                >
+                                  <span className="w-1.5 h-1.5 bg-yellow-900 rounded-full"></span>
+                                  <span>{additional}</span>
+                                </div>
+                              )
+                            )}
+                          </div>
                         </div>
                       </section>
 

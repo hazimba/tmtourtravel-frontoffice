@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import Image from "next/image";
 
 const TopNavigation = async () => {
   const supabase = await createClient();
@@ -12,7 +13,7 @@ const TopNavigation = async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log("Current user:", user); // Debugging line to check the user object
+  // console.log("Current user:", user);
 
   const { data: userProfile } = await supabase
     .from("profiles")
@@ -26,9 +27,16 @@ const TopNavigation = async () => {
         <div className="flex items-center gap-3">
           <Link
             href="/home"
-            className="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-primary-foreground"
+            className="flex items-center justify-center h-8 w-8 rounded-md text-primary-foreground"
           >
-            <Compass className="h-5 w-5" />
+            <Image
+              src="/tm-official-sm-logo.jpg"
+              alt="TM Tour Travel Logo"
+              width={20}
+              height={20}
+              loading="eager"
+              className="object-contain w-auto !h-30"
+            />
           </Link>
           <span className="text-sm font-bold tracking-tight hidden md:block">
             TM TOUR & TRAVEL{" "}

@@ -33,7 +33,11 @@ export const columns: ColumnDef<User>[] = [
       return (
         <div className="flex items-center space-x-2">
           <Avatar className="h-10 w-10 border shadow-sm">
-            <AvatarImage src={user.avatar_url} alt={user.full_name} />
+            <AvatarImage
+              src={user.avatar_url}
+              alt={user.full_name}
+              className="object-cover"
+            />
             <AvatarFallback className="bg-primary/5 text-primary">
               {user.full_name?.charAt(0)}
             </AvatarFallback>

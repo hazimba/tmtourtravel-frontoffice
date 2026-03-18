@@ -1,7 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, CreditCard, Info, XCircle } from "lucide-react";
 
-const ImportantNotes = () => {
+interface ImportantNotesProps {
+  notes?: string[];
+}
+
+const ImportantNotes = ({ notes }: ImportantNotesProps) => {
   return (
     <Tabs defaultValue="rules" className="w-full">
       <TabsList className="grid w-full grid-cols-4">
@@ -70,9 +74,15 @@ const ImportantNotes = () => {
             <li>
               Credit card payments impose a <strong>2% fee</strong>.
             </li>
-            <li className="text-amber-600 font-medium">
-              Note: Nyepi Day is 19-20 March 2026.
-            </li>
+            {notes && (
+              <ul className="flex gap-2 flex-col list-disc">
+                {notes.map((note, index) => (
+                  <li className="list-disc" key={index}>
+                    {note}
+                  </li>
+                ))}
+              </ul>
+            )}
           </ul>
         </div>
       </TabsContent>

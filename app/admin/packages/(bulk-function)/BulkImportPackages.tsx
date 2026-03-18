@@ -98,6 +98,8 @@ const BulkImportPackages = ({
       package_includes: safeJsonParse(row.package_includes) ?? [],
       package_excludes: safeJsonParse(row.package_excludes) ?? [],
       package_freebies: safeJsonParse(row.package_freebies) ?? [],
+      additional_remarks: safeJsonParse(row.additional_remarks) ?? [],
+      keywords: safeJsonParse(row.keywords) ?? [],
 
       tags: safeJsonParse(row.tags) ?? [],
       flight_schedule: parseFlightSchedule(row.flight_schedule),
@@ -124,8 +126,9 @@ const BulkImportPackages = ({
     };
 
     // 🚫 REMOVE forbidden fields
-    // delete transformed.main_image_url;
-    delete transformed.sub_image_urls;
+    delete transformed.excludes;
+    delete transformed.includes;
+    delete transformed.freebies;
     // delete transformed.created_at;
     delete transformed.updated_at;
     delete transformed.__rowNum__;

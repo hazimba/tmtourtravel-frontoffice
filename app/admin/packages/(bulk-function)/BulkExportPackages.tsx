@@ -160,11 +160,23 @@ const BulkExportPackages = ({
     return `${format(from)} - ${format(to)}`;
   };
 
+  const guidanceRow: Record<string, any> = {
+    entry_mode: "FIT, GIT",
+    session: "PEAK, OFFPEAK, ALLSEASON, SPRING, AUTUMN, SUMMER, WINTER",
+    appearance: "NORMAL, HIGHLIGHT, PROMOTION",
+    type: "GROUP, GROUND, UMRAH, MICE",
+    meal_plan: "FULLBOARD, HALFBOARD, BREAKFASTONLY, NOMEAL",
+    tags: "HOT, NEW, POPULAR, RECOMMENDED",
+    // other columns can be empty
+  };
+
   const handleExportPackages = () => {
     if (!downloadPackages || !downloadPackages.length) {
       toast.error("No packages available to export");
       return;
     }
+
+    // to be continued - each download have 2nd as example that show the format of the data, especially for complex fields like itinerary and flight_schedule
 
     const rows = downloadPackages.map((pkg: Package) => {
       const row = {
@@ -172,15 +184,15 @@ const BulkExportPackages = ({
         title: pkg.title,
         subtitle: pkg.subtitle,
         route: pkg.route,
-        keywords: pkg.keywords,
+        keywords: JSON.stringify(pkg.keywords ?? []),
         highlight: pkg.highlight,
         itinerary: formatItineraryForExport(pkg.itinerary),
         optional_tours: pkg.optional_tours,
 
         flight_schedule: formatFlightScheduleForExport(pkg.flight_schedule),
-        freebies: pkg.freebies,
-        includes: pkg.includes,
-        excludes: pkg.excludes,
+        // freebies: pkg.freebies,
+        // includes: pkg.includes,
+        // excludes: pkg.excludes,
         important_notes: pkg.important_notes,
         conditions: pkg.conditions,
         embedded: pkg.embedded,
@@ -202,10 +214,10 @@ const BulkExportPackages = ({
         location: pkg.location,
         tour_code: pkg.tour_code,
 
-        price_original: pkg.price_original,
-        price_from: pkg.price_from,
-        price_discount: pkg.price_discount,
-        price_to: pkg.price_to,
+        price_original: pkg.price_original.toString(),
+        price_from: pkg.price_from.toString(),
+        price_discount: pkg.price_discount.toString(),
+        price_to: pkg.price_to.toString(),
 
         main_image_url: pkg.main_image_url,
         sub_image_urls: JSON.stringify(pkg.sub_image_urls ?? []),
@@ -215,10 +227,12 @@ const BulkExportPackages = ({
         package_includes: JSON.stringify(pkg.package_includes ?? []),
         package_excludes: JSON.stringify(pkg.package_excludes ?? []),
         package_freebies: JSON.stringify(pkg.package_freebies ?? []),
+        additional_remarks: JSON.stringify(pkg.additional_remarks ?? []),
       };
 
       return reorderKeys(row, priorityColumns);
     });
+    rows.unshift(reorderKeys(guidanceRow, priorityColumns));
 
     const worksheet = XLSX.utils.json_to_sheet(rows);
 

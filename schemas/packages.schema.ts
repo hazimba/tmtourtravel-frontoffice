@@ -18,9 +18,59 @@ export const searchPackageSchema = z.object({
 export const packageSchema = z.object({
   uuid: z.string(),
   title: z.string(),
+  tour_code: z
+    .string({
+      error: () => ({ message: "Tour code is required and must be unique***" }),
+    })
+    .trim(),
+  country: z
+    .string({ error: () => ({ message: "Country is required" }) })
+    .trim(),
+  // .min(1, "Country is required"),
+  meal_plan: z.enum(
+    [
+      MealPlan.FULLBOARD,
+      MealPlan.HALFBOARD,
+      MealPlan.BREAKFASTONLY,
+      MealPlan.NOMEAL,
+    ],
+    {
+      message:
+        "Expected one of these options: FULLBOARD | HALFBOARD | BREAKFASTONLY | NOMEAL",
+    }
+  ),
+  entry_mode: z.enum([EntryMode.FIT, EntryMode.GIT], {
+    message: "Expected one of these options: FIT | GIT",
+  }),
+  session: z.enum(
+    [
+      PackageSession.PEAK,
+      PackageSession.OFFPEAK,
+      PackageSession.ALLSEASON,
+      PackageSession.SPRING,
+      PackageSession.AUTUMN,
+      PackageSession.SUMMER,
+      PackageSession.WINTER,
+    ],
+    {
+      message:
+        "Expected one of these options: PEAK | OFFPEAK | ALLSEASON | SPRING | AUTUMN | SUMMER | WINTER",
+    }
+  ),
+  type: z.enum(
+    [
+      PackageType.GROUP,
+      PackageType.GROUND,
+      PackageType.UMRAH,
+      PackageType.MICE,
+    ],
+    {
+      message: "Expected one of these options: GROUP | GROUND | UMRAH | MICE",
+    }
+  ),
   subtitle: z.string().optional().default(""),
   route: z.string().optional().default(""),
-  keywords: z.string().optional().default(""),
+  keywords: z.array(z.string()).optional().default([]),
   highlight: z.string().optional().default(""),
   itinerary: z
     .array(
@@ -42,9 +92,9 @@ export const packageSchema = z.object({
       })
     )
     .default([]),
-  freebies: z.string().optional().default(""),
-  includes: z.string().optional().default(""),
-  excludes: z.string().optional().default(""),
+  // freebies: z.string().optional().default(""),
+  // includes: z.string().optional().default(""),
+  // excludes: z.string().optional().default(""),
   important_notes: z.string().optional().default(""),
   conditions: z.string().optional().default(""),
   embedded: z.string().optional().default(""),
@@ -71,63 +121,13 @@ export const packageSchema = z.object({
   update_period: z.coerce.date().optional(),
   sale_able_market: z.string().optional().default(""),
   is_publish: z.boolean().optional().default(false),
-  entry_mode: z.enum([EntryMode.FIT, EntryMode.GIT], {
-    message: "Expected one of these options: FIT | GIT",
-  }),
-  session: z.enum(
-    [
-      PackageSession.PEAK,
-      PackageSession.OFFPEAK,
-      PackageSession.ALLSEASON,
-      PackageSession.SPRING,
-      PackageSession.AUTUMN,
-      PackageSession.SUMMER,
-      PackageSession.WINTER,
-    ],
-    {
-      message:
-        "Expected one of these options: PEAK | OFFPEAK | ALLSEASON | SPRING | AUTUMN | SUMMER | WINTER",
-    }
-  ),
-  country: z
-    .string({ error: () => ({ message: "Country is required" }) })
-    .trim()
-    .min(1, "Country is required"),
   appearance: z.enum(
     [Appearance.NORMAL, Appearance.HIGHLIGHT, Appearance.PROMOTION],
     {
       message: "Expected one of these options: NORMAL | HIGHLIGHT | PROMOTION",
     }
   ),
-  type: z.enum(
-    [
-      PackageType.GROUP,
-      PackageType.GROUND,
-      PackageType.UMRAH,
-      PackageType.MICE,
-    ],
-    {
-      message: "Expected one of these options: GROUP | GROUND | UMRAH | MICE",
-    }
-  ),
-  meal_plan: z.enum(
-    [
-      MealPlan.FULLBOARD,
-      MealPlan.HALFBOARD,
-      MealPlan.BREAKFASTONLY,
-      MealPlan.NOMEAL,
-    ],
-    {
-      message:
-        "Expected one of these options: FULLBOARD | HALFBOARD | BREAKFASTONLY | NOMEAL",
-    }
-  ),
   location: z.string().optional().default(""),
-  tour_code: z
-    .string({
-      error: () => ({ message: "Tour code is required and must be unique***" }),
-    })
-    .trim(),
   features: z.array(z.string()).optional().default([]),
   main_image_url: z.any().optional(),
   sub_image_urls: z.array(z.string()).optional().default([]),
@@ -151,6 +151,7 @@ export const packageSchema = z.object({
   package_includes: z.array(z.string()).optional().default([]),
   package_excludes: z.array(z.string()).optional().default([]),
   package_freebies: z.array(z.string()).optional().default([]),
+  additional_remarks: z.array(z.string()).optional().default([]),
 });
 
 export type PackageFormValues = z.infer<typeof packageSchema>;

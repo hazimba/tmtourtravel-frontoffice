@@ -71,7 +71,7 @@ const PackageDetailsMobile = ({
           </div>
         </section>
 
-        <div className="flex flex-wrap gap-2">
+        {/* <div className="flex flex-wrap gap-2">
           {selectedPackage.freebies.length > 0 ? (
             selectedPackage.freebies.split(",").map((item, i) => (
               <span
@@ -84,7 +84,7 @@ const PackageDetailsMobile = ({
           ) : (
             <span className="text-sm text-muted-foreground">-</span>
           )}
-        </div>
+        </div> */}
 
         <section>
           <h4 className="text-md font-bold flex items-center gap-2 mb-3">
