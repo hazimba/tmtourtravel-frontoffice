@@ -38,6 +38,11 @@ import { CalendarIcon } from "lucide-react";
 import { UseFormSetValue } from "react-hook-form";
 import { ImageUploadForm } from "./ImageUploadForm";
 import { SubImageUploadForm } from "./SubImageUploadForm";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
@@ -45,6 +50,7 @@ interface CreateEditFormLeftProps {
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
   setMainImageSelect: (file: File | null) => void;
   setSubImageSelect: (files: File[] | null) => void;
+  editMode?: boolean;
 }
 
 const CreateEditFormLeft = ({
@@ -53,6 +59,7 @@ const CreateEditFormLeft = ({
   register,
   setMainImageSelect,
   setSubImageSelect,
+  editMode = false,
 }: CreateEditFormLeftProps) => {
   const mealPlanOptions = Object.values(MealPlan);
   const appearanceOptions = Object.values(Appearance);
@@ -67,9 +74,30 @@ const CreateEditFormLeft = ({
           <Label>Title</Label>
           <Input placeholder="Enter package title" {...register("title")} />
         </div>
-        <div className="flex flex-col gap-2 justify-between">
+        <div
+          className={`flex flex-col gap-2 justify-between ${
+            editMode ? "cursor-not-allowed" : ""
+          }`}
+        >
           <Label>Tour Code</Label>
-          <Input placeholder="Enter tour code" {...register("tour_code")} />
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <Input
+                  disabled={editMode}
+                  placeholder="Enter tour code"
+                  {...register("tour_code")}
+                />
+              </div>
+            </TooltipTrigger>
+
+            {editMode && (
+              <TooltipContent side="bottom">
+                Tour code cannot be changed
+              </TooltipContent>
+            )}
+          </Tooltip>
         </div>
         <div className="flex flex-col gap-2 justify-between">
           <Label>Country</Label>
@@ -77,7 +105,9 @@ const CreateEditFormLeft = ({
           <CountryDropdown
             name="country"
             defaultValue={watch("country")}
-            onChange={(val) => setValue("country", val?.name ?? "")}
+            onChange={(val) =>
+              setValue("country", val?.name ?? "", { shouldDirty: true })
+            }
             // @ts-expect-error: Unclear why ts is complaining here
             value={watch("country")}
           />
@@ -150,11 +180,12 @@ const CreateEditFormLeft = ({
           <SelectType watch={watch} setValue={setValue} />
         </div>
       </div>
-      <Separator className="my-4" />
-      <div className="px-6 mb-6 grid md:grid-cols-4 gap-5">
+      <Separator className="mt-4" />
+      <div className="px-6 pb-6 py-4 grid md:grid-cols-4 gap-5 bg-gray-100">
         <div className="flex flex-col gap-2 justify-between">
           <Label>Price (Original)</Label>
           <Input
+            className="border-primary/40 border-2"
             placeholder="Enter original price"
             {...register("price_original")}
           />
@@ -162,26 +193,42 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col gap-2 justify-between">
           <Label>Price (Discount)</Label>
           <Input
+            className="border-primary/40 border-2"
             placeholder="Enter discount price"
             {...register("price_discount")}
           />
         </div>
         <div className="flex flex-col gap-2 justify-between">
           <Label>Price (From)</Label>
-          <Input placeholder="Enter price from" {...register("price_from")} />
+          <Input
+            className="border-primary/40 border-2"
+            placeholder="Enter price from"
+            {...register("price_from")}
+          />
         </div>
         <div className="flex flex-col gap-2 justify-between">
           <Label>Price (To)</Label>
-          <Input placeholder="Enter price to" {...register("price_to")} />
+          <Input
+            className="border-primary/40 border-2"
+            placeholder="Enter price to"
+            {...register("price_to")}
+          />
         </div>
       </div>
-      <Separator className="my-4" />
+      <Separator className="mb-4" />
       <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <div className="flex flex-col gap-2 justify-between">
+        <div className="flex flex-col col-span-2 gap-2 justify-between">
           <Label>Subtitle</Label>
           <Input
             placeholder="Enter package subtitle"
             {...register("subtitle")}
+          />
+        </div>
+        <div className="flex flex-col col-span-2 gap-2 justify-between">
+          <Label>Optional Tours</Label>
+          <Input
+            placeholder="Enter optional_tours"
+            {...register("optional_tours")}
           />
         </div>
 
@@ -190,18 +237,11 @@ const CreateEditFormLeft = ({
           <Input placeholder="Enter package route" {...register("route")} />
         </div>
 
-        <div className="flex flex-col gap-2 justify-between">
+        {/* <div className="flex flex-col gap-2 justify-between">
           <Label>Keywords</Label>
           <Input placeholder="Enter keywords" {...register("keywords")} />
-        </div>
+        </div> */}
 
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Optional Tours</Label>
-          <Input
-            placeholder="Enter optional_tours"
-            {...register("optional_tours")}
-          />
-        </div>
         {/* <div className="flex flex-col gap-2 justify-between">
           <Label>Includes</Label>
           <Textarea placeholder="Enter includes" {...register("includes")} />
@@ -249,14 +289,14 @@ const CreateEditFormLeft = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2 justify-between">
+        {/* <div className="flex flex-col gap-2 justify-between">
           <Label>Web Tier</Label>
           <Input
             type="number"
             placeholder="Enter web tier"
             {...register("web_tier")}
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-2">
           <Label>Sale Period</Label>
@@ -267,7 +307,7 @@ const CreateEditFormLeft = ({
                 <Button
                   type="button"
                   variant="outline"
-                  className="justify-start text-left font-normal"
+                  className="justify-start text-left font-normal truncate"
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {watch("sale_period")?.to ? (
@@ -337,8 +377,8 @@ const CreateEditFormLeft = ({
           </Select>
         </div>
       </CardContent>
-      <Separator className="my-4" />
-      <div className="grid md:grid-cols-4 gap-8 px-4">
+      <Separator className="mt-4" />
+      <div className="grid md:grid-cols-4 gap-8 px-4 bg-gray-100 py-4">
         <div className="md:col-span-2 flex flex-col gap-2 justify-between px-4">
           <Label>Tags</Label>
           <div className="grid grid-cols-2 gap-2">
@@ -350,6 +390,7 @@ const CreateEditFormLeft = ({
                 return (
                   <div key={tag} className="grid grid-cols-4 items-center">
                     <Checkbox
+                      className="border-primary/40"
                       checked={checked}
                       onCheckedChange={(v) => {
                         const next = v
@@ -368,15 +409,16 @@ const CreateEditFormLeft = ({
             })()}
           </div>
         </div>
-        <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30">
+        <div className="md:col-span-2 flex items-center justify-between rounded-lg border p-4 bg-muted/30 border-primary/40 border-2">
           <div className="flex flex-col gap-1 h-full justify-between">
-            <Label className="font-medium">Publish Package</Label>
+            <Label>Publish Package</Label>
             <p className="text-xs text-muted-foreground">
               Make this package visible on the homepage
             </p>
           </div>
           <Checkbox
             {...register("is_publish")}
+            className="border-primary/40"
             checked={!!watch("is_publish")}
             onCheckedChange={(checked) =>
               setValue("is_publish", Boolean(checked), {
@@ -386,7 +428,7 @@ const CreateEditFormLeft = ({
           />
         </div>
       </div>
-      <Separator className="my-8" />
+      <Separator className="mb-4" />
       <div className="px-4 pb-4">
         <Label className="mb-2 font-medium">Main Image Upload</Label>
         <ImageUploadForm

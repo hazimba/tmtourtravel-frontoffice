@@ -2,6 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,8 +21,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { PackageFormValues } from "@/schemas/packages.schema";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarIcon,
+  ListIcon,
+  PlusCircle,
+  Trash2,
+} from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
+import FieldArrayDialog from "./FieldArrayDialog";
+import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
+import { Arrow } from "@radix-ui/react-popover";
+import { fi } from "date-fns/locale";
 
 interface CreateEditFormRightProps {
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
@@ -29,6 +49,16 @@ const CreateEditFormRight = ({
   watch,
   setValue,
 }: CreateEditFormRightProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const next = () => {
+    setCurrentIndex((prev) => Math.min(prev + 1, sections.length - 1));
+  };
+
+  const prev = () => {
+    setCurrentIndex((prev) => Math.max(prev - 1, 0));
+  };
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "itinerary",
@@ -71,241 +101,553 @@ const CreateEditFormRight = ({
   });
 
   const {
+    fields: fieldsAdditionalRemarks,
+    append: appendAdditionalRemarks,
+    remove: removeAdditionalRemarks,
+  } = useFieldArray({
+    control,
+    name: "additional_remarks",
+  });
+
+  const {
+    fields: fieldsKeywords,
+    append: appendKeywords,
+    remove: removeKeywords,
+  } = useFieldArray({
+    control,
+    name: "keywords",
+  });
+
+  const {
     fields: flightFields,
     append: appendFlight,
     remove: removeFlight,
   } = useFieldArray({ control, name: "flight_schedule" });
 
+  const sections = [
+    { key: "package_includes", title: "Includes" },
+    { key: "package_excludes", title: "Excludes" },
+    { key: "features", title: "Features" },
+    { key: "keywords", title: "Keywords" },
+    { key: "package_freebies", title: "Freebies" },
+    { key: "additional_remarks", title: "Additional Remarks" },
+  ];
+
   return (
     <>
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Highlight</Label>
-        <Textarea placeholder="Enter highlight" {...register("highlight")} />
-      </div>
-
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Itinerary</Label>
-
-        {fields.map((field, idx) => (
-          <div key={field.id} className="flex items-center gap-2">
-            {/* Day title */}
-            <Input
-              placeholder={`Day ${idx + 1}: Flight / Activity`}
-              {...register(`itinerary.${idx}.day`)}
-            />
-            {/* Description */}
-            <Input
-              placeholder="Description"
-              {...register(`itinerary.${idx}.description`)}
-            />
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => remove(idx)}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
-
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() =>
-            append({ day: `Day ${fields.length + 1}: `, description: "" })
-          }
-          className="mt-2"
+      <div className="grid grid-cols-1 md:col-span-2 gap-6">
+        {/* 1. Highlight - Keep this visible as it's a primary field */}
+        <div className="flex flex-col gap-2">
+          <Label>Package Highlight</Label>
+          <Textarea
+            placeholder="Summarize the best parts of this trip..."
+            {...register("highlight")}
+            className="min-h-[90px]"
+          />
+        </div>
+        <FieldArrayDialog
+          title="Itinerary"
+          triggerLabel="Edit Schedule"
+          count={fields.length}
         >
-          Add Day
-        </Button>
-      </div>
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Features</Label>
-        {fieldsFeatures.map((field, idx) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input
-              placeholder={`Feature ${idx + 1}`}
-              {...register(`features.${idx}`)}
-              className="!w-full"
-            />
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => removeFeature(idx)}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => appendFeature("")}
-          className="mt-2"
-        >
-          Add Feature
-        </Button>
-      </div>
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Includes</Label>
-        {fieldsIncludes.map((field, idx) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input
-              placeholder={`Include ${idx + 1}`}
-              {...register(`package_includes.${idx}`)}
-              className="!w-full"
-            />
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => removeIncludes(idx)}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => appendIncludes("")}
-          className="mt-2"
-        >
-          Add Include
-        </Button>
-      </div>
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Excludes</Label>
-        {fieldsExcludes.map((field, idx) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input
-              placeholder={`Exclude ${idx + 1}`}
-              {...register(`package_excludes.${idx}`)}
-              className="!w-full"
-            />
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => removeExcludes(idx)}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => appendExcludes("")}
-          className="mt-2"
-        >
-          Add Exclude
-        </Button>
-      </div>
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Freebies</Label>
-        {fieldsFreebies.map((field, idx) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input
-              placeholder={`Freebie ${idx + 1}`}
-              {...register(`package_freebies.${idx}`)}
-              className="!w-full"
-            />
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => removeFreebies(idx)}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => appendFreebies("")}
-          className="mt-2"
-        >
-          Add Freebie
-        </Button>
-      </div>
-      <div className="md:col-span-2 flex flex-col gap-2">
-        <Label>Flight Date Ranges</Label>
-
-        {flightFields.map((field, idx) => {
-          const from = watch(`flight_schedule.${idx}.range.from`);
-          const to = watch(`flight_schedule.${idx}.range.to`);
-
-          return (
+          {fields.map((field, idx) => (
             <div
               key={field.id}
-              className="flex items-center justify-between gap-2"
+              className="flex gap-3 items-start border-b pb-4"
             >
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div className="w-full border rounded-md">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className={cn(
-                        "text-left font-normal border-0 w-full justify-start",
-                        !from && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {from ? (
-                        to ? (
-                          <>
-                            {format(from, "LLL dd, y")} -{" "}
-                            {format(to, "LLL dd, y")}
-                          </>
-                        ) : (
-                          format(from, "LLL dd, y")
-                        )
-                      ) : (
-                        "Select travel dates"
-                      )}
-                    </Button>
-                  </div>
-                </PopoverTrigger>
-
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="range"
-                    // @ts-expect-error: Unclear why ts is complaining here, the types seem correct
-                    selected={watch(`flight_schedule.${idx}.range`)}
-                    onSelect={(range) =>
-                      // @ts-expect-error: Unclear why ts is complaining here, the types seem correct
-                      setValue(`flight_schedule.${idx}.range`, range, {
-                        shouldValidate: true,
-                        shouldDirty: true,
-                      })
-                    }
-                    className="grid-cols-1"
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-
+              <div className="flex-1 space-y-3">
+                <Input
+                  placeholder="Day Title (e.g. Day 1: Arrival)"
+                  {...register(`itinerary.${idx}.day`)}
+                  className="bg-gray-100 border-gray-300"
+                />
+                <Textarea
+                  placeholder="Activity Description"
+                  {...register(`itinerary.${idx}.description`)}
+                />
+              </div>
               <Button
                 type="button"
-                variant="destructive"
-                onClick={() => removeFlight(idx)}
+                variant="ghost"
+                size="icon"
+                onClick={() => remove(idx)}
+                className="text-destructive"
               >
-                Remove
+                <Trash2 className="w-4 h-4" />
               </Button>
             </div>
-          );
-        })}
+          ))}
+          <Button
+            type="button"
+            onClick={() =>
+              append({ day: `Day ${fields.length + 1}`, description: "" })
+            }
+            className="w-full"
+          >
+            Add New Day
+          </Button>
+        </FieldArrayDialog>
 
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() =>
-            appendFlight({ range: { from: new Date(), to: undefined } })
-          }
-          className=""
-        >
-          Add Date Range
-        </Button>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <Label>Flight Date Ranges</Label>
+            <Button
+              type="button"
+              variant="link"
+              onClick={() =>
+                appendFlight({
+                  range: { from: new Date(), to: undefined },
+                })
+              }
+              className="text-center"
+            >
+              <PlusCircle className="mr-2 h-4 w-4" />
+            </Button>
+          </div>
+
+          {flightFields.map((field, idx) => {
+            const from = watch(`flight_schedule.${idx}.range.from`);
+            const to = watch(`flight_schedule.${idx}.range.to`);
+
+            return (
+              <div
+                key={field.id}
+                className="flex items-center justify-between gap-2"
+              >
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="w-full border rounded-md">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className={cn(
+                          "text-left font-normal border-0 w-full justify-start",
+                          !from && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {from ? (
+                          to ? (
+                            <>
+                              {format(from, "LLL dd, y")} -{" "}
+                              {format(to, "LLL dd, y")}
+                            </>
+                          ) : (
+                            format(from, "LLL dd, y")
+                          )
+                        ) : (
+                          "Select travel dates"
+                        )}
+                      </Button>
+                    </div>
+                  </PopoverTrigger>
+
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="range"
+                      // @ts-expect-error: Unclear why ts is complaining here, the types seem correct
+                      selected={watch(`flight_schedule.${idx}.range`)}
+                      onSelect={(range) =>
+                        // @ts-expect-error: Unclear why ts is complaining here, the types seem correct
+                        setValue(`flight_schedule.${idx}.range`, range, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        })
+                      }
+                      className="grid-cols-1"
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => removeFlight(idx)}
+                  >
+                    <Trash2 className="h-4 w-4 text-gray-300" />
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Edit Package Details Slider</Button>
+          </DialogTrigger>
+
+          <DialogContent
+            className={`${
+              sections[currentIndex].key === "itinerary"
+                ? "!w-7xl !max-w-7xl"
+                : "md:!w-xl md:!max-w-4xl md:max-h-2/3 h-fit"
+            } max-h-[90vh] overflow-y-auto px-16`}
+          >
+            <DialogHeader>
+              <DialogTitle>{sections[currentIndex].title}</DialogTitle>
+              <DialogDescription>
+                Edit the details for{" "}
+                {sections[currentIndex].title.toLowerCase()}.
+              </DialogDescription>
+            </DialogHeader>
+
+            {/* 🔥 ARROWS */}
+            <div className="absolute top-1/2 left-0 right-0 flex justify-between px-4 pointer-events-none">
+              <Button
+                onClick={prev}
+                disabled={currentIndex === 0}
+                className="pointer-events-auto bg-primary/50 hover:bg-primary rounded-full shadow"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                onClick={next}
+                disabled={currentIndex === sections.length - 1}
+                className="pointer-events-auto bg-primary/50 hover:bg-primary rounded-full shadow"
+              >
+                <ArrowRight />
+              </Button>
+            </div>
+
+            {/* 🔥 CONTENT SWITCH */}
+            <div className="py-6 ">
+              {sections[currentIndex].key === "features" && (
+                <div>
+                  <div className="space-y-6 gap-6">
+                    <section className="">
+                      {fieldsFeatures.map((f, i) => (
+                        <div key={f.id} className="flex gap-2 mb-2">
+                          <Input {...register(`features.${i}`)} />
+                          <Button
+                            variant="ghost"
+                            onClick={() => removeFeature(i)}
+                          >
+                            ×
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => appendFeature("")}
+                      >
+                        + Add Feature
+                      </Button>
+                    </section>
+                  </div>
+                </div>
+              )}
+
+              {sections[currentIndex].key === "package_includes" && (
+                <div className="space-y-6 gap-6">
+                  <section className="">
+                    {fieldsIncludes.map((f, i) => (
+                      <div key={f.id} className="flex gap-2 mb-2">
+                        <Input {...register(`package_includes.${i}`)} />
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeIncludes(i)}
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => appendIncludes("")}
+                    >
+                      + Add Include
+                    </Button>
+                  </section>
+                </div>
+              )}
+
+              {sections[currentIndex].key === "package_excludes" && (
+                <div className="space-y-6 gap-6">
+                  <section className="">
+                    {fieldsExcludes.map((f, i) => (
+                      <div key={f.id} className="flex gap-2 mb-2">
+                        <Input {...register(`package_excludes.${i}`)} />
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeExcludes(i)}
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => appendExcludes("")}
+                    >
+                      + Add Exclude
+                    </Button>
+                  </section>
+                </div>
+              )}
+
+              {sections[currentIndex].key === "package_freebies" && (
+                <div className="space-y-6 gap-6">
+                  <section className="">
+                    {fieldsFreebies.map((f, i) => (
+                      <div key={f.id} className="flex gap-2 mb-2">
+                        <Input {...register(`package_freebies.${i}`)} />
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeFreebies(i)}
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => appendFreebies("")}
+                    >
+                      + Add Freebie
+                    </Button>
+                  </section>
+                </div>
+              )}
+
+              {sections[currentIndex].key === "keywords" && (
+                <div className="space-y-6 gap-6">
+                  <section className="">
+                    {fieldsKeywords.map((f, i) => (
+                      <div key={f.id} className="flex gap-2 mb-2">
+                        <Input {...register(`keywords.${i}`)} />
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeKeywords(i)}
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => appendKeywords("")}
+                    >
+                      + Add Keyword
+                    </Button>
+                  </section>
+                </div>
+              )}
+
+              {sections[currentIndex].key === "additional_remarks" && (
+                <div className="space-y-6 gap-6">
+                  <section className="">
+                    {fieldsAdditionalRemarks.map((f, i) => (
+                      <div key={f.id} className="flex gap-2 mb-2">
+                        <Input {...register(`additional_remarks.${i}`)} />
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeAdditionalRemarks(i)}
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => appendAdditionalRemarks("")}
+                    >
+                      + Add Additional Remark
+                    </Button>
+                  </section>
+                </div>
+              )}
+
+              {/* Repeat for others */}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* <Separator className="my-6" /> */}
+
+        <div className="grid grid-cols-1 gap-4">
+          {/* 2. Itinerary Dialog */}
+
+          {/* 3. Flight Ranges Dialog */}
+
+          {/* 4. Simple List Sections (Features, Includes, Excludes) */}
+          {/* Repeat the FieldArrayDialog pattern for Features, Includes, etc. */}
+          <FieldArrayDialog
+            title="Includes"
+            triggerLabel="Edit Lists"
+            count={fieldsIncludes.length}
+          >
+            <div className="space-y-6 gap-6">
+              <section className="col-span-5">
+                <h4 className="font-medium mb-2">Includes</h4>
+                {fieldsIncludes.map((f, i) => (
+                  <div key={f.id} className="flex gap-2 mb-2">
+                    <Input {...register(`package_includes.${i}`)} />
+                    <Button variant="ghost" onClick={() => removeIncludes(i)}>
+                      ×
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendIncludes("")}
+                >
+                  + Add Include
+                </Button>
+              </section>
+            </div>
+          </FieldArrayDialog>
+
+          <FieldArrayDialog
+            title="Excludes"
+            triggerLabel="Edit Lists"
+            count={fieldsExcludes.length}
+          >
+            <div className="space-y-6 gap-6">
+              <div className="col-span-1 w-full flex items-center justify-center">
+                <Separator orientation="vertical" className="mx-4" />
+              </div>
+              <section className="col-span-5">
+                <h4 className="font-medium mb-2">Excludes</h4>
+                {fieldsExcludes.map((f, i) => (
+                  <div key={f.id} className="flex gap-2 mb-2">
+                    <Input {...register(`package_excludes.${i}`)} />
+                    <Button variant="ghost" onClick={() => removeExcludes(i)}>
+                      ×
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendExcludes("")}
+                >
+                  + Add Exclude
+                </Button>
+              </section>
+            </div>
+          </FieldArrayDialog>
+
+          <FieldArrayDialog
+            title="Freebies"
+            triggerLabel="Edit Lists"
+            count={fieldsFreebies.length}
+          >
+            <div className="space-y-6 gap-6">
+              <section className="col-span-5">
+                <h4 className="font-medium mb-2">Freebies</h4>
+                {fieldsFreebies.map((f, i) => (
+                  <div key={f.id} className="flex gap-2 mb-2">
+                    <Input {...register(`package_freebies.${i}`)} />
+                    <Button variant="ghost" onClick={() => removeFreebies(i)}>
+                      ×
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendFreebies("")}
+                >
+                  + Add Freebie
+                </Button>
+              </section>
+            </div>
+          </FieldArrayDialog>
+
+          <FieldArrayDialog
+            title="Keywords"
+            triggerLabel="Edit Lists"
+            count={fieldsKeywords.length}
+          >
+            <div className="space-y-6 gap-6">
+              <section className="col-span-5">
+                <h4 className="font-medium mb-2">Keywords</h4>
+                {fieldsKeywords.map((f, i) => (
+                  <div key={f.id} className="flex gap-2 mb-2">
+                    <Input {...register(`keywords.${i}`)} />
+                    <Button variant="ghost" onClick={() => removeKeywords(i)}>
+                      ×
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendKeywords("")}
+                >
+                  + Add Keyword
+                </Button>
+              </section>
+            </div>
+          </FieldArrayDialog>
+
+          <FieldArrayDialog
+            title="Additional Remarks"
+            triggerLabel="Edit Lists"
+            count={fieldsAdditionalRemarks.length}
+          >
+            <div className="space-y-6 gap-6">
+              <section className="col-span-5">
+                <h4 className="font-medium mb-2">Additional Remarks</h4>
+                {fieldsAdditionalRemarks.map((f, i) => (
+                  <div key={f.id} className="flex gap-2 mb-2">
+                    <Input {...register(`additional_remarks.${i}`)} />
+                    <Button
+                      variant="ghost"
+                      onClick={() => removeAdditionalRemarks(i)}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendAdditionalRemarks("")}
+                >
+                  + Add Additional Remark
+                </Button>
+              </section>
+            </div>
+          </FieldArrayDialog>
+
+          <FieldArrayDialog
+            title="Features"
+            triggerLabel="Edit Lists"
+            count={fieldsFeatures.length}
+          >
+            <div className="space-y-6 gap-6">
+              <section className="col-span-5">
+                <h4 className="font-medium mb-2">Features</h4>
+                {fieldsFeatures.map((f, i) => (
+                  <div key={f.id} className="flex gap-2 mb-2">
+                    <Input {...register(`features.${i}`)} />
+                    <Button variant="ghost" onClick={() => removeFeature(i)}>
+                      ×
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendFeature("")}
+                >
+                  + Add Feature
+                </Button>
+              </section>
+            </div>
+          </FieldArrayDialog>
+        </div>
       </div>
     </>
   );

@@ -44,16 +44,34 @@ const getDateTime = () => {
   return `${yyyy}${mm}${dd}-${hh}${mi}${ss}`;
 };
 
+const validateTourCode = async (tc: string) => {
+  const { data: existingTourCode } = await supabase
+    .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
+    .select("tour_code")
+    .eq("tour_code", tc)
+    .maybeSingle();
+
+  return existingTourCode !== null;
+};
+
 const validateRequiredFields = (data: Partial<PackageFormValues>) => {
   const missing = REQUIRED_FIELDS.filter((field) => {
     const value = data[field];
 
-    if (Array.isArray(value)) return value.length === 0;
-    return value === undefined || value === "" || value === null;
+    if (Array.isArray(value)) {
+      return value.length === 0;
+    }
+
+    if (typeof value === "string") {
+      return value.trim() === "";
+    }
+
+    return value === undefined || value === null;
   });
 
   return missing;
 };
+
 let imageUrl: string | null = null;
 const uploadImageToBucket = async (
   mainImageSelect: File,
@@ -159,6 +177,13 @@ export const onSubmit = async ({
         .map((field) => startCase(toLower(field)))
         .join(", ")}`
     );
+    setIsLoading(false);
+    return;
+  }
+
+  const tourCodeExists = await validateTourCode(data.tour_code || "");
+  if (tourCodeExists) {
+    setErrorShow("Tour code already exists. Please choose a different one.");
     setIsLoading(false);
     return;
   }

@@ -22,8 +22,8 @@ export const usePackageForm = () => {
       meal_plan: undefined,
       highlight: "",
       important_notes: "",
-      includes: "",
-      excludes: "",
+      // includes: [],
+      // excludes: [],
       tags: [],
       sub_image_urls: [],
       main_image_url: undefined,
@@ -31,7 +31,7 @@ export const usePackageForm = () => {
       itinerary: [],
       optional_tours: "",
       flight_schedule: [],
-      freebies: "",
+      // freebies: "",
       conditions: "",
       embedded: "",
       sale_period: {},
@@ -45,6 +45,7 @@ export const usePackageForm = () => {
       package_includes: [],
       package_excludes: [],
       package_freebies: [],
+      additional_remarks: [],
     },
   });
 };

@@ -105,7 +105,7 @@ export interface Package {
   title: string;
   subtitle: string;
   route: string;
-  keywords: string;
+  keywords: string[];
   highlight: string;
   itinerary: string[];
   optional_tours: string;
@@ -149,6 +149,7 @@ export interface Package {
   package_includes: string[];
   package_excludes: string[];
   package_freebies: string[];
+  additional_remarks: string[];
 }
 
 export interface ImageSlider {

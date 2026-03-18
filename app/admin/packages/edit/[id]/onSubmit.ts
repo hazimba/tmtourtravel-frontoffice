@@ -162,6 +162,13 @@ export const onSubmit = async ({
 
   const uuid = id;
 
+  if (!data.title || data.title.trim() === "") {
+    toast.error("Ops! Title is required.");
+    setIsUpdateOnlyLoading(false);
+    setIsUpdateViewLoading(false);
+    return;
+  }
+
   try {
     // 1. Handle Main Image (Perfect already)
     if (mainImageSelect) {

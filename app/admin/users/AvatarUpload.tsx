@@ -5,9 +5,14 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types";
-import { Check, UserIcon } from "lucide-react";
+import { Check, UserIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -18,6 +23,7 @@ type AvatarUploadProps = {
   currentAvatarUrl?: string;
   onUploadSuccess: (url: string) => void;
   formControl: any;
+  setConfirmedUpload?: (confirmed: boolean) => void;
 };
 
 export const AvatarUpload = ({
@@ -26,6 +32,7 @@ export const AvatarUpload = ({
   currentAvatarUrl,
   onUploadSuccess,
   formControl,
+  setConfirmedUpload,
 }: AvatarUploadProps) => {
   const [preview, setPreview] = useState<string | null>(
     currentAvatarUrl || null
@@ -37,6 +44,7 @@ export const AvatarUpload = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setConfirmedUpload?.(false);
     setSelectedFile(file);
     setPreview(URL.createObjectURL(file));
   };
@@ -78,12 +86,14 @@ export const AvatarUpload = ({
       toast.success("Profile image updated successfully!", {
         position: "top-center",
       });
+      setConfirmedUpload?.(true);
       onUploadSuccess(data.publicUrl);
 
       setSelectedFile(null);
     } catch (err) {
       console.error("Upload failed:", err);
     } finally {
+      setConfirmedUpload?.(true);
       setUploading(false);
     }
   };
@@ -157,12 +167,33 @@ export const AvatarUpload = ({
                       </span>
                     )}
                   </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          setSelectedFile(null);
+                          setPreview(currentAvatarUrl || null);
+                          setConfirmedUpload?.(true);
+                        }}
+                        size="lg"
+                        variant="outline"
+                        className="h-8 px-1 border-none"
+                      >
+                        <X className="h-1 w-1" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <p className="text-xs">Cancel Upload</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               )}
 
-              <p className="text-[0.8rem] text-muted-foreground">
-                JPG, GIF or PNG. Max size of 2MB.
-              </p>
+              {!selectedFile ? (
+                <p className="text-[0.8rem] h-8 text-muted-foreground">
+                  JPG, GIF or PNG. Max size of 2MB.
+                </p>
+              ) : null}
             </div>
           </FormControl>
         </FormItem>

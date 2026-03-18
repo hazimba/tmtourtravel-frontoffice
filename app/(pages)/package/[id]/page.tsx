@@ -94,7 +94,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             <PriceRender selectedPackage={data} />
             <div className="flex flex-col gap-2 pt-4 pb-2">
               <span className="not-italic font-semibold">Important Notes:</span>
-              <ImportantNotes />
+              <ImportantNotes notes={data.additional_remarks} />
             </div>
 
             <FadeIn>

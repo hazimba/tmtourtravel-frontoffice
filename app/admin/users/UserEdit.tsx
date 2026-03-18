@@ -52,26 +52,32 @@ interface UserEditProps {
 
 const UserEdit = ({ user }: UserEditProps) => {
   const router = useRouter();
+  const [confirmedUpload, setConfirmedUpload] = useState(false);
 
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const form = useForm<User>({
     defaultValues: {
+      id: user.id,
       full_name: user.full_name,
       email: user.email,
       phone: user.phone ?? "",
       position: user.position,
       status: user.status,
       department: user.department,
-      avatar_url: user.avatar_url,
+      avatar_url: user.avatar_url || undefined,
     },
   });
 
   const onSubmit = async (values: User) => {
+    if (!confirmedUpload) {
+      toast.error("Please confirm or cancel the upload before saving changes.");
+      return;
+    }
     const { error } = await supabase
       .from("profiles")
-      .update(values)
-      .eq("id", user.id);
+      .upsert(values, { onConflict: "email" })
+      .eq("email", user.email);
 
     if (error) {
       console.error("Error updating user:", error);
@@ -123,6 +129,7 @@ const UserEdit = ({ user }: UserEditProps) => {
               user={user}
               currentAvatarUrl={user.avatar_url}
               onUploadSuccess={(url) => form.setValue("avatar_url", url)}
+              setConfirmedUpload={setConfirmedUpload}
             />
             <FormField
               control={form.control}
