@@ -11,41 +11,80 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/lib/supabaseClient";
 import { useState } from "react";
+import { toast } from "sonner";
+import { CountryDropdown } from "./ui/country-dropdown";
 
 const FormPopup = () => {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsOpen(false);
+
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name");
+    const phone = formData.get("phone");
+    const destination = formData.get("country");
+
+    try {
+      const { error } = await supabase
+        .from("contact_enquiries")
+        .insert([{ name, phone, destination }]);
+
+      if (error) {
+        console.error("Error inserting data:", error);
+        toast.error("Failed to submit. Please try again.");
+        return;
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    } finally {
+      toast.success("We received your inquiry, will get back to you soon!");
+      setIsOpen(false);
+    }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <form onSubmit={onSubmit}>
-        <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]">
+        <form onSubmit={onSubmit}>
           <DialogHeader>
-            <DialogTitle>Hello!</DialogTitle>
-            <DialogDescription>Lets Connect!</DialogDescription>
+            <DialogTitle>Plan Your Dream Trip ✈️</DialogTitle>
+            <DialogDescription>
+              Tell us where you want to go and we will recommend the best travel
+              packages for you.
+            </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
+
+          <div className="grid gap-4 pt-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" />
+              <Label>Name</Label>
+              <Input name="name" />
             </div>
+
             <div className="grid gap-3">
-              <Label htmlFor="phone-1">Phone Number</Label>
-              <Input id="phone-1" name="phone" />
+              <Label>Phone Number</Label>
+              <Input name="phone" />
+            </div>
+
+            <div className="grid gap-3">
+              <Label>Country</Label>
+              <CountryDropdown name="country" />
             </div>
           </div>
-          <DialogFooter>
+
+          <DialogFooter className="flex justify-end mt-4 flex-row">
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
             </DialogClose>
+
             <Button type="submit">Submit</Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };

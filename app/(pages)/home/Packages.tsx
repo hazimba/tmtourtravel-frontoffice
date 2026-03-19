@@ -32,8 +32,7 @@ const PackagesSection = async () => {
     {
       label: "UMRAH",
       type: "UMRAH",
-      description:
-        "We offering comprehensive services for a seamless pilgrimage.",
+      description: "Comprehensive pilgrimage services offered.",
       nav: "/package?title=&country=&type=UMRAH",
     },
   ];
@@ -69,6 +68,7 @@ const PackagesSection = async () => {
           </div>
           <FadeIn>
             <PackagesRender
+              type={section.type}
               packages={packages.filter(
                 (i: Package) => i.type === section.type
               )}

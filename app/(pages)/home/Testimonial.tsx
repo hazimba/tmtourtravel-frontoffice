@@ -12,10 +12,6 @@ const TestimonialSection = async () => {
     .eq("is_publish", true)
     .order("created_at", { ascending: false });
 
-  if (!testimonials || testimonials.length === 0) {
-    return <CurrentlyLoading />;
-  }
-
   return (
     <FadeIn>
       <div className="md:py-20 py-12 bg-white flex flex-col gap-8">
@@ -33,10 +29,10 @@ const TestimonialSection = async () => {
             travel experiences.
           </p>
         </div>
-        <div className="relative md:max-w-7xl md:mx-auto px-4 md:px-0 overflow-hidden ">
-          <div className="overflow-hidden bg-primary/5 rounded-2xl border-1 border-gray-200 md:p-2">
+        <div className="relative md:max-w-7xl md:mx-auto w-full px-4 md:px-0 overflow-hidden ">
+          <div className="overflow-hidden flex items-center justify-center bg-primary/5 rounded-2xl border-1 border-gray-200 md:p-2">
             <div className="flex gap-4">
-              <TestimonialCards testimonials={testimonials} />
+              <TestimonialCards testimonials={testimonials ?? []} />
             </div>
           </div>
         </div>

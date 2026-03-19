@@ -63,28 +63,16 @@ export default function ContactEnquiryForm() {
               </p>
             </div>
 
-            <div className="space-y-4 md:space-y-8 grid md:grid-cols-2 grid-cols-1">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-blue-100 text-blue-600 rounded-full">
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">
                     Call Us
                   </p>
                   <p className="font-semibold">+603 4031 4171</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-green-100 text-green-600 rounded-full">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Call Us
-                  </p>
-                  <p className="font-semibold">info@tmtours.com.my</p>
                 </div>
               </div>
 

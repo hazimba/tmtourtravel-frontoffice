@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/popover";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types";
-import { MessageSquare, Phone } from "lucide-react";
+import { MessageSquare, Phone, User as UserIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -45,7 +45,7 @@ const SalesList = ({ salesTeam }: SalesListProps) => {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  No Image
+                  <UserIcon size={24} />
                 </div>
               )}
             </div>
