@@ -52,7 +52,7 @@ interface UserEditProps {
 
 const UserEdit = ({ user }: UserEditProps) => {
   const router = useRouter();
-  const [confirmedUpload, setConfirmedUpload] = useState(false);
+  const [confirmedUpload, setConfirmedUpload] = useState(true);
 
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -76,8 +76,8 @@ const UserEdit = ({ user }: UserEditProps) => {
     }
     const { error } = await supabase
       .from("profiles")
-      .upsert(values, { onConflict: "email" })
-      .eq("email", user.email);
+      .upsert(values)
+      .eq("id", user.id);
 
     if (error) {
       console.error("Error updating user:", error);

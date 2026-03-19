@@ -14,8 +14,6 @@ export default function CreatePackagePage() {
   const [mainImageSelect, setMainImageSelect] = useState<File | null>(null);
   const [subImageSelect, setSubImageSelect] = useState<File[] | null>(null);
 
-  console.log("errorShow", errorShow);
-
   return (
     <div className="h-[90vh] bg-muted/40 px-6 py-10">
       <Card className="w-full shadow-lg">

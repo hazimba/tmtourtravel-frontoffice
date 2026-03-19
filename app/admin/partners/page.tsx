@@ -201,7 +201,7 @@ const PartnersPage = () => {
                   width={50}
                   height={50}
                   loading="eager"
-                  className="object-contain h-auto w-auto"
+                  className="object-contain h-12 w-12"
                 />
               )}
               <h3 className="text-lg font-semibold">{partner.name}</h3>

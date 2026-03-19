@@ -160,15 +160,15 @@ const BulkExportPackages = ({
     return `${format(from)} - ${format(to)}`;
   };
 
-  const guidanceRow: Record<string, any> = {
-    entry_mode: "FIT, GIT",
-    session: "PEAK, OFFPEAK, ALLSEASON, SPRING, AUTUMN, SUMMER, WINTER",
-    appearance: "NORMAL, HIGHLIGHT, PROMOTION",
-    type: "GROUP, GROUND, UMRAH, MICE",
-    meal_plan: "FULLBOARD, HALFBOARD, BREAKFASTONLY, NOMEAL",
-    tags: "HOT, NEW, POPULAR, RECOMMENDED",
-    // other columns can be empty
-  };
+  // const guidanceRow: Record<string, any> = {
+  //   entry_mode: "FIT, GIT",
+  //   session: "PEAK, OFFPEAK, ALLSEASON, SPRING, AUTUMN, SUMMER, WINTER",
+  //   appearance: "NORMAL, HIGHLIGHT, PROMOTION",
+  //   type: "GROUP, GROUND, UMRAH, MICE",
+  //   meal_plan: "FULLBOARD, HALFBOARD, BREAKFASTONLY, NOMEAL",
+  //   tags: "HOT, NEW, POPULAR, RECOMMENDED",
+  //   // other columns can be empty
+  // };
 
   const handleExportPackages = () => {
     if (!downloadPackages || !downloadPackages.length) {
@@ -232,7 +232,7 @@ const BulkExportPackages = ({
 
       return reorderKeys(row, priorityColumns);
     });
-    rows.unshift(reorderKeys(guidanceRow, priorityColumns));
+    // rows.unshift(reorderKeys(guidanceRow, priorityColumns));
 
     const worksheet = XLSX.utils.json_to_sheet(rows);
 

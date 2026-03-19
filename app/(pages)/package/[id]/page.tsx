@@ -3,10 +3,10 @@ import FadeIn from "@/components/FadeIn";
 import PriceRender from "@/components/PriceRender";
 import { ShareButton } from "@/components/SharePackageButton";
 import { createClient } from "@/lib/supabase/server";
+import { format } from "date-fns";
 import { Star } from "lucide-react";
 import { HeroCarousel } from "./ImageCarousel";
 import ImportantNotes from "./ImportantNotes";
-import { format } from "date-fns";
 
 import ItinerarySection from "./ItinerarySection";
 import LogisticsSection from "./LogisticsSection";
