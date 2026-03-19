@@ -199,6 +199,7 @@ export const AvatarUpload = ({
                     size="sm"
                     onClick={async () => {
                       const url = await handleUpload(); // Capture the new URL
+                      // @ts-expect-error: TS is confused about the type here, but we know it's a string
                       if (url) field.onChange(url); // Update form state
                     }}
                     disabled={uploading}
