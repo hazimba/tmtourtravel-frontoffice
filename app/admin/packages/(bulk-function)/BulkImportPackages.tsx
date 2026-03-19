@@ -87,9 +87,9 @@ const BulkImportPackages = ({
       appearance: row.appearance || "NORMAL",
 
       // Required fields trimming
-      title: row.title.toString() || "",
-      tour_code: row.tour_code?.trim() || "",
-      country: row.country?.trim() || "",
+      title: row.title?.trim(),
+      tour_code: row.tour_code?.trim(),
+      country: row.country?.trim(),
 
       // JSON fields
       itinerary: parseItinerary(row.itinerary),

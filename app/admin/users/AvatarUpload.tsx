@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types";
+import { set } from "lodash";
 import { Check, UserIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -50,50 +51,96 @@ export const AvatarUpload = ({
   };
 
   const handleUpload = async () => {
+    console.log("selectedFile", selectedFile);
     if (!selectedFile) return;
     setUploading(true);
 
     try {
+      // 1. Delete old file if it exists
+      // We simplify the path extraction by just taking everything after the bucket name
       if (currentAvatarUrl) {
-        const url = new URL(currentAvatarUrl);
-        const path = decodeURIComponent(
-          url.pathname.replace(
-            /^\/storage\/v1\/object\/public\/profile-images\//,
-            ""
-          )
-        );
-        await supabase.storage.from("profile-images").remove([path]);
+        const path = currentAvatarUrl.split("profile-images/").pop();
+        if (path) {
+          await supabase.storage
+            .from("profile-images")
+            .remove([decodeURIComponent(path)]);
+        }
       }
 
+      // 2. Generate clean filename: uuid_timestamp.ext
       const fileExt = selectedFile.name.split(".").pop();
-      const filePath = `${user.full_name}_${user.id}/${uuid()}.${fileExt}`;
+      const fileName = `${crypto.randomUUID()}_${Date.now()}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
 
+      // 3. Upload new file
       const { error: uploadError } = await supabase.storage
         .from("profile-images")
-        .upload(filePath, selectedFile, { upsert: true });
+        .upload(filePath, selectedFile);
+
       if (uploadError) throw uploadError;
 
-      const { data } = supabase.storage
-        .from("profile-images")
-        .getPublicUrl(filePath);
+      // 4. Get URL and Update Profile
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("profile-images").getPublicUrl(filePath);
 
       const { error: updateError } = await supabase
         .from("profiles")
-        .update({ avatar_url: data.publicUrl })
+        .update({ avatar_url: publicUrl })
         .eq("id", user.id);
+
       if (updateError) throw updateError;
 
-      toast.success("Profile image updated successfully!", {
-        position: "top-center",
-      });
-      setConfirmedUpload?.(true);
-      onUploadSuccess(data.publicUrl);
+      // field.onChange(publicUrl);
 
+      toast.success("Profile updated!");
+      onUploadSuccess(publicUrl);
       setSelectedFile(null);
+      setConfirmedUpload?.(true);
     } catch (err) {
       console.error("Upload failed:", err);
+      toast.error("Upload failed");
     } finally {
-      setConfirmedUpload?.(true);
+      setUploading(false);
+    }
+  };
+
+  // Call this when the user clicks the "Remove Image" button
+  const handleRemoveImage = async () => {
+    // If there's a selected file but not yet uploaded, just cancel it
+    if (selectedFile) {
+      setSelectedFile(null);
+      setPreview(currentAvatarUrl || null);
+      return;
+    }
+
+    if (!currentAvatarUrl) return;
+
+    try {
+      setUploading(true);
+      const path = currentAvatarUrl.split("profile-images/").pop();
+
+      if (path) {
+        await supabase.storage
+          .from("profile-images")
+          .remove([decodeURIComponent(path)]);
+      }
+
+      const { error } = await supabase
+        .from("profiles")
+        .update({ avatar_url: null })
+        .eq("id", user.id);
+
+      if (error) throw error;
+
+      // Reset everything
+      setPreview(null);
+      onUploadSuccess(""); // Clear parent state
+      toast.success("Image removed");
+    } catch (err) {
+      console.error("Remove failed:", err);
+      toast.error("Failed to remove image");
+    } finally {
       setUploading(false);
     }
   };
@@ -138,62 +185,66 @@ export const AvatarUpload = ({
                   accept="image/*"
                   className="hidden"
                   onChange={(e) => {
-                    field.onChange(e.target.files?.[0]);
+                    // field.onChange(e.target.files?.[0]);
                     handleFileChange(e);
                   }}
                 />
               </div>
 
               {/* Upload Action Button */}
-              {selectedFile && (
+              {selectedFile ? (
                 <div className="flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
                   <Button
                     type="button"
                     size="sm"
-                    variant="outline"
-                    onClick={handleUpload}
+                    onClick={async () => {
+                      const url = await handleUpload(); // Capture the new URL
+                      if (url) field.onChange(url); // Update form state
+                    }}
                     disabled={uploading}
-                    className="h-8 px-3 border-green-200 bg-green-50 hover:bg-green-100 text-green-700"
+                    className="h-8 px-3 bg-green-600 hover:bg-green-700 text-white"
                   >
-                    {uploading ? (
-                      <span className="flex items-center gap-2 text-xs">
-                        <span className="h-2 w-2 animate-ping rounded-full bg-green-500" />
-                        Uploading...
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-2 text-xs">
-                        <Check className="h-3 w-3" />
-                        Confirm Upload
-                      </span>
-                    )}
+                    {uploading ? "Uploading..." : "Confirm Upload"}
                   </Button>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        onClick={() => {
-                          setSelectedFile(null);
-                          setPreview(currentAvatarUrl || null);
-                          setConfirmedUpload?.(true);
-                        }}
-                        size="lg"
-                        variant="outline"
-                        className="h-8 px-1 border-none"
-                      >
-                        <X className="h-1 w-1" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">
-                      <p className="text-xs">Cancel Upload</p>
-                    </TooltipContent>
-                  </Tooltip>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedFile(null);
+                      setPreview(currentAvatarUrl || null);
+                      setConfirmedUpload?.(true);
+                    }}
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2">
+                  {/* Remove Button - Only shows if there IS an image and NO new file selected */}
+                  {preview ? (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => {
+                        handleRemoveImage();
+                        field.onChange(null); // Clear form state
+                      }}
+                      className="h-8 px-4 text-xs font-semibold"
+                      disabled={uploading}
+                    >
+                      Remove Current Image
+                    </Button>
+                  ) : (
+                    <p className="text-[0.8rem] h-8 text-muted-foreground">
+                      JPG, GIF or PNG. Max size of 2MB.
+                    </p>
+                  )}
                 </div>
               )}
-
-              {!selectedFile ? (
-                <p className="text-[0.8rem] h-8 text-muted-foreground">
-                  JPG, GIF or PNG. Max size of 2MB.
-                </p>
-              ) : null}
             </div>
           </FormControl>
         </FormItem>
