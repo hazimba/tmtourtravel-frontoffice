@@ -93,7 +93,7 @@ const BulkExportPackages = ({
   const formatFlightScheduleForExport = (schedule: any[]) => {
     if (!Array.isArray(schedule)) return "";
 
-    const format = (value: any) => {
+    const format = (value: Date) => {
       const date = new Date(value);
       if (isNaN(date.getTime())) return "";
 

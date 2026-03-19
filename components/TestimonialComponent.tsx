@@ -10,10 +10,11 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
   // Added "items-center" and "py-12" to give the scaled card room to grow
   // without being clipped by the container's overflow.
   <div className="flex gap-8 p-6 md:py-8 overflow-x-auto scrollbar-hide overflow-hidden items-center">
-    {testimonials.map((testimonial, i) => (
-      <div
-        key={i}
-        className="
+    {testimonials.length > 0 ? (
+      testimonials.map((testimonial, i) => (
+        <div
+          key={i}
+          className="
           relative border border-gray-100 max-w-[280px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
           flex flex-col gap-4 shadow-sm flex-shrink-0 justify-between
           
@@ -24,52 +25,68 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
           hover:scale-110 hover:shadow-xl hover:z-10 hover:border-blue-100
           cursor-default
         "
-      >
-        {/* Quote Icon */}
-        <div className="absolute hidden md:block top-4 right-10 text-gray-500 text-[60px] font-serif leading-none select-none">
-          &ldquo;
-        </div>
-
-        <div className="grid grid-cols-3 gap-4 items-center">
-          {testimonial.image_url ? (
-            <div className="relative col-span-1 w-20 h-20 overflow-hidden rounded-full border-2 border-blue-50 shadow-inner">
-              <Image
-                src={testimonial.image_url}
-                alt="Testimonial Avatar"
-                width={80}
-                height={80}
-                loading="lazy"
-                className="object-cover w-full h-full"
-              />
-            </div>
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">
-              {testimonial.name.charAt(0)}
-            </div>
-          )}
-          <div className="col-span-2">
-            <h3 className="font-bold text-gray-900 text-sm">
-              {testimonial.name}
-            </h3>
-            <p className="text-xs text-blue-600 font-medium">
-              {testimonial.title}
-            </p>
+        >
+          {/* Quote Icon */}
+          <div className="absolute hidden md:block top-4 right-10 text-gray-500 text-[60px] font-serif leading-none select-none">
+            &ldquo;
           </div>
+
+          <div className="grid grid-cols-3 gap-4 items-center">
+            {testimonial.image_url ? (
+              <div className="relative col-span-1 w-20 h-20 overflow-hidden rounded-full border-2 border-blue-50 shadow-inner">
+                <Image
+                  src={testimonial.image_url}
+                  alt="Testimonial Avatar"
+                  width={80}
+                  height={80}
+                  loading="lazy"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">
+                {testimonial.name.charAt(0)}
+              </div>
+            )}
+            <div className="col-span-2">
+              <h3 className="font-bold text-gray-900 text-sm">
+                {testimonial.name}
+              </h3>
+              <p className="text-xs text-blue-600 font-medium">
+                {testimonial.title}
+              </p>
+            </div>
+          </div>
+
+          <blockquote className="text-gray-600 leading-relaxed text-sm italic">
+            {testimonial.quote}
+          </blockquote>
+
+          <div className="flex text-yellow-400 text-xs">{"★".repeat(5)}</div>
         </div>
-
-        <blockquote className="text-gray-600 leading-relaxed text-sm italic">
-          {testimonial.quote}
-        </blockquote>
-
-        <div className="flex text-yellow-400 text-xs">{"★".repeat(5)}</div>
+      ))
+    ) : (
+      <div className="">
+        <h3 className="text-lg font-semibold text-gray-700">
+          No Testimonials Available at the moment
+        </h3>
+        <p className="text-sm text-gray-500">
+          Please check back later for inspiring stories from our customers!
+        </p>
       </div>
-    ))}
-    <div>
-      <ArrowLeft className="absolute left-3 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
-    </div>
-    <div>
-      <ArrowRight className="absolute right-3 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
-    </div>
+    )}
+    {testimonials.length < 4 ? (
+      <></>
+    ) : (
+      <>
+        <div>
+          <ArrowLeft className="absolute left-3 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
+        </div>
+        <div>
+          <ArrowRight className="absolute right-3 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
+        </div>
+      </>
+    )}
   </div>
 );
 
