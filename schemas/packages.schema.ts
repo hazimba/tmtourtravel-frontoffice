@@ -10,7 +10,8 @@ import {
 } from "../types";
 
 export const searchPackageSchema = z.object({
-  title: z.string().optional(),
+  keywords: z.string().optional(),
+  title: z.any().optional(),
   country: z.string().optional(),
   type: z.string().optional(),
 });

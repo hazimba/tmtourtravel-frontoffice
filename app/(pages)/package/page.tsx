@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import CurrentlyLoading from "@/components/CurrentlyLoading";
 
 interface PackagePageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -27,6 +28,12 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
     ? params.country[0]
     : params?.country;
   const type = Array.isArray(params?.type) ? params.type[0] : params?.type;
+  const keywordsParam = params?.keywords;
+
+  const keywords =
+    typeof keywordsParam === "string" && keywordsParam.trim() !== ""
+      ? keywordsParam
+      : undefined;
 
   const supabaseClient = await supabase();
   let query = supabaseClient
@@ -35,6 +42,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);
+  if (keywords) query = query.contains("keywords", [keywords]);
 
   const { error } = await query;
   if (error) console.error(error);
@@ -59,7 +67,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
           method="get"
           className="flex flex-col md:flex-row items-end md:gap-4 gap-1 p-4 border rounded-xl bg-card shadow-sm"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 gap-3 w-full flex-grow">
+          <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4 gap-3 w-full flex-grow">
             <div className="flex flex-col gap-1">
               <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
                 Title
@@ -68,6 +76,17 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                 name="title"
                 placeholder="Search by name..."
                 defaultValue={title}
+                className="w-full"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
+                Keywords
+              </label>
+              <Input
+                name="keywords"
+                placeholder="Search by keywords..."
+                defaultValue={typeof keywords === "string" ? keywords : ""}
                 className="w-full"
               />
             </div>
@@ -110,7 +129,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
             </div>
           </div>
           <div className="flex items-center justify-end gap-2 md:w-96 pt-2 md:pt-0">
-            {(title || country || type) && (
+            {(title || country || type || keywords) && (
               <Button variant="ghost" asChild className="flex-1 md:flex-none">
                 <Link href="/package">
                   <X className="mr-2 h-4 w-4" /> Clear
@@ -129,11 +148,12 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Suspense fallback={<PackageList />}>
+        <Suspense fallback={<CurrentlyLoading />}>
           <PackageList
             title={title}
             country={country}
             type={type}
+            keywords={keywords}
             page={currentPage}
             limit={currentLimit}
           />

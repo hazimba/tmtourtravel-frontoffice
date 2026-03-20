@@ -9,6 +9,7 @@ interface Props {
   title?: string;
   country?: string;
   type?: string;
+  keywords?: string;
   page?: number;
   limit?: number;
 }
@@ -17,6 +18,7 @@ export default async function PackageList({
   title,
   country,
   type,
+  keywords,
   page = 1,
   limit = 4,
 }: Props) {
@@ -31,6 +33,7 @@ export default async function PackageList({
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);
+  if (keywords) query = query.contains("keywords", [keywords]);
 
   const { data, count, error } = await query
     .order("created_at", { ascending: true })
@@ -51,6 +54,7 @@ export default async function PackageList({
     if (title) params.set("title", title);
     if (country) params.set("country", country);
     if (type) params.set("type", type);
+    if (keywords) params.set("keywords", keywords);
     params.set("page", newPage.toString());
     params.set("limit", newLimit.toString());
     return `?${params.toString()}`;

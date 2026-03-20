@@ -1,12 +1,17 @@
 import { PageTitle } from "@/components/admin-ui/PageTitle";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { columns } from "./Columns";
 import DataTable from "./DataTable";
 
 const UsersTab = async () => {
-  const { data: users, error } = await supabase.from("profiles").select("*");
+  // still bug here, when update 1 user image suddenly another user image also updated, need to check the code again
+  const supabaseClient = await createClient();
+  const { data: users, error } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error)
     return (

@@ -20,6 +20,9 @@ import {
   Plus,
 } from "lucide-react";
 import EnquiryChart from "./EnquiryChart";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { format } from "date-fns";
 
 const AdminDashboardPage = async () => {
   const supabase = await createClient();
@@ -51,7 +54,8 @@ const AdminDashboardPage = async () => {
 
   const { data: packages, error: packagesError } = await supabase
     .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
-    .select("*");
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (packagesError) {
     console.error("Error fetching packages:", packagesError);
@@ -85,9 +89,7 @@ const AdminDashboardPage = async () => {
           title="Admin Dashboard"
           subtitle="Overview of your latest leads and enquiries."
         />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
+        <div className="bg-white p-2 rounded-xl flex items-center gap-4 group">
           <div className="h-14 w-1 bg-blue-500 rounded-full group-hover:h-12 transition-all duration-300" />
 
           <div className="flex flex-col justify-center">
@@ -110,7 +112,9 @@ const AdminDashboardPage = async () => {
               </span>
             </div>
           </div>
-        </div> */}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white p-2 rounded-xl border shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
@@ -164,116 +168,147 @@ const AdminDashboardPage = async () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 md:h-[30vh]">
-        <div className="rounded-xl md:w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-y-auto">
-            <Table className="grid-cols-1 md:grid-cols-1">
-              <TableHeader className="bg-slate-200/50">
-                <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Destination</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead className="text-right md:table-cell hidden">
-                    Date
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {enquiries.map((enquiry) => (
-                  <TableRow
-                    key={enquiry.id}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
-                    <TableCell>
-                      <div className="font-medium text-gray-900">
+        <div className="md:w-1/2 h-full gap-4 flex flex-col">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Badge className="px-2 py-1">Latest Enquiries</Badge>
+              <Link
+                href={`/admin/enquiries`}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <Eye size={12} className="inline" /> View
+              </Link>
+            </div>
+            <div className="text-sm text-gray-500 font-medium">
+              {todayEnquiries.length} enquiries received today
+            </div>
+          </div>
+          <div className="rounded-xl border h-full bg-white shadow-sm overflow-hidden flex flex-col">
+            <div className="flex-1 overflow-y-auto">
+              <Table className="grid-cols-1 md:grid-cols-1">
+                <TableHeader className="bg-slate-200/50">
+                  <TableRow>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Destination</TableHead>
+                    <TableHead>Phone</TableHead>
+                    <TableHead className="text-right md:table-cell hidden">
+                      Date
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {enquiries.map((enquiry) => (
+                    <TableRow
+                      key={enquiry.id}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <TableCell>
+                        <div className="font-medium text-gray-900">
+                          {new Date(
+                            enquiry.created_at + "Z"
+                          ).toLocaleDateString("en-MY", {
+                            timeZone: "Asia/Kuala_Lumpur",
+                          }) === today ? (
+                            <>
+                              <Plus className="inline mr-1" size={8} />
+                              {enquiry.name}
+                            </>
+                          ) : (
+                            enquiry.name
+                          )}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {enquiry.email}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
+                          <MapPin size={12} className=" md:table-cell hidden" />{" "}
+                          {enquiry.destination}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
+                          {enquiry.phone}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-right  md:table-cell hidden">
                         {new Date(enquiry.created_at + "Z").toLocaleDateString(
                           "en-MY",
                           {
                             timeZone: "Asia/Kuala_Lumpur",
                           }
-                        ) === today ? (
-                          <>
-                            <Plus className="inline mr-1" size={8} />
-                            {enquiry.name}
-                          </>
-                        ) : (
-                          enquiry.name
                         )}
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        {enquiry.email}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700">
-                        <MapPin size={12} className=" md:table-cell hidden" />{" "}
-                        {enquiry.destination}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary">
-                        {enquiry.phone}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-gray-500 text-right  md:table-cell hidden">
-                      {new Date(enquiry.created_at + "Z").toLocaleDateString(
-                        "en-MY",
-                        {
-                          timeZone: "Asia/Kuala_Lumpur",
-                        }
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
-        <div className="rounded-xl md:w-1/2 border bg-white shadow-sm overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-y-auto">
-            <Table className="grid-cols-1 md:grid-cols-1">
-              <TableHeader className="bg-slate-200/50">
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Subtitle
-                  </TableHead>
-                  <TableHead>Country</TableHead>
-                  <TableHead className="text-right hidden md:table-cell">
-                    Date
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {packages?.slice(0, 5).map((pkg: Package) => (
-                  <TableRow
-                    key={pkg.uuid}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
-                    <TableCell className="truncate">
-                      <div className="font-medium text-gray-900">
-                        {pkg.title}
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        {pkg.subtitle}
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700 ">
-                        <MapPin size={12} /> {pkg.location}
-                      </span>
-                    </TableCell>
-                    <TableCell className="truncate">
-                      <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary truncate w-10 md:w-full">
-                        {pkg.country}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-gray-500 text-right hidden md:table-cell">
-                      {pkg.session}
-                    </TableCell>
+        <div className="flex flex-col md:w-1/2 h-full gap-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Badge className="px-2 py-1">Newly Created Package</Badge>
+              <Link
+                href={`/admin/packages`}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <Eye size={12} className="inline" /> View
+              </Link>
+            </div>
+            <div className="text-sm text-gray-500 font-medium">
+              {todayEnquiries.length} enquiries received today
+            </div>
+          </div>
+          <div className="rounded-xl border bg-white h-full shadow-sm overflow-hidden">
+            <div className="flex-1 overflow-y-auto">
+              <Table className="grid-cols-1 md:grid-cols-1">
+                <TableHeader className="bg-slate-200/50">
+                  <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Subtitle
+                    </TableHead>
+                    <TableHead>Country</TableHead>
+                    <TableHead className="text-right hidden md:table-cell">
+                      Session
+                    </TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {packages?.slice(0, 5).map((pkg: Package) => (
+                    <TableRow
+                      key={pkg.uuid}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <TableCell className="truncate">
+                        <div className="font-medium text-gray-900">
+                          {pkg.title}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {pkg.subtitle}
+                        </div>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700 ">
+                          <MapPin size={12} /> {pkg.location}
+                        </span>
+                      </TableCell>
+                      <TableCell className="truncate">
+                        <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary truncate w-10 md:w-full">
+                          {pkg.country}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-right hidden md:table-cell">
+                        {pkg.session}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </div>

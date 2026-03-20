@@ -14,15 +14,17 @@ import { Package } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CountryDropdown } from "../ui/country-dropdown";
+import { MultiSelectPackageFilter } from "./MultiSelectPackageFilter";
 
 interface SearchFilterProps {
   setPackagesData?: React.Dispatch<React.SetStateAction<Package[] | null>>;
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   loading?: boolean;
   onSearch?: (params?: Partial<PackageFormValues>) => void;
+  packagesData?: { uuid: string; title: string }[] | string[];
 }
 
-const SearchFilter = ({ onSearch }: SearchFilterProps) => {
+const SearchFilter = ({ onSearch, packagesData }: SearchFilterProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { register, handleSubmit, watch, setValue, reset } =
@@ -73,11 +75,16 @@ const SearchFilter = ({ onSearch }: SearchFilterProps) => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col w-auto md:flex-row md:items-center gap-2 md:gap-4"
               >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
+                  <MultiSelectPackageFilter
+                    packagesData={packagesData || []}
+                    watch={watch}
+                    setValue={setValue}
+                  />
                   <Input
-                    placeholder="Search by title"
+                    placeholder="Search by keywords"
                     className="text-sm"
-                    {...register("title")}
+                    {...register("keywords")}
                   />
                   <CountryDropdown
                     defaultValue={watch("country")}
@@ -91,7 +98,7 @@ const SearchFilter = ({ onSearch }: SearchFilterProps) => {
                     variant="outline"
                     onClick={() => {
                       // @ts-expect-error: Unclear why ts is complaining here
-                      reset({ type: "", title: "", country: "" });
+                      reset({ type: "", title: "", country: "", keywords: "" });
                       onSearch?.({});
                     }}
                   >
