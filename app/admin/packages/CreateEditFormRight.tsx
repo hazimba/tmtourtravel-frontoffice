@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { PackageFormValues } from "@/schemas/packages.schema";
@@ -25,16 +26,12 @@ import {
   ArrowLeft,
   ArrowRight,
   CalendarIcon,
-  ListIcon,
   PlusCircle,
   Trash2,
 } from "lucide-react";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import FieldArrayDialog from "./FieldArrayDialog";
-import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
-import { Arrow } from "@radix-ui/react-popover";
-import { fi } from "date-fns/locale";
 
 interface CreateEditFormRightProps {
   register: ReturnType<typeof useForm<PackageFormValues>>["register"];
@@ -132,6 +129,7 @@ const CreateEditFormRight = ({
     { key: "package_freebies", title: "Freebies" },
     { key: "additional_remarks", title: "Additional Remarks" },
   ];
+  const id = watch("uuid");
 
   return (
     <>
@@ -276,7 +274,9 @@ const CreateEditFormRight = ({
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button>Edit Package Details Slider</Button>
+            <Button>
+              {id ? "Edit Package Details" : "Create Package Details"}
+            </Button>
           </DialogTrigger>
 
           <DialogContent

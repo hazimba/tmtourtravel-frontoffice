@@ -10,18 +10,46 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
 import { PackageFormValues } from "@/schemas/packages.schema";
 import { Package } from "@/types";
+import BulkUploadPackages from "./(bulk-function)/BulkUploadPackages";
 import PackageCard from "./PackageCard";
 import PackageDetails from "./PackageDetails";
-import BulkUploadPackages from "./(bulk-function)/BulkUploadPackages";
 
 const PackagesTab = () => {
   const [packagesData, setPackagesData] = useState<Package[] | null>(null);
+  const [packagesTitle, setPackagesTitle] = useState<
+    { uuid: string; title: string }[]
+  >([]);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [limit, setLimit] = useState(8);
   const [filters, setFilters] = useState<Partial<PackageFormValues>>({});
+
+  const fetchPackageTitles = async () => {
+    try {
+      const { data, error } = await supabase
+        .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
+        .select("uuid, title");
+
+      if (error) {
+        console.error("Error fetching package titles:", error);
+        return [];
+      }
+
+      setPackagesTitle(data);
+    } catch (error) {
+      console.error("Error fetching package titles:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const getTitlesAndData = async () => {
+      fetchPackageTitles();
+    };
+    getTitlesAndData();
+  }, []);
 
   const from = (page - 1) * limit;
   const to = from + limit - 1;
@@ -42,8 +70,16 @@ const PackagesTab = () => {
         .select("*", { count: "exact" })
         .order("created_at", { ascending: true });
 
-      if (activeFilters.title) {
-        query = query.ilike("title", `%${activeFilters.title}%`);
+      if (
+        activeFilters.title &&
+        Array.isArray(activeFilters.title) &&
+        activeFilters.title.length > 0
+      ) {
+        query = query.in("title", activeFilters.title);
+      }
+
+      if (activeFilters.keywords) {
+        query = query.contains("keywords", [activeFilters.keywords]);
       }
 
       if (activeFilters.country) {
@@ -91,8 +127,12 @@ const PackagesTab = () => {
       </div>
 
       <div className="flex items-center gap-2 justify-between">
-        {/* @ts-expect-error: Unclear why ts is complaining here */}
-        <SearchFilter loading={loading} onSearch={refetchPackages} />
+        <SearchFilter
+          loading={loading}
+          // @ts-expect-error: Unclear why ts is complaining here
+          onSearch={refetchPackages}
+          packagesData={packagesTitle}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">

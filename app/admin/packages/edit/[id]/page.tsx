@@ -69,7 +69,7 @@ export default function EditPackagePage({
   }
 
   return (
-    <div className="md:h-[90vh] bg-muted/40 px-2 md:py-10 py-4">
+    <div className="md:h-[90vh] bg-muted/40 px-2 md:py-6 py-4">
       <Card className="w-full shadow-lg">
         <CardHeader className="border-b">
           <CardTitle className="text-2xl font-semibold">Edit Package</CardTitle>

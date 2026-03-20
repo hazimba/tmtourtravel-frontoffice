@@ -41,7 +41,7 @@ const TopNavigation = async () => {
           <span className="text-sm font-bold tracking-tight hidden md:block">
             TM TOUR & TRAVEL{" "}
           </span>
-          <Badge className="ml-2">
+          <Badge className="ml-2 px-2 py-1">
             Welcome! {userProfile?.full_name}{" "}
             <div className="hidden md:block">
               {format(new Date(), "p")} {format(new Date(), "PP")}

@@ -15,12 +15,12 @@ export default function CreatePackagePage() {
   const [subImageSelect, setSubImageSelect] = useState<File[] | null>(null);
 
   return (
-    <div className="h-[90vh] bg-muted/40 px-6 py-10">
+    <div className="md:h-[90vh] bg-muted/40 px-2 md:py-6 py-4">
       <Card className="w-full shadow-lg">
         <CardHeader className="border-b">
           <div className="flex gap-4 items-center">
             <CardTitle className="text-2xl font-semibold">
-              Edit Package
+              Create Package
             </CardTitle>
             {errorShow && (
               <div className="text-sm text-red-700">{errorShow} !</div>

@@ -128,7 +128,9 @@ const UserEdit = ({ user }: UserEditProps) => {
               formControl={form.control}
               user={user}
               currentAvatarUrl={user.avatar_url}
-              onUploadSuccess={(url) => form.setValue("avatar_url", url)}
+              onUploadSuccess={(url) =>
+                form.setValue("avatar_url", url || undefined)
+              }
               setConfirmedUpload={setConfirmedUpload}
             />
             <FormField
@@ -240,7 +242,9 @@ const UserEdit = ({ user }: UserEditProps) => {
             </div>
 
             <DialogFooter>
-              <Button type="submit">Save Changes</Button>
+              <Button onClick={() => router.refresh()} type="submit">
+                Save Changes
+              </Button>
             </DialogFooter>
           </form>
         </Form>

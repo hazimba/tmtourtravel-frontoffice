@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -5,24 +6,17 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types";
-import { set } from "lodash";
-import { Check, UserIcon, X } from "lucide-react";
+import { UserIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
-import { v4 as uuid } from "uuid";
 
 type AvatarUploadProps = {
   user: User;
   currentAvatarUrl?: string;
-  onUploadSuccess: (url: string) => void;
+  onUploadSuccess: (url: string | null) => void;
   formControl: any;
   setConfirmedUpload?: (confirmed: boolean) => void;
 };
@@ -87,7 +81,8 @@ export const AvatarUpload = ({
       const { error: updateError } = await supabase
         .from("profiles")
         .update({ avatar_url: publicUrl })
-        .eq("id", user.id);
+        .eq("id", user.id)
+        .single();
 
       if (updateError) throw updateError;
 
@@ -135,7 +130,7 @@ export const AvatarUpload = ({
 
       // Reset everything
       setPreview(null);
-      onUploadSuccess(""); // Clear parent state
+      onUploadSuccess(null); // Clear parent state
       toast.success("Image removed");
     } catch (err) {
       console.error("Remove failed:", err);
