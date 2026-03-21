@@ -101,7 +101,7 @@ export default function EditPackagePage({
               setSubImageSelect={setSubImageSelect}
               editMode
             />
-            <CardContent className="md:max-h-[68vh] overflow-y-auto pt-2 mb-4">
+            <CardContent className="md:max-h-[68vh] overflow-y-auto pt-2 mb-4 scrollbar-hide">
               <CreateEditFormRight
                 register={form.register}
                 // @ts-expect-error: --- IGNORE ---

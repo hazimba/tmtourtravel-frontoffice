@@ -251,12 +251,6 @@ const AdminDashboardPage = async () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Badge className="px-2 py-1">Newly Created Package</Badge>
-              <Link
-                href={`/admin/packages`}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <Eye size={12} className="inline" /> View
-              </Link>
             </div>
             <div className="text-sm text-gray-500 font-medium">
               {todayEnquiries.length} enquiries received today
@@ -268,10 +262,10 @@ const AdminDashboardPage = async () => {
                 <TableHeader className="bg-slate-200/50">
                   <TableRow>
                     <TableHead>Title</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Subtitle
-                    </TableHead>
                     <TableHead>Country</TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Location
+                    </TableHead>
                     <TableHead className="text-right hidden md:table-cell">
                       Session
                     </TableHead>
@@ -291,17 +285,17 @@ const AdminDashboardPage = async () => {
                           {pkg.subtitle}
                         </div>
                       </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700 ">
-                          <MapPin size={12} /> {pkg.location}
-                        </span>
-                      </TableCell>
                       <TableCell className="truncate">
                         <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-primary truncate w-10 md:w-full">
-                          {pkg.country}
+                          <MapPin size={12} /> {pkg.country}
                         </span>
                       </TableCell>
-                      <TableCell className="text-gray-500 text-right hidden md:table-cell">
+                      <TableCell className="hidden md:table-cell">
+                        <span className="inline-flex items-center gap-1 py-0.5 rounded-full text-xs font-medium text-blue-700 ">
+                          {pkg.location}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-xs font-medium text-right hidden md:table-cell">
                         {pkg.session}
                       </TableCell>
                     </TableRow>

@@ -52,6 +52,22 @@ const PackageDetails = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [openImagePreview, setOpenImagePreview] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+
+  const allImages = [
+    selectedPackage?.main_image_url,
+    ...(selectedPackage?.sub_image_urls || []),
+  ].filter(Boolean);
+  const images = allImages || [];
+  const handlePrev = () => {
+    if (currentIndex === null) return;
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev! - 1));
+  };
+
+  const handleNext = () => {
+    if (currentIndex === null) return;
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev! + 1));
+  };
 
   const handleDelete = async () => {
     if (!selectedPackage) return;
@@ -166,11 +182,11 @@ const PackageDetails = ({
                 </DialogHeader>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 flex-1 overflow-hidden">
-                  <aside className="lg:col-span-4 border-r overflow-y-auto p-6 space-y-6 bg-slate-50/50 dark:bg-transparent">
+                  <ScrollArea className="lg:col-span-4 border-r overflow-y-auto p-6 space-y-6 bg-slate-50/50 dark:bg-transparent">
                     <div className="flex flex-col items-center gap-2">
                       {selectedPackage.main_image_url && (
                         <div
-                          className="relative aspect-video w-full overflow-hidden rounded-xl shadow-md cursor-zoom-in"
+                          className="relative aspect-video w-full overflow-hidden rounded shadow-md cursor-zoom-in"
                           onClick={() => setOpenImagePreview(true)}
                         >
                           <Image
@@ -182,6 +198,20 @@ const PackageDetails = ({
                           />
                         </div>
                       )}
+
+                      <div className="flex gap-2 justify-start items-start w-full overflow-x-auto py-2 scrollbar-hide px-1">
+                        {allImages.map((url, idx) => (
+                          <Image
+                            key={idx}
+                            src={url as string}
+                            alt={`Gallery ${idx}`}
+                            width={50}
+                            height={50}
+                            className="object-cover cursor-pointer h-20 w-18 transition-transform duration-300 rounded hover:scale-105"
+                            onClick={() => setCurrentIndex(idx)}
+                          />
+                        ))}
+                      </div>
                       <span className="text-xs text-muted-foreground text-left w-full italic">
                         click image to zoom
                       </span>
@@ -191,7 +221,7 @@ const PackageDetails = ({
                       onOpenChange={setOpenImagePreview}
                     >
                       <DialogTitle></DialogTitle>
-                      <DialogDescription>Package Image</DialogDescription>
+                      <DialogDescription></DialogDescription>
                       <DialogContent
                         className="!max-w-screen p-6 md:0 bg-transparent border-none shadow-none backdrop-blur-xs h-screen flex items-center justify-center"
                         showCloseButton={false}
@@ -219,8 +249,86 @@ const PackageDetails = ({
                         )}
                       </DialogContent>
                     </Dialog>
-                    <PriceRender selectedPackage={selectedPackage} />
-                    <div className="space-y-4">
+
+                    <Dialog
+                      open={currentIndex !== null}
+                      onOpenChange={() => setCurrentIndex(null)}
+                    >
+                      <DialogContent
+                        className="!max-w-screen p-6 md:p-0 bg-transparent border-none shadow-none backdrop-blur-xs h-screen flex items-center justify-center"
+                        showCloseButton={false}
+                      >
+                        <DialogTitle></DialogTitle>
+                        <DialogDescription></DialogDescription>
+                        {currentIndex !== null && (
+                          <div className="flex items-center justify-center max-h-[90vh] w-full relative">
+                            {/* LEFT BUTTON */}
+                            <button
+                              onClick={handlePrev}
+                              className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/40 px-3 py-2 rounded-full backdrop-blur-sm"
+                            >
+                              ←
+                            </button>
+
+                            {/* IMAGE */}
+                            <div className="relative w-auto h-auto max-h-[90vh] max-w-full flex flex-col items-center">
+                              {images[currentIndex] ? (
+                                <Image
+                                  src={images[currentIndex]}
+                                  alt={`Gallery ${currentIndex}`}
+                                  width={4000}
+                                  height={4000}
+                                  className="object-contain max-h-[80vh] w-auto h-full"
+                                />
+                              ) : (
+                                <div className="flex items-center justify-center w-full h-full">
+                                  <span className="text-gray-500">
+                                    No image available
+                                  </span>
+                                </div>
+                              )}
+
+                              {/* CLOSE TEXT */}
+                              {/* <div
+                                className="text-center text-white text-sm bg-black/40 backdrop-blur-sm py-1 px-4 mt-2 cursor-pointer"
+                                onClick={() => setCurrentIndex(null)}
+                              >
+                                Click here to close or press ESC
+                              </div> */}
+                              <div
+                                className="relative bottom-0 left-0 w-full right-0 text-center text-white text-sm bg-black/40 backdrop-blur-sm py-1 cursor-pointer mt-0"
+                                onClick={() => setCurrentIndex(null)}
+                              >
+                                Click here to close or push ESC
+                              </div>
+
+                              {/* COUNTER */}
+                              <div className="text-white text-xs mt-1">
+                                {currentIndex + 1} / {images.length}
+                              </div>
+                            </div>
+                            <button
+                              onClick={handlePrev}
+                              className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/40 px-3 py-2 rounded-full backdrop-blur-sm"
+                            >
+                              ←
+                            </button>
+
+                            {/* RIGHT BUTTON */}
+                            <button
+                              onClick={handleNext}
+                              className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/40 px-3 py-2 rounded-full backdrop-blur-sm"
+                            >
+                              →
+                            </button>
+                          </div>
+                        )}
+                      </DialogContent>
+                    </Dialog>
+                    <div className="pt-4">
+                      <PriceRender selectedPackage={selectedPackage} />
+                    </div>
+                    <div className="space-y-4 pt-4">
                       <h4 className="text-md font-bold uppercase tracking-widest text-muted-foreground">
                         Logistics
                       </h4>
@@ -258,7 +366,7 @@ const PackageDetails = ({
                         </div> */}
                       </div>
                     </div>
-                  </aside>
+                  </ScrollArea>
 
                   <ScrollArea className="p-6 col-span-8 min-h-0 max-h-[calc(90vh-200px)]">
                     <div className="p-0 space-y-10">

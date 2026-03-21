@@ -56,10 +56,10 @@ export function MultiSelectPackageFilter({
         >
           {/* RENDER LOGIC: Show count instead of names */}
           <span className="truncate">
-            {selectedTitles.length === 0 && "All Titles"}
+            {selectedTitles.length === 0 && "All Packages"}
 
             {selectedTitles.length > 0 &&
-              `${selectedTitles.length} Titles Selected`}
+              `${selectedTitles.length} Packages Selected`}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

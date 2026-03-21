@@ -35,7 +35,7 @@ const OverviewSection = async ({ data, userProfile }: OverviewSectionProps) => {
         )}
       </div>
       <div className="flex items-center gap-2 mb-4 text-primary md:text-md text-sm">
-        <MapPin size={18} /> <span>{data.location}</span>
+        <MapPin size={18} /> <span>{data.country}</span>
       </div>
       <p className="text-slate-600 leading-relaxed text-justify">
         <span className="inline print:hidden">
@@ -58,8 +58,8 @@ const OverviewSection = async ({ data, userProfile }: OverviewSectionProps) => {
           <p className="md:text-md text-sm overflow-hidden">{data.meal_plan}</p>
         </div>
         <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
-          <p className="text-xs text-slate-500 uppercase font-bold">Country</p>
-          <p className="md:text-md text-sm">{data.country}</p>
+          <p className="text-xs text-slate-500 uppercase font-bold">Location</p>
+          <p className="md:text-md text-sm">{data.location}</p>
         </div>
         <div className="bg-slate-100 p-3 rounded-lg flex-1 border bg-gradient-to-b from-slate-50 to-slate-200">
           <p className="text-xs text-slate-500 uppercase font-bold">Type</p>

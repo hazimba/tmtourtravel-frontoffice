@@ -85,6 +85,12 @@ export enum UserStatus {
   INACTIVE = "INACTIVE",
 }
 
+export enum PackageStatus {
+  DRAFT = "DRAFT",
+  ACTIVE = "ACTIVE",
+  EXPIRED = "EXPIRED",
+}
+
 export interface User {
   id: string;
   full_name: string;
@@ -150,6 +156,7 @@ export interface Package {
   package_excludes: string[];
   package_freebies: string[];
   additional_remarks: string[];
+  status: PackageStatus;
 }
 
 export interface ImageSlider {

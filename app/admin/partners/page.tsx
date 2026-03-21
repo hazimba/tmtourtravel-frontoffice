@@ -187,11 +187,11 @@ const PartnersPage = () => {
         </Accordion>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
         {accreditedPartners.map((partner) => (
           <div
             key={partner.id}
-            className="border p-4 rounded-lg bg-white shadow flex justify-between items-center gap-4"
+            className="border p-4 rounded-lg bg-white shadow flex justify-between items-center gap-4 hover:!shadow-xl hover:!scale-[1.02] cursor-pointer transition-all"
           >
             <div className="flex items-center gap-4">
               {partner.logo_url && (
