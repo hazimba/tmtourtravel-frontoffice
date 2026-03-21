@@ -21,6 +21,7 @@ import {
   EntryMode,
   MealPlan,
   PackageSession,
+  PackageStatus,
   Tags,
 } from "../../../types";
 
@@ -43,6 +44,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useEffect } from "react";
+import {
+  startOfDay,
+  endOfDay,
+  isBefore,
+  isAfter,
+  isWithinInterval,
+} from "date-fns";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
@@ -66,6 +75,49 @@ const CreateEditFormLeft = ({
   const sessionOptions = Object.values(PackageSession);
   const entryModeOptions = Object.values(EntryMode);
   const tagsOptions = Object.values(Tags);
+
+  const normalizeDateRange = (range?: { from?: Date; to?: Date }) => {
+    if (!range?.from || !range?.to) return range;
+
+    return {
+      from: startOfDay(range.from),
+      to: endOfDay(range.to),
+    };
+  };
+
+  const getStatusFromSalePeriod = (sale_period?: {
+    from?: Date;
+    to?: Date;
+  }) => {
+    if (!sale_period?.from || !sale_period?.to) return "DRAFT";
+
+    const now = new Date();
+
+    if (
+      isWithinInterval(now, {
+        start: sale_period.from,
+        end: sale_period.to,
+      })
+    ) {
+      return "ACTIVE";
+    }
+    if (isAfter(now, sale_period.to)) return "EXPIRED";
+    if (isBefore(now, sale_period.from)) return "DRAFT";
+
+    return "DRAFT";
+  };
+
+  const salePeriod = watch("sale_period");
+  const status = watch("status");
+
+  useEffect(() => {
+    const status = getStatusFromSalePeriod(salePeriod);
+
+    setValue("status", status as PackageStatus, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  }, [salePeriod, setValue]);
 
   return (
     <div className="md:col-span-2 border-r md:max-h-[70vh] overflow-y-auto pt-2 scrollbar-hide">
@@ -227,7 +279,7 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col col-span-2 gap-2 justify-between">
           <Label>Optional Tours</Label>
           <Input
-            placeholder="Enter optional_tours"
+            placeholder="Enter optional tours"
             {...register("optional_tours")}
           />
         </div>
@@ -236,21 +288,6 @@ const CreateEditFormLeft = ({
           <Label>Route</Label>
           <Input placeholder="Enter package route" {...register("route")} />
         </div>
-
-        {/* <div className="flex flex-col gap-2 justify-between">
-          <Label>Keywords</Label>
-          <Input placeholder="Enter keywords" {...register("keywords")} />
-        </div> */}
-
-        {/* <div className="flex flex-col gap-2 justify-between">
-          <Label>Includes</Label>
-          <Textarea placeholder="Enter includes" {...register("includes")} />
-        </div>
-
-        <div className="flex flex-col gap-2 justify-between">
-          <Label>Excludes</Label>
-          <Textarea placeholder="Enter excludes" {...register("excludes")} />
-        </div> */}
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Conditions</Label>
@@ -262,22 +299,26 @@ const CreateEditFormLeft = ({
           <Input placeholder="Enter embedded" {...register("embedded")} />
         </div>
 
-        {/* <div className="flex flex-col gap-2 justify-between">
-          <Label>Freebies</Label>
-          <Input placeholder="Enter freebies" {...register("freebies")} />
-        </div>
-
-        <div className="md:col-span-1 flex flex-col gap-2 justify-between">
-          <Label>Important Notes</Label>
-          <Textarea
-            placeholder="Enter important notes"
-            {...register("important_notes")}
-          />
-        </div> */}
-
         <div className="flex flex-col gap-2 justify-between">
           <Label>Location</Label>
-          <Input placeholder="Enter location" {...register("location")} />
+          {/* <Input placeholder="Enter location" {...register("location")} /> */}
+          <Select
+            value={watch("location")}
+            onValueChange={(val) =>
+              setValue("location", val, { shouldDirty: true })
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select location" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Location</SelectLabel>
+                <SelectItem value="Domestic">Domestic</SelectItem>
+                <SelectItem value="International">International</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
@@ -307,16 +348,15 @@ const CreateEditFormLeft = ({
                 <Button
                   type="button"
                   variant="outline"
-                  className="justify-start text-left font-normal truncate"
+                  className="justify-start text-left text-[8px] font-normal truncate"
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {watch("sale_period")?.to ? (
                     <>
-                      {format(watch("sale_period").from, "LLL dd, y")} -{" "}
-                      {format(watch("sale_period").to, "LLL dd, y")}
+                      {format(watch("sale_period").from, "dd LLL  y")} -{" "}
+                      {format(watch("sale_period").to, "dd LLL  y")}
                     </>
                   ) : (
-                    format(watch("sale_period").from, "LLL dd, y")
+                    format(watch("sale_period").from, "dd LLL  y")
                   )}
                 </Button>
               ) : (
@@ -336,23 +376,61 @@ const CreateEditFormLeft = ({
                   from: watch("sale_period")?.from,
                   to: watch("sale_period")?.to,
                 }}
-                onSelect={(range) =>
-                  setValue("sale_period", range ?? {}, {
+                onSelect={(range) => {
+                  const normalized = normalizeDateRange(range);
+
+                  setValue("sale_period", normalized ?? {}, {
                     shouldValidate: true,
                     shouldDirty: true,
-                  })
-                }
+                  });
+                }}
               />
             </PopoverContent>
           </Popover>
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
-          <Label>Sale Able Market</Label>
+          <Label>Status</Label>
           <Input
+            placeholder="Enter status"
+            {...register("status")}
+            className={`
+              ${status === "ACTIVE" ? "bg-green-600 text-gray-200" : ""}
+              ${status === "EXPIRED" ? "bg-primary text-gray-200" : ""}
+              ${
+                status === "DRAFT"
+                  ? "bg-secondary/20 text-secondary-foreground"
+                  : ""
+              }
+            `}
+            disabled
+          />
+        </div>
+
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Sale Able Market</Label>
+          {/* <Input
             placeholder="Enter sale able market"
             {...register("sale_able_market")}
-          />
+          /> */}
+          <Select
+            value={watch("sale_able_market")}
+            onValueChange={(val) =>
+              setValue("sale_able_market", val, { shouldDirty: true })
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select sale able market" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sale Able Market</SelectLabel>
+                <SelectItem value="Domestic">Domestic</SelectItem>
+                <SelectItem value="International">International</SelectItem>
+                <SelectItem value="Both">Both</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
@@ -379,7 +457,7 @@ const CreateEditFormLeft = ({
       </CardContent>
       <Separator className="mt-4" />
       <div className="grid md:grid-cols-4 gap-8 px-4 bg-gray-100 py-4">
-        <div className="md:col-span-2 flex flex-col gap-2 justify-between px-4">
+        <div className="md:col-span-2 flex flex-col gap-2 justify-between px-2">
           <Label>Tags</Label>
           <div className="grid grid-cols-2 gap-2">
             {(() => {

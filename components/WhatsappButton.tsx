@@ -20,11 +20,16 @@ import { useEffect, useState } from "react";
 
 type SalesListProps = {
   salesTeam: User[];
+  mobile?: boolean;
 };
 
-const SalesList = ({ salesTeam }: SalesListProps) => {
+const SalesList = ({ salesTeam, mobile }: SalesListProps) => {
   return (
-    <div className="flex flex-col gap-3 py-2">
+    <div
+      className={`flex flex-col gap-3 py-2 ${
+        mobile ? "max-h-80 h-80" : "max-h-70 h-70"
+      } overflow-y-auto scrollbar-hide`}
+    >
       {salesTeam.map((staff, index) => (
         <a
           key={index}
@@ -34,7 +39,11 @@ const SalesList = ({ salesTeam }: SalesListProps) => {
           className="flex items-center justify-between p-2 rounded-xl border border-gray-100 hover:bg-green-50 hover:border-green-200 transition-all group"
         >
           <div className="flex items-center gap-4">
-            <div className="relative w-15 h-15 overflow-hidden rounded-full border border-gray-200">
+            <div
+              className={`relative ${
+                mobile ? "w-15 h-15" : "w-10 h-10"
+              } overflow-hidden rounded-full border border-gray-200`}
+            >
               {staff.avatar_url ? (
                 <Image
                   src={staff.avatar_url}
@@ -45,7 +54,7 @@ const SalesList = ({ salesTeam }: SalesListProps) => {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <UserIcon size={24} />
+                  <UserIcon size={mobile ? 24 : 16} />
                 </div>
               )}
             </div>
@@ -59,7 +68,7 @@ const SalesList = ({ salesTeam }: SalesListProps) => {
             </div>
           </div>
           <div className="bg-green-100 p-2 rounded-full text-green-700 group-hover:bg-green-600 group-hover:text-white transition-colors">
-            <MessageSquare size={14} />
+            <MessageSquare size={mobile ? 14 : 10} />
           </div>
         </a>
       ))}
@@ -112,7 +121,7 @@ const WhatsappButton = () => {
             <h3 className="font-bold text-gray-800 mb-2 px-1">
               Pilih Perunding Kami
             </h3>
-            <SalesList salesTeam={salesTeam} />
+            <SalesList salesTeam={salesTeam} mobile />
           </PopoverContent>
         </Popover>
       </div>

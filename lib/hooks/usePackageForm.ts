@@ -46,6 +46,7 @@ export const usePackageForm = () => {
       package_excludes: [],
       package_freebies: [],
       additional_remarks: [],
+      status: undefined,
     },
   });
 };

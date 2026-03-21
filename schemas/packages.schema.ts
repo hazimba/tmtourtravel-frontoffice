@@ -7,6 +7,7 @@ import {
   PackageSession,
   PackageType,
   Tags,
+  PackageStatus,
 } from "../types";
 
 export const searchPackageSchema = z.object({
@@ -153,6 +154,11 @@ export const packageSchema = z.object({
   package_excludes: z.array(z.string()).optional().default([]),
   package_freebies: z.array(z.string()).optional().default([]),
   additional_remarks: z.array(z.string()).optional().default([]),
+  status: z
+    .enum([PackageStatus.DRAFT, PackageStatus.ACTIVE, PackageStatus.EXPIRED], {
+      message: "Expected one of these options: DRAFT | ACTIVE | EXPIRED",
+    })
+    .optional(),
 });
 
 export type PackageFormValues = z.infer<typeof packageSchema>;

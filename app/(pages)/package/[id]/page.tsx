@@ -77,7 +77,6 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           <div className="md:col-span-3 space-y-8">
             {/* Overview & Highlights */}
             <OverviewSection data={data} userProfile={userProfile} />
-            <ItinerarySection data={data} />
             {data.optional_tours && (
               <section className="bg-indigo-50 p-4 rounded-xl border border-indigo-100 print:hidden">
                 <h2 className="text-lg font-bold mb-3 text-indigo-900 flex items-center gap-2">
@@ -89,6 +88,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
                 </p>
               </section>
             )}
+            <ItinerarySection data={data} />
           </div>
           <div className="space-y-6 col-span-2 mt-6 md:mt-0">
             <PriceRender selectedPackage={data} />

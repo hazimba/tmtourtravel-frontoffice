@@ -186,7 +186,7 @@ const CreateEditFormRight = ({
           </Button>
         </FieldArrayDialog>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 bg-gray-100 p-4 rounded-md">
           <div className="flex items-center justify-between">
             <Label>Flight Date Ranges</Label>
             <Button
@@ -227,11 +227,11 @@ const CreateEditFormRight = ({
                         {from ? (
                           to ? (
                             <>
-                              {format(from, "LLL dd, y")} -{" "}
-                              {format(to, "LLL dd, y")}
+                              {format(from, "dd LLL y")} -{" "}
+                              {format(to, "dd LLL y")}
                             </>
                           ) : (
-                            format(from, "LLL dd, y")
+                            format(from, "dd LLL y")
                           )
                         ) : (
                           "Select travel dates"

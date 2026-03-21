@@ -32,6 +32,7 @@ const SearchFilter = ({ onSearch, packagesData }: SearchFilterProps) => {
       // @ts-expect-error: Unclear why ts is complaining here
       resolver: zodResolver(searchPackageSchema.partial()),
       defaultValues: {
+        keywords: [],
         type: "" as PackageFormValues["type"],
         title: "",
         country: "",

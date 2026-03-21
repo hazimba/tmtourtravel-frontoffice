@@ -48,7 +48,7 @@ export default function CreatePackagePage() {
               setMainImageSelect={setMainImageSelect}
               setSubImageSelect={setSubImageSelect}
             />
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 h-[65vh] overflow-y-auto pt-6 mb-4">
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-5 h-[65vh] overflow-y-auto pt-6 mb-4 scrollbar-hide">
               <CreateEditFormRight
                 register={form.register}
                 // @ts-expect-error: --- IGNORE ---
