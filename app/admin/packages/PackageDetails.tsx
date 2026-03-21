@@ -272,13 +272,21 @@ const PackageDetails = ({
 
                             {/* IMAGE */}
                             <div className="relative w-auto h-auto max-h-[90vh] max-w-full flex flex-col items-center">
-                              <Image
-                                src={images[currentIndex]}
-                                alt={`Gallery ${currentIndex}`}
-                                width={4000}
-                                height={4000}
-                                className="object-contain max-h-[80vh] w-auto h-full"
-                              />
+                              {images[currentIndex] ? (
+                                <Image
+                                  src={images[currentIndex]}
+                                  alt={`Gallery ${currentIndex}`}
+                                  width={4000}
+                                  height={4000}
+                                  className="object-contain max-h-[80vh] w-auto h-full"
+                                />
+                              ) : (
+                                <div className="flex items-center justify-center w-full h-full">
+                                  <span className="text-gray-500">
+                                    No image available
+                                  </span>
+                                </div>
+                              )}
 
                               {/* CLOSE TEXT */}
                               {/* <div
