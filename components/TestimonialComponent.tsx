@@ -1,6 +1,7 @@
 import { Testimonial } from "@/types";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface TestimonialProps {
   testimonials: Testimonial[];
@@ -15,7 +16,7 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
         <div
           key={i}
           className="
-          relative border border-gray-100 max-w-[280px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
+          relative border border-gray-100 w-full max-w-[280px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
           flex flex-col gap-4 shadow-sm flex-shrink-0 justify-between
           
           /* Smooth Transition Logic */
@@ -58,9 +59,9 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
             </div>
           </div>
 
-          <blockquote className="text-gray-600 leading-relaxed text-sm italic">
+          <ScrollArea className="text-gray-600 leading-relaxed h-full overflow-y-auto text-sm italic">
             {testimonial.quote}
-          </blockquote>
+          </ScrollArea>
 
           <div className="flex text-yellow-400 text-xs">{"★".repeat(5)}</div>
         </div>
@@ -80,10 +81,10 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
     ) : (
       <>
         <div>
-          <ArrowLeft className="absolute left-3 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
+          <ArrowLeft className="absolute left-5 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
         </div>
         <div>
-          <ArrowRight className="absolute right-3 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
+          <ArrowRight className="absolute right-5 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
         </div>
       </>
     )}

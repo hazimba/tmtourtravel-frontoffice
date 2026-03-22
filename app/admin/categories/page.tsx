@@ -148,8 +148,8 @@ const CategoriesPage = () => {
                   New Categories
                 </span>
                 <div className="pl-4 text-xs text-muted-foreground">
-                  Recommendation : For better User Interface, just display only
-                  4 categories
+                  Recommendation : Display 4 categories for better User
+                  Interface
                 </div>
               </div>
             </AccordionTrigger>
@@ -199,7 +199,7 @@ const CategoriesPage = () => {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className="border p-4 rounded-lg flex justify-between items-center"
+            className="border p-4 rounded-lg bg-white shadow flex justify-between items-center gap-4 hover:!shadow-xl hover:!scale-[1.02] cursor-pointer transition-all"
           >
             <div className="flex items-center gap-4">
               {cat.bg_image_url && (
