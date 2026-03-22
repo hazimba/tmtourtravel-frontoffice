@@ -1,3 +1,5 @@
+import { int } from "zod";
+
 export enum EntryMode {
   FIT = "FIT",
   GIT = "GIT",
@@ -218,4 +220,13 @@ export interface Enquiries {
   destination: string;
   message: string;
   created_at: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  bg_image_url: string;
+  keywords: string;
+  is_publish: boolean;
+  created_at: Date;
 }
