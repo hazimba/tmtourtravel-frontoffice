@@ -23,6 +23,7 @@ import {
   type ContactFormValues,
 } from "@/lib/validations/contact-us";
 import FadeIn from "@/components/FadeIn";
+import CopyButton from "@/components/CopyButton";
 
 export default function ContactEnquiryForm() {
   const form = useForm<ContactFormValues>({
@@ -72,7 +73,8 @@ export default function ContactEnquiryForm() {
                   <p className="text-sm font-medium text-muted-foreground">
                     Call Us
                   </p>
-                  <p className="font-semibold">+603 4031 4171</p>
+
+                  <CopyButton text="+603 4031 4171" />
                 </div>
               </div>
 
@@ -84,7 +86,7 @@ export default function ContactEnquiryForm() {
                   <p className="text-sm font-medium text-muted-foreground">
                     Email
                   </p>
-                  <p className="font-semibold">info@tmtours.com.my</p>
+                  <CopyButton text="info@tmtours.com.my" />
                 </div>
               </div>
             </div>
