@@ -26,7 +26,7 @@ const TestimonySubmission = () => {
       <DialogContent showCloseButton={false} className="p-0">
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>
-        <TestimonyForm setIsOpen={setIsOpen} />
+        <TestimonyForm setIsOpen={setIsOpen} modal />
       </DialogContent>
     </Dialog>
   );
