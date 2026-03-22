@@ -6,6 +6,7 @@ import {
   ImagePlayIcon,
   ImagePlus,
   LayoutDashboard,
+  List,
   MessageCircleHeartIcon,
   Package,
   Settings,
@@ -53,6 +54,11 @@ const LeftNavigation = () => {
       title: "Image Carousel",
       href: "/admin/images-carousel",
       icon: <ImagePlayIcon className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Categories",
+      href: "/admin/categories",
+      icon: <List className="mr-2 h-4 w-4" />,
     },
   ];
 
