@@ -130,7 +130,6 @@ const CategoriesPage = () => {
           title="Categories"
           subtitle="Manage and preview your categories."
         />
-        <AddNewItemManage loading={loading} refetch={refetchCategories} />
       </div>
 
       <Card className="px-3 py-0 rounded-md shadow-none border">

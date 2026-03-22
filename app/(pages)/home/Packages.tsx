@@ -105,7 +105,7 @@ const PackagesSection = async () => {
           {categories.map((cat: Category, index) => (
             <Link
               key={`cat-${index}`}
-              href={`/package?title=&keywords=${cat.keywords}&country=&type=all`}
+              href={`/package?keywords=${cat.keywords}`}
               className="group relative overflow-hidden md:h-60 h-30 w-full"
             >
               {/* Background Image */}
