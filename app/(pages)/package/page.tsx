@@ -50,6 +50,8 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
   const currentPage = Number(params?.page) || 1;
   const currentLimit = Number(params?.limit) || 4;
 
+  const formKey = `${title}-${country}-${type}-${keywords}`;
+
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
       <div className="space-y-4">
@@ -64,6 +66,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
           </h2>
         </div>
         <form
+          key={formKey}
           method="get"
           className="flex flex-col md:flex-row items-end md:gap-4 gap-1 p-4 border rounded-xl bg-card shadow-sm"
         >
@@ -86,7 +89,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               <Input
                 name="keywords"
                 placeholder="Search by keywords..."
-                defaultValue={typeof keywords === "string" ? keywords : ""}
+                defaultValue={keywords || ""}
                 className="w-full"
               />
             </div>
