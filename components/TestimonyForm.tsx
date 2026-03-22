@@ -101,9 +101,9 @@ const TestimonyForm = ({ setIsOpen }: TestimonyFormProps) => {
   };
 
   return (
-    <section className="flex items-start justify-center">
+    <section className="flex items-start justify-center bg-white p-6 rounded-lg shadow-md">
       <Card className="!border-none px-2 !shadow-none">
-        <CardHeader className="text-center space-y-2">
+        <CardHeader className="text-center space-y-2 p-0">
           <CardTitle className="text-3xl font-bold tracking-tight text-slate-900">
             Share Your Experience
           </CardTitle>
@@ -112,7 +112,7 @@ const TestimonyForm = ({ setIsOpen }: TestimonyFormProps) => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="px-12">
+        <CardContent className="w-108 p-0">
           <form
             onSubmit={form.handleSubmit(handleAddTestimonial)}
             className="space-y-6"
@@ -150,7 +150,7 @@ const TestimonyForm = ({ setIsOpen }: TestimonyFormProps) => {
               <Textarea
                 {...form.register("quote", { required: true })}
                 placeholder="What was your favorite part of the journey?"
-                className="bg-slate-50/50"
+                className="bg-slate-50/50 w-full max-w-full resize-none break-words h-32"
               />
             </div>
 

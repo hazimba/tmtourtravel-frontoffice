@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types";
 import { MessageSquare, Phone, User as UserIcon } from "lucide-react";
@@ -77,6 +78,7 @@ const SalesList = ({ salesTeam, mobile }: SalesListProps) => {
 };
 
 const WhatsappButton = () => {
+  const pathname = usePathname();
   const [salesTeam, setSalesTeam] = useState<User[]>([]);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -97,6 +99,10 @@ const WhatsappButton = () => {
     };
     fetchSalesTeam();
   }, []); // only once
+
+  if (pathname.startsWith("/testimony")) {
+    return null;
+  }
 
   return (
     <div className="bottom-10 left-1 z-50">

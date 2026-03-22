@@ -18,12 +18,12 @@ const TestimonySubmission = () => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="cursor-pointer text-sm md:text-xs tracking-widest"
+          className="cursor-pointer text-xs md:text-xs tracking-widest"
         >
-          Leave Us Your Feedback!
+          Give Feedback!
         </Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent showCloseButton={false} className="p-0">
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>
         <TestimonyForm setIsOpen={setIsOpen} />
