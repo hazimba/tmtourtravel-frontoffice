@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { toast } from "sonner";
 import CurrentlyLoading from "@/components/CurrentlyLoading";
+import CopyButton from "@/components/CopyButton";
 
 const TestimonialsPage = () => {
   const [isOpen, setIsOpen] = useState<string | undefined>(undefined);
@@ -207,9 +208,9 @@ const TestimonialsPage = () => {
                   />
                 </div>
 
-                <div className="flex items-end justify-end">
+                <div className="flex items-end justify-end gap-2">
                   <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Uploading..." : "Add Partner"}
+                    {isSubmitting ? "Uploading..." : "Add Testimonial"}
                   </Button>
                 </div>
               </form>
@@ -217,6 +218,10 @@ const TestimonialsPage = () => {
           </AccordionItem>
         </Accordion>
       </Card>
+      <CopyButton
+        value={`${process.env.NEXT_PUBLIC_BASE_URL}/testimony`}
+        text="View Testimony Page"
+      />
       {loading ? (
         <CurrentlyLoading />
       ) : (

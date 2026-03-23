@@ -5,16 +5,17 @@ import { useState } from "react";
 
 interface CopyButtonProps {
   text?: string;
+  value?: string;
 }
 
-const CopyButton = ({ text }: CopyButtonProps) => {
+const CopyButton = ({ text, value }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    if (!text) return;
+    if (!text || !value) return;
 
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(value ? value : text);
       setCopied(true);
 
       setTimeout(() => setCopied(false), 2000);
@@ -25,7 +26,11 @@ const CopyButton = ({ text }: CopyButtonProps) => {
 
   return (
     <div className="flex items-center gap-2">
-      <p className="font-semibold text-lg text-black">{text}</p>
+      <p
+        className={`font-semibold ${value ? "text-sm" : "text-lg"} text-black`}
+      >
+        {text}
+      </p>
 
       <button
         onClick={handleCopy}
