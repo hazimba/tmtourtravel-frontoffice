@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
@@ -7,9 +8,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="h-10 w-10 bg-white rounded flex items-center justify-center text-black font-bold">
-                TM
-              </div>
+              <Image
+                src="/favicon.ico"
+                alt="TM Tour Travel Logo"
+                width={10}
+                height={10}
+                loading="eager"
+                className="object-contain w-auto h-14 pr-4"
+              />
               <div>
                 <h2 className="font-bold text-lg leading-tight">
                   TM Tours & Travel Sdn. Bhd.

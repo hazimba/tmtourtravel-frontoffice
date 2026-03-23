@@ -53,7 +53,7 @@ const AboutUsPage = () => {
       <section className="grid grid-cols-1 md:grid-cols-3 items-stretch min-h-[500px]">
         <div className="relative h-full min-h-[200px]">
           <Image
-            src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/public/package-main-image/90ca676f-7431-40c0-a3ae-03e28cbcf3bf-20260321-001924.webp"
+            src="https://mlapxffieyehdpvuzsyw.supabase.co/storage/v1/object/public/package-main-image/8e61cf3f-28a5-4bd2-b36f-bae411633519-20260323-195915.jpg"
             alt="Our Journey"
             className="absolute inset-0 object-cover md:w-full md:h-full w-[400px] h-[200px]"
             width={800}
@@ -160,53 +160,6 @@ const AboutUsPage = () => {
           </div>
         </div>
       </section>
-
-      {/* <section className="w-full md:py-10">
-        <div className="max-w-5xl mx-auto px-6 md:px-10">
-          <h2 className="text-3xl font-bold mb-12 text-gray-900 flex justify-center">
-            We Are Registered With
-          </h2>
-
-          <div className="bg-white rounded-2xl border shadow-lg p-8 md:p-12">
-            <ul className="space-y-5 text-blue-800 text-lg leading-relaxed">
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 mt-1">•</span>
-                Ministry of Tourism, Art and Culture of Malaysia
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 mt-1">•</span>
-                Ministry of Finance of Malaysia
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 mt-1">•</span>
-                <div>
-                  IATA
-                  <span className="block text-sm text-blue-600 font-normal">
-                    Member Number: 20310522
-                  </span>
-                </div>
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 mt-1">•</span>
-                Malaysia Association of Tour & Travel Agents (MATTA)
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 mt-1">•</span>
-                Bumiputera Travel and Tours Association (BUMITRA)
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 mt-1">•</span>
-                Licence with Tabung Haji for pilgrimage (Hajj)
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section> */}
     </div>
   );
 };
