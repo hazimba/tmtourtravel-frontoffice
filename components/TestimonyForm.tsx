@@ -22,6 +22,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface TestimonyFormProps {
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -102,155 +103,163 @@ const TestimonyForm = ({ setIsOpen, modal = false }: TestimonyFormProps) => {
   };
 
   return (
-    <section className="flex items-start justify-center bg-white p-4 sm:p-6 rounded-lg shadow-md w-full">
-      <Card
-        className={`!border-none px-0 sm:px-2 !shadow-none w-full max-w-xl ${
-          modal ? "h-108 overflow-y-auto" : ""
+    <section className="flex items-center justify-center bg-white p-4 sm:p-6 rounded-lg shadow-md w-full !h-auto">
+      <ScrollArea
+        className={`w-full ${modal ? "h-128" : "h-full"} ${
+          modal ? "max-w-lg" : "max-w-2xl"
         }`}
       >
-        <CardHeader className="text-center space-y-2 p-0 md:mb-6">
-          <CardTitle className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-            Share Your Experience
-          </CardTitle>
-          <CardDescription className="text-xs md:text-base">
-            Your feedback helps us improve and inspires others in the community.
-          </CardDescription>
-        </CardHeader>
+        <Card
+          className={`!border-none px-0 sm:px-2 !shadow-none w-full max-w-xl 
+          }`}
+        >
+          <CardHeader className="text-center space-y-2 p-0 md:mb-6">
+            <CardTitle className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+              Share Your Experience
+            </CardTitle>
+            <CardDescription className="text-xs md:text-base">
+              Your feedback helps us improve and inspires others in the
+              community.
+            </CardDescription>
+          </CardHeader>
 
-        <CardContent className="p-0">
-          <form
-            onSubmit={form.handleSubmit(handleAddTestimonial)}
-            className="space-y-5 sm:space-y-6"
-          >
-            {/* Name & Title Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
-                  <User className="w-4 h-4 text-primary" /> Name
-                </label>
-                <Input
-                  {...form.register("name", { required: true })}
-                  placeholder="e.g. Zakur bin Harun"
-                  className="bg-slate-50/50 focus-visible:ring-primary h-11"
-                />
-              </div>
+          <CardContent className="p-0">
+            <form
+              onSubmit={form.handleSubmit(handleAddTestimonial)}
+              className="space-y-5 sm:space-y-6"
+            >
+              {/* Name & Title Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
+                    <User className="w-4 h-4 text-primary" /> Name
+                  </label>
+                  <Input
+                    {...form.register("name", { required: true })}
+                    placeholder="e.g. Zakur bin Harun"
+                    className="bg-slate-50/50 focus-visible:ring-primary h-11"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
-                  <Briefcase className="w-4 h-4 text-primary" /> Title
-                </label>
-                <Input
-                  {...form.register("title", { required: true })}
-                  placeholder="e.g. Trip to Bali..."
-                  className="bg-slate-50/50 h-11"
-                />
-              </div>
-            </div>
-
-            {/* Textarea - Story */}
-            <div className="space-y-2 w-full">
-              <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
-                <MessageSquare className="w-4 h-4 text-primary" /> Your Story
-              </label>
-              <Textarea
-                {...form.register("quote", { required: true })}
-                placeholder="What was your favorite part of the journey?"
-                className="bg-slate-50/50 w-full resize-none break-words md:h-32 h-16 text-base"
-              />
-            </div>
-
-            {/* Photo Upload */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
-                <ImageIcon className="w-4 h-4 text-primary" /> Display Photo
-              </label>
-
-              <div className="relative group h-8 md:h-20">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                  className="absolute inset-0 opacity-0 cursor-pointer z-10 h-full"
-                />
-
-                <div className="h-full w-full border-2 border-dashed border-slate-200 bg-slate-50/50 hover:border-primary/50 transition flex items-center justify-center relative overflow-hidden rounded-md">
-                  {!selectedFile ? (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-xs text-slate-500 font-medium">
-                        Tap to upload your photo
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="relative h-full w-full flex justify-center">
-                      <Image
-                        width={150}
-                        height={150}
-                        src={URL.createObjectURL(selectedFile)}
-                        alt="Preview"
-                        className="h-full w-auto object-contain"
-                      />
-                    </div>
-                  )}
-
-                  {selectedFile && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setSelectedFile(null);
-                      }}
-                      className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1.5 text-xs hover:bg-black/80 z-20"
-                    >
-                      ✕
-                    </button>
-                  )}
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
+                    <Briefcase className="w-4 h-4 text-primary" /> Title
+                  </label>
+                  <Input
+                    {...form.register("title", { required: true })}
+                    placeholder="e.g. Trip to Bali..."
+                    className="bg-slate-50/50 h-11"
+                  />
                 </div>
               </div>
-            </div>
 
-            {/* Consent Checkbox */}
-            <div className="flex items-start space-x-3 bg-slate-50 p-3 sm:p-4 rounded-lg border border-slate-100">
-              <Checkbox
-                id="publish"
-                className="mt-0.5"
-                onCheckedChange={(checked) =>
-                  form.setValue("is_publish", !!checked)
+              {/* Textarea - Story */}
+              <div className="space-y-2 w-full">
+                <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
+                  <MessageSquare className="w-4 h-4 text-primary" /> Your Story
+                </label>
+                <Textarea
+                  {...form.register("quote", { required: true })}
+                  placeholder="What was your favorite part of the journey?"
+                  className="bg-slate-50/50 w-full resize-none break-words md:h-32 h-16 text-base"
+                />
+              </div>
+
+              {/* Photo Upload */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold flex items-center gap-2 text-slate-700">
+                  <ImageIcon className="w-4 h-4 text-primary" /> Display Photo
+                </label>
+
+                <div className="relative group h-8 md:h-20">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setSelectedFile(e.target.files?.[0] || null)
+                    }
+                    className="absolute inset-0 opacity-0 cursor-pointer z-10 h-full"
+                  />
+
+                  <div className="h-full w-full border-2 border-dashed border-slate-200 bg-slate-50/50 hover:border-primary/50 transition flex items-center justify-center relative overflow-hidden rounded-md">
+                    {!selectedFile ? (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-xs text-slate-500 font-medium">
+                          Tap to upload your photo
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="relative h-full w-full flex justify-center">
+                        <Image
+                          width={150}
+                          height={150}
+                          src={URL.createObjectURL(selectedFile)}
+                          alt="Preview"
+                          className="h-full w-auto object-contain"
+                        />
+                      </div>
+                    )}
+
+                    {selectedFile && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedFile(null);
+                        }}
+                        className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1.5 text-xs hover:bg-black/80 z-20"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Consent Checkbox */}
+              <div className="flex items-start space-x-3 bg-slate-50 p-3 sm:p-4 rounded-lg border border-slate-100">
+                <Checkbox
+                  id="publish"
+                  className="mt-0.5"
+                  onCheckedChange={(checked) =>
+                    form.setValue("is_publish", !!checked)
+                  }
+                  checked={form.watch("is_publish")}
+                />
+                <label
+                  htmlFor="publish"
+                  className="text-xs sm:text-sm text-slate-600 leading-snug cursor-pointer select-none"
+                >
+                  I agree to let my testimonial be shared on the website.
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="w-full h-12 text-base sm:text-lg font-semibold transition-all active:scale-[0.98]"
+                disabled={
+                  isSubmitting ||
+                  !form.watch("is_publish") ||
+                  !form.watch("name") ||
+                  !form.watch("title") ||
+                  !form.watch("quote") ||
+                  !selectedFile
                 }
-                checked={form.watch("is_publish")}
-              />
-              <label
-                htmlFor="publish"
-                className="text-xs sm:text-sm text-slate-600 leading-snug cursor-pointer select-none"
               >
-                I agree to let my testimonial be shared on the website.
-              </label>
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full h-12 text-base sm:text-lg font-semibold transition-all active:scale-[0.98]"
-              disabled={
-                isSubmitting ||
-                !form.watch("is_publish") ||
-                !form.watch("name") ||
-                !form.watch("title") ||
-                !form.watch("quote") ||
-                !selectedFile
-              }
-            >
-              {isSubmitting ? (
-                <span className="flex items-center gap-2">
-                  <span className="animate-spin">◌</span> Sending...
-                </span>
-              ) : (
-                "Post My Testimonial"
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin">◌</span> Sending...
+                  </span>
+                ) : (
+                  "Post My Testimonial"
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </ScrollArea>
     </section>
   );
 };
