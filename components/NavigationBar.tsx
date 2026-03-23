@@ -116,10 +116,36 @@ const NavigationBar = async () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <Link href="/about-us" className={navItemClasses}>
-          About Us
-        </Link>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className={navItemClasses}>
+                About
+              </NavigationMenuTrigger>
 
+              <NavigationMenuContent>
+                <div className="w-48 p-2 flex flex-col gap-1">
+                  <NavigationMenuLink asChild>
+                    <Link href="/about-us" className={itemClass}>
+                      About Us
+                    </Link>
+                  </NavigationMenuLink>
+
+                  <NavigationMenuLink asChild>
+                    <Link href="/gallery" className={itemClass}>
+                      Our Gallery
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link href="/blog" className={itemClass}>
+                      Our Blog
+                    </Link>
+                  </NavigationMenuLink>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
         <Link href="/contact" className={navItemClasses}>
           Contact
         </Link>

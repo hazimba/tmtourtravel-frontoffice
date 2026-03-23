@@ -1,31 +1,14 @@
-import { supabase } from "@/lib/supabaseClient";
-import { ImageSlot } from "./ImageSlot";
-
-const ALBUM_LAYOUT = [
-  { name: "photo-album-1", className: "col-span-2 row-span-2" },
-  { name: "photo-album-2", className: "col-span-1 row-span-3" },
-  { name: "photo-album-3", className: "col-span-2 row-span-1" },
-  { name: "photo-album-4", className: "col-span-1 row-span-2" },
-  { name: "photo-album-5", className: "col-span-1 row-span-3" },
-  { name: "photo-album-6", className: "col-span-1 row-span-2" },
-  { name: "photo-album-7", className: "col-span-1 row-span-3" },
-  { name: "photo-album-8", className: "col-span-1 row-span-2" },
-  { name: "photo-album-9", className: "col-span-1 row-span-1" },
-  { name: "photo-album-10", className: "col-span-1 row-span-1" },
-  { name: "photo-album-11", className: "col-span-2 row-span-1" },
-];
+import ContactEnquiryForm from "../home/ContactUs";
 
 const ContactPage = async () => {
-  const { data: imagesAlbum } = await supabase.from("images_album").select("*");
-
   return (
     <div className="p-4 max-w-7xl mx-auto flex flex-col gap-6">
-      <div className="space-y-4">
+      <div className="space-y-1">
         <div className="flex flex-col gap-4 md:py-8 py-4">
           <h1 className="md:text-3xl text-2xl font-bold text-primary">
             Contact Us!
           </h1>
-          <h2 className="text-lg text-muted-foreground md:max-w-3xl max-w-sm text-sm">
+          <h2 className="md:text-lg text-muted-foreground md:max-w-5xl max-w-sm text-sm">
             We are here to help! Whether you have questions about our tour
             packages, need assistance with your booking, or just want to say
             hello, we do love to hear from you. Reach out to us through the form
@@ -33,16 +16,8 @@ const ContactPage = async () => {
             to providing you with the best travel experience possible.
           </h2>
         </div>
-
-        <div className="grid grid-cols-5 grid-rows-5 gap-1 h-[400px]">
-          {ALBUM_LAYOUT.map((slot) => (
-            <ImageSlot
-              key={slot.name}
-              name={slot.name}
-              className={slot.className}
-              imagesAlbum={imagesAlbum || []}
-            />
-          ))}
+        <div className="bg-white border md:p-2">
+          <ContactEnquiryForm />
         </div>
       </div>
     </div>

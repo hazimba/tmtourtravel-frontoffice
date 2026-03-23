@@ -225,7 +225,7 @@ const TestimonialsPage = () => {
       {loading ? (
         <CurrentlyLoading />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
@@ -263,13 +263,13 @@ const TestimonialsPage = () => {
               </div>
 
               <div className="flex-1 flex flex-col min-w-0">
-                <h3 className="text-lg font-bold text-gray-900 truncate">
+                <h3 className="text-lg font-bold text-gray-900 w-auto flex flex-wrap">
                   {testimonial.name}
                 </h3>
-                <p className="text-sm font-medium text-blue-600 mb-2">
+                <p className="text-sm font-medium text-blue-600 mb-2 w-auto flex flex-wrap">
                   {testimonial.title}
                 </p>
-                <p className="text-sm text-gray-500 line-clamp-3 italic leading-relaxed">
+                <p className="text-sm text-gray-500 line-clamp-3 italic leading-relaxed w-auto flex flex-wrap">
                   {testimonial.quote}
                 </p>
               </div>

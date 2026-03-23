@@ -32,7 +32,7 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
             &ldquo;
           </div>
 
-          <div className="grid grid-cols-3 gap-4 items-center">
+          <div className="grid grid-cols-3 md:gap-4 gap-12 items-center">
             {testimonial.image_url ? (
               <div className="relative col-span-1 w-20 h-20 overflow-hidden rounded-full border-2 border-blue-50 shadow-inner">
                 <Image

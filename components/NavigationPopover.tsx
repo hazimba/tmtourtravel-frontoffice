@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
+  AppWindow,
   Contact,
   Home,
+  ImageIcon,
   Info,
   LayoutDashboard,
   Menu,
@@ -30,7 +32,7 @@ import { Separator } from "./ui/separator";
 
 export default function NavigationPopover() {
   const [open, setOpen] = useState(false);
-  const [accordionOpen, setAccordionOpen] = useState(true || null); // default open
+  const [accordionOpen, setAccordionOpen] = useState(false || null); // default open
 
   const navItemClasses =
     "flex items-center gap-4 px-2 py-3 rounded-md text-sm transition-colors hover:bg-slate-100 tracking-widest";
@@ -152,6 +154,24 @@ export default function NavigationPopover() {
             >
               <Info size={14} className="text-primary mr-4" />
               About Us
+            </Link>
+
+            <Link
+              href="/blog"
+              onClick={() => setOpen(false)}
+              className={navItemClasses}
+            >
+              <AppWindow size={14} className="text-primary mr-4" />
+              Blog
+            </Link>
+
+            <Link
+              href="/gallery"
+              onClick={() => setOpen(false)}
+              className={navItemClasses}
+            >
+              <ImageIcon size={14} className="text-primary mr-4" />
+              Gallery
             </Link>
 
             <Link
