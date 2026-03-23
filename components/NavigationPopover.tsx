@@ -32,7 +32,7 @@ import { Separator } from "./ui/separator";
 
 export default function NavigationPopover() {
   const [open, setOpen] = useState(false);
-  const [accordionOpen, setAccordionOpen] = useState(false || null); // default open
+  const [accordionOpen, setAccordionOpen] = useState<boolean | null>(false);
 
   const navItemClasses =
     "flex items-center gap-4 px-2 py-3 rounded-md text-sm transition-colors hover:bg-slate-100 tracking-widest";
