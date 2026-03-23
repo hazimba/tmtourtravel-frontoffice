@@ -1,31 +1,27 @@
+import { ImageAlbum } from "@/types";
 import Image from "next/image";
 
-const getImage = (name: string, imagesAlbum: any) => {
-  return imagesAlbum?.find((img) => img.name === name)?.image_url;
-};
-
-export const ImageSlot = ({
-  name,
-  className,
-  imagesAlbum,
-}: {
+interface ImageSlotProps {
   name: string;
   className: string;
-  imagesAlbum: any;
-}) => {
-  const url = getImage(name, imagesAlbum);
+  imagesAlbum: ImageAlbum[];
+}
+
+export const ImageSlot = ({ name, className, imagesAlbum }: ImageSlotProps) => {
+  const imageUrl = imagesAlbum.find((img) => img.name === name)?.image_url;
+
   return (
-    <div className={`${className} relative border overflow-hidden bg-muted/10`}>
-      {url ? (
+    <div className={`${className} relative border overflow-hidden bg-muted/20`}>
+      {imageUrl ? (
         <Image
-          src={url}
+          src={imageUrl}
           alt={name}
           fill
-          className="object-cover hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 768px) 50vw, 33vw"
+          className="object-cover hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 33vw, 20vw"
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-foreground uppercase">
+        <div className="flex h-full w-full items-center justify-center text-[8px] text-muted-foreground/40 uppercase">
           {name}
         </div>
       )}

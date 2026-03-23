@@ -1,7 +1,7 @@
 "use client";
 import { PageTitle } from "@/components/admin-ui/PageTitle";
+import AlbumSlot from "@/components/AlbumSlot";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AlbumSlot from "./AlbumSlot";
 
 const ImagesAlbumPage = () => {
   return (
@@ -13,14 +13,14 @@ const ImagesAlbumPage = () => {
         />
       </div>
 
-      <Card className="w-full">
+      <Card className="max-w-7xl w-full rounded-md shadow-none border">
         <CardHeader>
           <CardTitle className="text-muted-foreground">
             Layout Preview & Upload
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-5 grid-rows-5 gap-2 h-[400px] w-full">
+          <div className="grid grid-cols-5 grid-rows-5 gap-1 h-[400px] w-full">
             <AlbumSlot name="photo-album-1" className="col-span-2 row-span-2" />
             <AlbumSlot name="photo-album-2" className="col-span-1 row-span-3" />
             <AlbumSlot name="photo-album-3" className="col-span-2 row-span-1" />

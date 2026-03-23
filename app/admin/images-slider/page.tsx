@@ -66,7 +66,7 @@ const ImageSliderTab = () => {
     <div className="p-6 space-y-6 bg-slate-50/50 h-[calc(99vh-4.5rem)] overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <PageTitle
-          title="Image Slider"
+          title="Images Slider"
           subtitle="Manage and preview your homepage hero banners."
         />
         <AddNewItemManage loading={loading} refetch={fetchSliders} noCreate />

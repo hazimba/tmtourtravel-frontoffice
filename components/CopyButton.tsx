@@ -12,7 +12,7 @@ const CopyButton = ({ text, value }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    if (!text || !value) return;
+    if (!text) return;
 
     try {
       await navigator.clipboard.writeText(value ? value : text);
