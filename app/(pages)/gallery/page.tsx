@@ -73,11 +73,13 @@ const GalleryPage = async () => {
         {/* Horizontal Scroll Container */}
         <div className="relative group">
           <div className="flex md:grid md:grid-cols-4 lg:grid-cols-6 md:gap-8 overflow-x-auto pb-6 snap-x scrollbar-hide">
-            {employees?.map((person) => (
-              <div key={person.id} className="snap-center">
-                <EmployeeCard user={person} />
-              </div>
-            ))}
+            {employees
+              ? employees.map((person) => (
+                  <div key={person.id} className="snap-center">
+                    <EmployeeCard user={person} />
+                  </div>
+                ))
+              : null}
           </div>
 
           {/* Mobile Arrows (Visible only on small screens) */}
