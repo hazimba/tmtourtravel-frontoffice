@@ -23,7 +23,7 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
           transition-all duration-500 ease-out 
           
           /* Hover States */
-          hover:scale-110 hover:shadow-xl hover:z-10 hover:border-blue-100
+          hover:scale-110 hover:z-10 hover:border-blue-100
           cursor-default
         "
         >

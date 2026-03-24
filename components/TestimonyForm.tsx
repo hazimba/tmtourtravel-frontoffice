@@ -105,7 +105,7 @@ const TestimonyForm = ({ setIsOpen, modal = false }: TestimonyFormProps) => {
   return (
     <section className="flex items-center justify-center bg-white p-4 sm:p-6 rounded-lg shadow-md w-full !h-auto">
       <ScrollArea
-        className={`w-full ${modal ? "h-128" : "h-full"} ${
+        className={`w-full ${modal ? "h-128 md:h-full" : "h-full"} ${
           modal ? "max-w-lg" : "max-w-2xl"
         }`}
       >
