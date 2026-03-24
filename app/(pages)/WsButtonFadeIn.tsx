@@ -2,18 +2,27 @@
 
 import WhatsappButton from "@/components/WhatsappButton";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const WsButtonFadeIn = () => {
-  const [showWhatsapp, setShowWhatsapp] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  const isHome = pathname === "/home";
 
   useEffect(() => {
+    if (!isHome) return;
+
     const handleScroll = () => {
-      setShowWhatsapp(window.scrollY > 200);
+      setScrolled(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHome]);
+
+  // ✅ derive final state instead of forcing it
+  const showWhatsapp = isHome ? scrolled : true;
 
   return (
     <div

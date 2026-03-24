@@ -220,7 +220,7 @@ export const onSubmit = async ({
 
     if (updateRedirect === "updateView") {
       toast.success("Successfully update and redirecting to package view...", {
-        className: "!bg-primary !text-white !w-[420px]",
+        className: "!bg-primary !text-white md:!w-[420px]",
         position: "top-center",
       });
       router.push(`/package/${uuid}`);

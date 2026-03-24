@@ -66,7 +66,7 @@ export default async function PackageList({
         <AnimationPureFade key={`${pkg.uuid}-${page}-${limit}`} page={page}>
           <div
             key={pkg.uuid}
-            className="cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col"
+            className="cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col h-full"
           >
             <Link href={`/package/${pkg.uuid}`}>
               <PackageCard pkg={pkg} />

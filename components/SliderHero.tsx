@@ -24,7 +24,7 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
   const next = () => setCurrent((c) => (c + 1) % total);
 
   return (
-    <div className="relative w-full md:h-190 h-120 mx-auto flex items-center justify-center overflow-visible mb-12">
+    <div className="relative w-full md:h-180 h-120 mx-auto flex items-center justify-center overflow-visible mb-12">
       {slides
         ? slides.map((slide, idx) => (
             <div
@@ -55,7 +55,15 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
             <Search className="w-5 h-5 text-muted-foreground" />
             <input
               name="keywords"
-              placeholder="Search for your next destination..."
+              placeholder="Search a keyword for your next destination..."
+              onChange={(e) => {
+                e.target.value = e.target.value.toLowerCase();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === " ") {
+                  e.preventDefault(); // block space
+                }
+              }}
               className="w-full bg-transparent border-none outline-none text-base md:text-base placeholder:text-muted-foreground"
             />
           </div>

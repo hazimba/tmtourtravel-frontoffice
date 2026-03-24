@@ -12,7 +12,6 @@ interface AdminButtonProps {
 
 export default function AdminButton({ userProfile }: AdminButtonProps) {
   const [loading, setLoading] = useState(false);
-  console.log("User Profile:", userProfile); // Debugging line to check userProfile data
 
   return (
     <>

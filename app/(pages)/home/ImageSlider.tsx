@@ -18,7 +18,7 @@ const ImageSliderSection = async () => {
   const repeatCount = 30;
 
   return (
-    <FadeIn>
+    <>
       <div className="marquee-container bg-primary py-4 text-black overflow-hidden whitespace-nowrap">
         <div className="marquee-track text-secondary">
           {Array.from({ length: repeatCount }).map((_, i) => (
@@ -29,7 +29,7 @@ const ImageSliderSection = async () => {
         </div>
       </div>
       <SliderHero slides={imagesSlider} />
-    </FadeIn>
+    </>
   );
 };
 
