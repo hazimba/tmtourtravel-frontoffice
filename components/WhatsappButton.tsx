@@ -45,7 +45,7 @@ const SalesList = ({ salesTeam, mobile }: SalesListProps) => {
                 mobile ? "w-15 h-15" : "w-10 h-10"
               } overflow-hidden rounded-full border border-gray-200`}
             >
-              {staff.avatar_url ? (
+              {staff?.avatar_url ? (
                 <Image
                   src={staff.avatar_url}
                   alt={staff.full_name}
@@ -127,7 +127,10 @@ const WhatsappButton = () => {
             <h3 className="font-bold text-gray-800 mb-2 px-1">
               Pilih Perunding Kami
             </h3>
-            <SalesList salesTeam={salesTeam} mobile />
+            <div className="text-gray-500 text-sm mb-2 px-1">
+              Hubungi perunding melalui WhatsApp.
+            </div>
+            <SalesList salesTeam={salesTeam} />
           </PopoverContent>
         </Popover>
       </div>
@@ -151,7 +154,7 @@ const WhatsappButton = () => {
               </DialogDescription>
             </DialogHeader>
 
-            <SalesList salesTeam={salesTeam} />
+            <SalesList salesTeam={salesTeam} mobile />
 
             <p className="text-center text-[10px] text-gray-400 mt-2">
               Waktu Operasi: 9:00 AM - 6:00 PM

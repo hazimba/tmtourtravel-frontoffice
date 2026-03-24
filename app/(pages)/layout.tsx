@@ -1,6 +1,6 @@
 import AboutUs from "@/components/AboutUs";
 import NavigationBar from "@/components/NavigationBar";
-import WhatsappButton from "@/components/WhatsappButton";
+import WsButtonFadeIn from "./WsButtonFadeIn";
 
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -9,8 +9,8 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
         <NavigationBar />
       </div>
       <main className="min-h-[80vh]">{children}</main>
-      <div className="fixed left-7/10 -translate-x-1/2 bottom-8 z-50">
-        <WhatsappButton />
+      <div className="">
+        <WsButtonFadeIn />
       </div>
       <AboutUs />
     </div>
