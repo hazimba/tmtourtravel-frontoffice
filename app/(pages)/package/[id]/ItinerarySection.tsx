@@ -11,9 +11,13 @@ interface ItinerarySectionProps {
 const ItinerarySection = ({ data }: ItinerarySectionProps) => {
   if (!data?.itinerary?.length) return null;
 
-  const parsedItinerary = data.itinerary.map((item) =>
-    typeof item === "string" ? JSON.parse(item) : item
-  );
+  const parsedItinerary = data.itinerary.map((item: string) => {
+    const parsed = JSON.parse(item);
+    return {
+      ...parsed,
+      description: parsed.description.replace(/\\n/g, "\n"),
+    };
+  });
 
   const totalDays = parsedItinerary.length;
 
@@ -66,7 +70,7 @@ const ItinerarySection = ({ data }: ItinerarySectionProps) => {
               <p className="text-sm font-bold uppercase tracking-wider text-primary">
                 {item.day}
               </p>
-              <p className="text-base leading-relaxed text-slate-600 max-w-3xl">
+              <p className="text-base leading-relaxed text-slate-600 max-w-3xl whitespace-pre-line">
                 {item.description}
               </p>
             </div>

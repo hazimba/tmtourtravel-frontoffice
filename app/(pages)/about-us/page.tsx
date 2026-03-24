@@ -1,5 +1,6 @@
 import { Briefcase, Building2, Map, Plane } from "lucide-react";
 import Image from "next/image";
+import PartnersSection from "../home/Partners";
 
 const AboutUsPage = () => {
   const ourServices = [
@@ -133,10 +134,16 @@ const AboutUsPage = () => {
       </section>
 
       <section className="bg-white md:py-10">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
-            Our Services
+        <div className="flex flex-col max-w-7xl w-full mx-auto px-4 gap-4">
+          <h2
+            id="our-services"
+            className="text-2xl tracking-wide font-medium md:text-4xl"
+          >
+            OUR SERVICES
           </h2>
+          <p className="text-sm md:text-lg text-muted-foreground tracking-widest">
+            We are proud to collaborate with a diverse range of partners.
+          </p>
 
           <div className="relative">
             <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide py-4">
@@ -160,6 +167,7 @@ const AboutUsPage = () => {
           </div>
         </div>
       </section>
+      <PartnersSection />
     </div>
   );
 };

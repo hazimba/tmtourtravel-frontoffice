@@ -45,14 +45,6 @@ const NavigationBar = async () => {
             className="object-contain w-auto md:h-18 h-14"
           />
         </Link>
-
-        <div>
-          {userProfile && (
-            <Badge className="ml-4 text-lg hidden md:inline-flex">
-              Welcome, {userProfile.full_name}!
-            </Badge>
-          )}
-        </div>
       </div>
 
       <div className="flex gap-12 md:hidden">
@@ -150,7 +142,7 @@ const NavigationBar = async () => {
           Contact
         </Link>
 
-        <UserIcon />
+        <UserIcon userProfile={userProfile} />
       </div>
     </nav>
   );

@@ -43,7 +43,6 @@ const HomePage = async ({
       <FormPopup />
       <div className="">
         {siteSetting.show_slider && <ImageSliderSection />}
-        {siteSetting.show_partners && <PartnersSection />}
         <div className="flex flex-col gap-12 md:py-20 md:pt-12 py-12">
           {siteSetting.show_packages && <PackagesSection />}
           {siteSetting.show_contact && <ContactEnquiryForm />}
