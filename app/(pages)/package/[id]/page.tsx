@@ -71,9 +71,9 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <FadeIn>
-      <main className="max-w-7xl mx-auto p-4 md:p-8 font-sans text-slate-900">
+      <main className="max-w-7xl mx-auto p-0 md:p-8 font-sans text-slate-900">
         <HeroCarousel images={images} data={data} />
-        <div className="md:grid grid-cols-1 md:grid-cols-5 gap-8">
+        <div className="md:grid grid-cols-1 px-3 md:p-0 md:grid-cols-5 gap-8">
           <div className="md:col-span-3 space-y-8">
             {/* Overview & Highlights */}
             <OverviewSection data={data} userProfile={userProfile} />
@@ -90,7 +90,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             )}
             <ItinerarySection data={data} />
           </div>
-          <div className="space-y-6 col-span-2 mt-6 md:mt-0">
+          <div className="md:space-y-6 space-y-4 col-span-2 mt-6 md:mt-0">
             <PriceRender selectedPackage={data} />
             <div className="flex flex-col gap-2 pt-4 pb-2">
               <span className="not-italic font-semibold">Important Notes:</span>
@@ -123,7 +123,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
 
-        <footer className="mt-12 pt-4 border-t text-sm text-slate-500 italic space-y-2">
+        <footer className="mt-12 py-4 border-t text-sm text-slate-500 italic space-y-2 px-3 md:px-0">
           <div className="flex justify-between items-center text-xs">
             <div className="flex gap-2 md:flex-row flex-col">
               <div className="text-sm text-muted-foreground uppercase font-semibold">

@@ -51,7 +51,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
       {/* 1. TOP PART: IMAGE & OVERLAY */}
       <div
         onClick={toggleOverlay}
-        className="group relative h-[400px] w-full rounded-t-lg overflow-hidden shadow-lg cursor-pointer select-none bg-slate-200"
+        className="group relative h-[400px] w-full md:rounded-t-lg overflow-hidden shadow-lg cursor-pointer select-none bg-slate-200"
       >
         {/* Images */}
         {images.map((img, index) => (

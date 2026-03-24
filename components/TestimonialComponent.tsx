@@ -16,7 +16,7 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
         <div
           key={i}
           className="
-          relative border border-gray-100 w-full max-w-[280px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
+          relative border border-gray-100 w-full max-w-[260px] md:min-h-[250px] h-[260px] p-6 rounded-2xl bg-white 
           flex flex-col gap-4 shadow-sm flex-shrink-0 justify-between
           
           /* Smooth Transition Logic */

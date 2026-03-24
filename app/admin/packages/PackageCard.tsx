@@ -17,10 +17,15 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
   }
 
   return (
-    <div className="group flex flex-col h-full overflow-hidden border rounded-xl bg-card shadow-sm transition-all hover:shadow-md">
+    <div
+      className="group flex flex-col h-full overflow-hidden bg-card transition-all hover:shadow-md h-full"
+      // id="package-results"
+    >
       <div
         className={`relative ${
-          admin ? "md:aspect-[8/3] aspect-[12/3]" : "aspect-[5/3]"
+          admin
+            ? "md:aspect-[8/3] aspect-[12/3]"
+            : "md:aspect-[5/3] aspect-[12/5]"
         } w-full overflow-hidden shrink-0`}
       >
         {pkg.main_image_url ? (
@@ -38,11 +43,11 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                 <div className="absolute right-0 z-10 flex flex-col items-end gap-2">
                   {pkg.tags && pkg.tags.length > 0 && (
                     <div className="flex flex-wrap justify-end gap-1.5">
-                      {/* <TagsRender tags={pkg.tags} /> */}
+                      <TagsRender tags={pkg.tags} />
                     </div>
                   )}
                 </div>
-                <div className="absolute bottom-3 right-3 z-10 flex flex-col items-end gap-2">
+                <div className="absolute md:bottom-3 bottom-24 right-3 z-10 flex flex-col items-end gap-2">
                   {savingsPercent(pkg) > 0 && (
                     <Badge
                       variant="secondary"
@@ -77,10 +82,10 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
           </Badge>
         )}
       </div>
-      <div className="flex flex-col p-4 flex-1">
+      <div className="flex flex-col p-4 flex-1 h-full">
         <div
           className={`flex items-center justify-between mb-2 ${
-            admin ? "" : "md:h-12 h-6"
+            admin ? "" : "md:h-12 h-full"
           }`}
         >
           <span className="text-[10px] font-mono text-gray-600 uppercase tracking-wider">
@@ -97,7 +102,11 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
         >
           {pkg.title}
         </h3>
-        <p className="text-sm text-gray-600 line-clamp-1 mb-4 min-h-5 hidden md:block truncate">
+        <p
+          className={`text-sm text-gray-600 line-clamp-2 truncate" ${
+            admin ? "hidden" : "min-h-[2.5rem]"
+          }`}
+        >
           {pkg.subtitle}
         </p>
         {!admin && (
@@ -106,10 +115,10 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
               <span className="text-xs font-thin text-gray-500">from </span>
               <>
                 <span className="text-lg font-bold text-primary">
-                  RM {pkg.price_from}
+                  RM {pkg.price_from}/ <span className="text-xs">pax</span>
                 </span>
                 <div className="flex flex-col items-center gap-2">
-                  <span className="text-xs text-green-800 line-through hidden md:block">
+                  <span className="text-xs text-green-800 line-through">
                     RM {pkg.price_original}
                   </span>
                   {/* <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-bold text-green-600 ring-1 ring-inset ring-green-500/20">
@@ -118,9 +127,6 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
                 </div>
               </>
             </div>
-            <span className="text-[8px] text-gray-600 uppercase">
-              Per Person
-            </span>
           </div>
         )}
         <div className="mt-auto pt-4 border-t flex items-center justify-between gap-2 text-[11px] text-gray-600">
