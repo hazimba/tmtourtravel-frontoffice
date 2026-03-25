@@ -76,7 +76,37 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
         </form>
       </div>
 
-      {/* Slide Indicators (Dots) - Moved up slightly to avoid search bar overlap */}
+      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4">
+        <form
+          action="/package"
+          method="GET"
+          className="flex items-center bg-white rounded-full border p-1.5 md:p-2"
+        >
+          <div className="flex-1 flex items-center px-4 gap-2">
+            <Search className="w-5 h-5 text-muted-foreground" />
+            <input
+              name="keywords"
+              placeholder="Search a keyword for your next destination..."
+              onChange={(e) => {
+                e.target.value = e.target.value.toLowerCase();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === " ") {
+                  e.preventDefault(); // block space
+                }
+              }}
+              className="w-full bg-transparent border-none outline-none text-base md:text-base placeholder:text-muted-foreground"
+            />
+          </div>
+          <Button
+            type="submit"
+            className="rounded-full px-6 md:px-8 bg-primary hover:bg-primary/90"
+          >
+            Search
+          </Button>
+        </form>
+      </div>
+
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
         {slides?.map((_, idx) => (
           <button

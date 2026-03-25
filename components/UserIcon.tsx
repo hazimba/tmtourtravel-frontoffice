@@ -22,7 +22,7 @@ export default function AdminButton({ userProfile }: AdminButtonProps) {
           className="ml-4 p-2 rounded-full hover:bg-secondary/50 transition-colors flex items-center justify-center"
         >
           {loading ? (
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            <Loader2 className="w-10 h-10 animate-spin text-primary" />
           ) : userProfile?.avatar_url ? (
             <Image
               width={24}

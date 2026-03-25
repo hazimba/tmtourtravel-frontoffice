@@ -17,11 +17,11 @@ interface PackagesRenderProps {
 
 export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
   return (
-    <div className="max-w-7xl w-full mx-auto px-2 flex items-center overflow-x-auto gap-6 py-4 scrollbar-hide">
+    <div className="max-w-7xl w-full mx-auto md:px-2 flex items-center overflow-x-auto gap-6 py-4 scrollbar-hide">
       {packages.length > 0 ? (
         packages.map((pkg: Package, index: number) => (
           <Link key={index} href={`/package/${pkg.uuid}`}>
-            <div className="shadow-md relative flex-shrink-0 md:w-78 w-68 md:h-102 h-96 bg-white rounded-xl border border-gray-200 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
+            <div className="shadow-md relative flex-shrink-0 md:w-78 w-68 md:h-100 h-96 bg-white rounded-xl border border-gray-300 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
               <TagsRender tags={pkg.tags || []} />
               {pkg.main_image_url ? (
                 <Image
@@ -48,10 +48,10 @@ export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
                     </h3>
                   </div>
 
-                  <p className="text-gray-400 text-xs md:text-sm truncate">
+                  <p className="text-gray-700 text-xs md:text-sm line-clamp-2">
                     {pkg.subtitle}
                   </p>
-                  <p className="text-gray-700 text-xs md:text-sm truncate mt-1">
+                  <p className="text-gray-400 text-xs md:text-sm truncate mt-1">
                     {pkg.highlight || "Explore more"}
                   </p>
                 </div>
@@ -62,16 +62,14 @@ export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
                     </span>
                     <>
                       <span className="text-lg font-bold text-primary">
-                        RM {pkg.price_from || getRandomPrice()}
+                        RM {pkg.price_from || getRandomPrice()}{" "}
+                        <span className="text-sm">/ pax</span>
                       </span>
-                      <span className="text-xs text-gray-400 line-through">
+                      <span className="text-xs text-gray-600 line-through">
                         RM {pkg.price_original || getRandomPrice()}
                       </span>
                     </>
                   </div>
-                  <span className="text-[8px] text-muted-foreground uppercase">
-                    Per Person
-                  </span>
                 </div>
 
                 <div className="flex gap-2 justify-between items-center border-t pt-2">
@@ -79,7 +77,7 @@ export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
                     variant="outline"
                     className="text-[10px] font-medium truncate max-w-[120px]"
                   >
-                    {pkg.route || "No Route Info"}
+                    {pkg.country || "No Route Info"}
                   </Badge>
                   <Badge
                     variant="link"
