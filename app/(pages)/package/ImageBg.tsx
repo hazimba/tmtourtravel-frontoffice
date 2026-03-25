@@ -23,7 +23,7 @@ const ImageBg = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 w-full h-[400px] md:h-[300px] -z-10 overflow-hidden">
+    <div className="absolute top-0 left-0 w-full h-[400px] md:h-[330px] -z-10 overflow-hidden">
       <Image
         src={getImage()}
         fill

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
 import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 
 const PackagesSection = async () => {
   const supabase = await createClient();
@@ -47,15 +48,15 @@ const PackagesSection = async () => {
   ];
 
   return (
-    <>
+    <div className="bg-[#F4F4F8] pt-12">
       {packageSections.map((section) => (
         <div
           id={section.type}
           key={section.type}
-          className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0"
+          className="flex flex-col max-w-7xl w-full mx-auto px-4 pb-12 md:px-0"
         >
           <div className="md:mb-6 mb-4 flex justify-between">
-            <div className="flex flex-col gap-2 md:w-4/5 w-2/3">
+            <div className="flex flex-col gap-2 md:w-4/5 w-5/6">
               <h2
                 id="our-partners"
                 key={"our-partners"}
@@ -85,11 +86,11 @@ const PackagesSection = async () => {
           </FadeIn>
         </div>
       ))}
-      <ProductImageRender
+      {/* <ProductImageRender
         micePackage={packages.filter((i: Package) => i.type === "MICE")}
-      />
-      <section className="bg-white md:py-20 py-12 w-full overflow-y-auto">
-        <div className="flex flex-col gap-2 md:w-4/5 w-2/3 md:mx-auto max-w-7xl px-4 md:px-0 mb-6">
+      /> */}
+      <section className="bg-white md:pt-20 py-12 w-full overflow-y-auto">
+        <div className="flex flex-col gap-2 w-full md:mx-auto max-w-7xl px-4 md:px-0 mb-6">
           <h2
             id="categories"
             key={"categories"}
@@ -97,7 +98,7 @@ const PackagesSection = async () => {
           >
             EXPLORE BY CATEGORY
           </h2>
-          <p className="text-sm md:text-lg text-gray-800 tracking-widest">
+          <p className="text-sm md:text-lg md:w-4/5 w-4/5 text-gray-800 tracking-widest">
             Discover our diverse range of travel packages categorized to suit
           </p>
         </div>
@@ -127,7 +128,7 @@ const PackagesSection = async () => {
           ))}
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

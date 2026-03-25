@@ -302,7 +302,7 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col gap-2 justify-between">
           <Label>Location</Label>
           {/* <Input placeholder="Enter location" {...register("location")} /> */}
-          <Select
+          {/* <Select
             value={watch("location")}
             onValueChange={(val) =>
               setValue("location", val, { shouldDirty: true })
@@ -318,7 +318,8 @@ const CreateEditFormLeft = ({
                 <SelectItem value="International">International</SelectItem>
               </SelectGroup>
             </SelectContent>
-          </Select>
+          </Select> */}
+          <Input placeholder="Enter location" {...register("location")} />
         </div>
 
         <div className="flex flex-col gap-2 justify-between">
