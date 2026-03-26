@@ -4,8 +4,8 @@ import TagsRender from "@/components/TagsRender";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  ChevronLeft,
-  ChevronRight,
+  ArrowLeft,
+  ArrowRight,
   MessageSquareShareIcon,
   TouchpadOff,
 } from "lucide-react";
@@ -51,7 +51,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
       {/* 1. TOP PART: IMAGE & OVERLAY */}
       <div
         onClick={toggleOverlay}
-        className="group relative h-[400px] w-full md:rounded-t-lg overflow-hidden shadow-lg cursor-pointer select-none bg-slate-200"
+        className="group relative md:h-[450px] h-[460px] w-full md:rounded-t-lg overflow-hidden shadow-lg cursor-pointer select-none bg-slate-200"
       >
         {/* Images */}
         {images.map((img, index) => (
@@ -109,9 +109,9 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
               size="icon"
               variant="ghost"
               onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/20 backdrop-blur-md hover:bg-black/40 text-white pointer-events-auto"
+              className="absolute left-4 top-2/5 -translate-y-1/2 md:w-10 md:h-10 w-7 h-7 rounded-full bg-black/20 backdrop-blur-md hover:bg-secondary text-white pointer-events-auto"
             >
-              <ChevronLeft size={18} />
+              <ArrowLeft className="w-6 h-6" />
             </Button>
             <Button
               key={"next"}
@@ -119,12 +119,27 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
               size="icon"
               variant="ghost"
               onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/20 backdrop-blur-md hover:bg-black/40 text-white pointer-events-auto"
+              className="absolute right-4 top-2/5 -translate-y-1/2 md:w-10 md:h-10 w-7 h-7 rounded-full bg-black/20 backdrop-blur-md hover:bg-secondary text-white pointer-events-auto"
             >
-              <ChevronRight size={18} />
+              <ArrowRight className="w-6 h-6" />
             </Button>
           </div>
         )}
+
+        {/* <div className="absolute inset-0 flex items-center justify-between px-4 max-w-7xl mx-auto">
+          <Button
+            onClick={prevImage}
+            className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
+          <Button
+            onClick={nextImage}
+            className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none"
+          >
+            <ArrowRight className="w-6 h-6" />
+          </Button>
+        </div> */}
 
         <Button
           onClick={handleWhatsAppClick}
