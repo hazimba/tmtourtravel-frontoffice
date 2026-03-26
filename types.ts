@@ -159,6 +159,7 @@ export interface Package {
   status: PackageStatus;
   created_at: Date;
   updated_at: Date;
+  sales_id: string;
 }
 
 export interface ImageSlider {

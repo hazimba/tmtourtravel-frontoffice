@@ -23,7 +23,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
   const userPromise = supabase.auth.getUser();
   const packagePromise = supabase
     .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
-    .select("*")
+    .select("*, profiles (full_name, phone)")
     .eq("uuid", id)
     .single();
 
@@ -68,7 +68,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
   }
 
   const images = [data.main_image_url, ...data.sub_image_urls];
-
+  console.log("data", data);
   return (
     <FadeIn>
       <main className="max-w-7xl mx-auto p-0 md:p-8 font-sans text-slate-900">
