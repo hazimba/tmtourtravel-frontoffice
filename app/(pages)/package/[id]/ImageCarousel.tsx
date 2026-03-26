@@ -37,9 +37,12 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
     setHasInteracted(true);
   };
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/package/${data.uuid}`;
-
   const handleWhatsAppClick = (e: React.MouseEvent) => {
+    const baseUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://tmtourtravel-frontoffice.vercel.app"
+        : "http://localhost:3000";
+
     e.stopPropagation();
 
     const rawPhone = data.profiles?.phone || "60176037054";
@@ -50,7 +53,7 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
     const message = encodeURIComponent(
       `Hi, saya berminat dengan pakej ${title}. Bolehkah saya dapatkan maklumat lanjut?
 
-ref: ${shareUrl}`
+ref: ${baseUrl}/package/${data.uuid}`
     );
 
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
