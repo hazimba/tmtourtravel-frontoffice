@@ -54,7 +54,7 @@ const WhyChooseUs = () => {
               </div>
             ))}
           </div>
-          <div className="text-center space-y-3 pb-12 md:pb-0 cursor-pointer">
+          <div className="text-center space-y-3 md:pb-0 cursor-pointer">
             <p className="group text-muted-foreground text-sm md:text-base text-left">
               Komitmen kami adalah memberikan pengalaman pelancongan yang{" "}
               <span className="relative inline-block text-primary">

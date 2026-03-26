@@ -14,12 +14,12 @@ const TestimonialSection = async () => {
 
   return (
     <FadeIn>
-      <div className="md:pt-20 py-12 bg-white flex flex-col gap-8">
+      <div className="md:py-24 py-12 bg-white flex flex-col gap-8">
         <div className="flex flex-col w-full max-w-7xl mx-auto px-4 gap-4">
           <div className="flex flex-row justify-between gap-2">
             <h2
               id="our-partners"
-              className="text-2xl tracking-wide font-medium md:text-4xl"
+              className="text-2xl font-medium md:text-4xl text-underline"
             >
               TESTIMONIAL
             </h2>

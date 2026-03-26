@@ -21,13 +21,13 @@ export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
       {packages.length > 0 ? (
         packages.map((pkg: Package, index: number) => (
           <Link key={index} href={`/package/${pkg.uuid}`}>
-            <div className="shadow-md relative flex-shrink-0 md:w-78 w-68 md:h-100 h-96 bg-white rounded-xl border border-gray-300 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
+            <div className="shadow-md relative flex-shrink-0 md:w-88 w-68 md:h-110 h-96 bg-white rounded-xl border border-gray-300 flex flex-col overflow-hidden cursor-pointer transition-all duration-300 ease-in-out hover:border-2 hover:border-primary hover:scale-105 ">
               <TagsRender tags={pkg.tags || []} />
               {pkg.main_image_url ? (
                 <Image
                   src={pkg.main_image_url}
                   alt="Travel"
-                  className="w-full h-40 object-cover"
+                  className="w-full h-40 md:h-48 object-cover"
                   width={400}
                   height={200}
                   loading="eager"
@@ -48,11 +48,14 @@ export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
                     </h3>
                   </div>
 
-                  <p className="text-gray-700 text-xs md:text-sm line-clamp-2">
+                  <p className="text-gray-700 text-xs md:text-sm leading-5 md:leading-6 line-clamp-2 min-h-[2.5rem] md:min-h-[3rem]">
                     {pkg.subtitle}
                   </p>
                   <p className="text-gray-400 text-xs md:text-sm truncate mt-1">
-                    {pkg.highlight || "Explore more"}
+                    {pkg.highlight ||
+                      `Experience the beautiful ${
+                        pkg.country || "destinations"
+                      }`}
                   </p>
                 </div>
                 <div className="md:mt-3 mt-1 mb-2">

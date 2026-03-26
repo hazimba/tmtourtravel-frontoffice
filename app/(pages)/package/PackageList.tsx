@@ -12,6 +12,7 @@ interface Props {
   keywords?: string;
   page?: number;
   limit?: number;
+  sort?: string;
 }
 
 export default async function PackageList({
@@ -21,6 +22,7 @@ export default async function PackageList({
   keywords,
   page = 1,
   limit = 4,
+  sort,
 }: Props) {
   const supabase = await createClient();
   const from = (page - 1) * limit;
@@ -28,16 +30,42 @@ export default async function PackageList({
 
   let query = supabase
     .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
-    .select("*", { count: "exact" });
+    .select("*", { count: "exact" })
+    .neq("type", "MICE");
 
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
   if (type && type !== "all") query = query.eq("type", type);
   if (keywords) query = query.contains("keywords", [keywords]);
 
-  const { data, count, error } = await query
-    .order("created_at", { ascending: true })
-    .range(from, to);
+  const { data, count, error } = await query.order("created_at", {
+    ascending: false,
+  });
+
+  let sortedData = data || [];
+
+  if (sort === "price_low") {
+    sortedData = sortedData.sort(
+      (a, b) =>
+        Number(a.price_original?.replace(/[^\d]/g, "")) -
+        Number(b.price_original?.replace(/[^\d]/g, ""))
+    );
+  }
+
+  if (sort === "price_high") {
+    sortedData = sortedData.sort(
+      (a, b) =>
+        Number(b.price_original?.replace(/[^\d]/g, "")) -
+        Number(a.price_original?.replace(/[^\d]/g, ""))
+    );
+  }
+
+  if (sort === "latest") {
+    sortedData.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+  }
 
   if (error || !data || data.length === 0) {
     return (
@@ -47,6 +75,8 @@ export default async function PackageList({
     );
   }
 
+  const paginatedData = sortedData.slice(from, to + 1);
+
   const totalPages = Math.ceil((count || 0) / limit);
 
   const getUrl = (newPage: number, newLimit: number) => {
@@ -55,6 +85,7 @@ export default async function PackageList({
     if (country) params.set("country", country);
     if (type) params.set("type", type);
     if (keywords) params.set("keywords", keywords);
+    if (sort) params.set("sort", sort);
     params.set("page", newPage.toString());
     params.set("limit", newLimit.toString());
     return `?${params.toString()}`;
@@ -62,7 +93,7 @@ export default async function PackageList({
 
   return (
     <>
-      {data.map((pkg) => (
+      {paginatedData.map((pkg) => (
         <AnimationPureFade key={`${pkg.uuid}-${page}-${limit}`} page={page}>
           <div
             key={pkg.uuid}

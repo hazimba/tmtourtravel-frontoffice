@@ -17,7 +17,7 @@ const TestimonySubmission = () => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
+          variant="default"
           className="cursor-pointer text-xs md:text-xs tracking-widest"
         >
           Give Feedback!
