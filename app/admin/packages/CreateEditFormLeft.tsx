@@ -82,7 +82,7 @@ const CreateEditFormLeft = ({
       .order("full_name", { ascending: true });
 
     if (data) {
-      setSalesPersons(data);
+      setSalesPersons(data as User[]);
     }
   };
 
