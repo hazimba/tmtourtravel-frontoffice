@@ -23,6 +23,7 @@ import {
   PackageSession,
   PackageStatus,
   Tags,
+  User,
 } from "../../../types";
 
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   startOfDay,
   endOfDay,
@@ -52,6 +53,7 @@ import {
   isAfter,
   isWithinInterval,
 } from "date-fns";
+import { supabase } from "@/lib/supabaseClient";
 
 interface CreateEditFormLeftProps {
   watch: ReturnType<typeof useForm<PackageFormValues>>["watch"];
@@ -70,6 +72,27 @@ const CreateEditFormLeft = ({
   setSubImageSelect,
   editMode = false,
 }: CreateEditFormLeftProps) => {
+  const [salesPersons, setSalesPersons] = useState<User[]>([]);
+
+  const fetchSalesPersons = async () => {
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, full_name")
+      .eq("department", "SALES")
+      .order("full_name", { ascending: true });
+
+    if (data) {
+      setSalesPersons(data);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchSalesPersons();
+    };
+    fetchData();
+  }, []);
+
   const mealPlanOptions = Object.values(MealPlan);
   const appearanceOptions = Object.values(Appearance);
   const sessionOptions = Object.values(PackageSession);
@@ -230,6 +253,27 @@ const CreateEditFormLeft = ({
         <div className="flex flex-col gap-2 justify-between">
           <Label>Type</Label>
           <SelectType watch={watch} setValue={setValue} />
+        </div>
+        <div className="flex flex-col gap-2 justify-between">
+          <Label>Sales Person In Charge</Label>
+          <Select
+            value={watch("sales_id")}
+            onValueChange={(val) => setValue("sales_id", val)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select sales person" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sales Person</SelectLabel>
+                {salesPersons.map((person) => (
+                  <SelectItem key={person.id} value={person.id}>
+                    {person.full_name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <Separator className="mt-4" />

@@ -37,12 +37,22 @@ export const HeroCarousel = ({ images, data }: HeroCarouselProps) => {
     setHasInteracted(true);
   };
 
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/package/${data.uuid}`;
+
   const handleWhatsAppClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const phoneNumber = "+60176037054";
+
+    const rawPhone = data.profiles?.phone || "60176037054";
+    const phoneNumber = rawPhone.replace(/\D/g, "").replace(/^0/, "60");
+
+    const title = data.title || "Travel Package";
+
     const message = encodeURIComponent(
-      `Hi, saya berminat dengan pakej "${data.title}". Bolehkah saya dapatkan maklumat lanjut?`
+      `Hi, saya berminat dengan pakej ${title}. Bolehkah saya dapatkan maklumat lanjut?
+
+ref: ${shareUrl}`
     );
+
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
 

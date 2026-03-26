@@ -47,6 +47,7 @@ export const usePackageForm = () => {
       package_freebies: [],
       additional_remarks: [],
       status: undefined,
+      sales_id: undefined,
     },
   });
 };
