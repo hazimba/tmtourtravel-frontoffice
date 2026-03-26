@@ -2,6 +2,7 @@ import { Testimonial } from "@/types";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "./ui/scroll-area";
+import { Button } from "./ui/button";
 
 interface TestimonialProps {
   testimonials: Testimonial[];
@@ -81,11 +82,19 @@ const TestimonialCards = async ({ testimonials }: TestimonialProps) => (
     ) : (
       <>
         <div>
-          <ArrowLeft className="absolute left-5 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
+          <ArrowLeft className="absolute left-5 top-1/2 -translate-y-1/2 text-white bg-black/20 rounded-full p-1 md:w-10 md:h-10 w-7 h-7 " />
         </div>
         <div>
-          <ArrowRight className="absolute right-5 top-1/2 -translate-y-1/2 text-white bg-blue-400/50 rounded-full p-1 w-5 h-5" />
+          <ArrowRight className="absolute right-5 top-1/2 -translate-y-1/2 text-white bg-black/20 rounded-full p-1 md:w-10 md:h-10 w-7 h-7 " />
         </div>
+        {/* <div className="absolute inset-0 flex items-center justify-between px-4 max-w-7xl mx-auto">
+          <Button className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none">
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
+          <Button className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none">
+            <ArrowRight className="w-6 h-6" />
+          </Button>
+        </div> */}
       </>
     )}
   </div>

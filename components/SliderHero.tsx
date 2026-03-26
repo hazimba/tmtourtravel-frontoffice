@@ -128,13 +128,13 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
       <div className="absolute inset-0 flex items-center justify-between px-4 max-w-7xl mx-auto">
         <Button
           onClick={prev}
-          className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center z-20 border-none"
+          className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none"
         >
           <ArrowLeft className="w-6 h-6" />
         </Button>
         <Button
           onClick={next}
-          className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center z-20 border-none"
+          className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none"
         >
           <ArrowRight className="w-6 h-6" />
         </Button>
