@@ -33,23 +33,32 @@ const PriceRender = ({ selectedPackage }: PriceRenderProps) => {
           </div>
         </div>
 
-        {/* Bottom Section: Price Range/Estimates */}
-        <div className="p-4 grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <p className="text-[10px] uppercase font-bold text-green-800">
-              Price From
-            </p>
-            <p className="text-sm font-medium">
-              RM {selectedPackage.price_from}
+        {selectedPackage.price_from && selectedPackage.price_to ? (
+          <div className="p-4 grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <p className="text-[10px] uppercase font-bold text-green-800">
+                Price From
+              </p>
+              <p className="text-sm font-medium">
+                RM {selectedPackage.price_from}
+              </p>
+            </div>
+            <div className="space-y-1 text-right border-l pl-4">
+              <p className="text-[10px] uppercase font-bold text-green-800">
+                Price To
+              </p>
+              <p className="text-sm font-medium">
+                RM {selectedPackage.price_to}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="p-4">
+            <p className="text-sm text-green-800 italic">
+              Price range not available for this package.
             </p>
           </div>
-          <div className="space-y-1 text-right border-l pl-4">
-            <p className="text-[10px] uppercase font-bold text-green-800">
-              Price To
-            </p>
-            <p className="text-sm font-medium">RM {selectedPackage.price_to}</p>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

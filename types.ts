@@ -157,6 +157,8 @@ export interface Package {
   package_freebies: string[];
   additional_remarks: string[];
   status: PackageStatus;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface ImageSlider {

@@ -1,12 +1,15 @@
 import { PackagesRender } from "@/components/PackagesRender";
-import ProductImageRender from "@/components/ProductImageRender";
 import { Category, Package } from "@/types";
 // import { supabase } from "@/lib/supabaseClient";
-import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createClient } from "@/lib/supabase/server";
+import { capitalize } from "lodash";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const PackagesSection = async () => {
   const supabase = await createClient();
@@ -22,15 +25,39 @@ const PackagesSection = async () => {
     .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
     .select("*")
     .eq("is_publish", true)
+    .neq("type", "MICE")
     .order("web_priority", { ascending: false });
 
   if (pkgErr) throw new Error(pkgErr.message);
 
+  const now = new Date();
+  const createdDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+
+  const latestPackages =
+    packages
+      ?.filter((p: Package) => {
+        const created = new Date(p.created_at);
+        return created >= createdDaysAgo && created <= now;
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      ) || [];
+
+  const groupedByType = (type: string) =>
+    packages?.filter((p: Package) => p.type === type) || [];
+
   const packageSections = [
+    {
+      label: "TERBARU",
+      type: "TERBARU",
+      description: "Our newest packages this month with exclusive offers.",
+      nav: "/package?sort=latest",
+    },
     {
       label: "JELAJAH MANIA",
       type: "GROUP",
-      description: "Explore our Signature Tour",
+      description: "Explore our Signature Group Tour",
       nav: "/package?title=&country=&type=GROUP",
     },
     {
@@ -48,8 +75,8 @@ const PackagesSection = async () => {
   ];
 
   return (
-    <div className="bg-[#F4F4F8] pt-12">
-      {packageSections.map((section) => (
+    <div className="pt-12">
+      {/* {packageSections.map((section) => (
         <div
           id={section.type}
           key={section.type}
@@ -85,18 +112,106 @@ const PackagesSection = async () => {
             />
           </FadeIn>
         </div>
-      ))}
+      ))} */}
+      <div className="bg-[#F9FAFB] w-full">
+        <Separator className="" />
+        <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:py-24 py-12 md:px-0">
+          <h2
+            id="categories"
+            key={"categories"}
+            className="text-2xl font-semibold md:text-4xl text-underline"
+          >
+            <span className="text-primary">PELBAGAI PAKEJ MENARIK</span>{" "}
+            <span className="font-medium">UNTUK ANDA PILIH</span>
+          </h2>
+          <Tabs defaultValue="TERBARU" className="w-full pt-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between md:mb-6 gap-4">
+              <div className="overflow-x-auto pb-2 md:pb-0 h-12 scrollbar-hide">
+                <TabsList className="h-auto bg-[#F9FAFB] p-0 flex justify-start gap-8 border-b rounded-none w-max gap-1 md:gap-8">
+                  {packageSections.map((section) => (
+                    <TabsTrigger
+                      key={section.type}
+                      value={section.type}
+                      className="
+                      relative
+                      text-gray-400
+                      cursor-pointer
+                      data-[state=active]:text-primary
+                      border-b-2 !border-none !shadow-none
+                      !bg-[#F9FAFB]
+                      data-[state=active]:border-b-4
+                      rounded-none px-2 pb-2 text-xl font-medium
+                      transition-all    
+                    "
+                    >
+                      {section.label}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+            </div>
+
+            {/* Tab Content Areas */}
+            {packageSections.map((section) => (
+              <TabsContent
+                key={section.type}
+                value={section.type}
+                className="mt-0 focus-visible:outline-none"
+              >
+                {/* Header Info for the active Tab */}
+                <div className="flex justify-between items-center">
+                  <p className="text-sm h-full text-gray-600 hidden md:block">
+                    {section.description}
+                  </p>
+                  <div></div>
+
+                  <Link
+                    href={section.nav}
+                    className="flex items-center gap-2 text-primary font-medium"
+                  >
+                    <Button
+                      variant="link"
+                      size="lg"
+                      className="!px-0 hover:text-black cursor-pointer"
+                    >
+                      View {capitalize(section.label)}{" "}
+                      <ArrowRight size={14} className="inline ml-1" />
+                    </Button>
+                  </Link>
+                </div>
+
+                {/* Content Display */}
+                <FadeIn>
+                  {section.type === "TERBARU" ? (
+                    <PackagesRender type="TERBARU" packages={latestPackages} />
+                  ) : (
+                    <PackagesRender
+                      type={section.type}
+                      packages={groupedByType(section.type)}
+                    />
+                  )}
+                </FadeIn>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+        <Separator className="" />
+      </div>
       {/* <ProductImageRender
         micePackage={packages.filter((i: Package) => i.type === "MICE")}
       /> */}
-      <section className="bg-white md:pt-20 py-12 w-full overflow-y-auto">
+      <div className="bg-white md:py-24 py-12 w-full overflow-y-auto">
         <div className="flex flex-col gap-2 w-full md:mx-auto max-w-7xl px-4 md:px-0 mb-6">
           <h2
             id="categories"
             key={"categories"}
             className="text-2xl tracking-wide font-medium md:text-4xl text-underline"
+            // className="text-2xl font-semibold md:text-4xl text-underline"
           >
-            EXPLORE BY CATEGORY
+            EXPLORE BY{" "}
+            <span className="text-2xl font-semibold md:text-4xl text-underline text-primary">
+              CATEGORY
+            </span>
           </h2>
           <p className="text-sm md:text-lg md:w-4/5 w-4/5 text-gray-800 tracking-widest">
             Discover our diverse range of travel packages categorized to suit
@@ -127,7 +242,7 @@ const PackagesSection = async () => {
             </Link>
           ))}
         </div>
-      </section>
+      </div>
     </div>
   );
 };

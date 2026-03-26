@@ -38,11 +38,10 @@ export default function NavigationPopover() {
     "flex items-center gap-4 px-2 py-3 rounded-md text-sm transition-colors hover:bg-slate-100 tracking-widest";
 
   return (
-    // Positioning the trigger at the top right
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-3 right-8 z-50">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild className="flex items-center justify-center">
-          <button className="p-2 bg-white border rounded-full shadow-sm hover:bg-slate-50 transition-all">
+          <button className="p-2 bg-white border rounded-sm hover:bg-slate-50 transition-all">
             <Menu className="h-6 w-6 text-slate-800" />
           </button>
         </SheetTrigger>
