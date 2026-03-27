@@ -15,6 +15,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import ImageBg from "./ImageBg";
 import PackageList from "./PackageList";
+import CurrentlyLoadingIcon from "@/components/CurrentlyLoadingIcon";
+import SearchButton from "./SearchButton";
 
 interface PackagePageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -114,7 +116,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                   <SelectContent>
                     <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="UMRAH">UMRAH</SelectItem>
-                    <SelectItem value="MICE">MICE</SelectItem>
+                    {/* <SelectItem value="MICE">MICE</SelectItem> */}
                     <SelectItem value="GROUND">GROUND</SelectItem>
                     <SelectItem value="GROUP">GROUP</SelectItem>
                   </SelectContent>
@@ -151,13 +153,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                   </Link>
                 </Button>
               )}
-              <Button
-                type="submit"
-                variant="default"
-                className="flex-1 md:flex-none"
-              >
-                <Search className="mr-2 h-4 w-4" /> Search
-              </Button>
+              <SearchButton />
             </div>
           </form>
         </div>

@@ -33,7 +33,7 @@ const NavigationBar = async () => {
     "px-4 py-2 text-md font-medium hover:text-primary bg-transparent hover:bg-transparent uppercase tracking-widest";
 
   return (
-    <nav className="py-2 md:py-2 md:px-4 px-4 flex items-center justify-between max-w-7xl mx-auto">
+    <nav className="py-2 md:py-2 md:px-0 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center w-full md:w-auto justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -42,7 +42,7 @@ const NavigationBar = async () => {
             width={10}
             height={10}
             loading="eager"
-            className="object-contain w-auto md:h-12 h-14"
+            className="object-contain w-auto md:h-14 h-14"
           />
         </Link>
       </div>
@@ -52,7 +52,7 @@ const NavigationBar = async () => {
       </div>
 
       <div className="flex gap-4 items-center md:flex hidden">
-        <NavigationMenu>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={navItemClasses}>
@@ -106,9 +106,9 @@ const NavigationBar = async () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
-        </NavigationMenu>
+        </NavigationMenu> */}
 
-        <NavigationMenu>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={navItemClasses}>
@@ -140,7 +140,7 @@ const NavigationBar = async () => {
         </NavigationMenu>
         <Link href="/contact" className={navItemClasses}>
           Contact
-        </Link>
+        </Link> */}
 
         <UserIcon userProfile={userProfile} />
       </div>

@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ScrollArea } from "./ui/scroll-area";
+import CurrentlyLoadingIcon from "./CurrentlyLoadingIcon";
 
 interface TestimonyFormProps {
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -250,7 +251,7 @@ const TestimonyForm = ({ setIsOpen, modal = false }: TestimonyFormProps) => {
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
-                    <span className="animate-spin">◌</span> Sending...
+                    <CurrentlyLoadingIcon secondaryColor text="Submitting..." />
                   </span>
                 ) : (
                   "Post My Testimonial"

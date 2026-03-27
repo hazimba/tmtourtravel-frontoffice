@@ -10,6 +10,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { PackageCardButton } from "./PackageLoadingButton";
 
 const PackagesSection = async () => {
   const supabase = await createClient();
@@ -165,7 +166,7 @@ const PackagesSection = async () => {
                   </p>
                   <div></div>
 
-                  <Link
+                  {/* <Link
                     href={section.nav}
                     className="flex items-center gap-2 text-primary font-medium"
                   >
@@ -177,7 +178,8 @@ const PackagesSection = async () => {
                       View {capitalize(section.label)}{" "}
                       <ArrowRight size={14} className="inline ml-1" />
                     </Button>
-                  </Link>
+                  </Link> */}
+                  <PackageCardButton href={section.nav} />
                 </div>
 
                 {/* Content Display */}

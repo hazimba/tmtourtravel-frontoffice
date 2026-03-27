@@ -1,10 +1,13 @@
+"use client";
+
 import TagsRender from "@/components/TagsRender";
 import { Badge } from "@/components/ui/badge";
 import { savingsPercent } from "@/lib/helpers/priceDiscount";
 import { Package } from "@/types";
 import { Globe, MapPin } from "lucide-react";
-
 import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface PackageRenderProps {
   pkg: Package;
@@ -12,15 +15,33 @@ interface PackageRenderProps {
 }
 
 const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   if (!pkg) {
     return <div className="p-4">Package not found.</div>;
   }
 
+  const handleClick = () => {
+    if (admin) return;
+
+    setLoading(true);
+
+    router.push(`/package/${pkg.uuid}`);
+  };
+
   return (
     <div
-      className="group flex flex-col h-full overflow-hidden bg-card transition-all hover:shadow-md h-full"
-      // id="package-results"
+      onClick={handleClick}
+      className={`group flex flex-col h-full overflow-hidden bg-card transition-all hover:shadow-md cursor-pointer ${
+        loading ? "opacity-50" : ""
+      }`}
     >
+      {loading && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-black/20">
+          <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
       <div
         className={`relative ${
           admin
@@ -113,19 +134,16 @@ const PackageCard = ({ pkg, admin }: PackageRenderProps) => {
           <div className="mt-1 mb-2">
             <div className="flex items-baseline gap-2">
               <span className="text-xs font-thin text-gray-500">from </span>
-              <>
-                <span className="text-lg font-bold text-primary">
-                  RM {pkg.price_from}/ <span className="text-xs">pax</span>
+
+              <span className="text-lg font-bold text-primary">
+                RM {pkg.price_from}/ <span className="text-xs">pax</span>
+              </span>
+
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-xs text-green-800 line-through">
+                  RM {pkg.price_original}
                 </span>
-                <div className="flex flex-col items-center gap-2">
-                  <span className="text-xs text-green-800 line-through">
-                    RM {pkg.price_original}
-                  </span>
-                  {/* <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-bold text-green-600 ring-1 ring-inset ring-green-500/20">
-                    SAVE {savingsPercent(pkg)}%
-                  </span> */}
-                </div>
-              </>
+              </div>
             </div>
           </div>
         )}

@@ -1,11 +1,18 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import FadeIn from "@/components/FadeIn";
+import { useState } from "react";
+import CurrentlyLoadingIcon from "@/components/CurrentlyLoadingIcon";
 
 const AboutUs = () => {
+  const [loadingLearn, setLoadingLearn] = useState(false);
+  const [loadingGallery, setLoadingGallery] = useState(false);
+  const [loadingBlog, setLoadingBlog] = useState(false);
+
   return (
     <FadeIn>
       <Separator className="" />
@@ -32,40 +39,56 @@ const AboutUs = () => {
               </div>
               <div className="flex flex-col px-0">
                 <Link
+                  onClick={() => setLoadingLearn(true)}
                   href="/about-us"
-                  className="flex items-center gap-2 text-primary font-medium"
+                  className="flex items-center gap-2 text-primary font-medium h-12"
                 >
-                  <Button
-                    variant="link"
-                    size="lg"
-                    className="!px-0 hover:text-black cursor-pointer"
-                  >
-                    Learn More About Us <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
+                  {loadingLearn ? (
+                    <CurrentlyLoadingIcon />
+                  ) : (
+                    <Button
+                      variant="link"
+                      size="lg"
+                      className="!px-0 hover:text-black cursor-pointer"
+                    >
+                      Learn More About Us{" "}
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  )}
                 </Link>
                 <Link
+                  onClick={() => setLoadingGallery(true)}
                   href="/gallery"
-                  className="flex items-center gap-2 text-primary font-medium"
+                  className="flex items-center gap-2 text-primary font-medium h-12"
                 >
-                  <Button
-                    variant="link"
-                    size="lg"
-                    className="!px-0 hover:text-black cursor-pointer"
-                  >
-                    Gallery <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
+                  {loadingGallery ? (
+                    <CurrentlyLoadingIcon />
+                  ) : (
+                    <Button
+                      variant="link"
+                      size="lg"
+                      className="!px-0 hover:text-black cursor-pointer"
+                    >
+                      Gallery <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  )}
                 </Link>
                 <Link
+                  onClick={() => setLoadingBlog(true)}
                   href="/blog"
-                  className="flex items-center gap-2 text-primary font-medium"
+                  className="flex items-center gap-2 text-primary font-medium h-12"
                 >
-                  <Button
-                    variant="link"
-                    size="lg"
-                    className="!px-0 hover:text-black cursor-pointer"
-                  >
-                    Blog <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
+                  {loadingBlog ? (
+                    <CurrentlyLoadingIcon />
+                  ) : (
+                    <Button
+                      variant="link"
+                      size="lg"
+                      className="!px-0 hover:text-black cursor-pointer"
+                    >
+                      Blog <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  )}
                 </Link>
               </div>
             </div>
