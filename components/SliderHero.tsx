@@ -1,16 +1,21 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { ImageSlider } from "@/types";
 import { ArrowLeft, ArrowRight, Search } from "lucide-react"; // Added Search icon
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import CurrentlyLoadingIcon from "./CurrentlyLoadingIcon";
 import ImageSliderTextRender from "./ImageSliderTextRender";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input"; // Assuming you use shadcn/ui
-import { cn } from "@/lib/utils";
 
 export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
   const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(false);
   const total = slides.length;
+
+  const handleSubmit = () => {
+    setLoading(true);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -45,7 +50,7 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
           ))
         : null}
 
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4">
+      {/* <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4">
         <form
           action="/package"
           method="GET"
@@ -74,12 +79,13 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
             Search
           </Button>
         </form>
-      </div>
+      </div> */}
 
       <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4">
         <form
           action="/package"
           method="GET"
+          onSubmit={handleSubmit}
           className="flex items-center bg-white rounded-full border p-1.5 md:p-2"
         >
           <div className="flex-1 flex items-center px-4 gap-2">
@@ -100,9 +106,10 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
           </div>
           <Button
             type="submit"
-            className="rounded-full px-6 md:px-8 bg-primary hover:bg-primary/90"
+            disabled={loading}
+            className="rounded-full px-6 md:px-8 bg-primary hover:bg-primary/90 flex items-center gap-2"
           >
-            Search
+            {loading ? <CurrentlyLoadingIcon secondaryColor /> : "Search"}
           </Button>
         </form>
       </div>

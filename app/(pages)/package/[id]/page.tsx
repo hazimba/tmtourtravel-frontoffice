@@ -68,96 +68,97 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
   }
 
   const images = [data.main_image_url, ...data.sub_image_urls];
-  console.log("data", data);
+
   return (
-    <FadeIn>
-      <main className="max-w-7xl mx-auto p-0 md:p-8 font-sans text-slate-900">
-        <HeroCarousel images={images} data={data} />
-        <div className="md:grid grid-cols-1 px-3 md:p-0 md:grid-cols-5 gap-8">
-          <div className="md:col-span-3 space-y-8">
-            {/* Overview & Highlights */}
-            <OverviewSection data={data} userProfile={userProfile} />
-            {data.optional_tours && (
-              <section className="bg-indigo-50 p-4 rounded-xl border border-indigo-100 print:hidden">
-                <h2 className="text-lg font-bold mb-3 text-indigo-900 flex items-center gap-2">
-                  <Star size={10} className="fill-indigo-600 text-indigo-600" />{" "}
-                  Optional Tours
-                </h2>
-                <p className="text-slate-700 text-sm leading-relaxed">
-                  {data.optional_tours}
-                </p>
-              </section>
-            )}
+    <main className="max-w-7xl mx-auto p-0 md:p-8 font-sans text-slate-900">
+      <HeroCarousel images={images} data={data} />
+
+      <div className="md:grid grid-cols-1 px-3 md:p-0 md:grid-cols-5 gap-8">
+        <div className="md:col-span-3 space-y-8">
+          {/* Overview & Highlights */}
+          <OverviewSection data={data} userProfile={userProfile} />
+          {data.optional_tours && (
+            <section className="bg-indigo-50 p-4 rounded-xl border border-indigo-100 print:hidden">
+              <h2 className="text-lg font-bold mb-3 text-indigo-900 flex items-center gap-2">
+                <Star size={10} className="fill-indigo-600 text-indigo-600" />{" "}
+                Optional Tours
+              </h2>
+              <p className="text-slate-700 text-sm leading-relaxed">
+                {data.optional_tours}
+              </p>
+            </section>
+          )}
+          <FadeIn>
             <ItinerarySection data={data} />
+          </FadeIn>
+        </div>
+        <div className="md:space-y-6 space-y-4 col-span-2 mt-6 md:mt-0">
+          <PriceRender selectedPackage={data} />
+          <div className="flex flex-col gap-2 pt-4 pb-2">
+            <span className="not-italic font-semibold">Important Notes:</span>
+            <ImportantNotes notes={data.additional_remarks} />
           </div>
-          <div className="md:space-y-6 space-y-4 col-span-2 mt-6 md:mt-0">
-            <PriceRender selectedPackage={data} />
-            <div className="flex flex-col gap-2 pt-4 pb-2">
-              <span className="not-italic font-semibold">Important Notes:</span>
-              <ImportantNotes notes={data.additional_remarks} />
+
+          <FadeIn>
+            <div className="grid grid-cols-2 gap-4">
+              <DownloadPdfButton data={data} />
+              <ShareButton uuid={data.uuid} />
             </div>
+          </FadeIn>
 
-            <FadeIn>
-              <div className="grid grid-cols-2 gap-4">
-                <DownloadPdfButton data={data} />
-                <ShareButton uuid={data.uuid} />
+          {data.embedded && (
+            <div className="bg-red-50 md:p-6 p-4 rounded-xl border border-red-200">
+              <div className="aspect-video">
+                <iframe
+                  className="w-full h-full rounded-lg"
+                  src={data.embedded}
+                  title="Embedded Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
-            </FadeIn>
+            </div>
+          )}
+          <LogisticsSection data={data} />
+          <OthersSection data={data} />
+        </div>
+      </div>
 
-            {data.embedded && (
-              <div className="bg-red-50 md:p-6 p-4 rounded-xl border border-red-200">
-                <div className="aspect-video">
-                  <iframe
-                    className="w-full h-full rounded-lg"
-                    src={data.embedded}
-                    title="Embedded Video"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-            )}
-            <LogisticsSection data={data} />
-            <OthersSection data={data} />
+      <footer className="mt-12 py-4 border-t text-sm text-slate-500 italic space-y-2 px-3 md:px-0">
+        <div className="flex justify-between items-center text-xs">
+          <div className="flex gap-2 md:flex-row flex-col">
+            <div className="text-sm text-muted-foreground uppercase font-semibold">
+              Sale Period
+            </div>
+            <div className="text-xs flex items-center gap-1 text-muted-foreground">
+              {data?.sale_period?.from ? (
+                data?.sale_period?.to ? (
+                  <>
+                    {format(new Date(data.sale_period.from), "dd MMMM yyyy")} -{" "}
+                    {format(new Date(data.sale_period.to), "dd MMMM yyyy")}
+                  </>
+                ) : (
+                  format(new Date(data.sale_period.from), "dd MMMM yyyy")
+                )
+              ) : (
+                "No sale period"
+              )}
+            </div>
+          </div>
+          <div className="flex gap-2 md:flex-row flex-col">
+            <div className="text-sm text-muted-foreground uppercase font-semibold">
+              Last Update:
+            </div>
+            <div className="text-xs flex items-center gap-1 text-muted-foreground">
+              {data.updatedAt
+                ? format(new Date(data.updatedAt), "dd MMMM yyyy, HH:mm")
+                : "No update date"}
+            </div>
           </div>
         </div>
-
-        <footer className="mt-12 py-4 border-t text-sm text-slate-500 italic space-y-2 px-3 md:px-0">
-          <div className="flex justify-between items-center text-xs">
-            <div className="flex gap-2 md:flex-row flex-col">
-              <div className="text-sm text-muted-foreground uppercase font-semibold">
-                Sale Period
-              </div>
-              <div className="text-xs flex items-center gap-1 text-muted-foreground">
-                {data?.sale_period?.from ? (
-                  data?.sale_period?.to ? (
-                    <>
-                      {format(new Date(data.sale_period.from), "dd MMMM yyyy")}{" "}
-                      - {format(new Date(data.sale_period.to), "dd MMMM yyyy")}
-                    </>
-                  ) : (
-                    format(new Date(data.sale_period.from), "dd MMMM yyyy")
-                  )
-                ) : (
-                  "No sale period"
-                )}
-              </div>
-            </div>
-            <div className="flex gap-2 md:flex-row flex-col">
-              <div className="text-sm text-muted-foreground uppercase font-semibold">
-                Last Update:
-              </div>
-              <div className="text-xs flex items-center gap-1 text-muted-foreground">
-                {data.updatedAt
-                  ? format(new Date(data.updatedAt), "dd MMMM yyyy, HH:mm")
-                  : "No update date"}
-              </div>
-            </div>
-          </div>
-        </footer>
-      </main>
-    </FadeIn>
+      </footer>
+    </main>
   );
 };
 

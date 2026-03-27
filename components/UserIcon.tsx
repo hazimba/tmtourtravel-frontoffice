@@ -41,6 +41,21 @@ export default function AdminButton({ userProfile }: AdminButtonProps) {
           <span className="sr-only">Admin Dashboard</span>
         </Link>
       ) : null}
+      {!userProfile && (
+        <div className="ml-4 p-2 rounded-full flex items-center justify-center flex gap-4">
+          {/* <User className="w-6 h-6 text-gray-400" /> */}
+          <div className="text-primary tracking-widest">
+            We Are Always with You!
+          </div>
+          <Image
+            width={24}
+            height={24}
+            src="/travel-svgrepo-com.svg"
+            alt="Loading User"
+            className="text-primary animate-pulse"
+          />
+        </div>
+      )}
     </>
   );
 }
