@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Loader2, User } from "lucide-react";
+import { Loader2, Phone, User } from "lucide-react";
 import { useState } from "react";
 import { User as UserType } from "@/types";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface AdminButtonProps {
   userProfile: UserType;
@@ -12,6 +13,18 @@ interface AdminButtonProps {
 
 export default function AdminButton({ userProfile }: AdminButtonProps) {
   const [loading, setLoading] = useState(false);
+
+  const handleCopy = async () => {
+    const phoneNumber = "+603 4031 4171";
+
+    try {
+      await navigator.clipboard.writeText(phoneNumber);
+      toast.success("Phone number copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      alert("Failed to copy phone number. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -42,10 +55,19 @@ export default function AdminButton({ userProfile }: AdminButtonProps) {
         </Link>
       ) : null}
       {!userProfile && (
-        <div className="ml-4 p-2 rounded-full flex items-center justify-center flex gap-4">
+        <div className="ml-4 px-2 rounded-full flex items-center justify-center flex gap-4">
           {/* <User className="w-6 h-6 text-gray-400" /> */}
-          <div className="text-primary tracking-widest">
-            We Are Always with You!
+          <div
+            className="flex flex-col items-end justify-between h-full cursor-pointer"
+            onClick={handleCopy}
+          >
+            <div className="text-primary text-sm tracking-widest">
+              We Are Always with You!
+            </div>
+            <div className="text-xs tracking-widest">
+              <Phone size={10} className="inline-block mr-3" />
+              <span>+603 4031 4171</span>
+            </div>
           </div>
           <Image
             width={24}

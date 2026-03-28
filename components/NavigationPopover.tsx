@@ -93,7 +93,7 @@ export default function NavigationPopover() {
               collapsible
               className="w-full border rounded-lg bg-primary/5"
               onValueChange={(val) => setAccordionOpen(!!val)}
-              value={accordionOpen ? "package" : undefined}
+              // value={accordionOpen ? "package" : undefined}
             >
               <AccordionItem value="package" className="border-none">
                 <AccordionTrigger
@@ -135,7 +135,7 @@ export default function NavigationPopover() {
                       Group
                     </Link>
                     <Link
-                      href="/package?title=&country=&type=MICE"
+                      href="/mice"
                       onClick={() => setOpen(false)}
                       className="py-2 text-sm text-slate-800 hover:text-primary"
                     >

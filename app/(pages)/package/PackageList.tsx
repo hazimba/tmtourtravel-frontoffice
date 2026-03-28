@@ -69,9 +69,33 @@ export default async function PackageList({
 
   if (error || !data || data.length === 0) {
     return (
-      <p className="col-span-full text-muted-foreground text-center py-10">
-        No packages found.
-      </p>
+      <div className="col-span-full flex flex-col items-center justify-center rounded-xl border border-dashed p-10 md:p-20 text-center z-30 bg-white">
+        <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center">
+          {/* Optional: Add a Ghost/Package icon here */}
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="h-10 w-10 text-muted-foreground"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-5.25v9"
+              />
+            </svg>
+          </div>
+
+          <h3 className="mt-4 text-lg font-semibold">No packages found</h3>
+          <p className="mb-4 mt-2 text-sm text-muted-foreground">
+            We couldn&apos;t find what you&apos;re looking for. Try adjusting
+            your search or directly contact our sales team for assistance.
+          </p>
+        </div>
+      </div>
     );
   }
 
