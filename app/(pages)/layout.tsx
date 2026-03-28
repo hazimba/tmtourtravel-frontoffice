@@ -1,10 +1,8 @@
 import AboutUs from "@/components/AboutUs";
 import NavigationBar from "@/components/NavigationBar";
-import WsButtonFadeIn from "./WsButtonFadeIn";
-import Link from "next/link";
-import SecondNavBar from "./SecondNavBar";
-import { PackageType } from "@/types";
 import { Separator } from "@/components/ui/separator";
+import SecondNavBarWrapper from "./SecondNavBarWrapper";
+import WsButtonFadeIn from "./WsButtonFadeIn";
 
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,7 +10,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="sticky top-0 z-50 bg-white shadow-sm">
         <NavigationBar />
         <Separator className="my-0" />
-        <SecondNavBar />
+        <SecondNavBarWrapper />
       </div>
       <main className="min-h-[80vh]">{children}</main>
       <WsButtonFadeIn />
