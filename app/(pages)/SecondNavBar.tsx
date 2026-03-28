@@ -76,7 +76,7 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
                   return (
                     <NavigationMenuItem key={typeObj.value}>
                       <Link
-                        href="/"
+                        href="/home"
                         className="text-[9px] font-medium px-2 !px-4 tracking-wider hover:text-primary transition-colors flex items-center gap-1"
                       >
                         <Home size={10} />

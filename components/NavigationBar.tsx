@@ -35,7 +35,7 @@ const NavigationBar = async () => {
   return (
     <nav className="py-2 md:py-2 md:px-0 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center w-full md:w-auto justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/home" className="flex items-center gap-2">
           <Image
             src="/tm-official-logo.png"
             alt="TM Tour Travel Logo"
@@ -52,8 +52,11 @@ const NavigationBar = async () => {
       </div>
 
       <div className="flex gap-4 items-center md:flex hidden">
-        {/* <NavigationMenu>
-          <NavigationMenuList>
+        <NavigationMenu>
+          <Link href="/package" className={navItemClasses}>
+            Packages
+          </Link>
+          {/* <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={navItemClasses}>
                 Package
@@ -105,8 +108,8 @@ const NavigationBar = async () => {
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu> */}
+          </NavigationMenuList> */}
+        </NavigationMenu>
 
         {/* <NavigationMenu>
           <NavigationMenuList>
