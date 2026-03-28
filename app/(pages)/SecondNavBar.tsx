@@ -2,7 +2,7 @@
 
 import { supabase } from "@/lib/supabaseClient";
 import { PackageType } from "@/types";
-import { ChevronRight, Phone } from "lucide-react";
+import { ChevronRight, Home, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -27,42 +27,22 @@ interface Package {
   main_image_url: string;
 }
 
-const SecondNavBar = () => {
-  const [packages, setPackages] = useState<Package[]>([]);
+interface SecondNavBarProps {
+  initialPackages: Package[];
+}
+
+const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
+  const [packages, setPackages] = useState<Package[]>(initialPackages);
   const [loading, setLoading] = useState(true);
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
 
   const navTypes = [
+    { label: "Home", value: "home" },
     { label: "Umrah", value: PackageType.UMRAH },
     { label: "Ground", value: PackageType.GROUND },
     { label: "Group", value: PackageType.GROUP },
-    { label: "Mice", value: PackageType.MICE },
+    // { label: "Mice", value: PackageType.MICE },
   ];
-
-  const handleCopy = () => {
-    const phoneNumber = "+603 4031 4171";
-
-    try {
-      navigator.clipboard.writeText(phoneNumber);
-      toast.success("Phone number copied to clipboard!");
-    } catch (err) {
-      console.error("Failed to copy:", err);
-      toast.error("Failed to copy phone number. Please try again.");
-    }
-  };
-
-  const handleCall = () => {
-    const phoneNumber = "+60340314171";
-
-    // Browser native dialog
-    const confirmCall = toast.success(
-      `You are about to call our hotline: ${phoneNumber}. Click OK to proceed.`
-    );
-
-    if (confirmCall) {
-      window.location.href = `tel:${phoneNumber}`;
-    }
-  };
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -83,13 +63,28 @@ const SecondNavBar = () => {
     <div className="pl-2 md:pl-0 border-t border-gray-100 backdrop-blur-xl shadow-sm ">
       <NavigationMenu className="max-w-7xl flex items-start justify-between mx-auto">
         <div className="flex items-start justify-start w-full md:w-auto">
-          <NavigationMenuList className="!px-0 !py-0 gap-0">
+          <NavigationMenuList className="!px-0 gap-0">
             {loading ? (
               // <Skeleton className="max-w-108 w-78 h-9 rounded-md" />
               <CurrentlyLoadingIcon />
             ) : (
               // <CurrentlyLoading />
               navTypes.map((typeObj) => {
+                const isHome = typeObj.value === "home";
+
+                if (isHome) {
+                  return (
+                    <NavigationMenuItem key={typeObj.value}>
+                      <Link
+                        href="/"
+                        className="text-[9px] font-medium px-2 !px-4 tracking-wider hover:text-primary transition-colors flex items-center gap-1"
+                      >
+                        <Home size={10} />
+                      </Link>
+                    </NavigationMenuItem>
+                  );
+                }
+
                 const isMice = typeObj.value === PackageType.MICE;
 
                 // 👉 If MICE, render as simple link (no dropdown)
@@ -98,7 +93,7 @@ const SecondNavBar = () => {
                     <NavigationMenuItem key={typeObj.value}>
                       <Link
                         href={`/mice`}
-                        className="text-[9px] font-medium px-2 md:px-4 tracking-wider hover:text-primary transition-colors"
+                        className="text-[9px] font-medium px-2 !px-4 tracking-wider hover:text-primary transition-colors"
                       >
                         {typeObj.label}
                       </Link>
@@ -122,7 +117,7 @@ const SecondNavBar = () => {
                     key={typeObj.value}
                     onMouseEnter={() => setActiveCountry(countries[0])}
                   >
-                    <NavigationMenuTrigger className="text-[9px] !px-2 md:!px-4 tracking-wider hover:text-primary transition-colors bg-transparent">
+                    <NavigationMenuTrigger className="text-[9px] !px-4 md:!px-4 tracking-wider hover:text-primary transition-colors bg-transparent">
                       {typeObj.label}
                     </NavigationMenuTrigger>
 
@@ -229,7 +224,7 @@ const SecondNavBar = () => {
           >
             <Badge className="cursor-pointer">
               <Phone size={6} className="mr-1.5" />
-              <span className="!text-[9px]">+603 4031 4171</span>
+              <span className="!text-[9px]">Call Us</span>
             </Badge>
           </a>
         </NavigationMenuList>
