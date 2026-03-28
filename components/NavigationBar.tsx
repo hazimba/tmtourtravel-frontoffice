@@ -53,9 +53,6 @@ const NavigationBar = async () => {
 
       <div className="flex gap-4 items-center md:flex hidden">
         <NavigationMenu>
-          <Link href="/package" className={navItemClasses}>
-            Packages
-          </Link>
           {/* <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={navItemClasses}>

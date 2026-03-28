@@ -38,7 +38,7 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
 
   const navTypes = [
     { label: "Home", value: "home" },
-    { label: "Umrah", value: PackageType.UMRAH },
+    { label: "Umrahaji", value: PackageType.UMRAH },
     { label: "Ground", value: PackageType.GROUND },
     { label: "Group", value: PackageType.GROUP },
     // { label: "Mice", value: PackageType.MICE },
@@ -197,6 +197,9 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
           </NavigationMenuList>
         </div>
         <NavigationMenuList className="px-4 !py-0 gap-2 h-full items-center flex">
+          <Link href="/package" className={itemClass}>
+            Packages
+          </Link>
           <Link href="/contact" className={itemClass}>
             Contact
           </Link>
