@@ -452,12 +452,12 @@ const CreateEditFormLeft = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2 justify-between">
+        {/* <div className="flex flex-col gap-2 justify-between">
           <Label>Sale Able Market</Label>
-          {/* <Input
+          <Input
             placeholder="Enter sale able market"
             {...register("sale_able_market")}
-          /> */}
+          />
           <Select
             value={watch("sale_able_market")}
             onValueChange={(val) =>
@@ -476,7 +476,7 @@ const CreateEditFormLeft = ({
               </SelectGroup>
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-2 justify-between">
           <Label>Appearance</Label>

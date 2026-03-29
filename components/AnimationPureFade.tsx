@@ -5,9 +5,11 @@ import { useEffect, useRef, useState } from "react";
 export default function AnimationPureFade({
   children,
   page,
+  trigger,
 }: {
   children: React.ReactNode;
   page: number;
+  trigger?: string;
 }) {
   const [visible, setVisible] = useState(false);
   const prevPageRef = useRef<number>(page);
@@ -29,6 +31,16 @@ export default function AnimationPureFade({
 
     return () => clearTimeout(timeout);
   }, [page]);
+
+  useEffect(() => {
+    setVisible(false);
+
+    const timeout = setTimeout(() => {
+      setVisible(true);
+    }, 50);
+
+    return () => clearTimeout(timeout);
+  }, [trigger]);
 
   const base = "transition-all duration-500 ease-out";
 

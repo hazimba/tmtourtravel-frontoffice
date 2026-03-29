@@ -1,22 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { CountryDropdown } from "@/components/ui/country-dropdown";
-import { Input } from "@/components/ui/input";
 // import { supabase } from "@/lib/supabaseClient";
 import CurrentlyLoading from "@/components/CurrentlyLoading";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Search, X } from "lucide-react";
-import Link from "next/link";
 import { Suspense } from "react";
 import ImageBg from "./ImageBg";
 import PackageList from "./PackageList";
-import CurrentlyLoadingIcon from "@/components/CurrentlyLoadingIcon";
-import SearchButton from "./SearchButton";
+import SearchForm from "./SearchForm";
 
 interface PackagePageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -57,108 +44,17 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
               escapes, we have something for every traveler.
             </h2>
           </div>
-          <form
+          <SearchForm
             key={formKey}
-            method="get"
-            className="flex flex-col md:flex-row items-end md:gap-4 gap-1 p-4 border rounded-xl bg-card shadow-sm"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-5 md:gap-4 gap-3 w-full flex-grow">
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
-                  Title
-                </label>
-                <Input
-                  name="title"
-                  placeholder="Search by name..."
-                  defaultValue={title}
-                  className="w-full"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
-                  Keywords
-                </label>
-                <Input
-                  name="keywords"
-                  placeholder="Search by keywords..."
-                  defaultValue={keywords || ""}
-                  className="w-full"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground">
-                  Country
-                </label>
-                <CountryDropdown
-                  name="country"
-                  placeholder="Select country"
-                  defaultValue={country}
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="type"
-                  className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground"
-                >
-                  Type
-                </label>
-                {/* KIV FOR HOME/PACKAGES PAGE, since we are using server components there and watch/setValue won't work */}
-                {/* <SelectType name="type" defaultValue={type} /> */}
-
-                <Select
-                  key={type ?? "all"}
-                  name="type"
-                  defaultValue={type ?? "all"}
-                >
-                  <SelectTrigger className="w-full" id="type">
-                    <SelectValue placeholder="All Types" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="UMRAH">UMRAHAJI</SelectItem>
-                    {/* <SelectItem value="MICE">MICE</SelectItem> */}
-                    <SelectItem value="GROUND">GROUND</SelectItem>
-                    <SelectItem value="GROUP">GROUP</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="sort"
-                  className="text-[10px] md:text-xs font-semibold uppercase text-muted-foreground"
-                >
-                  Sort By
-                </label>
-                <Select key={sort} name="sort" defaultValue={sort}>
-                  <SelectTrigger className="w-full" id="sort">
-                    <SelectValue placeholder="Sort By" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="latest">Latest</SelectItem>
-                    <SelectItem value="price_low">
-                      Price: Low to High
-                    </SelectItem>
-                    <SelectItem value="price_high">
-                      Price: High to Low
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="flex items-center justify-end gap-2 md:w-96 pt-2 md:pt-0">
-              {(title || country || type || keywords || sort) && (
-                <Button variant="ghost" asChild className="flex-1 md:flex-none">
-                  <Link href="/package">
-                    <X className="mr-2 h-4 w-4" /> Clear
-                  </Link>
-                </Button>
-              )}
-              <SearchButton />
-            </div>
-          </form>
+            title={title}
+            country={country}
+            type={type}
+            keywords={keywords}
+            sort={sort}
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-in fade-in duration-300">
           <Suspense fallback={<CurrentlyLoading />}>
             <PackageList
               title={title}

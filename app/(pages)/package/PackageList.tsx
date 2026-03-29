@@ -30,8 +30,8 @@ export default async function PackageList({
 
   let query = supabase
     .from(process.env.NEXT_PUBLIC_SUPABASE_DB_PACKAGES_TABLE || "packages")
-    .select("*", { count: "exact" })
-    .neq("type", "MICE");
+    .select("*", { count: "exact" });
+  // .neq("type", "MICE");
 
   if (title) query = query.ilike("title", `%${title}%`);
   if (country) query = query.ilike("country", `%${country}%`);
@@ -115,10 +115,16 @@ export default async function PackageList({
     return `?${params.toString()}`;
   };
 
+  const trigger = `${page}-${title}-${country}-${type}-${keywords}`;
+
   return (
     <>
       {paginatedData.map((pkg) => (
-        <AnimationPureFade key={`${pkg.uuid}-${page}-${limit}`} page={page}>
+        <AnimationPureFade
+          key={`${pkg.uuid}-${page}-${limit}`}
+          page={page}
+          trigger={trigger}
+        >
           <div
             key={pkg.uuid}
             className="cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col h-full"

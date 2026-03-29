@@ -20,23 +20,45 @@ export const excelDateToJSDate = (serial: number) => {
 export const parseItinerary = (text: string) => {
   if (!text || typeof text !== "string") return [];
 
-  return text
-    .split(/\r?\n/) // support Windows + Mac newline
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-    .map((line) => {
-      const parts = line.split("|");
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
 
-      const day = parts[0]?.trim();
-      const description = parts.slice(1).join("|").trim();
-      // join in case description contains |
+  const result: { day: string; description: string[] }[] = [];
 
-      return {
-        day,
-        description,
+  let current: { day: string; description: string[] } | null = null;
+
+  lines.forEach((line) => {
+    // If line contains "DAY" → new section
+    if (line.includes("DAY") || line.includes("Day")) {
+      if (current) {
+        result.push(current);
+      }
+
+      const [dayPart, ...descPart] = line.split("|");
+
+      current = {
+        day: dayPart.trim(),
+        description: descPart.join("|").trim()
+          ? [descPart.join("|").trim()]
+          : [],
       };
-    })
-    .filter((item) => item.day); // remove invalid rows
+    } else {
+      // continuation of description
+      if (current) {
+        current.description.push(line);
+      }
+    }
+  });
+
+  if (current) result.push(current);
+
+  // join description
+  return result.map((item) => ({
+    day: item.day,
+    description: item.description.join("\n"),
+  }));
 };
 
 export const parseMYDateTime = (value: string) => {

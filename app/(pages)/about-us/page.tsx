@@ -167,7 +167,7 @@ const AboutUsPage = () => {
           </div>
         </div>
       </section>
-      <PartnersSection />
+      <PartnersSection home />
     </div>
   );
 };
