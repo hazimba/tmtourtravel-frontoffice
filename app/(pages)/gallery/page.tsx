@@ -1,8 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
-import { ImageSlot } from "./ImageSlot";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import EmployeeCard from "./EmployeeCard";
-import { User } from "@/types";
+import { ImageSlot } from "./ImageSlot";
 
 const ALBUM_LAYOUT = [
   { name: "photo-album-1", className: "col-span-2 row-span-2" },
@@ -64,7 +63,9 @@ const GalleryPage = async () => {
       </section>
       <section className="space-y-8 py-6 relative">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold text-primary">Meet Our Team</h2>
+          <h2 className="text-xl font-bold mb-6 text-gray-800 border-l-4 border-primary pl-4">
+            Meet Our Team
+          </h2>
           <p className="text-sm text-muted-foreground">
             The passionate experts behind your next adventure.
           </p>

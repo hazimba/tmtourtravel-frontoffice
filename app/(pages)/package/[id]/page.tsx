@@ -27,21 +27,32 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
     .eq("uuid", id)
     .single();
 
+  const partnerPromise = supabase
+    .from("accredited-partners")
+    .select("name, logo_url")
+    .eq("is_publish", true);
+
   // 2. Fire and forget the "View Counter" insert
   // We DON'T await this, so the user doesn't wait for a DB write to see the page.
   supabase.from("package_views").insert({ package_uuid: id }).then();
 
   // 3. Wait for the essential data to come back in parallel
-  const [userRes, packageRes] = await Promise.all([
+  const [userRes, packageRes, partnerRes] = await Promise.all([
     userPromise,
     packagePromise,
+    partnerPromise,
   ]);
 
   const user = userRes.data?.user;
   const { data, error } = packageRes;
+  const { data: partners, error: partnerError } = partnerRes;
 
   if (error || !data) {
     return <div className="p-10 text-center">Package not found</div>;
+  }
+
+  if (partnerError) {
+    console.error("Error fetching partners:", partnerError);
   }
 
   // 4. Fetch profile and view counts only if we have a user/package
@@ -101,7 +112,8 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
 
           <FadeIn>
             <div className="grid grid-cols-2 gap-4">
-              <DownloadPdfButton data={data} />
+              {/* @ts-expect-error: no-sure */}
+              <DownloadPdfButton data={data} partners={partners ?? []} />
               <ShareButton uuid={data.uuid} />
             </div>
           </FadeIn>

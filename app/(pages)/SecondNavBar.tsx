@@ -1,7 +1,7 @@
 "use client";
 
 import { supabase } from "@/lib/supabaseClient";
-import { PackageType } from "@/types";
+import { Appearance, PackageType } from "@/types";
 import { ChevronRight, Home, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,7 +42,6 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
     { label: "Umrahaji", value: PackageType.UMRAH },
     { label: "Ground", value: PackageType.GROUND },
     { label: "Group", value: PackageType.GROUP },
-    // { label: "Mice", value: PackageType.MICE },
   ];
 
   useEffect(() => {
@@ -50,7 +49,8 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
       setLoading(true);
       const { data } = await supabase
         .from("packages")
-        .select("uuid, title, country, type, main_image_url");
+        .select("uuid, title, country, type, main_image_url")
+        .eq("appearance", Appearance.HIGHLIGHT);
       if (data) setPackages(data);
       setLoading(false);
     };
@@ -58,10 +58,10 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
   }, []);
 
   const itemClass =
-    "block px-3 py-2 my-0.5 text-sm text-slate-700 rounded-md hover:bg-slate-100 hidden md:flex";
+    "block px-3 py-2 my-0.5 text-sm text-slate-700 rounded-md hover:bg-slate-100 hidden md:flex tracking-widest ";
 
   return (
-    <div className="pl-2 md:pl-0 border-t border-gray-100 backdrop-blur-xl shadow-sm ">
+    <div className="pl-2 md:pl-0 border-t border-gray-100 backdrop-blur-xl shadow-sm bg ">
       <NavigationMenu className="max-w-7xl flex items-start justify-between mx-auto">
         <div className="flex items-center justify-between w-full md:w-auto">
           <NavigationMenuList className="!px-0 !py-0.5 gap-0">
@@ -95,22 +95,6 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
                             <Home size={12} />
                           </>
                         )}
-                      </Link>
-                    </NavigationMenuItem>
-                  );
-                }
-
-                const isMice = typeObj.value === PackageType.MICE;
-
-                // 👉 If MICE, render as simple link (no dropdown)
-                if (isMice) {
-                  return (
-                    <NavigationMenuItem key={typeObj.value}>
-                      <Link
-                        href={`/mice`}
-                        className="text-[9px] font-medium px-2 !px-4 tracking-wider hover:text-primary transition-colors"
-                      >
-                        {typeObj.label}
                       </Link>
                     </NavigationMenuItem>
                   );
@@ -223,6 +207,9 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
         <NavigationMenuList className="px-4 !py-0 gap-2 h-full items-center flex">
           <Link href="/package" className={itemClass}>
             Packages
+          </Link>
+          <Link href="/mice" className={itemClass}>
+            MICE
           </Link>
           <Link href="/contact" className={itemClass}>
             Contact

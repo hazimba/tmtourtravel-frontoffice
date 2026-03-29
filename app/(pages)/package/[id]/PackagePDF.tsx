@@ -1,4 +1,5 @@
 import { savingsPercent } from "@/lib/helpers/priceDiscount";
+import { Partner } from "@/types";
 import {
   Document,
   Image,
@@ -129,7 +130,13 @@ let importantNotes = {
   ],
 };
 
-export const PackagePDF = ({ data }: { data: any }) => {
+export const PackagePDF = ({
+  data,
+  partners,
+}: {
+  data: any;
+  partners: Partner[];
+}) => {
   const importantNotes = {
     rules: [
       "TMTT terms and conditions apply.",
@@ -657,35 +664,30 @@ export const PackagePDF = ({ data }: { data: any }) => {
                 </View>
               </View>
             </View>
-
-            <View style={[styles.box, styles.greenBox]}>
-              <Text style={[styles.boxTitle, { color: "#15803d" }]}>
-                Includes
-              </Text>
-
-              {data.package_includes?.length > 0 &&
-                data.package_includes.map((inc: string, idx: number) => (
-                  <View key={idx} style={styles.listItem}>
-                    <Text style={styles.bullet}>•</Text>
-                    <Text style={styles.listText}>{inc}</Text>
-                  </View>
-                ))}
-            </View>
-
-            {data.package_excludes?.length > 0 && (
-              <View style={[styles.box, styles.redBox]}>
-                <Text style={[styles.boxTitle, { color: "#b91c1c" }]}>
-                  Excludes
+            {data.package_freebies?.length > 0 && (
+              <View style={[styles.box, styles.yellowBox]}>
+                <Text style={[styles.boxTitle, { color: "#a16207" }]}>
+                  Freebies
                 </Text>
 
-                {data.package_excludes.map((exc: string, idx: number) => (
+                {data.package_freebies.map((freebie: string, idx: number) => (
                   <View key={idx} style={styles.listItem}>
                     <Text style={styles.bullet}>•</Text>
-                    <Text style={styles.listText}>{exc}</Text>
+                    <Text style={styles.listText}>{freebie}</Text>
                   </View>
                 ))}
               </View>
             )}
+            <View style={[styles.box, styles.redBox]}>
+              <Text style={[styles.boxTitle, { color: "#b91c1c" }]}>
+                Features
+              </Text>
+              {data.features.map((f: string, idx: number) => (
+                <Text key={idx} style={{ fontSize: 8 }}>
+                  • {f}
+                </Text>
+              ))}
+            </View>
             <View style={[styles.box, styles.blueBox]}>
               <Text style={[styles.boxTitle, { color: "#312e81" }]}>
                 Optional Tours
@@ -713,28 +715,69 @@ export const PackagePDF = ({ data }: { data: any }) => {
             </View>
           );
         })}
-        {data.package_freebies?.length > 0 && (
-          <View style={[styles.box, styles.yellowBox]}>
-            <Text style={[styles.boxTitle, { color: "#a16207" }]}>
-              Freebies
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <View style={[styles.box, styles.greenBox, { flex: 1 }]}>
+            <Text style={[styles.boxTitle, { color: "#15803d" }]}>
+              Includes
             </Text>
 
-            {data.package_freebies.map((freebie: string, idx: number) => (
-              <View key={idx} style={styles.listItem}>
-                <Text style={styles.bullet}>•</Text>
-                <Text style={styles.listText}>{freebie}</Text>
-              </View>
-            ))}
+            {data.package_includes?.length > 0 &&
+              data.package_includes.map((inc: string, idx: number) => (
+                <View key={idx} style={styles.listItem}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text style={styles.listText}>{inc}</Text>
+                </View>
+              ))}
+          </View>
+          {data.package_excludes?.length > 0 && (
+            <View style={[styles.box, styles.redBox, { flex: 1 }]}>
+              <Text style={[styles.boxTitle, { color: "#b91c1c" }]}>
+                Excludes
+              </Text>
+
+              {data.package_excludes.map((exc: string, idx: number) => (
+                <View key={idx} style={styles.listItem}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text style={styles.listText}>{exc}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+        {partners?.length > 0 && (
+          <View style={{ marginTop: 16 }}>
+            <Text style={{ fontSize: 12, marginBottom: 6 }}>Our Partners</Text>
+
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                gap: 10,
+              }}
+            >
+              {partners.map((partner, idx) => (
+                <View
+                  key={idx}
+                  style={{
+                    width: 80,
+                    height: 40,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    src={partner.logo_url}
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </View>
+              ))}
+            </View>
           </View>
         )}
-        <View style={[styles.box, styles.redBox]}>
-          <Text style={[styles.boxTitle, { color: "#b91c1c" }]}>Features</Text>
-          {data.features.map((f: string, idx: number) => (
-            <Text key={idx} style={{ fontSize: 8 }}>
-              • {f}
-            </Text>
-          ))}
-        </View>
       </Page>
     </Document>
   );

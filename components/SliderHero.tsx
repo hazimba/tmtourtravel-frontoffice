@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { ImageSlider } from "@/types";
-import { ArrowLeft, ArrowRight, Search } from "lucide-react"; // Added Search icon
+import { ArrowLeft, ArrowRight, Search } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CurrentlyLoadingIcon from "./CurrentlyLoadingIcon";
@@ -58,41 +58,8 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
           ))
         : null}
 
-      {/* <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4">
-        <form
-          action="/package"
-          method="GET"
-          className="flex items-center bg-white rounded-full border p-1.5 md:p-2"
-        >
-          <div className="flex-1 flex items-center px-4 gap-2">
-            <Search className="w-5 h-5 text-muted-foreground" />
-            <input
-              name="keywords"
-              placeholder="Search a keyword for your next destination..."
-              onChange={(e) => {
-                e.target.value = e.target.value.toLowerCase();
-              }}
-              onKeyDown={(e) => {
-                if (e.key === " ") {
-                  e.preventDefault(); // block space
-                }
-              }}
-              className="w-full bg-transparent border-none outline-none text-base md:text-base placeholder:text-muted-foreground"
-            />
-          </div>
-          <Button
-            type="submit"
-            className="rounded-full px-6 md:px-8 bg-primary hover:bg-primary/90"
-          >
-            Search
-          </Button>
-        </form>
-      </div> */}
-
       <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-9/10 md:w-full max-w-4xl px-4">
         <form
-          // action="/package"
-          // method="GET"
           onSubmit={handleSubmit}
           className="flex items-center bg-white rounded-full border p-1.5 md:p-2"
         >
@@ -100,11 +67,11 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
             <Search className="w-5 h-5 text-muted-foreground" />
             <input
               name="keywords"
-              placeholder="Search a keyword for your next destination..."
+              placeholder="Search destinations..."
               onChange={(e) => {
                 e.target.value = e.target.value.toLowerCase();
               }}
-              className="w-full bg-transparent border-none outline-none text-xs md:text-base placeholder:text-muted-foreground"
+              className="w-full bg-transparent border-none outline-none text-base md:text-base placeholder:text-muted-foreground"
             />
           </div>
           <Button

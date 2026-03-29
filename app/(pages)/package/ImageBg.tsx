@@ -16,9 +16,9 @@ const ImageBg = () => {
       case "UMRAH":
         return "/umrah-4.jpg";
       case "MICE":
-        return "/bali.webp";
+        return "/greenland-1.jpg";
       default:
-        return "/bali.webp";
+        return "/swit.webp";
     }
   };
 

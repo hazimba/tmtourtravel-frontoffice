@@ -3,8 +3,15 @@ import { format } from "date-fns";
 import { DownloadIcon } from "lucide-react";
 import { useState } from "react";
 import LoadingButton from "./LoadingButton";
+import { Package, Partner } from "@/types";
 
-export default function DownloadPdfButton({ data }: { data: any }) {
+export default function DownloadPdfButton({
+  data,
+  partners,
+}: {
+  data: Package;
+  partners: Partner[];
+}) {
   const [loading, setLoading] = useState(false);
 
   const handleDownload = async () => {
@@ -17,7 +24,9 @@ export default function DownloadPdfButton({ data }: { data: any }) {
         "@/app/(pages)/package/[id]/PackagePDF"
       );
 
-      const blob = await pdf(<PackagePDF data={data} />).toBlob();
+      const blob = await pdf(
+        <PackagePDF data={data} partners={partners} />
+      ).toBlob();
 
       const url = URL.createObjectURL(blob);
 
