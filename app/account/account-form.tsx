@@ -1,10 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { type User } from "@supabase/supabase-js";
-import { Loader2, User as UserIcon, LogOut, CheckCircle2 } from "lucide-react";
-import { UserDepartment, UserPosition } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import {
   Select,
   SelectContent,
@@ -24,8 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { startCase } from "lodash";
+import { createClient } from "@/lib/supabase/client";
+import { UserDepartment } from "@/types";
+import { type User } from "@supabase/supabase-js";
+import startCase from "lodash/startCase";
+import { CheckCircle2, Loader2, LogOut, User as UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function AccountForm({ user }: { user: User | null }) {
   const router = useRouter();

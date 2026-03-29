@@ -135,11 +135,11 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
               {data?.sale_period?.from ? (
                 data?.sale_period?.to ? (
                   <>
-                    {format(new Date(data.sale_period.from), "dd MMMM yyyy")} -{" "}
-                    {format(new Date(data.sale_period.to), "dd MMMM yyyy")}
+                    {format(new Date(data.sale_period.from), "dd MMM yy")} -{" "}
+                    {format(new Date(data.sale_period.to), "dd MMM yy")}
                   </>
                 ) : (
-                  format(new Date(data.sale_period.from), "dd MMMM yyyy")
+                  format(new Date(data.sale_period.from), "dd MMM yy")
                 )
               ) : (
                 "No sale period"
@@ -152,7 +152,7 @@ const PackagePage = async ({ params }: { params: { id: string } }) => {
             </div>
             <div className="text-xs flex items-center gap-1 text-muted-foreground">
               {data.updatedAt
-                ? format(new Date(data.updatedAt), "dd MMMM yyyy, HH:mm")
+                ? format(new Date(data.updatedAt), "dd MMM yy, HH:mm")
                 : "No update date"}
             </div>
           </div>

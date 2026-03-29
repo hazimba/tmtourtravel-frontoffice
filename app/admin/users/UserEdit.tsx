@@ -39,12 +39,12 @@ import {
 } from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabaseClient";
 import { User, UserDepartment } from "@/types";
-import { startCase } from "lodash";
 import { Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AvatarUpload } from "./AvatarUpload";
+import startCase from "lodash/startCase";
 
 interface UserEditProps {
   user: User;

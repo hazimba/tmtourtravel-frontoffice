@@ -1,48 +1,43 @@
 "use client";
-
-import { PackagePDF } from "@/app/(pages)/package/[id]/PackagePDF";
-import { usePDF } from "@react-pdf/renderer";
+import { format } from "date-fns";
 import { DownloadIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LoadingButton from "./LoadingButton";
 
 export default function DownloadPdfButton({ data }: { data: any }) {
   const [loading, setLoading] = useState(false);
 
-  const [instance, update] = usePDF({
-    document: <PackagePDF data={data} />,
-  });
-  const { url } = instance;
-
-  // Regenerate when data changes
-  useEffect(() => {
-    update(<PackagePDF data={data} />);
-  }, [data, update]);
-
   const handleDownload = async () => {
     setLoading(true);
 
-    // Wait until URL exists
-    let pdfUrl = url;
+    try {
+      // 🔥 Dynamically import ONLY when needed
+      const { pdf } = await import("@react-pdf/renderer");
+      const { PackagePDF } = await import(
+        "@/app/(pages)/package/[id]/PackagePDF"
+      );
 
-    if (!pdfUrl) {
-      await update(<PackagePDF data={data} />);
-      pdfUrl = url;
+      const blob = await pdf(<PackagePDF data={data} />).toBlob();
+
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${data.title.replace(/\s+/g, "_")}_${format(
+        new Date(),
+        "ddMMMyyyy_HHmmaaa"
+      )}.pdf`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
     }
 
-    // Small delay ensures PDF blob is ready
-    setTimeout(() => {
-      if (pdfUrl) {
-        const link = document.createElement("a");
-        link.href = pdfUrl;
-        link.download = `${data.title.replace(/\s+/g, "_")}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      setLoading(false);
-    }, 300);
+    setLoading(false);
   };
 
   return (

@@ -7,14 +7,22 @@ import { useEffect, useState } from "react";
 import CurrentlyLoadingIcon from "./CurrentlyLoadingIcon";
 import ImageSliderTextRender from "./ImageSliderTextRender";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
+  const router = useRouter();
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(false);
   const total = slides.length;
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const keywords = formData.get("keywords");
+
+    router.push(`/package?keywords=${keywords}`);
   };
 
   useEffect(() => {
@@ -81,10 +89,10 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
         </form>
       </div> */}
 
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4">
+      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 z-30 w-9/10 md:w-full max-w-4xl px-4">
         <form
-          action="/package"
-          method="GET"
+          // action="/package"
+          // method="GET"
           onSubmit={handleSubmit}
           className="flex items-center bg-white rounded-full border p-1.5 md:p-2"
         >
@@ -96,12 +104,7 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
               onChange={(e) => {
                 e.target.value = e.target.value.toLowerCase();
               }}
-              onKeyDown={(e) => {
-                if (e.key === " ") {
-                  e.preventDefault(); // block space
-                }
-              }}
-              className="w-full bg-transparent border-none outline-none text-base md:text-base placeholder:text-muted-foreground"
+              className="w-full bg-transparent border-none outline-none text-xs md:text-base placeholder:text-muted-foreground"
             />
           </div>
           <Button
@@ -131,7 +134,6 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
       <div className="absolute inset-0 flex items-center justify-between px-4 max-w-7xl mx-auto">
         <Button
           onClick={prev}

@@ -3,9 +3,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { supabase } from "@/lib/supabaseClient";
 import { Package } from "@/types";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import * as XLSX from "xlsx";
 
 interface BulkUploadPackagesProps {
   packagesData: Package[];
@@ -71,7 +71,6 @@ const BulkExportPackages = ({
     } else {
       setDownloadPackages([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, packagesData]);
 
   const formatItineraryForExport = (itinerary: any[]) => {
@@ -170,7 +169,8 @@ const BulkExportPackages = ({
   //   // other columns can be empty
   // };
 
-  const handleExportPackages = () => {
+  const handleExportPackages = async () => {
+    const XLSX = await import("xlsx");
     if (!downloadPackages || !downloadPackages.length) {
       toast.error("No packages available to export");
       return;
@@ -228,6 +228,8 @@ const BulkExportPackages = ({
         package_excludes: JSON.stringify(pkg.package_excludes ?? []),
         package_freebies: JSON.stringify(pkg.package_freebies ?? []),
         additional_remarks: JSON.stringify(pkg.additional_remarks ?? []),
+
+        sales_id: pkg.sales_id,
       };
 
       return reorderKeys(row, priorityColumns);
@@ -240,17 +242,7 @@ const BulkExportPackages = ({
     XLSX.utils.book_append_sheet(workbook, worksheet, "Packages");
 
     const generateExportFilename = () => {
-      const now = new Date();
-
-      const pad = (n: number) => String(n).padStart(2, "0");
-
-      const year = now.getFullYear();
-      const month = pad(now.getMonth() + 1);
-      const day = pad(now.getDate());
-      const hour = pad(now.getHours());
-      const minute = pad(now.getMinutes());
-
-      return `packages_export_${year}-${month}-${day}_${hour}-${minute}.csv`;
+      return `Packages_Export_${format(new Date(), "ddMMMyyyy_HHmmaaa")}.csv`;
     };
 
     XLSX.writeFile(workbook, generateExportFilename());

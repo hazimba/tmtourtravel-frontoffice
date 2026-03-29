@@ -8,7 +8,6 @@ import {
   parseSalePeriod,
   safeJsonParse,
 } from "@/lib/helpers/packagesBulkImportFunction";
-import { startCase } from "lodash";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -21,6 +20,7 @@ import {
 import { supabase } from "@/lib/supabaseClient";
 import { BulkUploadError } from "./BulkUploadPackages";
 import { toast } from "sonner";
+import startCase from "lodash/startCase";
 
 interface BulkImportPackagesProps {
   setPreviewData: (data: PackageFormValues[]) => void;
@@ -78,6 +78,7 @@ const BulkImportPackages = ({
   };
 
   const transformRow = (row: any) => {
+    console.log("row.uuid", row.uuid);
     const transformed = {
       ...row,
 
@@ -115,6 +116,11 @@ const BulkImportPackages = ({
       price_from: row.price_from?.toString() || "",
       price_discount: row.price_discount?.toString() || "",
       price_to: row.price_to?.toString() || "",
+
+      sales_id: row.sales_id
+        ? row.sales_id.toString()
+        : // default sales_id - Zakur
+          "32715ba5-65db-4838-940b-a0acdcb37233",
 
       // Excel date conversion
       update_period: normalizeDate(row.update_period),
@@ -289,7 +295,6 @@ const BulkImportPackages = ({
                     .filter(
                       (key) =>
                         ![
-                          "uuid",
                           "sub_image_urls",
                           "embedded",
                           "updated_at",
@@ -316,7 +321,6 @@ const BulkImportPackages = ({
                   const visibleKeys = Object.keys(row).filter(
                     (key) =>
                       ![
-                        "uuid",
                         "sub_image_urls",
                         "embedded",
                         "updated_at",
