@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Accordion,
   AccordionContent,
@@ -13,6 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
@@ -27,19 +26,15 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { Separator } from "./ui/separator";
 
 export default function NavigationPopover() {
-  const [open, setOpen] = useState(false);
-  const [accordionOpen, setAccordionOpen] = useState<boolean | null>(false);
-
   const navItemClasses =
     "flex items-center gap-4 px-2 py-3 rounded-md text-sm transition-colors hover:bg-slate-100 tracking-widest";
 
   return (
     <div className="fixed top-3 right-8 z-50">
-      <Sheet open={open} onOpenChange={setOpen}>
+      <Sheet>
         <SheetTrigger asChild className="flex items-center justify-center">
           <button className="p-2 bg-white border rounded-sm hover:bg-slate-50 transition-all">
             <Menu className="h-6 w-6 text-slate-800" />
@@ -77,22 +72,19 @@ export default function NavigationPopover() {
             <p className="px-2 py-2 text-[10px] font-bold uppercase tracking-[3px]">
               Pages
             </p>
-
-            <Link
-              href="/home"
-              onClick={() => setOpen(false)}
-              className={navItemClasses}
-            >
-              <Home size={14} className="text-primary mr-4" />
-              Home
-            </Link>
+            <SheetClose asChild>
+              <Link href="/home" className={navItemClasses}>
+                <Home size={14} className="text-primary mr-4" />
+                Home
+              </Link>
+            </SheetClose>
 
             {/* Collapsible Package Menu */}
             <Accordion
               type="single"
               collapsible
               className="w-full border rounded-lg bg-primary/5"
-              onValueChange={(val) => setAccordionOpen(!!val)}
+              // onValueChange={(val) => setAccordionOpen(!!val)}
               // value={accordionOpen ? "package" : undefined}
             >
               <AccordionItem value="package" className="border-none">
@@ -106,81 +98,77 @@ export default function NavigationPopover() {
                 </AccordionTrigger>
                 <AccordionContent className="pb-2">
                   <div className="flex flex-col ml-18 gap-1 pl-4 border-slate-100 tracking-widest">
-                    <Link
-                      href="/package"
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-sm text-slate-800 hover:text-primary"
-                    >
-                      All Types
-                    </Link>
-                    <Link
-                      href="/package?title=&country=&type=UMRAH"
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-sm text-slate-800 hover:text-primary"
-                    >
-                      Umrah
-                    </Link>
-                    <Link
-                      href="/package?title=&country=&type=GROUND"
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-sm text-slate-800 hover:text-primary"
-                    >
-                      Ground
-                    </Link>
-                    <Link
-                      href="/package?title=&country=&type=GROUP"
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-sm text-slate-800 hover:text-primary"
-                    >
-                      Group
-                    </Link>
-                    <Link
-                      href="/mice"
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-sm text-slate-800 hover:text-primary"
-                    >
-                      MICE
-                    </Link>
+                    <SheetClose asChild>
+                      <Link
+                        href="/package"
+                        className="py-2 text-sm text-slate-800 hover:text-primary"
+                      >
+                        All Types
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link
+                        href="/package?title=&country=&type=UMRAH"
+                        className="py-2 text-sm text-slate-800 hover:text-primary"
+                      >
+                        Umrahaji
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link
+                        href="/package?title=&country=&type=GROUND"
+                        className="py-2 text-sm text-slate-800 hover:text-primary"
+                      >
+                        Ground
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link
+                        href="/package?title=&country=&type=GROUP"
+                        className="py-2 text-sm text-slate-800 hover:text-primary"
+                      >
+                        Group
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link
+                        href="/mice"
+                        className="py-2 text-sm text-slate-800 hover:text-primary"
+                      >
+                        MICE
+                      </Link>
+                    </SheetClose>
                   </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+            <SheetClose asChild>
+              <Link href="/about-us" className={navItemClasses}>
+                <Info size={14} className="text-primary mr-4" />
+                About Us
+              </Link>
+            </SheetClose>
 
-            <Link
-              href="/about-us"
-              onClick={() => setOpen(false)}
-              className={navItemClasses}
-            >
-              <Info size={14} className="text-primary mr-4" />
-              About Us
-            </Link>
+            <SheetClose asChild>
+              <Link href="/blog" className={navItemClasses}>
+                <AppWindow size={14} className="text-primary mr-4" />
+                Blog
+              </Link>
+            </SheetClose>
 
-            <Link
-              href="/blog"
-              onClick={() => setOpen(false)}
-              className={navItemClasses}
-            >
-              <AppWindow size={14} className="text-primary mr-4" />
-              Blog
-            </Link>
+            <SheetClose asChild>
+              <Link href="/gallery" className={navItemClasses}>
+                <ImageIcon size={14} className="text-primary mr-4" />
+                Gallery
+              </Link>
+            </SheetClose>
 
-            <Link
-              href="/gallery"
-              onClick={() => setOpen(false)}
-              className={navItemClasses}
-            >
-              <ImageIcon size={14} className="text-primary mr-4" />
-              Gallery
-            </Link>
-
-            <Link
-              href="/contact"
-              onClick={() => setOpen(false)}
-              className={navItemClasses}
-            >
-              <Contact size={14} className="text-primary mr-4" />
-              Contact
-            </Link>
+            <SheetClose asChild>
+              <Link href="/contact" className={navItemClasses}>
+                <Contact size={14} className="text-primary mr-4" />
+                Contact
+              </Link>
+            </SheetClose>
 
             <div className="border-t my-4" />
 
@@ -188,15 +176,12 @@ export default function NavigationPopover() {
             <p className="px-2 py-2 text-[10px] font-bold uppercase tracking-[3px]">
               Manage
             </p>
-
-            <Link
-              href="/admin"
-              onClick={() => setOpen(false)}
-              className={navItemClasses}
-            >
-              <LayoutDashboard size={14} className="text-primary mr-4" />
-              Admin
-            </Link>
+            <SheetClose asChild>
+              <Link href="/admin" className={navItemClasses}>
+                <LayoutDashboard size={14} className="text-primary mr-4" />
+                Admin
+              </Link>
+            </SheetClose>
           </nav>
         </SheetContent>
       </Sheet>

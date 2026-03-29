@@ -17,7 +17,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
 interface Package {
   uuid: string;
@@ -34,6 +34,7 @@ interface SecondNavBarProps {
 const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
   const [packages, setPackages] = useState<Package[]>(initialPackages);
   const [loading, setLoading] = useState(true);
+  const [loadingHome, setLoadingHome] = useState(false);
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
 
   const navTypes = [
@@ -57,13 +58,13 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
   }, []);
 
   const itemClass =
-    "block px-3 py-2 text-sm text-slate-700 rounded-md hover:bg-slate-100 hidden md:flex";
+    "block px-3 py-2 my-0.5 text-sm text-slate-700 rounded-md hover:bg-slate-100 hidden md:flex";
 
   return (
     <div className="pl-2 md:pl-0 border-t border-gray-100 backdrop-blur-xl shadow-sm ">
       <NavigationMenu className="max-w-7xl flex items-start justify-between mx-auto">
-        <div className="flex items-start justify-start w-full md:w-auto">
-          <NavigationMenuList className="!px-0 gap-0">
+        <div className="flex items-center justify-between w-full md:w-auto">
+          <NavigationMenuList className="!px-0 !py-0.5 gap-0">
             {loading ? (
               // <Skeleton className="max-w-108 w-78 h-9 rounded-md" />
               <CurrentlyLoadingIcon />
@@ -77,9 +78,23 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
                     <NavigationMenuItem key={typeObj.value}>
                       <Link
                         href="/home"
+                        onClick={() => {
+                          setLoadingHome(true);
+                          setTimeout(() => setLoadingHome(false), 900);
+                        }}
                         className="text-[9px] font-medium px-2 !px-4 tracking-wider hover:text-primary transition-colors flex items-center gap-1"
                       >
-                        <Home size={10} />
+                        {loadingHome ? (
+                          <Spinner
+                            width={10}
+                            height={10}
+                            className="text-primary animate-spin"
+                          />
+                        ) : (
+                          <>
+                            <Home size={12} />
+                          </>
+                        )}
                       </Link>
                     </NavigationMenuItem>
                   );
@@ -195,6 +210,15 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
               })
             )}
           </NavigationMenuList>
+          <a
+            href="tel:+60340314171"
+            className="block md:hidden py-2 text-slate-700 rounded-md hover:bg-slate-100 flex items-center"
+          >
+            <Badge className="cursor-pointer">
+              <Phone size={6} className="mr-1.5" />
+              <span className="!text-[9px]">Call Us</span>
+            </Badge>
+          </a>
         </div>
         <NavigationMenuList className="px-4 !py-0 gap-2 h-full items-center flex">
           <Link href="/package" className={itemClass}>
@@ -207,36 +231,12 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
             Blog
           </Link>
           <Link href="/gallery" className={itemClass}>
-            Our Gallery
+            Gallery
           </Link>
           <Link href="/about-us" className={itemClass}>
             About
           </Link>
-          {/* <div
-            className="block md:hidden py-2 text-xs text-slate-700 rounded-md hover:bg-slate-100 flex items-center cursor-pointer"
-            onClick={handleCall}
-          >
-            <Badge className="cursor-pointer">
-              <Phone size={8} className="mr-3" />
-              +603 4031 4171
-            </Badge>
-          </div> */}
-          <a
-            href="tel:+60340314171"
-            className="block md:hidden py-2 text-slate-700 rounded-md hover:bg-slate-100 flex items-center"
-          >
-            <Badge className="cursor-pointer">
-              <Phone size={6} className="mr-1.5" />
-              <span className="!text-[9px]">Call Us</span>
-            </Badge>
-          </a>
         </NavigationMenuList>
-        {/* <NavigationMenuList className="px-4 py-0.5 gap-2 md:hidden flex">
-          <div className="text-xs tracking-widest" onClick={handleCopy}>
-            <Phone size={10} className="inline-block mr-3" />
-            <span>+603 4031 4171</span>
-          </div>
-        </NavigationMenuList> */}
       </NavigationMenu>
     </div>
   );

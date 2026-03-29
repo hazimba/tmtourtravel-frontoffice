@@ -57,7 +57,7 @@ const WhyChooseUs = () => {
           <div className="text-center space-y-3 md:pb-0 cursor-pointer">
             <p className="group text-muted-foreground text-sm md:text-base text-left">
               Komitmen kami adalah memberikan pengalaman pelancongan yang{" "}
-              <span className="relative inline-block text-primary">
+              <span className="relative text-primary break-words">
                 selamat, bermakna, dan sukar dilupakan.
                 <span className="absolute left-0 -bottom-0 h-[1px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </span>

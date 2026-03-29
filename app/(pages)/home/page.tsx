@@ -1,14 +1,14 @@
-import FormPopup from "@/components/FormPopup";
 import NoAuthFound from "@/components/NoAuthFoundToast";
 import SignoutToast from "@/components/SignedOutToast";
 import { createClient } from "@/lib/supabase/server";
+import dynamic from "next/dynamic";
 import AboutUs from "./AboutUs";
 import ImageSliderSection from "./ImageSlider";
 import PackagesSection from "./Packages";
 import TestimonialSection from "./Testimonial";
 import WhyChooseUs from "./WhyChooseUs";
 
-export const dynamic = "force-dynamic";
+export const _dynamic = "force-dynamic";
 
 function isPromise<T>(value: unknown): value is Promise<T> {
   return (
@@ -26,6 +26,10 @@ const HomePage = async ({
     | Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const supabase = await createClient();
+
+  const FormPopup = dynamic(() => import("@/components/FormPopup"), {
+    ssr: true,
+  });
 
   const { data: siteSetting } = await supabase
     .from("site_settings")

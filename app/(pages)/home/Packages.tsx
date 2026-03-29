@@ -5,11 +5,8 @@ import FadeIn from "@/components/FadeIn";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createClient } from "@/lib/supabase/server";
-import { capitalize } from "lodash";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { PackageCardButton } from "./PackageLoadingButton";
 
 const PackagesSection = async () => {

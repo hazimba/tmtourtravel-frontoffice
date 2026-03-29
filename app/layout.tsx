@@ -1,19 +1,19 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Ubuntu } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import InitLoading from "./initLoading";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 const ubuntu = Ubuntu({
   variable: "--font-ubuntu",
@@ -110,7 +110,8 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${ubuntu.variable} antialiased`}
+        // className={`${geistSans.variable} ${geistMono.variable} ${ubuntu.variable} antialiased`}
+        className={`${ubuntu.variable} antialiased`}
       >
         <InitLoading />
         <Toaster position="top-center" />

@@ -115,7 +115,7 @@ const PackagePage = async ({ searchParams }: PackagePageProps) => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="UMRAH">UMRAH</SelectItem>
+                    <SelectItem value="UMRAH">UMRAHAJI</SelectItem>
                     {/* <SelectItem value="MICE">MICE</SelectItem> */}
                     <SelectItem value="GROUND">GROUND</SelectItem>
                     <SelectItem value="GROUP">GROUP</SelectItem>
