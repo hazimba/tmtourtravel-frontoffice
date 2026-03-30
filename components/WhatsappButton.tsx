@@ -17,7 +17,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types";
 import { MessageSquare, Phone, User as UserIcon } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type SalesListProps = {
   salesTeam: User[];
@@ -83,6 +83,8 @@ const WhatsappButton = () => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Fetch once on mount
   useEffect(() => {
     const fetchSalesTeam = async () => {
@@ -109,12 +111,19 @@ const WhatsappButton = () => {
       {/* DESKTOP: Popover on Hover */}
       <div
         className="hidden md:block"
-        onMouseEnter={() => setIsPopoverOpen(true)}
-        onMouseLeave={() => setIsPopoverOpen(false)}
+        onMouseEnter={() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          setIsPopoverOpen(true);
+        }}
+        onMouseLeave={() => {
+          timeoutRef.current = setTimeout(() => {
+            setIsPopoverOpen(false);
+          }, 150);
+        }}
       >
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
-            <button className="group gap-4 text-md tracking-widest cursor-pointer bg-secondary/90 border text-primary flex items-center px-5 py-3 rounded-full transition-all duration-300 shadow-lg border-primary">
+            <button className="group gap-4 text-md tracking-widest cursor-pointer bg-secondary/90 hover:bg-[#F9FF00] text-primary flex items-center px-5 py-3 rounded-full transition-all duration-300 border-1 !border-primary">
               <span>Kami Sedia Membantu!</span>
               <Phone className="shrink-0 size-5" />
             </button>
@@ -122,7 +131,7 @@ const WhatsappButton = () => {
           <PopoverContent
             side="top"
             align="end"
-            className="w-108 p-4 mb-2 shadow-2xl border-green-100"
+            className="w-108 p-4 mb-0 shadow-2xl !shadow-lg"
           >
             <h3 className="font-bold text-gray-800 mb-2 px-1">
               Pilih Perunding Kami

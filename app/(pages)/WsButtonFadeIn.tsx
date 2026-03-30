@@ -26,7 +26,7 @@ const WsButtonFadeIn = () => {
 
   return (
     <div
-      className={`fixed w-1/2 md:left-8/10 left-7/10 -translate-x-1/2 bottom-8 z-50 transition-all duration-300 ${
+      className={`fixed w-1/5 md:left-8/10 left-8/10 -translate-x-1/2 bottom-1 md:bottom-5 z-50 transition-all duration-300 ${
         showWhatsapp
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-5 pointer-events-none"

@@ -78,6 +78,7 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
                     <NavigationMenuItem key={typeObj.value}>
                       <Link
                         href="/home"
+                        aria-label="Home"
                         onClick={() => {
                           setLoadingHome(true);
                           setTimeout(() => setLoadingHome(false), 900);
@@ -194,35 +195,54 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
               })
             )}
           </NavigationMenuList>
-          <a
-            href="tel:+60340314171"
-            className="block md:hidden py-2 text-slate-700 rounded-md hover:bg-slate-100 flex items-center"
-          >
-            <Badge className="cursor-pointer">
-              <Phone size={6} className="mr-1.5" />
-              <span className="!text-[9px]">Call Us</span>
-            </Badge>
-          </a>
+          <NavigationMenuItem>
+            <a
+              href="tel:+60340314171"
+              className="block md:hidden py-2 text-slate-700 rounded-md hover:bg-slate-100 flex items-center"
+            >
+              <Badge className="cursor-pointer">
+                <Phone size={6} className="mr-1.5" />
+                <span className="!text-[9px]">Call Us</span>
+              </Badge>
+            </a>
+          </NavigationMenuItem>
         </div>
         <NavigationMenuList className="px-4 !py-0 gap-2 h-full items-center flex">
-          <Link href="/package" className={itemClass}>
-            Packages
-          </Link>
-          <Link href="/mice" className={itemClass}>
-            MICE
-          </Link>
-          <Link href="/contact" className={itemClass}>
-            Contact
-          </Link>
-          <Link href="/blog" className={itemClass}>
-            Blog
-          </Link>
-          <Link href="/gallery" className={itemClass}>
-            Gallery
-          </Link>
-          <Link href="/about-us" className={itemClass}>
-            About
-          </Link>
+          <NavigationMenuItem>
+            <Link href="/package" className={itemClass}>
+              Packages
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <Link href="/mice" className={itemClass}>
+              MICE
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <Link href="/contact" className={itemClass}>
+              Contact
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <Link href="/blog" className={itemClass}>
+              Blog
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <Link href="/gallery" className={itemClass}>
+              Gallery
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <Link href="/about-us" className={itemClass}>
+              About
+            </Link>
+          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
     </div>

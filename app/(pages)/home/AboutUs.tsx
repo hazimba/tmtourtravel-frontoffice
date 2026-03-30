@@ -17,7 +17,7 @@ const AboutUs = () => {
     <FadeIn>
       <Separator className="" />
       <div className="bg-[#f8f9fa] min-h-screen md:min-h-full md:py-32 py-12 flex items-center">
-        <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
+        <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0 overflow-hidden">
           <div className="flex flex-col md:flex-row w-full md:gap-12 gap-6">
             <div className="flex flex-col md:w-3/7 md:space-y-12 space-y-6 justify-center items-start">
               <div className="flex flex-col gap-6">
