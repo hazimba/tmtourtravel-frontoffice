@@ -3,6 +3,8 @@ feature
 1. add blog page in /admin/blog and /blog/[id]
 2. add mice page
 3. add marquee page in /admin/imageSlider
+4. suggestion based on compilation dari package.keywords
+5. let user click on the photo - gallery page
 
 enhancement
 
