@@ -26,6 +26,7 @@ const TopNavigation = async () => {
       <div className="flex h-14 items-center justify-between px-4 py-8">
         <div className="flex items-center gap-3">
           <Link
+            prefetch={false}
             href="/home"
             className="flex items-center justify-center h-8 w-8 rounded-md text-primary-foreground"
           >
@@ -51,7 +52,7 @@ const TopNavigation = async () => {
 
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-            <Link href="/home">
+            <Link href="/home" prefetch={false}>
               <Home className="mr-2 h-4 w-4" />
               View Site
             </Link>

@@ -129,7 +129,7 @@ export default async function PackageList({
             key={pkg.uuid}
             className="cursor-pointer overflow-hidden rounded-xl border bg-background transition-all hover:border-primary/50 hover:shadow-md flex flex-col h-full"
           >
-            <Link href={`/package/${pkg.uuid}`}>
+            <Link href={`/package/${pkg.uuid}`} prefetch={false}>
               <PackageCard pkg={pkg} />
             </Link>
           </div>

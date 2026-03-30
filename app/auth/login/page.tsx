@@ -122,7 +122,9 @@ const LoginIn = () => {
                 asChild
                 className="flex-1 border-slate-200 hover:bg-slate-50"
               >
-                <Link href="/home">Home</Link>
+                <Link href="/home" prefetch={false}>
+                  Home
+                </Link>
               </Button>
               <Button
                 variant="default"

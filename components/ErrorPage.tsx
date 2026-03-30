@@ -37,7 +37,7 @@ const ErrorPage = ({ title, homebutton = false }: ErrorPageProps) => {
       </p>
 
       {homebutton && (
-        <Link href="/" className="w-full md:w-auto">
+        <Link href="/" className="w-full md:w-auto" prefetch={false}>
           <Button variant="outline" className="w-full md:w-auto">
             Go to Homepage
           </Button>

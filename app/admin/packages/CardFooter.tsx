@@ -17,7 +17,11 @@ export const FooterCard = ({
     <CardFooter className="bg-background border-t flex justify-end gap-3">
       <div className="flex w-full justify-between">
         <div>
-          <Link href="/admin/packages" className="button ghost">
+          <Link
+            href="/admin/packages"
+            className="button ghost"
+            prefetch={false}
+          >
             Back
           </Link>
         </div>

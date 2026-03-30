@@ -27,7 +27,7 @@ const UsersTab = async () => {
           title="User Management"
           subtitle="Review and manage system access levels."
         />
-        <Link href="/auth/signup">
+        <Link href="/auth/signup" prefetch={false}>
           <Button className="w-fit cursor-pointer hover:bg-primary/50 transition-colors">
             Add New User
           </Button>

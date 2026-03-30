@@ -35,7 +35,7 @@ const NavigationBar = async () => {
   return (
     <nav className="py-2 md:py-2 md:px-0 px-4 flex items-center justify-between max-w-7xl mx-auto">
       <div className="flex items-center w-full md:w-auto justify-between">
-        <Link href="/home" className="flex items-center gap-2">
+        <Link href="/home" className="flex items-center gap-2" prefetch={false}>
           <Image
             src="/tm-official-logo.png"
             alt="TM Tour Travel Logo"

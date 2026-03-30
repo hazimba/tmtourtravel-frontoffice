@@ -23,7 +23,7 @@ const OverviewSection = async ({ data, userProfile }: OverviewSectionProps) => {
         {userProfile && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href={`/admin/packages/edit/${data.uuid}`}>
+              <Link prefetch={false} href={`/admin/packages/edit/${data.uuid}`}>
                 <Button variant="outline" size="sm">
                   <Settings size={20} className="mr-2" />
                   Edit

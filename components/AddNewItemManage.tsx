@@ -27,7 +27,7 @@ const AddNewItemManage = ({
         Refresh
       </Button>
       {!noCreate && (
-        <Link href="/admin/packages/create">
+        <Link href="/admin/packages/create" prefetch={false}>
           <Button variant="default" size="sm" disabled={loading}>
             <Plus className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`} />
             Add New
