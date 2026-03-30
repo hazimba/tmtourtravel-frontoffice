@@ -32,8 +32,8 @@ const TestimonialSection = async () => {
             travel experiences.
           </p>
         </div>
-        <div className="relative md:max-w-7xl md:mx-auto px-4 md:px-0 overflow-hidden ">
-          <div className="overflow-hidden bg-primary/5 rounded-2xl border-1 border-gray-200 md:p-2">
+        <div className="max-w-7xl w-full mx-auto px-4 md:px-0 relative">
+          <div className="overflow-hidden bg-primary/5 rounded-2xl border-1 border-gray-200 md:p-2 mx-4">
             <div className="flex gap-4">
               <TestimonialCards testimonials={testimonials ?? []} />
             </div>

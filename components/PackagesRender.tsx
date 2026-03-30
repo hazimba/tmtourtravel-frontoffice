@@ -124,23 +124,21 @@ export const PackagesRender = ({ type, packages }: PackagesRenderProps) => {
                   isLoading ? "opacity-50" : ""
                 }`}
               >
-                {/* 🔥 LOADING OVERLAY */}
                 {isLoading && (
                   <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/20">
                     <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
                   </div>
                 )}
 
-                {/* CONTENT */}
                 <TagsRender tags={pkg.tags || []} />
 
                 {pkg.main_image_url ? (
                   <Image
                     src={pkg.main_image_url}
-                    alt="Travel"
+                    alt={pkg.title}
                     className="w-full h-40 md:h-48 object-cover"
-                    width={400}
-                    height={200}
+                    width={100}
+                    height={100}
                     loading="eager"
                     quality={55}
                   />

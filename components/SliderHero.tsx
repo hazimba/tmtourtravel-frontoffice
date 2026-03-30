@@ -76,6 +76,7 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
           </div>
           <Button
             type="submit"
+            aria-label="Search"
             disabled={loading}
             className="rounded-full px-6 md:px-8 bg-primary hover:bg-primary/90 flex items-center gap-2"
           >
@@ -89,6 +90,7 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
           <button
             key={idx}
             onClick={() => goTo(idx)}
+            aria-label={`Go to slide ${idx + 1}`}
             className="flex items-center"
           >
             <span
@@ -104,12 +106,14 @@ export default function SliderHero({ slides }: { slides: ImageSlider[] }) {
       <div className="absolute inset-0 flex items-center justify-between px-4 max-w-7xl mx-auto">
         <Button
           onClick={prev}
+          aria-label="Previous Slide"
           className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none"
         >
           <ArrowLeft className="w-6 h-6" />
         </Button>
         <Button
           onClick={next}
+          aria-label="Next Slide"
           className="bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm rounded-full md:w-10 md:h-10 w-7 h-7 flex items-center justify-center z-20 border-none"
         >
           <ArrowRight className="w-6 h-6" />

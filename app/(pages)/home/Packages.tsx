@@ -132,7 +132,7 @@ const PackagesSection = async () => {
                       value={section.type}
                       className="
                       relative
-                      text-gray-400
+                      text-gray-600
                       cursor-pointer
                       data-[state=active]:text-primary
                       border-b-2 !border-none !shadow-none
@@ -149,7 +149,6 @@ const PackagesSection = async () => {
               </div>
             </div>
 
-            {/* Tab Content Areas */}
             {packageSections.map((section) => (
               <TabsContent
                 key={section.type}
@@ -227,7 +226,7 @@ const PackagesSection = async () => {
               {/* Background Image */}
               <Image
                 src={cat.bg_image_url}
-                alt={cat.name}
+                alt={cat.name + " category background"}
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"

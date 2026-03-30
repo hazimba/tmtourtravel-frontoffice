@@ -12,43 +12,37 @@ const WhyChooseUs = () => {
     {
       title: "Industry Experience",
       description: "Vast product knowledge in the Tourism Industry.",
-      icon: (
-        <ShieldCheck className="w-5 h-5 text-primary group-hover:text-white" />
-      ),
+      icon: <ShieldCheck className="w-5 h-5 text-primary" />,
       mobile: true,
     },
     {
       title: "Honest & Trustworthy",
       description: "Genuine customer feedback and reliable services.",
-      icon: <Globe className="w-5 h-5 text-primary group-hover:text-white" />,
+      icon: <Globe className="w-5 h-5 text-primary" />,
       mobile: true,
     },
     {
       title: "Value For Money",
       description: "Quality products provided at the best rates.",
-      icon: (
-        <BadgeCheck className="w-5 h-5 text-primary group-hover:text-white" />
-      ),
+      icon: <BadgeCheck className="w-5 h-5 text-primary" />,
       mobile: true,
     },
     {
       title: "Buyer Protection",
       description: "Peace of mind with our dedicated protection scheme.",
-      icon: <Headset className="w-5 h-5 text-primary group-hover:text-white" />,
+      icon: <Headset className="w-5 h-5 text-primary" />,
       mobile: true,
     },
     {
       title: "Fast Response",
       description: "Save time with our quick-action Help Desk.",
-      icon: <Zap className="w-5 h-5 text-primary group-hover:text-white" />, // Changed to Zap for variety
+      icon: <Zap className="w-5 h-5 text-primary" />, // Changed to Zap for variety
       mobile: false,
     },
     {
       title: "100% Muslim Tours",
       description: "Halal meals and prayer-friendly arrangements.",
-      icon: (
-        <Moon className="w-5 h-5 text-primary hover:text-white group-hover:text-white" />
-      ),
+      icon: <Moon className="w-5 h-5 text-primary hover:text-white" />,
       mobile: false,
     },
   ];
@@ -60,20 +54,20 @@ const WhyChooseUs = () => {
           {REASONS.map((item, idx) => (
             <div
               key={idx}
-              className={`group flex items-start gap-4 p-4 rounded-xl transition-all duration-300 hover:bg-slate-50 border border-transparent hover:border-slate-100 ${
+              className={`group flex items-start gap-4 p-4 rounded-xl transition-all duration-300 border border-transparent ${
                 item.mobile ? "" : "hidden md:flex"
               }`}
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                <div className="group-hover:text-white">{item.icon}</div>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300">
+                <div className="">{item.icon}</div>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-800 group-hover:text-primary transition-colors italic md:not-italic">
+                <h1 className="font-semibold text-slate-800 transition-colors italic md:not-italic">
                   {item.title}
-                </h3>
-                <p className="text-xs md:text-sm text-muted-foreground leading-snug mt-1">
+                </h1>
+                <h2 className="text-xs md:text-sm text-muted-foreground leading-snug mt-1">
                   {item.description}
-                </p>
+                </h2>
               </div>
             </div>
           ))}
