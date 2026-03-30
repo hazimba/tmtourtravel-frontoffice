@@ -195,7 +195,7 @@ const SecondNavBar = ({ initialPackages }: SecondNavBarProps) => {
               })
             )}
           </NavigationMenuList>
-          <NavigationMenuItem>
+          <NavigationMenuItem className="list-none">
             <a
               href="tel:+60340314171"
               className="block md:hidden py-2 text-slate-700 rounded-md hover:bg-slate-100 flex items-center"
