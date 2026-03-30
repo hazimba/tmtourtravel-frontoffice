@@ -83,7 +83,7 @@ const LeftNavigation = () => {
               : "text-muted-foreground"
           )}
         >
-          <Link href={item.href} className="text-center">
+          <Link href={item.href} className="text-center" prefetch={false}>
             {item.icon}
             <span className="hidden md:inline">{item.title}</span>
           </Link>
@@ -106,7 +106,7 @@ const LeftNavigation = () => {
               : "text-muted-foreground"
           )}
         >
-          <Link href={item.href} className="text-center">
+          <Link href={item.href} className="text-center" prefetch={false}>
             {item.icon}
             <span className="hidden md:inline">{item.title}</span>
           </Link>
@@ -114,7 +114,7 @@ const LeftNavigation = () => {
       ))}
 
       <div className="md:mt-auto ml-auto md:ml-0">
-        <Link href="/admin/admin-settings">
+        <Link href="/admin/admin-settings" prefetch={false}>
           <Button
             variant="ghost"
             className="w-full justify-start text-muted-foreground"

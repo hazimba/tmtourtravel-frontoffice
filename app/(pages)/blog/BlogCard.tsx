@@ -6,6 +6,7 @@ import { toast } from "sonner";
 const BlogCard = ({ post }: { post: any }) => {
   return (
     <Link
+      prefetch={false}
       href={``}
       className="group block"
       onClick={(e) => {

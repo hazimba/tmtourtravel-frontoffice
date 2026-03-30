@@ -16,7 +16,7 @@ const AboutUs = () => {
   return (
     <FadeIn>
       <Separator className="" />
-      <div className="bg-[#f8f9fa] min-h-screen md:min-h-full md:py-32 flex items-center">
+      <div className="bg-[#f8f9fa] min-h-screen md:min-h-full md:py-32 py-12 flex items-center">
         <div className="flex flex-col max-w-7xl w-full mx-auto px-4 md:px-0">
           <div className="flex flex-col md:flex-row w-full md:gap-12 gap-6">
             <div className="flex flex-col md:w-3/7 md:space-y-12 space-y-6 justify-center items-start">
@@ -39,6 +39,7 @@ const AboutUs = () => {
               </div>
               <div className="flex flex-col px-0">
                 <Link
+                  prefetch={false}
                   onClick={() => setLoadingLearn(true)}
                   href="/about-us"
                   className="flex items-center gap-2 text-primary font-medium h-12"
@@ -57,6 +58,7 @@ const AboutUs = () => {
                   )}
                 </Link>
                 <Link
+                  prefetch={false}
                   onClick={() => setLoadingGallery(true)}
                   href="/gallery"
                   className="flex items-center gap-2 text-primary font-medium h-12"
@@ -74,6 +76,7 @@ const AboutUs = () => {
                   )}
                 </Link>
                 <Link
+                  prefetch={false}
                   onClick={() => setLoadingBlog(true)}
                   href="/blog"
                   className="flex items-center gap-2 text-primary font-medium h-12"

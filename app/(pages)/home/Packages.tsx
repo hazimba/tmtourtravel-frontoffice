@@ -219,6 +219,7 @@ const PackagesSection = async () => {
         <div className="flex flex-col md:flex-row gap-1 mx-auto px-4 md:px-0 w-screen">
           {categories.map((cat: Category, index) => (
             <Link
+              prefetch={false}
               key={`cat-${index}`}
               href={`/package?keywords=${cat.keywords}`}
               className="group relative overflow-hidden md:h-60 h-30 w-full"

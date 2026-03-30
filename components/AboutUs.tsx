@@ -31,6 +31,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4 pt-2">
               <Link
+                prefetch={false}
                 href="https://www.facebook.com/TMToursTravel"
                 target="_blank"
                 key={"facebook"}
@@ -56,6 +57,7 @@ const Footer = () => {
                 </svg>
               </Link>
               <Link
+                prefetch={false}
                 href="https://www.instagram.com/TMToursTravel"
                 target="_blank"
                 key={"instagram"}
@@ -79,6 +81,7 @@ const Footer = () => {
                 </svg>
               </Link>
               <Link
+                prefetch={false}
                 key="whatsapp"
                 href="https://wa.me/60176037054"
                 target="_blank"

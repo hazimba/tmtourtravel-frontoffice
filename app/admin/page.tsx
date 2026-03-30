@@ -173,6 +173,7 @@ const AdminDashboardPage = async () => {
             <div className="flex items-center gap-2">
               <Badge className="px-2 py-1">Latest Enquiries</Badge>
               <Link
+                prefetch={false}
                 href={`/admin/enquiries`}
                 className="flex items-center gap-2 cursor-pointer"
               >

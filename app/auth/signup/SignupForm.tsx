@@ -102,7 +102,9 @@ const SignUpForm = () => {
           <CardFooter className="pt-6 gap-4 flex">
             <div className="flex gap-2">
               <Button variant="outline">
-                <Link href="/home">Home</Link>
+                <Link href="/home" prefetch={false}>
+                  Home
+                </Link>
               </Button>
               <Button variant="default" type="submit" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -110,7 +112,9 @@ const SignUpForm = () => {
               </Button>
             </div>
             <div className="w-full text-end text-sm text-blue-500 cursor-pointer">
-              <Link href="/auth/login">Log In</Link>
+              <Link href="/auth/login" prefetch={false}>
+                Log In
+              </Link>
             </div>
           </CardFooter>
         </form>

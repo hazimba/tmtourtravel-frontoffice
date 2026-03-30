@@ -373,7 +373,10 @@ const PackageDetails = ({
                       <section>
                         <h4 className="text-lg font-bold flex justify-between items-center gap-2 mb-4">
                           <div className="flex items-center gap-2">
-                            <Link href={`/package/${selectedPackage.uuid}`}>
+                            <Link
+                              href={`/package/${selectedPackage.uuid}`}
+                              prefetch={false}
+                            >
                               <Eye className="h-5 w-5 text-primary" />
                             </Link>
                             <div>Overview & Highlights</div>
@@ -636,12 +639,14 @@ const PackageDetails = ({
                     <Link
                       className="hidden md:block"
                       href={`/admin/packages/edit/${selectedPackage.uuid}`}
+                      prefetch={false}
                     >
                       <Button className="px-8">Edit This Package</Button>
                     </Link>
                     <Link
                       className="md:hidden"
                       href={`/admin/packages/edit/${selectedPackage.uuid}`}
+                      prefetch={false}
                     >
                       <Button className="px-8">Edit</Button>
                     </Link>
