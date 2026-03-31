@@ -1,11 +1,11 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Compass } from "lucide-react";
-import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
-import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import { Home, LogOut } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const TopNavigation = async () => {
   const supabase = await createClient();

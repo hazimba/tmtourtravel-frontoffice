@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
+  BookHeartIcon,
   ImagePlayIcon,
   ImagePlus,
   LayoutDashboard,
@@ -53,6 +54,11 @@ const LeftNavigation = () => {
       title: "Images Album",
       href: "/admin/images-album",
       icon: <ImagePlayIcon className="mr-2 h-4 w-4" />,
+    },
+    {
+      title: "Blog",
+      href: "/admin/blog",
+      icon: <BookHeartIcon className="mr-2 h-4 w-4" />,
     },
   ];
 
