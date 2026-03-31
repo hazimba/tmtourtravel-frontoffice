@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { CountryDropdown } from "./ui/country-dropdown";
 import { usePopupStore } from "@/stores/PopupForm";
+import { Plane } from "lucide-react";
 
 const FormPopup = () => {
   const { hasSeenPopup, lastSeenAt, setHasSeenPopup, resetPopup } =
@@ -81,11 +82,13 @@ const FormPopup = () => {
 
   return (
     <Dialog open={showPopup} onOpenChange={(open) => !open && handleDismiss()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="">
         <form onSubmit={onSubmit}>
           <DialogHeader>
-            <DialogTitle>Plan Your Dream Trip ✈️</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="flex items-center gap-4">
+              Plan Your Dream Trip <Plane size={16} />
+            </DialogTitle>
+            <DialogDescription className="text-left">
               Tell us where you want to go and we will recommend the best travel
               packages for you.
             </DialogDescription>
